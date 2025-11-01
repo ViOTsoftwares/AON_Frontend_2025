@@ -22,7 +22,7 @@ import {
 } from "../slice/CartSlice";
 
 export default function Cart() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const { cart, iscart } = useSelector((state) => state.CartState);
   const { isUser } = useSelector((state) => state.UserState);
   const [showNotif, setShowNotif] = useState(false);
