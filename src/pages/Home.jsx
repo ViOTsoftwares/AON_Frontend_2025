@@ -44,7 +44,7 @@ function Home() {
     setFirstSubBanner(filter?.[0]);
     setSecondSubBanner(filter?.[1]);
   };
-  useEffect(() => GetBanner, []);
+  useEffect(() => GetBanner(), []);
   const handleFetchBanner = async () => {
     const data = await FetchBlogApi();
 
