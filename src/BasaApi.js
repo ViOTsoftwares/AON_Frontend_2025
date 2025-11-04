@@ -10,7 +10,7 @@ const api = axios.create({
 });
 
 // Add token if exists
-const token = localStorage.getItem("authToken");
+const token = Cookie.get("authToken");
 if (token) {
   api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
 }

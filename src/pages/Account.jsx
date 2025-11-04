@@ -30,7 +30,7 @@ import {
   LocalShipping,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
-import { ImageApi } from "../ImageApi";
+import { ImageApi } from "../../../AdminPage/src/ImageApi";
 import { toastMessage } from "../toastMessage";
 import {
   GetAddressApi,

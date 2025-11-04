@@ -4,9 +4,12 @@ import { ThemeProvider, useTheme } from "@mui/material/styles";
 import NavBarLink from "./components/NavBarLink";
 import Stack from "@mui/material/Stack";
 import Toolbar from "@mui/material/Toolbar";
+
 import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import ScrollToTop from "react-scroll-to-top";
+import NorthIcon from "@mui/icons-material/North";
 import { getCMSApi } from "./Api_Action";
 import { useDispatch } from "react-redux";
 import { GetCMS } from "./slice/CMS_Slice";

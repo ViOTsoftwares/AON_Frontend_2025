@@ -1,6 +1,5 @@
 import { createTheme } from "@mui/material";
 const theme = createTheme({
-
   components: {
     MuiButton: {
       variants: [
@@ -19,7 +18,8 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: ' "Mukta","Roboto", "Helvetica", "Arial", "sans-serif"',
+    fontFamily:
+      ' "Archivo","Mukta","Roboto", "Helvetica", "Arial", "sans-serif"',
     button: {
       textTransform: "none",
     },
