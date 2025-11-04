@@ -53,7 +53,7 @@ const Catelog = () => {
      
      setCatalogueData(data)
   };
-  useEffect(()=>handleFetchCatalogue, []);
+  useEffect(()=>handleFetchCatalogue(), []);
 
   // Download Function  
 
