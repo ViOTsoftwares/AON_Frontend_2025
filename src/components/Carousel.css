@@ -1,0 +1,60 @@
+.slick-dots {
+  inset: 0;
+  top: 85%;
+}
+
+.slick-list {
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.slider-dots {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  list-style: none;
+}
+.slider-dots li {
+  display: inline-block;
+  width: calc(25% - 8px);
+  margin: 0 2px;
+}
+
+.slick-dots li button {
+  position: relative;
+  width: 120%;
+  height: 8px;
+  border-radius: 5px;
+  border: 0;
+  background-color: #ccc;
+  font-size: 0;
+}
+.slick-dots li button:after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: "";
+  display: block;
+  width: 0%;
+  height: 100%;
+}
+.slick-dots li button:before {
+  content: "";
+}
+
+.slick-active button:after {
+  border-radius: 4px;
+  background-color: rgb(25, 118, 210);
+  animation: progress 6s infinite;
+}
+
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+
+  to {
+    width: 100%;
+  }
+}
