@@ -22,7 +22,7 @@ function Banner() {
     setLoading(false);
     setBanners(filter);
   };
-  useEffect(() => GetBanner, []);
+  useEffect(() => GetBanner(), []);
   return (
     <>
       <PageLoading load={Loading} />
