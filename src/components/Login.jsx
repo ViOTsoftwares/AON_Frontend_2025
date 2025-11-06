@@ -127,10 +127,11 @@ export default function Login() {
   console.log(picture);
 
   const loginWithGoogle = () => {
-    window.location.href = "http://localhost:3000/auth/google";
+    window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/google`;
   };
+  
   const loginWithFacebook = () => {
-    window.location.href = "http://localhost:3000/auth/facebook";
+    window.location.href = `${BaseApi}/auth/facebook`;
   };
   const handleProfile = () => {
     if (isUser && username) {

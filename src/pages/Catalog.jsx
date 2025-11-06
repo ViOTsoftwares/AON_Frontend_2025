@@ -47,15 +47,17 @@ const Catelog = () => {
   const [downloadProgress, setDownloadProgress] = useState({}); // % per file
   const [isDownloading, setIsDownloading] = useState({}); // disable per file
   const [calalogueData, setCatalogueData] = useState([]);
-  const handleFetchCatalogue = async() => {
-     const data = await FetchAllCatalogueApi()
-     console.log(data);
-     
-     setCatalogueData(data)
-  };
-  useEffect(()=>handleFetchCatalogue(), []);
+  const handleFetchCatalogue = async () => {
+    const data = await FetchAllCatalogueApi();
+    console.log(data);
 
-  // Download Function  
+    setCatalogueData(data);
+  };
+  useEffect(() => {
+    handleFetchCatalogue();
+  }, []);
+
+  // Download Function
 
   const handleExport = async (fileUrl, fileName, index) => {
     setIsDownloading((prev) => ({ ...prev, [index]: true }));
@@ -146,70 +148,70 @@ const Catelog = () => {
 
       {/* Cards */}
       <Grid container spacing={4} justifyContent="center" sx={{ mt: 6, px: 4 }}>
-        {calalogueData && calalogueData?.map((item, index) => (
-          <Grid
-            container
-            size={{ xs: 12, md: 4, sm: 6, lg: 3, xl: 3 }}
-            key={index}
-          >
-            <Card
-              elevation={20}
-              sx={{
-                backgroundColor: "rgba(255,255,255,0.95)",
-                color: "#333",
-                transition: "transform 0.3s ease",
-                "&:hover": {
-                  transform: "scale(1.03)",
-                },
-                width: 300,
-                borderRadius: 4,
-              }}
+        {calalogueData &&
+          calalogueData?.map((item, index) => (
+            <Grid
+              container
+              size={{ xs: 12, md: 4, sm: 6, lg: 3, xl: 3 }}
+              key={index}
             >
-              <CardMedia
-                component="img"
-                image={`${ImageApi}/catalogue/` + item.imageUri}
-                alt={item.title}
-                height="180"
-              />
+              <Card
+                elevation={20}
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.95)",
+                  color: "#333",
+                  transition: "transform 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.03)",
+                  },
+                  width: 300,
+                  borderRadius: 4,
+                }}
+              >
+                <CardMedia
+                  component="img"
+                  image={`${ImageApi}/catalogue/` + item.imageUri}
+                  alt={item.title}
+                  height="180"
+                />
 
-              <CardContent>
-                <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold" }}
-                  textAlign="center"
-                >
-                  {item.title}
-                </Typography>
-                <Stack justifyContent="center" alignItems="center">
-                  <Button
-                  fullWidth
-                  
-                    startIcon={
-                      isDownloading[index] ? (
-                        <CircularProgress size={20} />
-                      ) : (
-                        <FileDownloadIcon />
-                      )
-                    }
-                    variant="contained"
-                    disabled={isDownloading[index]}
-                    onClick={() =>
-                      handleExport(
-                        `${ImageApi}/catalogue/${item.catalogueFile}`,
-                        item.title,
-                        index
-                      )
-                    }
+                <CardContent>
+                  <Typography
+                    variant="h6"
+                    sx={{ fontWeight: "bold" }}
+                    textAlign="center"
                   >
-                    {isDownloading[index]
-                      ? `Downloading ${downloadProgress[index] || 0}%`
-                      : "Download"}
-                  </Button>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                    {item.title}
+                  </Typography>
+                  <Stack justifyContent="center" alignItems="center">
+                    <Button
+                      fullWidth
+                      startIcon={
+                        isDownloading[index] ? (
+                          <CircularProgress size={20} />
+                        ) : (
+                          <FileDownloadIcon />
+                        )
+                      }
+                      variant="contained"
+                      disabled={isDownloading[index]}
+                      onClick={() =>
+                        handleExport(
+                          `${ImageApi}/catalogue/${item.catalogueFile}`,
+                          item.title,
+                          index
+                        )
+                      }
+                    >
+                      {isDownloading[index]
+                        ? `Downloading ${downloadProgress[index] || 0}%`
+                        : "Download"}
+                    </Button>
+                  </Stack>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
       </Grid>
 
       {/* Animation keyframes */}

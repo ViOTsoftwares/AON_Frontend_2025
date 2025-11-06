@@ -15,6 +15,7 @@ import FindReplaceIcon from "@mui/icons-material/FindReplace";
 import SpeedIcon from "@mui/icons-material/Speed";
 import ProductTable from "./ProductTable";
 import Box from "@mui/material/Box";
+import {toastMessage} from "../toastMessage"
 const ProductDetailCard = ({ Product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -182,6 +183,8 @@ const ProductDetailCard = ({ Product }) => {
                     onClick={() => {
                       if (isUser) {
                         navigate("/checkout", { state: { id: Product._id } });
+                      }else{
+                        toastMessage("Please login to continue","warning")
                       }
                     }}
                   >

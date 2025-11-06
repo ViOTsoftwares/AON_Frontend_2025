@@ -9,7 +9,7 @@ import { useState } from "react";
 import { ImageApi } from "../ImageApi";
 import { Link } from "react-router-dom";
 function ProductCard({ product, maxWidth = "100%", similar = false }) {
-  console.log("----product", product);
+  
 
   const [animate, setAnimate] = useState(true);
 

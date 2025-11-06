@@ -44,14 +44,15 @@ function Home() {
     setFirstSubBanner(filter?.[0]);
     setSecondSubBanner(filter?.[1]);
   };
-  useEffect(() => GetBanner(), []);
-  const handleFetchBanner = async () => {
-    const data = await FetchBlogApi();
-
-    setBlogPoster(data?.blogs);
-  };
-
   useEffect(() => {
+    GetBanner();
+  }, []);
+  
+  useEffect(() => {
+    const handleFetchBanner = async () => {
+      const data = await FetchBlogApi();
+      setBlogPoster(data?.blogs);
+    };
     handleFetchBanner();
   }, []);
   return (
@@ -93,7 +94,7 @@ function Home() {
         </Grid>
       </Grid>
 
-      <Box sx={{ alignSelf: "center",width:"100%" }}>
+      <Box sx={{ alignSelf: "center", width: "100%" }}>
         <BestSelling />
       </Box>
       <Box sx={{ padding: { xs: 0, sm: 6 } }}>
@@ -106,19 +107,21 @@ function Home() {
         {isLoading ? (
           <PageLoading load={isLoading} />
         ) : (
-          firstSubbanner &&<Box
-            sx={{
-              backgroundImage: {
-                xs: `url(${ImageApi}/banner/${firstSubbanner?.mobileImage})`, // For small screens
-                sm: `url(${ImageApi}/banner/${firstSubbanner?.desktopImage})`, // For larger screens
-              },
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center center",
-              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
-              width: "100%",
-            }}
-          />
+          firstSubbanner && (
+            <Box
+              sx={{
+                backgroundImage: {
+                  xs: `url(${ImageApi}/banner/${firstSubbanner?.mobileImage})`, // For small screens
+                  sm: `url(${ImageApi}/banner/${firstSubbanner?.desktopImage})`, // For larger screens
+                },
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+                width: "100%",
+              }}
+            />
+          )
         )}
       </Box>
       <Box
@@ -130,23 +133,25 @@ function Home() {
       >
         <Testimonial />
       </Box>
-       <Box>
+      <Box>
         {isLoading ? (
           <PageLoading load={isLoading} />
         ) : (
-          secondSubbanner && <Box
-            sx={{
-              backgroundImage: {
-                xs: `url(${ImageApi}/banner/${secondSubbanner?.mobileImage})`, // For small screens
-                sm: `url(${ImageApi}/banner/${secondSubbanner?.desktopImage})`, // For larger screens
-              },
-              backgroundSize: "cover",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center center",
-              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
-              width: "100%",
-            }}
-          />
+          secondSubbanner && (
+            <Box
+              sx={{
+                backgroundImage: {
+                  xs: `url(${ImageApi}/banner/${secondSubbanner?.mobileImage})`, // For small screens
+                  sm: `url(${ImageApi}/banner/${secondSubbanner?.desktopImage})`, // For larger screens
+                },
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+                width: "100%",
+              }}
+            />
+          )
         )}
       </Box>
       <Stack bgcolor="#FAFAFA">
@@ -170,7 +175,7 @@ function Home() {
         </Typography>
 
         <Stack
-          direction={{ xs: "column",sm:"column", md: "row" }}
+          direction={{ xs: "column", sm: "column", md: "row" }}
           columnGap={2}
           rowGap={4}
           justifyContent="center"
