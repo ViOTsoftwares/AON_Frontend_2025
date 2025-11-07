@@ -21,6 +21,7 @@ const ShippingPolicy = () => {
     }
   };
   useEffect(() => {
+    window.scrollTo(0, 0);
     fetchOnePolicy();
   }, []);
   return (
@@ -29,10 +30,10 @@ const ShippingPolicy = () => {
         display: "flex",
         justifyContent: "center",
         mt: 4,
-        px: 2,
+        px: { xs: 2, sm: 4, md: 6 },
       }}
     >
-      <Card sx={{ maxWidth: 800, width: "100%", boxShadow: 3, borderRadius: 3 }}>
+      <Card sx={{ maxWidth: 1100, width: "100%", boxShadow: 3, borderRadius: 3 }}>
         <CardContent>
           <Typography variant="h4" component="h1" gutterBottom align="center">
             Shipping Policy
