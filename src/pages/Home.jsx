@@ -26,167 +26,177 @@ function Home() {
     { title: "Beds", image: category3, path: "Beds" },
     { title: "Dining  sets", image: category4, path: "Dining-sets" },
     { title: "Dressing   Table", image: category2, path: "Dressing-Table" },
+    { title: "Dining  sets", image: category4, path: "Dining-sets" },
+    { title: "Dressing   Table", image: category2, path: "Dressing-Table" },
+    { title: "Dining  sets", image: category4, path: "Dining-sets" },
+   
   ];
 
-  const [blogPoster, setBlogPoster] = useState([]);
-  const [firstSubbanner, setFirstSubBanner] = useState({});
-  const [secondSubbanner, setSecondSubBanner] = useState({});
-  const [isLoading, setIsLoading] = useState(true);
-  const GetBanner = async () => {
-    const data = await FetchBannerApi();
-    console.log("banananna", data);
-    const filter = data.filter(
-      (item) => item.isActive == true && item.bannerType === "SubMain"
-    );
-    console.log("---filter", filter);
 
-    setIsLoading(false);
-    setFirstSubBanner(filter?.[0]);
-    setSecondSubBanner(filter?.[1]);
+
+
+
+const [blogPoster, setBlogPoster] = useState([]);
+const [firstSubbanner, setFirstSubBanner] = useState({});
+const [secondSubbanner, setSecondSubBanner] = useState({});
+const [isLoading, setIsLoading] = useState(true);
+
+const GetBanner = async () => {
+  const data = await FetchBannerApi();
+  console.log("banananna", data);
+  const filter = data.filter(
+    (item) => item.isActive == true && item.bannerType === "SubMain"
+  );
+  console.log("---filter", filter);
+
+  setIsLoading(false);
+  setFirstSubBanner(filter?.[0]);
+  setSecondSubBanner(filter?.[1]);
+};
+
+useEffect(() => {
+  GetBanner();
+}, []);
+
+useEffect(() => {
+  const handleFetchBanner = async () => {
+    const data = await FetchBlogApi();
+    setBlogPoster(data?.blogs);
   };
-  useEffect(() => {
-    GetBanner();
-  }, []);
-  
-  useEffect(() => {
-    const handleFetchBanner = async () => {
-      const data = await FetchBlogApi();
-      setBlogPoster(data?.blogs);
-    };
-    handleFetchBanner();
-  }, []);
-  return (
-    <Stack spacing={2}>
-      <Banner />
+  handleFetchBanner();
+}, []);
+
+return (
+  <Stack spacing={2}>
+    <Banner />
+
+    <Grid sx={{ p: 4 }}>
+      <Typography
+        variant="h5"
+        textAlign={{ sm: "center" }}
+        fontSize={{ xs: "2rem", sm: "3rem" }}
+        sx={{ fontWeight: 600 }}
+        gutterBottom
+      >
+        Explore Our Furnitures
+      </Typography>
 
       <Grid
-        sx={{
-          p: 4,
-        }}
+        container
+        spacing={{ xs: 1, sm: 2 }}
+        justifyContent="center"
+        rowGap={2}
+        columnGap={2}
       >
-        <Typography
-          variant="h5"
-          textAlign={{ sm: "center" }}
-          fontSize={{ xs: "2rem", sm: "3rem" }}
-          sx={{ fontWeight: 600 }}
-          gutterBottom
-        >
-          Explore Our Furnitures
-        </Typography>
-
-        <Grid
-          container
-          spacing={{ xs: 1, sm: 2 }}
-          justifyContent="center"
-          rowGap={2}
-          columnGap={2}
-        >
-          {category &&
-            category.map((ct) => {
-              return (
-                <Grid size={{ xs: 12, sm: 2.6 }}>
-                  <Link to={"/category?q=" + ct.path}>
-                    <Category title={ct.title} image={ct?.image} />
-                  </Link>
-                </Grid>
-              );
-            })}
-        </Grid>
+        {category &&
+          category.map((ct) => {
+            return (
+              <Grid size={{ xs: 12, sm: 2.6 }}>
+                <Link to={"/category?q=" + ct.path}>
+                  <Category title={ct.title} image={ct?.image} />
+                </Link>
+              </Grid>
+            );
+          })}
       </Grid>
+    </Grid>
 
-      <Box sx={{ alignSelf: "center", width: "100%" }}>
-        <BestSelling />
-      </Box>
-      <Box sx={{ padding: { xs: 0, sm: 6 } }}>
-        <Combo />
-      </Box>
-      <Box>
-        <CustomizationSection />
-      </Box>
-      <Box>
-        {isLoading ? (
-          <PageLoading load={isLoading} />
-        ) : (
-          firstSubbanner && (
-            <Box
-              sx={{
-                backgroundImage: {
-                  xs: `url(${ImageApi}/banner/${firstSubbanner?.mobileImage})`, // For small screens
-                  sm: `url(${ImageApi}/banner/${firstSubbanner?.desktopImage})`, // For larger screens
-                },
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-                height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
-                width: "100%",
-              }}
-            />
-          )
-        )}
-      </Box>
-      <Box
-        sx={{
-          p: { xs: 0, sm: 4, md: 6 },
+    <Box sx={{ alignSelf: "center", width: "100%" }}>
+      <BestSelling />
+    </Box>
 
-          backgroundColor: "#E8F6FF",
-        }}
+    <Box>
+      {isLoading ? (
+        <PageLoading load={isLoading} />
+      ) : (
+        firstSubbanner && (
+          <Box
+            sx={{
+              backgroundImage: {
+                xs: `url(${ImageApi}/banner/${firstSubbanner?.mobileImage})`,
+                sm: `url(${ImageApi}/banner/${firstSubbanner?.desktopImage})`,
+              },
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center center",
+              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+              width: "100%",
+            }}
+          />
+        )
+      )}
+    </Box>
+
+    <Box sx={{ padding: { xs: 0, sm: 6 } }}>
+      <Combo />
+    </Box>
+    <Box>
+      <CustomizationSection />
+    </Box>
+
+    <Box
+      sx={{
+        p: { xs: 0, sm: 4, md: 6 },
+        backgroundColor: "#E8F6FF",
+      }}
+    >
+      <Testimonial />
+    </Box>
+
+    <Box>
+      {isLoading ? (
+        <PageLoading load={isLoading} />
+      ) : (
+        secondSubbanner && (
+          <Box
+            sx={{
+              backgroundImage: {
+                xs: `url(${ImageApi}/banner/${secondSubbanner?.mobileImage})`,
+                sm: `url(${ImageApi}/banner/${secondSubbanner?.desktopImage})`,
+              },
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center center",
+              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+              width: "100%",
+            }}
+          />
+        )
+      )}
+    </Box>
+
+    <Stack bgcolor="#FAFAFA">
+      <Typography
+        variant="h3"
+        textAlign="center"
+        lineHeight={1.6}
+        fontWeight={770}
       >
-        <Testimonial />
-      </Box>
-      <Box>
-        {isLoading ? (
-          <PageLoading load={isLoading} />
-        ) : (
-          secondSubbanner && (
-            <Box
-              sx={{
-                backgroundImage: {
-                  xs: `url(${ImageApi}/banner/${secondSubbanner?.mobileImage})`, // For small screens
-                  sm: `url(${ImageApi}/banner/${secondSubbanner?.desktopImage})`, // For larger screens
-                },
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-                height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
-                width: "100%",
-              }}
-            />
-          )
-        )}
-      </Box>
-      <Stack bgcolor="#FAFAFA">
-        <Typography
-          variant="h3"
-          textAlign="center"
-          lineHeight={1.6}
-          fontWeight={770}
-        >
-          Blogs & Guides
-        </Typography>
-        <Typography
-          variant="body1"
-          fontSize="1.2rem"
-          color="textSecondary"
-          textAlign="center"
-          lineHeight={{ xs: 2, sm: 4 }}
-        >
-          Discover expert tips, market trends, and essential knowledge to make
-          informed furniture.
-        </Typography>
+        Blogs & Guides
+      </Typography>
+      <Typography
+        variant="body1"
+        fontSize="1.2rem"
+        color="textSecondary"
+        textAlign="center"
+        lineHeight={{ xs: 2, sm: 4 }}
+      >
+        Discover expert tips, market trends, and essential knowledge to make
+        informed furniture.
+      </Typography>
 
-        <Stack
-          direction={{ xs: "column", sm: "column", md: "row" }}
-          columnGap={2}
-          rowGap={4}
-          justifyContent="center"
-          alignItems="center"
-          p={4}
-        >
-          {blogPoster && blogPoster.map((blog) => <BlogCard blog={blog} />)}
-        </Stack>
+      <Stack
+        direction={{ xs: "column", sm: "column", md: "row" }}
+        columnGap={2}
+        rowGap={4}
+        justifyContent="center"
+        alignItems="center"
+        p={4}
+      >
+        {blogPoster && blogPoster.map((blog) => <BlogCard blog={blog} />)}
       </Stack>
     </Stack>
-  );
-}
+  </Stack>
+); }
 
 export default Home;
