@@ -184,3 +184,15 @@ export const CreateSubscribeEmailApi = async (email) => {
     return error.response.data;
   }
 };
+export const CreateContactUsApi = async (payload) => {
+  try {
+    const {data} = await api.post(`/contact-us`,payload);
+
+    console.log("response" + data);
+    return data;
+  } catch (error) {
+    console.log(error);
+    return error.response.data;
+  }
+   
+};
