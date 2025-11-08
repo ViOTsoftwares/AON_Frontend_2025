@@ -1,26 +1,46 @@
-import Button from "@mui/material/Button";
-import CustomIcon from "./CustomIcon";
-import  Tooltip from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
+import { Box, Typography } from "@mui/material";
+import CustomLogo from "../assets/CustomLogo.png"; // ✅ make sure the path is right
+
 function CustomeButton({ navigate }) {
   return (
-    <Tooltip placement="bottom" title="tune your furniture" arrow>
-    <Button
-      color="gradient"
-      sx={{
-        display: { xs: "none", sm: "flex" },
-        justifyContent: "space-between",
-        position: "relative",
-        borderRadius: "15px",
-        height: "44.5px",
-        width: "133.6px",
-      }}
-      onClick={() => navigate("customization")}
-    >
-      <CustomIcon />
-      Customization
-    </Button>
-
-      </Tooltip>
+    <Tooltip placement="bottom" title="Tune your furniture" arrow>
+      <Box
+        onClick={() => navigate("customization")}
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          px: 1.1,
+          py: 0.2,
+          transition: "transform 0.3s ease",
+          "&:hover": { transform: "scale(1.05)" },
+        }}
+      >
+        <img
+          src={CustomLogo}
+          alt="Customization"
+          style={{
+            width: "85px",
+            height: "auto",
+            borderRadius: "10px",
+          }}
+        />
+        <Typography
+          variant="body2"
+          sx={{
+            fontWeight: 600,
+            fontSize: "0.8rem",
+            color: "#333",
+            mt: "-10px", // ✅ reduces space between image & text
+          }}
+        >
+          Customisation
+        </Typography>
+      </Box>
+    </Tooltip>
   );
 }
 

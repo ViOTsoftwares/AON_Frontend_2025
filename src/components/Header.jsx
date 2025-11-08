@@ -45,13 +45,22 @@ function Header() {
 
   return (
     <AppBar
-      sx={{
-        top: "0px",
-        height: { md: "74px" },
-        position: { xs: "static", md: "sticky", backgroundColor: "white" },
-      }}
-    >
-      <Toolbar sx={{ backgroundColor: "white", height: "100%" }}>
+  sx={{
+    top: 0,
+    height: { xs: "80", md: "95px" }, // ⬆️ Increased height for header
+    position: { xs: "static", md: "sticky" },
+    backgroundColor: "white",
+    boxShadow: "0 2px 8px rgba(0,0,0,0.05)", // optional soft shadow
+    zIndex: 1200,
+  }}
+>
+  <Toolbar
+    sx={{
+      height: "100%",
+      backgroundColor: "white",
+      px: { xs: 1, sm: 2, md: 4 },
+    }}
+  >
         <Grid container flexGrow={1}>
           <Grid sx={{ width: { xs: "50px", md: "100px" } }}>
             <img

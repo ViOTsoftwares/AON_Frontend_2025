@@ -95,16 +95,13 @@ return (
         rowGap={4}
         columnGap={3}
       >
-        {category &&
-          category.map((ct) => {
-            return (
-                <Grid size={{ xs: 4, sm: 2.4 }}>
-                    <Link to={"/category?q=" + ct.path}>
-                    <Category title={ct.title} image={ct?.image} />
-                   </Link>
-                </Grid>
-            );
-          })}
+        {category && category.map((ct) => (
+        <Grid size={{ xs: 4, sm: 2.4 }} key={ct.path}>
+              <Link to={ct.path === "Customisation" ? "/customization" : `/category?q=${ct.path}`}>
+                  <Category title={ct.title} image={ct?.image} />
+               </Link>
+        </Grid>
+  ))}
       </Grid>
     </Grid>
 

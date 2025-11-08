@@ -6,6 +6,7 @@ import CardMedia from "@mui/material/CardMedia";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CustomizationSection() {
   return (
@@ -96,10 +97,23 @@ function CustomizationSection() {
             </CardContent>
           </Card>
         </Grid>
-        <Button sx={{ m: "auto" }} size="large" variant="contained">
-          Customization
-        </Button>
-      </Grid>
+        </Grid>
+       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", pr: 8, pb: 4 }}>
+  <Link to="/customization" style={{ textDecoration: "none" }}>
+    <Button
+      variant="contained"
+      sx={{
+        fontSize: "1.1rem",       
+        px: 4,                    
+        py: 1.5,                  
+        borderRadius: "10px",     
+        textTransform: "none",    
+      }}
+    >
+      Customization
+    </Button>
+  </Link>
+</Box>
     </>
   );
 }
