@@ -126,7 +126,7 @@ function BestSelling() {
               >
                 <Grid
                   container
-                  spacing={{ xs: 1, md: 1 }}
+                  spacing={{ xs: 2, sm: 3, md: 3 }}
                   sx={{ px: 2 }}
                   alignItems="center"
                   justifyContent="center"

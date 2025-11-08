@@ -4,10 +4,17 @@ import Combo from "../components/Combo";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Category from "../components/Category";
-import category1 from "../assets/category1.png";
-import category2 from "../assets/category2.png";
+import category1 from "../assets/category2.png";
+import category2 from "../assets/category4.png";
 import category3 from "../assets/category3.png";
 import category4 from "../assets/category4.png";
+import category5 from "../assets/category1.png";
+import category6 from "../assets/category1.png";
+import category7 from "../assets/category3.png";
+import category8 from "../assets/Customisation.jpeg";
+
+
+
 import Box from "@mui/material/Box";
 import BestSelling from "../components/BestSelling";
 import Testimonial from "../components/Testimonial";
@@ -21,14 +28,14 @@ import { ImageApi } from "../ImageApi";
 
 function Home() {
   const category = [
-    { title: "Sofa", image: category1, path: "Sofa" },
-    { title: "Recliners", image: category2, path: "Recliners" },
-    { title: "Beds", image: category3, path: "Beds" },
-    { title: "Dining  sets", image: category4, path: "Dining-sets" },
-    { title: "Dressing   Table", image: category2, path: "Dressing-Table" },
-    { title: "Dining  sets", image: category4, path: "Dining-sets" },
-    { title: "Dressing   Table", image: category2, path: "Dressing-Table" },
-    { title: "Dining  sets", image: category4, path: "Dining-sets" },
+    { title: "Chairs & Seating", image: category1, path: "Chairs" },
+    { title: "Sofas & Lounges", image: category2, path: "Sofa" },
+    { title: "Recliners", image: category3, path: "Recliners" },
+    { title: "Tables & Workstations", image: category4, path: "Tables" },
+    { title: "Cabinets & Storage", image: category5, path: "Storage" },
+    { title: "Beds & Mattresses", image: category6, path: "Beds" },
+    { title: "Dining & Kitchen", image: category7, path: "Dining-sets" },
+    { title: "Customisation", image: category8, path: "Customisation" },
    
   ];
 
@@ -85,17 +92,17 @@ return (
         container
         spacing={{ xs: 1, sm: 2 }}
         justifyContent="center"
-        rowGap={2}
-        columnGap={2}
+        rowGap={4}
+        columnGap={3}
       >
         {category &&
           category.map((ct) => {
             return (
-              <Grid size={{ xs: 12, sm: 2.6 }}>
-                <Link to={"/category?q=" + ct.path}>
-                  <Category title={ct.title} image={ct?.image} />
-                </Link>
-              </Grid>
+                <Grid size={{ xs: 4, sm: 2.4 }}>
+                    <Link to={"/category?q=" + ct.path}>
+                    <Category title={ct.title} image={ct?.image} />
+                   </Link>
+                </Grid>
             );
           })}
       </Grid>
@@ -119,7 +126,7 @@ return (
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center center",
-              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+              height: { xs: "20vh", sm: "40vh", md: "45vh", lg: "52vh" },
               width: "100%",
             }}
           />
@@ -134,15 +141,7 @@ return (
       <CustomizationSection />
     </Box>
 
-    <Box
-      sx={{
-        p: { xs: 0, sm: 4, md: 6 },
-        backgroundColor: "#E8F6FF",
-      }}
-    >
-      <Testimonial />
-    </Box>
-
+    
     <Box>
       {isLoading ? (
         <PageLoading load={isLoading} />
@@ -157,13 +156,23 @@ return (
               backgroundSize: "cover",
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center center",
-              height: { xs: "40vh", sm: "58vh", md: "60vh", lg: "70vh" },
+              height: { xs: "20vh", sm: "40vh", md: "45vh", lg: "54vh" },
               width: "100%",
             }}
           />
         )
       )}
     </Box>
+
+    <Box
+      sx={{
+        p: { xs: 0, sm: 4, md: 6 },
+        backgroundColor: "#E8F6FF",
+      }}
+    >
+      <Testimonial />
+    </Box>
+
 
     <Stack bgcolor="#FAFAFA">
       <Typography
