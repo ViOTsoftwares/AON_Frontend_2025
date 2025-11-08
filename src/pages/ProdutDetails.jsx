@@ -23,12 +23,12 @@ const ProductDetails = () => {
     setProduct(data);
     FetchSimilarProduct(data.SubCategory);
   };
-  console.log("------>>", Product);
+  
   const FetchSimilarProduct = async (category) => {
     const data = await SimilarProductApi(category, id);
     setSimilarProduct(data);
   };
-  // console.log("----->>>",similarProduct);
+ 
 
   useEffect(() => {
     FetchSingleProduct();

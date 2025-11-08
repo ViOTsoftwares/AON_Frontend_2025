@@ -5,6 +5,7 @@ import Typography from "@mui/material/Typography";
 import bgabout from "../assets/bgabout.jpg";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
+import ContactusForm from "../components/ContactusForm";
 function AboutUs() {
   console.log(bgabout);
   return (
@@ -126,19 +127,7 @@ function AboutUs() {
             size={{ xs: 12, sm: 4 }}
             sx={{ p: { xs: "1.3rem", sm: "2rem" } }}
           >
-            <Stack rowGap={2}>
-              <TextField placeholder="Name"></TextField>
-              <TextField placeholder="Phone number"></TextField>
-              <TextField placeholder="Email ID"></TextField>
-              <TextField
-                placeholder="What's your needs"
-                multiline
-                rows={5}
-              ></TextField>
-              <Button variant="contained" sx={{ height: "48px" }}>
-                Submit
-              </Button>
-            </Stack>
+           <ContactusForm/>
           </Grid>
         </Grid>
       </Grid>
