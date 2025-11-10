@@ -66,11 +66,11 @@ useEffect(() => {
 }, []);
 
 useEffect(() => {
-  const handleFetchBanner = async () => {
+  const handleFetchBloge = async () => {
     const data = await FetchBlogApi();
     setBlogPoster(data?.blogs);
   };
-  handleFetchBanner();
+  handleFetchBloge();
 }, []);
 
 return (
