@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Card from "@mui/material/Card";
 import Rating from "@mui/material/Rating";
@@ -12,50 +12,33 @@ import ArrowBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import CountUp from "./Animations/Counter";
 import Modal from "@mui/material/Modal";
-
+import { getTestimonialApi } from "../Api_Action";
+import { ImageApi } from "../ImageApi";
 
 function Testimonial() {
-  const items = [
-    {
-      name: "Suriya",
-      description:
-        "Probably the most Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique in qui ratione pariatur neque fugiat, libero voluptas officiis est!",
-      letter: "SR",
-      rating: 4.5,
-      proofImg:
-        "https://rukminim2.flixcart.com/image/832/832/xif0q/bed-mattress/9/d/c/normal-top-single-5-35-72-orthopedic-bed-mattress-dual-comfort-original-imahhk2tvjfdxybj.jpeg?q=70&crop=false",
-    },
-    {
-      name: "Vikram",
-      description:
-        "I decided to buy Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique in qui ratione pariatur neque fugiat, libero voluptas officiis est!",
-      letter: "VR",
-      rating: 3.5,
-      proofImg:
-        "https://rukminim2.flixcart.com/image/832/832/xif0q/bed-mattress/9/d/c/normal-top-single-5-35-72-orthopedic-bed-mattress-dual-comfort-original-imahhk2tvjfdxybj.jpeg?q=70&crop=false",
-    },
-    {
-      name: "Karthi",
-      description:
-        "Excellent quality furniture, timely delivery, and supportive service team. Absolutely recommended!",
-      letter: "KT",
-      rating: 5,
-      proofImg:
-        "https://rukminim2.flixcart.com/image/832/832/xif0q/bed-mattress/9/d/c/normal-top-single-5-35-72-orthopedic-bed-mattress-dual-comfort-original-imahhk2tvjfdxybj.jpeg?q=70&crop=false",
-    },
-  ];
-
+  
+  const [testimonial, setTestimonial] = useState([]);
+  const fetchTestimonial = async () => {
+    const data = await getTestimonialApi();
+    console.log("test-...", data);
+    setTestimonial(data.data);
+  };
+  useEffect(() => {
+    fetchTestimonial();
+  }, []);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const handleNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % items.length);
+    setCurrentIndex((prev) => (prev + 1) % testimonial.length);
   };
 
   const handlePrev = () => {
-    setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
+    setCurrentIndex(
+      (prev) => (prev - 1 + testimonial.length) % testimonial.length
+    );
   };
 
-  const item = items[currentIndex];
+  const item = testimonial[currentIndex];
 
   return (
     <Grid
@@ -222,7 +205,7 @@ function Testimonial() {
         </IconButton>
 
         {/* Testimonial Card */}
-        <Item item={item} />
+        <Item testimonial={item} />
 
         {/* Border Right Arrow */}
         <IconButton
@@ -244,9 +227,8 @@ function Testimonial() {
 }
 
 /* --- ITEM COMPONENT --- */
-function Item({ item }) {
+function Item({ testimonial }) {
   const [open, setOpen] = useState(false);
-
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -307,6 +289,7 @@ function Item({ item }) {
             }}
           >
             <Avatar
+              src={`${ImageApi}/testimonial/` + testimonial?.clientLogo}
               sx={{
                 bgcolor: "lightgreen",
                 width: "100%",
@@ -314,7 +297,7 @@ function Item({ item }) {
                 fontSize: { xs: "1rem", sm: "2rem" },
               }}
             >
-              {item.letter}
+              {/* {testimonial?.summary} */}
             </Avatar>
           </Card>
 
@@ -324,11 +307,11 @@ function Item({ item }) {
             fontSize={{ xs: "1rem", sm: "1.3rem" }}
             sx={{ flexGrow: 1, textAlign: "left" }}
           >
-            {item.name}
+            {testimonial?.clientName}
           </Typography>
 
           <Rating
-            defaultValue={item.rating}
+            value={testimonial?.rate || 0}
             precision={0.5}
             readOnly
             sx={{ fontSize: { xs: "1.1rem", sm: "1.3rem" } }}
@@ -362,12 +345,12 @@ function Item({ item }) {
                 fontStyle: "italic",
               }}
             >
-              "{item.description}"
+              "{testimonial?.summary}"
             </Typography>
           </Box>
 
           {/* Proof Picture with Click-to-Enlarge */}
-          {item.proofImg && (
+          {testimonial?.groupImage && (
             <>
               <Card
                 onClick={handleOpen}
@@ -384,7 +367,7 @@ function Item({ item }) {
                 }}
               >
                 <img
-                  src={item.proofImg}
+                  src={`${ImageApi}/testimonial/` + testimonial?.groupImage}
                   alt="Proof"
                   style={{
                     width: "100%",
@@ -428,7 +411,7 @@ function Item({ item }) {
                   </IconButton>
 
                   <img
-                    src={item.proofImg}
+                    src={`${ImageApi}/testimonial/` + testimonial?.groupImage}
                     alt="Proof Large"
                     style={{
                       width: "100%",

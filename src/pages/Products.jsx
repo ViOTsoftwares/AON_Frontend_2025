@@ -11,10 +11,15 @@ import Button from "@mui/material/Button";
 import TuneRoundedIcon from "@mui/icons-material/TuneRounded";
 import { useState } from "react";
 import { useEffect } from "react";
-import { FetchAllProductsApi } from "../Api_Action";
+import {
+  FetchAllProductsApi,
+  FetchBannerApi,
+  FetchBlogApi,
+} from "../Api_Action";
 import PageLoading from "../components/PageLoading";
 import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
+import { ImageApi } from "../ImageApi";
 function Products() {
   const [filter, setFilter] = useState({
     Brand: [],
@@ -37,7 +42,7 @@ function Products() {
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
-
+  const [Banner, setBanner] = useState({});
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -51,7 +56,20 @@ function Products() {
     setOpen(!open);
   };
 
-  console.log("=====> total page", maximumPage);
+  const GetBanner = async () => {
+    const data = await FetchBannerApi();
+    console.log("banananna", data);
+    const filter = data.filter(
+      (item) => item.isActive == true && item.bannerType === "Product"
+    );
+    console.log("---filter", filter);
+    setBanner(filter?.[0]);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    GetBanner();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -76,6 +94,27 @@ function Products() {
 
   return (
     <div>
+      <Box>
+        {isLoading ? (
+          <PageLoading load={isLoading} />
+        ) : (
+          Banner && (
+            <Box
+              sx={{
+                backgroundImage: {
+                  xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
+                  sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
+                },
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center center",
+                height: { xs: "20vh", sm: "40vh", md: "45vh", lg: "52vh" },
+                width: "100%",
+              }}
+            />
+          )
+        )}
+      </Box>
       <Grid px={1.3}>
         <Stack
           direction="row"

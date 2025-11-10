@@ -196,3 +196,12 @@ export const CreateContactUsApi = async (payload) => {
   }
    
 };
+export const getTestimonialApi = async ()=>{
+    try {
+    const { data } = await api.get(`/testimonial`,);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error.response.data;
+  }
+}
