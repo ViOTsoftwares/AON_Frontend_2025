@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import { ToastContainer } from "react-toastify";
 import React from "react";
+import { HelperRouter } from "./HelperRouter";
 const Layout = React.lazy(() => import("./Layout"));
 const Products = React.lazy(() => import("./pages/Products"));
 const Home = React.lazy(() => import("./pages/Home"));
@@ -47,15 +48,29 @@ function App() {
             <Route path="blog/:key" element={<BlogDetails />} />
             <Route path="search" element={<SearchProducts />} />
             <Route path="category" element={<ProductCategory />} />
-            <Route path="checkout" element={<CheckOut />} />
+            <Route
+              path="checkout"
+              element={
+                <HelperRouter type="Auth">
+                  <CheckOut />
+                </HelperRouter>
+              }
+            />
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
             <Route path="shipping-policy" element={<ShippingPolicy />} />
             <Route path="refund-policy" element={<RefundPolicy />} />
             <Route path="terms-condition" element={<Terms_Condition />} />
-            
+
             <Route path="about-us" element={<AboutUs />} />
             <Route path="detail/:id" element={<ProdutDetails />} />
-            <Route path="account" element={<Account />} />
+            <Route
+              path="account"
+              element={
+                <HelperRouter type="Auth">
+                  <Account />
+                </HelperRouter>
+              }
+            />
             <Route path="cart" element={<Cart />} />
             <Route path="customization" element={<Customization />} />
             <Route path="*" element={<NotFoundPage />} />
