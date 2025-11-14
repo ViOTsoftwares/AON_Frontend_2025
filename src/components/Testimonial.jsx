@@ -14,9 +14,9 @@ import CountUp from "./Animations/Counter";
 import Modal from "@mui/material/Modal";
 import { getTestimonialApi } from "../Api_Action";
 import { ImageApi } from "../ImageApi";
+import { Link } from "react-router-dom";
 
 function Testimonial() {
-  
   const [testimonial, setTestimonial] = useState([]);
   const fetchTestimonial = async () => {
     const data = await getTestimonialApi();
@@ -52,9 +52,10 @@ function Testimonial() {
     >
       {/* LEFT SIDE TEXT SECTION */}
       <Grid
-        item
-        xs={12}
-        md={5}
+        container
+        // xs={12}
+        // md={5}
+        size={{ xs: 12, md: 5 }}
         spacing={4}
         display="flex"
         flexDirection="column"
@@ -179,9 +180,10 @@ function Testimonial() {
 
       {/* RIGHT SIDE TESTIMONIAL CARD WITH BORDER ARROWS */}
       <Grid
-        item
-        xs={12}
-        md={7}
+        container
+        // xs={12}
+        // md={7}
+        size={{ xs: 12, md: 7 }}
         sx={{
           position: "relative",
           display: "flex",
@@ -288,6 +290,7 @@ function Item({ testimonial }) {
               overflow: "hidden",
             }}
           >
+            <Link to={testimonial?.clientUrl} target="_blank" rel="noopener noreferrer">
             <Avatar
               src={`${ImageApi}/testimonial/` + testimonial?.clientLogo}
               sx={{
@@ -296,9 +299,8 @@ function Item({ testimonial }) {
                 height: "100%",
                 fontSize: { xs: "1rem", sm: "2rem" },
               }}
-            >
-              {/* {testimonial?.summary} */}
-            </Avatar>
+            />
+            </Link>
           </Card>
 
           <Typography
@@ -401,7 +403,8 @@ function Item({ testimonial }) {
                     sx={{
                       position: "absolute",
                       top: -40,
-                      right: -40,
+                      right: -10,
+                      // paddingRight:1,
                       bgcolor: "white",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
                       "&:hover": { bgcolor: "grey.200" },
@@ -414,8 +417,8 @@ function Item({ testimonial }) {
                     src={`${ImageApi}/testimonial/` + testimonial?.groupImage}
                     alt="Proof Large"
                     style={{
-                      width: "100%",
-                      height: "100%",
+                      width: "90%",
+                      height: "90vh",
                       objectFit: "contain",
                       borderRadius: "12px",
                       boxShadow: "0px 4px 20px rgba(0,0,0,0.3)",
