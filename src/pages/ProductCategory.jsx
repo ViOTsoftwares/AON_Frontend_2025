@@ -42,6 +42,7 @@ const ProductCategory = () => {
   const [FrameMaterial, setFrameMaterial] = useState([]);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
   const [Banner, setBanner] = useState({});
+  const [chips, setChip] = useState([]);
 
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
@@ -102,7 +103,7 @@ const ProductCategory = () => {
     const filter = data.filter(
       (item) => item.isActive == true && item.bannerType === "Section"
     );
-    console.log(filter)
+    console.log(filter);
     setIsLoading(false);
     setBanner(filter?.[0]);
   };
@@ -246,11 +247,25 @@ const ProductCategory = () => {
         </Grid>
       </Grid>
 
-      {/* <Drawer open={open} onClose={handleClose}>
-        <Box sx={{ p: 2, width: 285, overflowX: "hidden" }}>
-          <Filter handleClose={handleClose} />
+      <Drawer open={open} onClose={handleClose}>
+        <Box sx={{ p: 2, width: 320, overflowX: "hidden" }}>
+          <Filter
+            handleClose={handleClose}
+            brands={Brand}
+            categories={Category}
+            FabricType={FabricType}
+            FinishType={FinishType}
+            FrameMaterial={FrameMaterial}
+            priceRangeValue={priceRangeValue}
+            setPriceRangeValue={setPriceRangeValue}
+            setProducts={setProducts}
+            filter={filter}
+            setFilter={setFilter}
+            chips={chips}
+            setChip={setChip}
+          />
         </Box>
-      </Drawer> */}
+      </Drawer>
     </div>
   );
 };

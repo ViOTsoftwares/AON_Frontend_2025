@@ -43,6 +43,8 @@ const SearchProducts = () => {
   const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
   const [Banner, setBanner] = useState({});
   const [open, setOpen] = React.useState(false);
+  const [chips, setChip] = useState([]);
+
   const handleChange = (event) => {
     setValue(event.target.value);
     console.log("------>order", event.target.value);
@@ -244,11 +246,25 @@ const SearchProducts = () => {
         </Grid>
       </Grid>
 
-      {/* <Drawer open={open} onClose={handleClose}>
-        <Box sx={{ p: 2, width: 285, overflowX: "hidden" }}>
-          <Filter handleClose={handleClose} />
+      <Drawer open={open} onClose={handleClose}>
+        <Box sx={{ p: 2, width: 320, overflowX: "hidden" }}>
+          <Filter
+            handleClose={handleClose}
+            brands={Brand}
+            categories={Category}
+            FabricType={FabricType}
+            FinishType={FinishType}
+            FrameMaterial={FrameMaterial}
+            priceRangeValue={priceRangeValue}
+            setPriceRangeValue={setPriceRangeValue}
+            setProducts={setProducts}
+            filter={filter}
+            setFilter={setFilter}
+            chips={chips}
+            setChip={setChip}
+          />
         </Box>
-      </Drawer> */}
+      </Drawer>
     </div>
   );
 };

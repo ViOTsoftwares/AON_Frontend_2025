@@ -43,6 +43,8 @@ function Products() {
   const [FrameMaterial, setFrameMaterial] = useState([]);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
   const [Banner, setBanner] = useState({});
+  const [chips, setChip] = useState([]);
+
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -190,6 +192,8 @@ function Products() {
               setProducts={setProducts}
               filter={filter}
               setFilter={setFilter}
+              chips={chips}
+              setChip={setChip}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={1}>
@@ -241,6 +245,8 @@ function Products() {
             setProducts={setProducts}
             filter={filter}
             setFilter={setFilter}
+            chips={chips}
+            setChip={setChip}
           />
         </Box>
       </Drawer>

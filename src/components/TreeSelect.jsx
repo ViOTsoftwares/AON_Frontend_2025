@@ -83,7 +83,7 @@ function TreeSelect({
                   <Checkbox
                     name={option}
                     size="small"
-                    checked={chips.includes(option)}
+                    checked={chips?.includes(option)}
                     onChange={() => handleClick(option)}
                   />
                 }

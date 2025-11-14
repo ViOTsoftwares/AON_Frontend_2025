@@ -25,35 +25,22 @@ function Filter({
   setProducts,
   filter,
   setFilter,
+  chips,
+  setChip,
 }) {
-  // const [brands, setBrands] = useState([
-  //   "Urbun Ladder",
-  //   "Pepper Fry",
-  //   "Wooden Street",
-  //   "office Needs",
-  //   "city raiders",
-  // ]);
-  // const [categories, setCategories] = useState([
-  //   "Sofa's",
-  //   "Tables",
-  //   "Chair",
-  //   "Bentch",
-  //   "Rolling Chair",
-  // ]);
-  const [chips, setChip] = useState([]);
+  
+
   const PRICE_MIN = 0;
-  const PRICE_MAX = 30000;
+  const PRICE_MAX = 100000;
 
-  // console.log("====>", search);
+  // useEffect(() => {
+  //   const fetchFilteredData = async () => {
+  //     const data = await FetchAllProductsApi("", filter, "page", "limit");
+  //     setProducts(data?.product || []);
+  //   };
 
-  useEffect(() => {
-    const fetchFilteredData = async () => {
-      const data = await FetchAllProductsApi(search, filter, "page", "limit");
-      setProducts(data?.product || []);
-    };
-
-    fetchFilteredData();
-  }, [filter]);
+  //   fetchFilteredData();
+  // }, [filter]);
   const handleDelete = (br) => {
     setChip((chips) => chips.filter((chip) => chip !== br));
   };
@@ -138,7 +125,7 @@ function Filter({
           rowGap={0.78}
           columnGap={0.78}
         >
-          {chips.map((chip) => (
+          {chips?.length>0 && chips?.map((chip) => (
             <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
               <Chip
                 label={chip}
@@ -218,7 +205,6 @@ function Filter({
           valueLabelDisplay="auto"
           min={PRICE_MIN}
           max={PRICE_MAX}
-        
           sx={{
             color: "#007bff",
             height: 5,
