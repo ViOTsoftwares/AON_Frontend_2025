@@ -37,13 +37,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Login() {
   const [open, setOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
-  const [timer, setTimer] = useState(180);
+  const [timer, setTimer] = useState(60);
   const containerRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [Email, setEmail] = useState({ username: "", email: "" });
   const [Varify, setVarify] = useState({ username: "", email: "", otp: "" });
   const InnitialValues = { username: "", email: "" };
+  const [isResend, setIsResend] = useState(false);
   const formik = useFormik({
     initialValues: InnitialValues,
     validationSchema: LoginSchema,
@@ -52,6 +53,7 @@ export default function Login() {
       try {
         console.log(Email);
         setVarify((pre) => ({
+          ...pre,
           username: values.username,
           email: values.email,
         }));
@@ -59,7 +61,8 @@ export default function Login() {
           withCredentials: true,
         });
         setShowOTP(true);
-        setTimer(180);
+        setIsResend(false);
+        setTimer(60);
       } catch (err) {
         alert(err.response?.data?.message || "Failed to send OTP");
       }
@@ -67,15 +70,11 @@ export default function Login() {
   });
   const { User, isUser } = useSelector((state) => state.UserState);
   const { username, picture } = User;
-  // useEffect(() => {
-  //   setVarify((prev) => ({
-  //     ...prev,
-  //     email: Email.email,
-  //     username: Email.username,
-  //   }));
-  // }, [Email]);
 
   useEffect(() => {
+    if (timer === 0) {
+      setIsResend(true);
+    }
     if (!showOTP || timer <= 0) return;
     const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
     return () => clearInterval(interval);
@@ -87,18 +86,6 @@ export default function Login() {
     return `${min}:${sec}`;
   };
 
-  // const handleSubmit = async () => {
-  //   try {
-  //     console.log(Email);
-  //     await axios.post("http://localhost:5000/api/auth/user/send-otp", Email, {
-  //       withCredentials: true,
-  //     });
-  //     setShowOTP(true);
-  //     setTimer(180);
-  //   } catch (err) {
-  //     alert(err.response?.data?.message || "Failed to send OTP");
-  //   }
-  // };
   const handleLogout = () => {
     dispatch(UserLogout());
     setTimeout(() => {
@@ -109,27 +96,36 @@ export default function Login() {
   };
   const handleVerifyOTP = async () => {
     try {
-      await axios.post(`${BaseApi}/user/verify-otp`, Varify, {
-        withCredentials: true,
-      });
+      await BaseApi.post(`/user/verify-otp`, Varify);
       const token = Cookie.get("authToken");
       const decode = jwtDecode(token);
       dispatch(UserLogin(decode));
-      alert("✅ Login Successful!");
+      // alert("✅ Login Successful!");
+      toastMessage("Login Successful", "success");
       setOpen(false);
       setShowOTP(false);
       setVarify({ username: "", email: "", otp: "" });
       formik.resetForm();
     } catch (err) {
-      alert(err.response?.data?.message || "Invalid OTP");
+      // alert(err.response?.data?.message || "Invalid OTP");
+      toastMessage(err.response?.data?.message || "Invalid OTP", "error");
     }
   };
-  console.log(picture);
+
+  const handleResend = async () => {
+    try {
+      await BaseApi.post("/user/send-otp", Varify);
+      setTimer(60);
+      toastMessage("OTP resent successfully", "success");
+    } catch (err) {
+      toastMessage("Failed to resend OTP", "error");
+    }
+  };
 
   const loginWithGoogle = () => {
     window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/google`;
   };
-  
+
   const loginWithFacebook = () => {
     window.location.href = `${BaseApi}/auth/facebook`;
   };
@@ -360,9 +356,7 @@ export default function Login() {
                           formik.touched.email && Boolean(formik.errors.email)
                         }
                         helperText={
-                          formik.touched.email
-                            ? formik.errors.email
-                            : "   "
+                          formik.touched.email ? formik.errors.email : "   "
                         }
                       />
 
@@ -384,14 +378,25 @@ export default function Login() {
                       inputProps={{ maxLength: 6 }}
                       sx={{ mb: 1 }}
                     />
-                    <Typography
-                      variant="body2"
-                      color="error"
-                      textAlign="center"
-                      mt={1}
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
                     >
-                      Time left: {formatTime(timer)}
-                    </Typography>
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        textAlign="center"
+                        mt={1}
+                      >
+                        Time left: {formatTime(timer)}
+                      </Typography>
+                      {isResend ? (
+                        <Button disabled={timer !== 0} onClick={handleResend}>
+                          resend
+                        </Button>
+                      ) : (
+                        ""
+                      )}
+                    </Box>
                     <Button
                       variant="contained"
                       fullWidth

@@ -13,7 +13,6 @@ import { ImageApi } from "../ImageApi";
 
 function BlogCard({ blog, width = 320, valueOfDisplay = "block" }) {
   const [show, setShow] = useState(false);
-  console.log(blog);
   const date = new Date(blog?.createdAt);
   const navigate = useNavigate();
   const options = { day: "numeric", month: "short", year: "numeric" };

@@ -4,9 +4,10 @@ import axios from "axios";
 // Pull from Vite environment
 const apiUrl = import.meta.env.VITE_API_URL;
 const env = import.meta.env.VITE_ENV;
-console.log("base_API===-->",apiUrl)
+console.log("base_API===-->", apiUrl);
 const api = axios.create({
   baseURL: apiUrl,
+  withCredentials: true,
 });
 
 // Add token if exists
