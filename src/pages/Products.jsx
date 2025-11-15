@@ -41,7 +41,7 @@ function Products() {
   const [FabricType, setFabricType] = useState([]);
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 30000]);
   const [Banner, setBanner] = useState({});
   const [chips, setChip] = useState([]);
 
@@ -211,8 +211,11 @@ function Products() {
                   <PageLoading load={isLoading} />
                 ) : (
                   products.map((product) => (
-                    <Grid size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}>
-                      <ProductCard product={product} />
+                    <Grid
+                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      alignSelf="stretch"
+                    >
+                      <ProductCard product={product} height="100%" />
                     </Grid>
                   ))
                 )}

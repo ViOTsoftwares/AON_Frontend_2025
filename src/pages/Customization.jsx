@@ -51,129 +51,16 @@ function Customization() {
           </Button>
         </Grid>
       </Grid>
+
       <Grid
-        container
-        px={{ xs: 5, md: 8 }}
-        flexDirection="column"
-        rowGap={2}
-        py={{ lg: 4 }}
-      >
-        <Grid>
-          <Typography variant="h4" textAlign="center">
-            Why Choose Arun Office Needs
-          </Typography>
-          <Typography variant="body1" textAlign="center" lineHeight="4rem">
-            Looking for your dream furniture? We make it easy to customise
-            furniture
-          </Typography>
-        </Grid>
-        <Grid
-          size={12}
-          container
-          columns={{ xs: 12, sm: 24, md: 24, lg: 20.6 }}
-          rowGap={5}
-          columnGap={{ xs: 0, md: 4 }}
-        >
-          <Grid size={{ xs: 12, sm: 12, md: 11, lg: 10 }}>
-            <Paper
-              sx={{
-                display: "flex",
-                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
-                borderRadius: "0.70rem",
-                gap: 2,
-              }}
-              elevation={4}
-            >
-              <ChairOutlined sx={{ fontSize: "5rem" }} color="info" />
-              <Typography whiteSpace="pre-line" fontSize="14px">
-                Manufacturer Arun Office Needs offer a more controlled and
-                personalized experience with extensive customization options.
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 10 }}>
-            <Paper
-              sx={{
-                display: "flex",
-                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
-                borderRadius: "0.70rem",
-                gap: 2,
-              }}
-              elevation={4}
-            >
-              <Inventory2OutlinedIcon sx={{ fontSize: "5rem" }} color="info" />
-
-              <Typography whiteSpace="pre-line" fontSize="14px">
-                Wholesaler The Arun Office Needs model provides a more
-                streamlined, consistent, and customer-focused approach compared
-                to the market model.
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 11, lg: 10 }}>
-            <Paper
-              sx={{
-                display: "flex",
-                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
-                borderRadius: "0.70rem",
-                gap: 2,
-              }}
-              elevation={4}
-            >
-              <PeopleAltOutlinedIcon sx={{ fontSize: "5rem" }} color="info" />
-
-              <Typography fontSize="14px">
-                Retailer Arun Office Needs a strong choice for retailers looking
-                to offer high-quality, customizable furniture with reliable
-                service and support.
-              </Typography>
-            </Paper>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 10 }}>
-            <Paper
-              sx={{
-                display: "flex",
-                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
-                borderRadius: "0.70rem",
-                gap: 2,
-              }}
-              elevation={4}
-            >
-              <LocalShippingOutlinedIcon
-                sx={{ fontSize: "5rem" }}
-                color="info"
-              />
-
-              <Typography fontSize="14px">
-                Customer Arun Office Needs an attractive option for customers
-                seeking high-quality, customizable furniture with a reliable and
-                customer-focused experience.
-              </Typography>
-            </Paper>
-          </Grid>
-        </Grid>
-        <Button
-          variant="contained"
-          sx={{
-            alignSelf: "center",
-            borderRadius: "20px",
-            width: { xs: "100%", sm: "35%", md: "20%", lg: "16%" },
-            fontSize: "0.95rem",
-            p: 1,
-          }}
-        >
-          CUSTOMIZE NOW
-        </Button>
-      </Grid>
-      <Grid
-        flexDirection={{ xs: "column", md: "row" }}
+        flexDirection={{ xs: "column", sm: "row" }}
         container
         p={{ xs: 2, md: 6 }}
         py={{ lg: 14 }}
-        rowGap={{ xs: 1 }}
+        rowGap={{ xs: 2 }}
         bgcolor="rgba(54, 154, 221, 0.17)"
       >
-        <Grid size={{ xs: 12, md: 5, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 5, lg: 6 }}>
           <Typography variant="body2" color="textSecondary">
             {" "}
             Main Difference
@@ -295,7 +182,7 @@ function Customization() {
             </Stack>
           </Stack>
         </Grid>
-        <Grid size={{ xs: 12, md: 7, lg: 6 }}>
+        <Grid size={{ xs: 12, sm: 6, md: 7, lg: 6 }} alignSelf="center">
           <ReactCompareImage
             leftImage={left}
             rightImage={right}
@@ -307,6 +194,125 @@ function Customization() {
             rightImageLabel="After"
           />
         </Grid>
+      </Grid>
+      <Grid
+        container
+        px={{ xs: 5, md: 8 }}
+        flexDirection="column"
+        rowGap={2}
+        py={{ lg: 4 }}
+      >
+        <Grid>
+          <Typography variant="h4" textAlign="center">
+            Why Choose Arun Office Needs
+          </Typography>
+          <Typography variant="body1" textAlign="center" lineHeight="4rem">
+            Looking for your dream furniture? We make it easy to customise
+            furniture
+          </Typography>
+        </Grid>
+        <Grid
+          size={12}
+          container
+          columns={{ xs: 12, sm: 24, md: 24, lg: 20.6 }}
+          rowGap={{ sm: 2, md: 5 }}
+          columnGap={{ xs: 0, sm: 1, md: 4 }}
+          justifyContent="stretch"
+        >
+          <Grid size={{ xs: 12, sm: 11.7, md: 11, lg: 10 }} alignSelf="stretch">
+            <Paper
+              sx={{
+                display: "flex",
+                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
+                borderRadius: "0.70rem",
+                gap: 2,
+                height: "100%",
+              }}
+              elevation={4}
+            >
+              <ChairOutlined sx={{ fontSize: "5rem" }} color="info" />
+              <Typography whiteSpace="pre-line" fontSize="14px">
+                Manufacturer Arun Office Needs offer a more controlled and
+                personalized experience with extensive customization options.
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 10 }} alignSelf="stretch">
+            <Paper
+              sx={{
+                display: "flex",
+                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
+                borderRadius: "0.70rem",
+                gap: 2,
+                height: "100%",
+              }}
+              elevation={4}
+            >
+              <Inventory2OutlinedIcon sx={{ fontSize: "5rem" }} color="info" />
+
+              <Typography whiteSpace="pre-line" fontSize="14px">
+                Wholesaler The Arun Office Needs model provides a more
+                streamlined, consistent, and customer-focused approach compared
+                to the market model.
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 11.7, md: 11, lg: 10 }} alignSelf="stretch">
+            <Paper
+              sx={{
+                display: "flex",
+                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
+                borderRadius: "0.70rem",
+                gap: 2,
+                height: "100%",
+              }}
+              elevation={4}
+            >
+              <PeopleAltOutlinedIcon sx={{ fontSize: "5rem" }} color="info" />
+
+              <Typography fontSize="14px">
+                Retailer Arun Office Needs a strong choice for retailers looking
+                to offer high-quality, customizable furniture with reliable
+                service and support.
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid size={{ xs: 12, sm: 12, md: 12, lg: 10 }} alignSelf="stretch">
+            <Paper
+              sx={{
+                display: "flex",
+                padding: { xs: "1rem", sm: "1.5", md: "2.8rem" },
+                borderRadius: "0.70rem",
+                gap: 2,
+                height: "100%",
+              }}
+              elevation={4}
+            >
+              <LocalShippingOutlinedIcon
+                sx={{ fontSize: "5rem" }}
+                color="info"
+              />
+
+              <Typography fontSize="14px">
+                Customer Arun Office Needs an attractive option for customers
+                seeking high-quality, customizable furniture with a reliable and
+                customer-focused experience.
+              </Typography>
+            </Paper>
+          </Grid>
+        </Grid>
+        <Button
+          variant="contained"
+          sx={{
+            alignSelf: "center",
+            borderRadius: "20px",
+            width: { xs: "100%", sm: "35%", md: "20%", lg: "16%" },
+            fontSize: "0.95rem",
+            p: 1,
+          }}
+        >
+          CUSTOMIZE NOW
+        </Button>
       </Grid>
     </Stack>
   );
