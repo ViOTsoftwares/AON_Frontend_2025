@@ -18,6 +18,7 @@ import {
   CircularProgress,
   Zoom,
   Grid,
+  Stack,
 } from "@mui/material";
 import {
   CloudUpload,
@@ -28,7 +29,7 @@ import {
   CheckCircle,
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
-
+import "../components/Animations/ButtonGlow.css";
 const StyledCard = styled(Card)(({ theme }) => ({
   width: "100%",
   margin: "auto",
@@ -42,7 +43,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 const ImageUploadBox = styled(Box)({
   border: "2px dashed #667eea",
   borderRadius: 16,
-  padding: 24,
+  padding: 10,
   textAlign: "center",
   cursor: "pointer",
   transition: "all 0.3s ease",
@@ -143,28 +144,20 @@ const ContactForm = () => {
   };
 
   return (
-    <Grid
-      sx={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 3,
-      }}
-    >
+    <Grid>
       <div>
         <Fade in timeout={800}>
           <StyledCard>
             <CardContent sx={{ padding: 4 }}>
               <Slide direction="down" in timeout={600}>
-                <Box sx={{ textAlign: "center", mb: 4 }}>
+                <Box sx={{ textAlign: "center", mb: 2 }}>
                   <Typography
                     variant="h4"
                     sx={{
-                      mb: 1,
-                      fontWeight:550
+                      fontWeight: 550,
                     }}
                   >
-                    Get In Touch
+                    Let's Customize
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Fill out the form below and we'll get back to you shortly
@@ -173,167 +166,170 @@ const ContactForm = () => {
               </Slide>
 
               <form onSubmit={handleSubmit}>
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-                  <Zoom in timeout={700}>
-                    <TextField
-                      fullWidth
-                      label="Full Name"
-                      value={formData.name}
-                      onChange={(e) =>
-                        handleInputChange("name", e.target.value)
-                      }
-                      error={!!errors.name}
-                      helperText={errors.name}
-                      slotProps={{
-                        input: {
-                          startAdornment: (
-                            <Person sx={{ mr: 1, color: "#667eea" }} />
-                          ),
-                        },
-                      }}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 2,
-                          "&:hover fieldset": {
-                            borderColor: "#667eea",
-                          },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#667eea",
-                          },
-                        },
-                      }}
-                    />
-                  </Zoom>
-
-                  <Zoom in timeout={800}>
-                    <TextField
-                      fullWidth
-                      label="Email Address"
-                      type="email"
-                      value={formData.email}
-                      onChange={(e) =>
-                        handleInputChange("email", e.target.value)
-                      }
-                      error={!!errors.email}
-                      helperText={errors.email}
-                      slotProps={{
-                        input: {
-                          startAdornment: (
-                            <Email sx={{ mr: 1, color: "#667eea" }} />
-                          ),
-                        },
-                      }}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 2,
-                          "&:hover fieldset": {
-                            borderColor: "#667eea",
-                          },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#667eea",
-                          },
-                        },
-                      }}
-                    />
-                  </Zoom>
-
-                  <Zoom in timeout={900}>
-                    <Box>
-                      <input
-                        accept="image/*"
-                        style={{ display: "none" }}
-                        id="image-upload"
-                        type="file"
-                        onChange={handleImageUpload}
-                      />
-                      <label htmlFor="image-upload">
-                        <ImageUploadBox>
-                          {image ? (
-                            <Box>
-                              <Avatar
-                                src={image}
-                                sx={{
-                                  width: 120,
-                                  height: 120,
-                                  margin: "auto",
-                                  mb: 2,
-                                  border: "4px solid #667eea",
-                                }}
-                              />
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                Click to change image
-                              </Typography>
-                            </Box>
-                          ) : (
-                            <Box>
-                              <CloudUpload
-                                sx={{ fontSize: 48, color: "#667eea", mb: 1 }}
-                              />
-                              <Typography variant="h6" color="text.primary">
-                                Upload Image
-                              </Typography>
-                              <Typography
-                                variant="body2"
-                                color="text.secondary"
-                              >
-                                Click to browse or drag and drop
-                              </Typography>
-                            </Box>
-                          )}
-                        </ImageUploadBox>
-                      </label>
-                    </Box>
-                  </Zoom>
-
-                  <Zoom in timeout={1000}>
-                    <FormControl
-                      fullWidth
-                      error={!!errors.question}
-                      sx={{
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 2,
-                          "&:hover fieldset": {
-                            borderColor: "#667eea",
-                          },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#667eea",
-                          },
-                        },
-                      }}
-                    >
-                      <InputLabel>Select a Question</InputLabel>
-                      <Select
-                        value={formData.question}
-                        label="Select a Question"
+                <Stack gap={2}>
+                  <Stack direction="row" columnGap={2}>
+                    <Zoom in timeout={700}>
+                      <TextField
+                        label="Full Name"
+                        value={formData.name}
                         onChange={(e) =>
-                          handleInputChange("question", e.target.value)
+                          handleInputChange("name", e.target.value)
                         }
+                        error={!!errors.name}
+                        helperText={errors.name}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <Person sx={{ mr: 1, color: "#667eea" }} />
+                            ),
+                          },
+                        }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            borderRadius: 2,
+                            "&:hover fieldset": {
+                              borderColor: "#667eea",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#667eea",
+                            },
+                          },
+                        }}
+                      />
+                    </Zoom>
+
+                    <Zoom in timeout={800}>
+                      <TextField
+                        label="Email Address"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) =>
+                          handleInputChange("email", e.target.value)
+                        }
+                        error={!!errors.email}
+                        helperText={errors.email}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <Email sx={{ mr: 1, color: "#667eea" }} />
+                            ),
+                          },
+                        }}
+                        sx={{
+                          "& .MuiOutlinedInput-root": {
+                            borderRadius: 2,
+                            "&:hover fieldset": {
+                              borderColor: "#667eea",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#667eea",
+                            },
+                          },
+                        }}
+                      />
+                    </Zoom>
+                  </Stack>
+
+                  <Stack direction="row" columnGap={2} alignItems="center">
+                    <Zoom in timeout={900}>
+                      <Box alignSelf="start" width="44%">
+                        <input
+                          accept="image/*"
+                          style={{ display: "none" }}
+                          id="image-upload"
+                          type="file"
+                          onChange={handleImageUpload}
+                        />
+                        <label htmlFor="image-upload">
+                          <ImageUploadBox>
+                            {image ? (
+                              <Box>
+                                <Avatar
+                                  src={image}
+                                  sx={{
+                                    width: 100,
+                                    height: 100,
+                                    margin: "auto",
+                                    mb: 2,
+                                    border: "4px solid #667eea",
+                                  }}
+                                />
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  Click to change image
+                                </Typography>
+                              </Box>
+                            ) : (
+                              <Box>
+                                <CloudUpload
+                                  sx={{ fontSize: 48, color: "#667eea", mb: 1 }}
+                                />
+                                <Typography variant="h6" color="text.primary">
+                                  Upload Image
+                                </Typography>
+                                <Typography
+                                  variant="body2"
+                                  color="text.secondary"
+                                >
+                                  Click to browse or drag and drop
+                                </Typography>
+                              </Box>
+                            )}
+                          </ImageUploadBox>
+                        </label>
+                      </Box>
+                    </Zoom>
+
+                    <Zoom in timeout={1000}>
+                      <FormControl
+                        alignSelf="center"
+                        error={!!errors.question}
+                        sx={{
+                          width: "44%",
+                          "& .MuiOutlinedInput-root": {
+                            borderRadius: 2,
+                            "&:hover fieldset": {
+                              borderColor: "#667eea",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#667eea",
+                            },
+                          },
+                        }}
                       >
-                        {questions.map((question, index) => (
-                          <MenuItem key={index} value={question}>
-                            {question}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                      {errors.question && (
-                        <Typography
-                          variant="caption"
-                          color="error"
-                          sx={{ mt: 0.5, ml: 2 }}
+                        <InputLabel>Select a Question</InputLabel>
+                        <Select
+                          value={formData.question}
+                          label="Select a Question"
+                          onChange={(e) =>
+                            handleInputChange("question", e.target.value)
+                          }
                         >
-                          {errors.question}
-                        </Typography>
-                      )}
-                    </FormControl>
-                  </Zoom>
+                          {questions.map((question, index) => (
+                            <MenuItem key={index} value={question}>
+                              {question}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {errors.question && (
+                          <Typography
+                            variant="caption"
+                            color="error"
+                            sx={{ mt: 0.5, ml: 2 }}
+                          >
+                            {errors.question}
+                          </Typography>
+                        )}
+                      </FormControl>
+                    </Zoom>
+                  </Stack>
 
                   <Zoom in timeout={1100}>
                     <TextField
-                      fullWidth
                       label="Description"
+                      alignSelf="center"
                       multiline
                       rows={4}
                       value={formData.description}
@@ -357,6 +353,7 @@ const ContactForm = () => {
                         },
                       }}
                       sx={{
+                       width:"90%",
                         "& .MuiOutlinedInput-root": {
                           borderRadius: 2,
                           "&:hover fieldset": {
@@ -374,7 +371,8 @@ const ContactForm = () => {
                     <Button
                       type="submit"
                       variant="contained"
-                      fullWidth
+                      sx={{ alignSelf: "start", width: "40%" }}
+                      className="glow-on-hover"
                       disabled={loading}
                       startIcon={
                         loading ? (
@@ -387,7 +385,7 @@ const ContactForm = () => {
                       {loading ? "Sending..." : "Send Message"}
                     </Button>
                   </Zoom>
-                </Box>
+                </Stack>
               </form>
             </CardContent>
           </StyledCard>
