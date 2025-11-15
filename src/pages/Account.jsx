@@ -153,7 +153,7 @@ const Index = () => {
     const data = await getOneProfileApi(User.id);
     console.log("-->", data);
     if (data.success) {
-      Cookie.set("authToken", data.token);
+      localStorage.getItem("authToken", data.token);
       const decode = jwtDecode(data.token);
       dispatch(UserLogin(decode));
     }

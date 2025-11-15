@@ -6,7 +6,7 @@ export const HelperRouter = ({ children, type }) => {
   const navigate = useNavigate();
   const [isCheck, setIsCheck] = useState(true);
   useEffect(() => {
-    const token = Cookie.get("authToken");
+    const token = localStorage.getItem("authToken");
 
     if (!token && type === "Auth") {
       setIsCheck(true);
@@ -16,7 +16,7 @@ export const HelperRouter = ({ children, type }) => {
     }
   }, [navigate, type]);
   if (isCheck) {
-    return null
+    return null;
   }
   return <>{children}</>;
 };

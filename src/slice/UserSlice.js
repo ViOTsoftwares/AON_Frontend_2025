@@ -3,7 +3,7 @@ import Cookie from 'js-cookie'
 import {jwtDecode} from 'jwt-decode'
 
 
-const token = Cookie.get("authToken");
+const token =  localStorage.getItem("authToken");
 let user = null;
 
 // console.log(token)
@@ -35,7 +35,7 @@ const UserSlice = createSlice({
         UserLogout :(state , action)=>{
             state.User="",
             state.isUser=false
-             Cookie.remove("authToken");
+              localStorage.removeItem("authToken");
         },
         UserError :(state , action)=>{
             state.User= null

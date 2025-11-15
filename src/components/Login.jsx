@@ -96,16 +96,18 @@ export default function Login() {
   };
   const handleVerifyOTP = async () => {
     try {
-      await BaseApi.post(`/user/verify-otp`, Varify);
-      const token = Cookie.get("authToken");
-      const decode = jwtDecode(token);
-      dispatch(UserLogin(decode));
-      // alert("✅ Login Successful!");
-      toastMessage("Login Successful", "success");
-      setOpen(false);
-      setShowOTP(false);
-      setVarify({ username: "", email: "", otp: "" });
-      formik.resetForm();
+      const { data } = await BaseApi.post(`/user/verify-otp`, Varify);
+
+      if (data.success) {
+        const decode = jwtDecode(data.token);
+        dispatch(UserLogin(decode));
+        // alert("✅ Login Successful!");
+        toastMessage("Login Successful", "success");
+        setOpen(false);
+        setShowOTP(false);
+        setVarify({ username: "", email: "", otp: "" });
+        formik.resetForm();
+      }
     } catch (err) {
       // alert(err.response?.data?.message || "Invalid OTP");
       toastMessage(err.response?.data?.message || "Invalid OTP", "error");
