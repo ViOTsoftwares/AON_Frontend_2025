@@ -40,7 +40,7 @@ const ProductCategory = () => {
   const [FabricType, setFabricType] = useState([]);
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 30000]);
   const [Banner, setBanner] = useState({});
   const [chips, setChip] = useState([]);
 

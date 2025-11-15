@@ -8,9 +8,12 @@ import Chip from "@mui/material/Chip";
 import { useState } from "react";
 import { ImageApi } from "../ImageApi";
 import { Link } from "react-router-dom";
-function ProductCard({ product, maxWidth = "100%", similar = false }) {
-  
-
+function ProductCard({
+  product,
+  maxWidth = "100%",
+  similar = false,
+  height = "100%",
+}) {
   const [animate, setAnimate] = useState(true);
 
   const lineDots = similar
@@ -65,7 +68,7 @@ function ProductCard({ product, maxWidth = "100%", similar = false }) {
         cursor: "pointer",
         mx: 0.2,
         width: maxWidth,
-     
+        height: height,
       }}
     >
       <CardActionArea>
