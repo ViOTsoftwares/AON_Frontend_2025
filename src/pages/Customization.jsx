@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import ContactForm from "../components/CustomForm";
+import CustomForm from "../components/CustomForm";
 import ChairOutlinedIcon from "@mui/icons-material/ChairOutlined";
 import SpaceDashboardOutlinedIcon from "@mui/icons-material/SpaceDashboardOutlined";
 import SquareFootOutlinedIcon from "@mui/icons-material/SquareFootOutlined";
@@ -18,6 +18,7 @@ import ReactCompareImage from "react-compare-image";
 import left from "../assets/left.jpg";
 import right from "../assets/right.jpg";
 import CountUp from "../components/Animations/Counter";
+
 function Customization() {
   console.log(custom);
 
@@ -219,7 +220,7 @@ function Customization() {
           columnGap={{ xs: 0, sm: 1, md: 4 }}
           justifyContent="stretch"
         >
-          <Grid size={{ xs: 12, sm: 11.7, md: 11, lg: 10 }} alignSelf="stretch">
+          <Grid size={{ xs: 12, sm: 11.5, md: 11, lg: 10 }} alignSelf="stretch">
             <Paper
               sx={{
                 display: "flex",
@@ -257,7 +258,7 @@ function Customization() {
               </Typography>
             </Paper>
           </Grid>
-          <Grid size={{ xs: 12, sm: 11.7, md: 11, lg: 10 }} alignSelf="stretch">
+          <Grid size={{ xs: 12, sm: 11.5, md: 11, lg: 10 }} alignSelf="stretch">
             <Paper
               sx={{
                 display: "flex",
@@ -313,6 +314,17 @@ function Customization() {
         >
           CUSTOMIZE NOW
         </Button>
+      </Grid>
+      <Grid container>
+        <Grid
+          size={{ xs: 12, sm: 6 }}
+          
+        ></Grid>
+        <Grid size={{ xs: 12, sm: 6 }} container justifyContent="center">
+          <Grid size={12}>
+            <CustomForm />
+          </Grid>
+        </Grid>
       </Grid>
     </Stack>
   );
