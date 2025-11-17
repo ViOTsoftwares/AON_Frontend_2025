@@ -32,7 +32,7 @@
     background: transparent;
 }
 
-.glow-on-hover:hover:before {
+.glow-on-hover:before {
     opacity: 1;
 }
 

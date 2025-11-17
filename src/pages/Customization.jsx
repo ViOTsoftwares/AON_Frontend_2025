@@ -216,7 +216,7 @@ function Customization() {
           size={12}
           container
           columns={{ xs: 12, sm: 24, md: 24, lg: 20.6 }}
-          rowGap={{ sm: 2, md: 5 }}
+          rowGap={{ xs: 2, sm: 2, md: 5 }}
           columnGap={{ xs: 0, sm: 1, md: 4 }}
           justifyContent="stretch"
         >
@@ -316,11 +316,16 @@ function Customization() {
         </Button>
       </Grid>
       <Grid container>
+        <Grid size={{ xs: 12, sm: 6 }}
+        
+        // sx={{backgroundImage}}
+        ></Grid>
         <Grid
           size={{ xs: 12, sm: 6 }}
-          
-        ></Grid>
-        <Grid size={{ xs: 12, sm: 6 }} container justifyContent="center">
+          container
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid size={12}>
             <CustomForm />
           </Grid>

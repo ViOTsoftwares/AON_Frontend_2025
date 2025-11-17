@@ -31,7 +31,6 @@ import {
 import { styled } from "@mui/material/styles";
 import "../components/Animations/ButtonGlow.css";
 const StyledCard = styled(Card)(({ theme }) => ({
-  width: "100%",
   margin: "auto",
   borderRadius: 24,
   background: "rgba(255, 255, 255, 0.95)",
@@ -42,6 +41,7 @@ const StyledCard = styled(Card)(({ theme }) => ({
 
 const ImageUploadBox = styled(Box)({
   border: "2px dashed #667eea",
+  width: "100%",
   borderRadius: 16,
   padding: 10,
   textAlign: "center",
@@ -70,7 +70,7 @@ const ContactForm = () => {
     question: "",
     description: "",
   });
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState([]);
   const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [errors, setErrors] = useState({});
@@ -83,14 +83,24 @@ const ContactForm = () => {
   };
 
   const handleImageUpload = (event) => {
-    const file = event.target.files?.[0];
-    if (file) {
+    const files = event.target.files;
+    if (!files) return;
+
+    const imagesArray = [];
+
+    Array.from(files).forEach((file) => {
       const reader = new FileReader();
+
       reader.onloadend = () => {
-        setImage(reader.result);
+        imagesArray.push(reader.result);
+
+        if (imagesArray.length === files.length) {
+          setImage((prev) => [...prev, ...imagesArray]);
+        }
       };
+
       reader.readAsDataURL(file);
-    }
+    });
   };
 
   const validateForm = () => {
@@ -166,10 +176,16 @@ const ContactForm = () => {
               </Slide>
 
               <form onSubmit={handleSubmit}>
-                <Stack gap={2}>
-                  <Stack direction="row" columnGap={2}>
+                <Grid
+                  columns={{ xs: 12, md: 12, lg: 24 }}
+                  container
+                  rowGap={2}
+                  columnGap={2}
+                >
+                  <Grid size={{ xs: 12, md: 6, lg: 11.5 }}>
                     <Zoom in timeout={700}>
                       <TextField
+                        fullWidth
                         label="Full Name"
                         value={formData.name}
                         onChange={(e) =>
@@ -197,9 +213,11 @@ const ContactForm = () => {
                         }}
                       />
                     </Zoom>
-
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6, lg: 11.5 }}>
                     <Zoom in timeout={800}>
                       <TextField
+                        fullWidth
                         label="Email Address"
                         type="email"
                         value={formData.email}
@@ -228,66 +246,76 @@ const ContactForm = () => {
                         }}
                       />
                     </Zoom>
-                  </Stack>
-
-                  <Stack direction="row" columnGap={2} alignItems="center">
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 12, lg: 24 }}>
                     <Zoom in timeout={900}>
-                      <Box alignSelf="start" width="44%">
+                      <Box>
                         <input
                           accept="image/*"
                           style={{ display: "none" }}
                           id="image-upload"
                           type="file"
                           onChange={handleImageUpload}
+                          multiple
                         />
                         <label htmlFor="image-upload">
                           <ImageUploadBox>
-                            {image ? (
-                              <Box>
-                                <Avatar
-                                  src={image}
-                                  sx={{
-                                    width: 100,
-                                    height: 100,
-                                    margin: "auto",
-                                    mb: 2,
-                                    border: "4px solid #667eea",
-                                  }}
-                                />
+                            {image.length > 0 ? (
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  gap: 2,
+                                  flexWrap: "wrap",
+                                  justifyContent: "center",
+                                }}
+                              >
+                                {image.map((img, index) => (
+                                  <Avatar
+                                    key={index}
+                                    src={img}
+                                    sx={{
+                                      width: 80,
+                                      height: 80,
+                                      border: "3px solid #667eea",
+                                    }}
+                                  />
+                                ))}
+
                                 <Typography
                                   variant="body2"
                                   color="text.secondary"
+                                  sx={{ width: "100%", textAlign: "center" }}
                                 >
-                                  Click to change image
+                                  Click to upload more
                                 </Typography>
                               </Box>
                             ) : (
-                              <Box>
+                              <>
                                 <CloudUpload
                                   sx={{ fontSize: 48, color: "#667eea", mb: 1 }}
                                 />
-                                <Typography variant="h6" color="text.primary">
-                                  Upload Image
+                                <Typography variant="h6">
+                                  Upload Images
                                 </Typography>
                                 <Typography
                                   variant="body2"
                                   color="text.secondary"
                                 >
-                                  Click to browse or drag and drop
+                                  Click to browse or drag & drop
                                 </Typography>
-                              </Box>
+                              </>
                             )}
                           </ImageUploadBox>
                         </label>
                       </Box>
                     </Zoom>
-
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 12, lg: 24 }}>
                     <Zoom in timeout={1000}>
                       <FormControl
-                        alignSelf="center"
                         error={!!errors.question}
+                        fullWidth
                         sx={{
-                          width: "44%",
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,
                             "&:hover fieldset": {
@@ -324,68 +352,69 @@ const ContactForm = () => {
                         )}
                       </FormControl>
                     </Zoom>
-                  </Stack>
-
-                  <Zoom in timeout={1100}>
-                    <TextField
-                      label="Description"
-                      alignSelf="center"
-                      multiline
-                      rows={4}
-                      value={formData.description}
-                      onChange={(e) =>
-                        handleInputChange("description", e.target.value)
-                      }
-                      error={!!errors.description}
-                      helperText={errors.description}
-                      slotProps={{
-                        input: {
-                          startAdornment: (
-                            <DescIcon
-                              sx={{
-                                mr: 1,
-                                color: "#667eea",
-                                alignSelf: "flex-start",
-                                mt: 1,
-                              }}
-                            />
-                          ),
-                        },
-                      }}
-                      sx={{
-                       width:"90%",
-                        "& .MuiOutlinedInput-root": {
-                          borderRadius: 2,
-                          "&:hover fieldset": {
-                            borderColor: "#667eea",
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 12, lg: 24 }}>
+                    <Zoom in timeout={1100}>
+                      <TextField
+                        label="Description"
+                        alignSelf="center"
+                        multiline
+                        rows={4}
+                        value={formData.description}
+                        onChange={(e) =>
+                          handleInputChange("description", e.target.value)
+                        }
+                        error={!!errors.description}
+                        helperText={errors.description}
+                        slotProps={{
+                          input: {
+                            startAdornment: (
+                              <DescIcon
+                                sx={{
+                                  mr: 1,
+                                  color: "#667eea",
+                                  alignSelf: "flex-start",
+                                  mt: 1,
+                                }}
+                              />
+                            ),
                           },
-                          "&.Mui-focused fieldset": {
-                            borderColor: "#667eea",
+                        }}
+                        sx={{
+                          width: "100%",
+                          "& .MuiOutlinedInput-root": {
+                            borderRadius: 2,
+                            "&:hover fieldset": {
+                              borderColor: "#667eea",
+                            },
+                            "&.Mui-focused fieldset": {
+                              borderColor: "#667eea",
+                            },
                           },
-                        },
-                      }}
-                    />
-                  </Zoom>
-
-                  <Zoom in timeout={1200}>
-                    <Button
-                      type="submit"
-                      variant="contained"
-                      sx={{ alignSelf: "start", width: "40%" }}
-                      className="glow-on-hover"
-                      disabled={loading}
-                      startIcon={
-                        loading ? (
-                          <CircularProgress size={20} color="inherit" />
-                        ) : (
-                          <Send />
-                        )
-                      }
-                    >
-                      {loading ? "Sending..." : "Send Message"}
-                    </Button>
-                  </Zoom>
-                </Stack>
+                        }}
+                      />
+                    </Zoom>
+                  </Grid>
+                  <Grid>
+                    <Zoom in timeout={1200}>
+                      <Button
+                        type="submit"
+                        variant="contained"
+                        className="glow-on-hover"
+                        disabled={loading}
+                        startIcon={
+                          loading ? (
+                            <CircularProgress size={20} color="white" />
+                          ) : (
+                            <Send />
+                          )
+                        }
+                      >
+                        {loading ? "Sending..." : "Send Message"}
+                      </Button>
+                    </Zoom>
+                  </Grid>
+                </Grid>
               </form>
             </CardContent>
           </StyledCard>
