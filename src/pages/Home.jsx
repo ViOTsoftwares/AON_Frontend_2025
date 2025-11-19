@@ -48,6 +48,7 @@ function Home() {
       dispatch(UserLogin(decode));
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
   }, [token]);
 
   const [blogPoster, setBlogPoster] = useState([]);

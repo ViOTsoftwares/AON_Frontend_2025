@@ -65,6 +65,7 @@ const SearchProducts = () => {
         search: q.replace(/-/g, " "),
       }));
     }
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
   }, [search]);
   6;
   console.log("=====> total page", maximumPage);

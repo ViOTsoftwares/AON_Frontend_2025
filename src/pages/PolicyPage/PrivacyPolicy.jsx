@@ -20,7 +20,8 @@ const PrivacyPolicy = () => {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0); // ensure top scroll
+    window.scrollTo({ top: 0, behavior: "smooth" }); 
+    
     fetchOnePolicy();
   }, []);
 

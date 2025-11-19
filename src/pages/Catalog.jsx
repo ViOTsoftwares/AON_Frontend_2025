@@ -21,39 +21,23 @@ import axios from "axios";
 
 import { ImageApi } from "../ImageApi";
 import { FetchAllCatalogueApi } from "../Api_Action";
-
-// Sample catalog items
-const catalogItems = [
-  {
-    title: "Scandinavian Sofa",
-    image: context,
-  },
-  {
-    title: "Minimalist Table",
-    image: chairtwo,
-  },
-  {
-    title: "Ergonomic Chair",
-    image: chairone,
-  },
-  {
-    title: "Luxury Bed Frame",
-    image: group4,
-  },
-];
+import PageLoading from "../components/PageLoading";
 
 const Catelog = () => {
   const [isDiableButton, setIsDisableButton] = React.useState({});
   const [downloadProgress, setDownloadProgress] = useState({}); // % per file
   const [isDownloading, setIsDownloading] = useState({}); // disable per file
   const [calalogueData, setCatalogueData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const handleFetchCatalogue = async () => {
+    setLoading(true);
     const data = await FetchAllCatalogueApi();
-    console.log(data);
+    setLoading(false);
 
     setCatalogueData(data);
   };
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
     handleFetchCatalogue();
   }, []);
 
@@ -148,7 +132,10 @@ const Catelog = () => {
 
       {/* Cards */}
       <Grid container spacing={4} justifyContent="center" sx={{ mt: 6, px: 4 }}>
-        {calalogueData &&
+        {loading ? (
+          <PageLoading load={loading}/>
+        ) : (
+          calalogueData.length > 0 &&
           calalogueData?.map((item, index) => (
             <Grid
               container
@@ -211,7 +198,8 @@ const Catelog = () => {
                 </CardContent>
               </Card>
             </Grid>
-          ))}
+          ))
+        )}
       </Grid>
 
       {/* Animation keyframes */}

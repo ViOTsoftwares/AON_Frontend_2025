@@ -8,30 +8,30 @@ import { useParams } from "react-router-dom";
 import { GetSingleProductApi, SimilarProductApi } from "../Api_Action";
 import PageLoading from "../components/PageLoading";
 import SimilarProducts from "../components/SimilarProducts";
- 
+
 const ProductDetails = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [Product, setProduct] = useState({});
   const [similarProduct, setSimilarProduct] = useState([]);
   // const [category ,setCategory] = useState("")
   const FetchSingleProduct = async () => {
+    setIsLoading(true);
     const data = await GetSingleProductApi(id);
-    console.log("------>>", data);
     // setCategory(data.SubCategory)
     setIsLoading(false);
     setProduct(data);
     FetchSimilarProduct(data.SubCategory);
   };
-  
+
   const FetchSimilarProduct = async (category) => {
     const data = await SimilarProductApi(category, id);
     setSimilarProduct(data);
   };
- 
 
   useEffect(() => {
     FetchSingleProduct();
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
   }, [id]);
   // useEffect(()=>{FetchSimilarProduct()},[category])
   return (
@@ -41,7 +41,7 @@ const ProductDetails = () => {
       ) : (
         <>
           <ProductDetailCard Product={Product} />
-         
+
           <SimilarProducts
             similarProduct={similarProduct}
             setIsLoading={setIsLoading}

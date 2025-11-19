@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Container,
   Grid,
@@ -50,6 +50,9 @@ export default function Cart() {
     }
     navigate("/checkout");
   };
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+  }, []);
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>

@@ -18,9 +18,12 @@ import ReactCompareImage from "react-compare-image";
 import left from "../assets/left.jpg";
 import right from "../assets/right.jpg";
 import CountUp from "../components/Animations/Counter";
+import { useEffect } from "react";
 
 function Customization() {
-  console.log(custom);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+  }, []);
 
   return (
     <Stack>
@@ -316,9 +319,10 @@ function Customization() {
         </Button>
       </Grid>
       <Grid container>
-        <Grid size={{ xs: 12, sm: 6 }}
-        
-        // sx={{backgroundImage}}
+        <Grid
+          size={{ xs: 12, sm: 6 }}
+
+          // sx={{backgroundImage}}
         ></Grid>
         <Grid
           size={{ xs: 12, sm: 6 }}

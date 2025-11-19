@@ -57,7 +57,7 @@ function Footer() {
 
   const Pages = [
     { pageName: "Products", pageUrl: "products" },
-    { pageName: "Contacts", pageUrl: "contact-us" },
+    // { pageName: "Contacts", pageUrl: "contact-us" },
     { pageName: "Clients", pageUrl: "/" },
     { pageName: "About US", pageUrl: "about-us" },
     { pageName: "Blogs", pageUrl: "blogs" },

@@ -40,14 +40,13 @@ const ProductCategory = () => {
   const [FabricType, setFabricType] = useState([]);
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 30000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
   const [Banner, setBanner] = useState({});
   const [chips, setChip] = useState([]);
 
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setValue(event.target.value);
-    console.log("------>order", event.target.value);
     setFilter((item) => ({ ...item, order: event.target.value }));
   };
   const handlePageChange = (event, value) => {
@@ -68,7 +67,7 @@ const ProductCategory = () => {
     }
   }, [search]);
   6;
-  console.log("=====> total page", maximumPage);
+ 
 
   useEffect(() => {
     const fetchData = async () => {

@@ -229,6 +229,7 @@ const Index = () => {
     }
   };
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
     getaddress();
   }, []);
   const renderContent = () => {

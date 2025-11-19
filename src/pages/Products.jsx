@@ -44,7 +44,7 @@ function Products() {
   const [priceRangeValue, setPriceRangeValue] = useState([0, 30000]);
   const [Banner, setBanner] = useState({});
   const [chips, setChip] = useState([]);
-
+  const [loading, setLoading] = useState(false);
   const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setValue(event.target.value);
@@ -59,26 +59,26 @@ function Products() {
   };
 
   const GetBanner = async () => {
+    setLoading(true);
     const data = await FetchBannerApi();
-    console.log("banananna", data);
     const filter = data.filter(
       (item) => item.isActive == true && item.bannerType === "Product"
     );
-    console.log("---filter", filter);
+    setLoading(false);
     setBanner(filter?.[0]);
     setIsLoading(false);
   };
 
   useEffect(() => {
     GetBanner();
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
   }, []);
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       const data = await FetchAllProductsApi("", filter, page, limit);
       if (FrameMaterial.length === 0) {
-        // console.log("max:", max, "min:", min);
-        // setPriceRangeValue(data?.list?.Price);
         setBrand(data?.list.Brand);
         setCategory(data?.list.Category);
         setFabricType(data?.list.FabricType);
@@ -86,10 +86,10 @@ function Products() {
         setFrameMaterial(data?.list.FrameMaterial);
       }
       setIsLoading(false);
+      setLoading(false);
       setProducts(data?.product || []);
       setPage(data.page);
       setMaximumPage(Math.ceil(data.count / limit));
-      console.log("API response:", data);
     };
     fetchData();
   }, [filter, page]);

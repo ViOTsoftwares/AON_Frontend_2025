@@ -11,7 +11,7 @@ import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import { FetchBlogApi } from "../Api_Action";
 import PageLoading from "../components/PageLoading";
-
+import Chatbox from "../components/Chatbot";
 function Blogs() {
   const [blogPoster, setBlogPoster] = useState([]);
   const [value, setValue] = useState(0);
@@ -40,6 +40,7 @@ function Blogs() {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
     handleFetchBanner();
   }, [title, page]);
 
@@ -104,7 +105,8 @@ function Blogs() {
           {isLoading ? (
             <PageLoading load={isLoading} />
           ) : (
-            blogPoster.map((blog, idx) => (
+            blogPoster.length > 0 &&
+            blogPoster?.map((blog, idx) => (
               <Grid
                 item
                 xs={12}
@@ -151,6 +153,7 @@ function Blogs() {
           </Button>
         </Stack>
       </Stack>
+      <Chatbox />
     </Container>
   );
 }

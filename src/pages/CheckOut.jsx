@@ -67,6 +67,7 @@ const Checkout = () => {
     setOneProduct({ ...data, Qty: 1 });
   };
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
     getOneProduct();
   }, []);
   useEffect(() => {

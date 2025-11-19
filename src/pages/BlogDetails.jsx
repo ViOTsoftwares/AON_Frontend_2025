@@ -15,6 +15,7 @@ const BlogDetails = () => {
   };
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
     fetchBlog();
   }, [state?.id]);
 

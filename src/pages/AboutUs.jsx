@@ -6,8 +6,11 @@ import bgabout from "../assets/bgabout.jpg";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ContactusForm from "../components/ContactusForm";
+import { useEffect } from "react";
 function AboutUs() {
-  console.log(bgabout);
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+  }, []);
   return (
     <Container>
       <Grid container alignItems="center" justifyContent="center">
@@ -127,7 +130,7 @@ function AboutUs() {
             size={{ xs: 12, sm: 4 }}
             sx={{ p: { xs: "1.3rem", sm: "2rem" } }}
           >
-           <ContactusForm/>
+            <ContactusForm />
           </Grid>
         </Grid>
       </Grid>

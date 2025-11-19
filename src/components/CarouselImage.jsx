@@ -50,7 +50,7 @@ const ImageCarousel = ({ images }) => {
     setCurrentIndex(index);
   };
 
-  const currentImage = images[currentIndex];
+  const currentImage = images?.[currentIndex];
 
   return (
     <Box>
@@ -154,7 +154,7 @@ const ImageCarousel = ({ images }) => {
             order: { xs: 2, sm: 1 },
           }}
         >
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <CardMedia
               key={index}
               component="img"
