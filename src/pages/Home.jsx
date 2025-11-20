@@ -84,9 +84,9 @@ function Home() {
     <Stack spacing={2}>
       <Banner />
 
-      <Grid sx={{ p: 4 }}>
+      <Grid sx={{ p: 5 }}>
         <Typography
-          variant="h5"
+          variant="h4"
           textAlign={{ sm: "center" }}
           fontSize={{ xs: "2rem", sm: "3rem" }}
           sx={{ fontWeight: 600 }}
@@ -104,7 +104,7 @@ function Home() {
         >
           {category &&
             category.map((ct) => (
-              <Grid size={{ xs: 4, sm: 2.4 }} key={ct.path}>
+              <Grid size={{ xs: 5.7, sm: 2.5 }} key={ct.path}>
                 <Link
                   to={
                     ct.path === "Customisation"
@@ -145,7 +145,7 @@ function Home() {
         )}
       </Box>
 
-      <Box sx={{ padding: { xs: 0, sm: 6 } }}>
+      <Box sx={{ padding: { xs: 1, sm: 6 } }}>
         <Combo />
       </Box>
       <Box>

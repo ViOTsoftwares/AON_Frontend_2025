@@ -30,7 +30,7 @@ function Combo() {
 
   return (
     <Grid container spacing={1} sx={{ p: "15px", borderRadius: "10px" }}>
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(office)}
           onClick={() => navigate("/category?q=Office")}
@@ -53,7 +53,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(cafeteria)}
           onClick={() => navigate("/category?q=Cafeteria")}
@@ -74,7 +74,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(luxuryLiving)}
           onClick={() => navigate("/category?q=Residential")}
@@ -95,7 +95,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(hospital)}
           onClick={() => navigate("/category?q=Hospital")}
@@ -116,7 +116,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(classroom)}
           onClick={() => navigate("/category?q=Institutional")}
@@ -137,7 +137,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(hostel)}
           onClick={() => navigate("/category?q=Hostel")}
@@ -158,7 +158,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>{" "}
-      <Grid size={6}>
+      <Grid size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(outdoor)}
           onClick={() => navigate("/category?q=Outdoor")}
@@ -179,7 +179,7 @@ function Combo() {
           </Button>
         </Card>
       </Grid>
-      <Grid size={6}>
+      <Grid  size={{ xs: 12, sm: 6 }}>
         <Card
           sx={comboStyle(classroom)}
           onClick={() => navigate("/category?q=Institutional")}

@@ -38,22 +38,7 @@ function Customization() {
         }}
       >
         <Grid size={{ xs: 12, sm: 6 }}></Grid>
-        <Grid size={{ xs: 12, sm: 6 }}>
-          <Typography variant="h3" lineHeight="3rem" color="white">
-            Custom Furniture Creations
-          </Typography>
-          <Typography variant="body1" lineHeight="2.6rem" color="white">
-            Share your Design Idea & Our Expert will Get Back With The Best
-            Possible Custom Made Furniture Suggestions Online
-          </Typography>
-          <Button
-            variant="contained"
-            sx={{ borderRadius: "20px" }}
-            size="large"
-          >
-            Customize Now
-          </Button>
-        </Grid>
+        
       </Grid>
 
       <Grid
