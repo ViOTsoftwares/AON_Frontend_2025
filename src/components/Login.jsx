@@ -11,6 +11,8 @@ import {
   IconButton,
   Tooltip,
   Avatar,
+  Menu,
+  MenuItem,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
@@ -22,7 +24,6 @@ import { useFormik } from "formik";
 import LoginSchema from "../schema/LoginSchema";
 import BaseApi from "../BasaApi";
 import { useDispatch } from "react-redux";
-import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import { UserLogin, UserLogout } from "../slice/UserSlice";
 import { useSelector } from "react-redux";
@@ -45,6 +46,17 @@ export default function Login() {
   const [Varify, setVarify] = useState({ username: "", email: "", otp: "" });
   const InnitialValues = { username: "", email: "" };
   const [isResend, setIsResend] = useState(false);
+  const [phoneMenu, setPhoneMenu] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
   const formik = useFormik({
     initialValues: InnitialValues,
     validationSchema: LoginSchema,
@@ -136,6 +148,13 @@ export default function Login() {
       navigate("/account");
     }
   };
+  const handleProfileOpen = () => {
+    setPhoneMenu(true);
+  };
+  const handleClose = () => {
+    setPhoneMenu(false);
+  };
+  console.log("--->", open);
   return (
     <>
       <Tooltip title={username ? username : "Guest"} arrow>
@@ -145,6 +164,7 @@ export default function Login() {
           sx={{ border: "none", bgcolor: "white" }}
         >
           <Avatar
+            onClick={handleMenuOpen}
             src={
               User.picture?.startsWith("https")
                 ? User.picture
@@ -172,20 +192,89 @@ export default function Login() {
           >
             {isUser ? username?.[0]?.toUpperCase() : <PersonSharpIcon />}
           </Avatar>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: "bottom", // ⬅️ directly below the header
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "left",
+            }}
+            keepMounted
+            // open={phoneMenu}
+            // onClose={handleClose}
+            sx={{
+              display: { xs: "block", md: "none" },
+            }}
+          >
+            <MenuItem
+              onClick={() => {
+                isUser ? handleLogout() : setOpen(!open);
+              }}
+            >
+              {" "}
+              {isUser ? (
+                <Button
+                  variant="contained"
+                  color="error"
+                  // onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="text"
+                  // onClick={() => setOpen(!open)}
+                  sx={{
+                    fontSize: { xs: "0.85rem", sm: "1rem" },
+                    display: { xs: "block", md: "none" },
+                  }}
+                >
+                  Login / Sign-Up
+                </Button>
+              )}
+            </MenuItem>
+            {isUser ? (
+              <MenuItem
+                onClick={() => {
+                  navigate("/account");
+                  setAnchorEl(null);
+                }}
+              >
+                My account
+              </MenuItem>
+            ) : (
+              ""
+            )}
+          </Menu>
         </Box>
         {/* {picture} */}
         {/* <img src={picture} alt={username} /> */}
       </Tooltip>
 
       {isUser ? (
-        <Button variant="contained" color="error" onClick={handleLogout}>
+        <Button
+          variant="contained"
+          color="error"
+          sx={{
+            display: { xs: "none", md: "block" },
+          }}
+          onClick={handleLogout}
+        >
           Logout
         </Button>
       ) : (
         <Button
           variant="text"
           onClick={() => setOpen(!open)}
-          sx={{ fontSize: { xs: "0.85rem", sm: "1rem" } }}
+          sx={{
+            fontSize: { xs: "0.85rem", sm: "1rem" },
+            display: { xs: "none", md: "block" },
+          }}
         >
           Login / Sign-Up
         </Button>

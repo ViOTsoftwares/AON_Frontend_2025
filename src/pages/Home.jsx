@@ -84,7 +84,7 @@ function Home() {
     <Stack spacing={2}>
       <Banner />
 
-      <Grid sx={{ p: 5 }}>
+      <Grid sx={{ p: {xs:2,md:4} }}>
         <Typography
           variant="h4"
           textAlign={{ sm: "center" }}
@@ -98,13 +98,13 @@ function Home() {
         <Grid
           container
           spacing={{ xs: 1, sm: 2 }}
-          justifyContent="center"
-          rowGap={4}
-          columnGap={3}
+          // justifyContent="center"
+          // rowGap={2}
+          // columnGap={4}
         >
           {category &&
             category.map((ct) => (
-              <Grid size={{ xs: 5.7, sm: 2.5 }} key={ct.path}>
+              <Grid size={{ xs:3, sm:3,md:3}} key={ct.path}>
                 <Link
                   to={
                     ct.path === "Customisation"

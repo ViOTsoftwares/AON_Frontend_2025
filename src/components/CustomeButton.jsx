@@ -23,7 +23,7 @@ function CustomeButton({ navigate }) {
           src={CustomLogo}
           alt="Customization"
           style={{
-            width: "85px",
+            width: "65px",
             height: "auto",
             borderRadius: "10px",
           }}

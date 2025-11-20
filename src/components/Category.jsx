@@ -12,10 +12,11 @@ function Circle({ title, image }) {
   return (
     <Card
       sx={{
-        height: { xs: 120, sm: 292 },
-        borderRadius: { xs: 1, sm: 2 },
+        height: { xs: 80, sm: 150, md: 200 },
+        borderRadius: { xs: 1, sm: 2 ,md:3},
         cursor: "pointer",
         position: "relative",
+        m:{xs:0,md:1}
       }}
     >
       <CardMedia
@@ -36,7 +37,7 @@ function Circle({ title, image }) {
       <Typography
         sx={{
           position: "absolute",
-          top: "80%",
+          top: {xs:"70%",md:"80%"},
           left: "50%",
           transform: "translateX(-50%)",
           textAlign: "center",
