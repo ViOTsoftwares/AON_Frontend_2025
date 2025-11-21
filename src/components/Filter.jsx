@@ -28,8 +28,6 @@ function Filter({
   chips,
   setChip,
 }) {
-  
-
   const PRICE_MIN = 0;
   const PRICE_MAX = 100000;
 
@@ -125,18 +123,19 @@ function Filter({
           rowGap={0.78}
           columnGap={0.78}
         >
-          {chips?.length>0 && chips?.map((chip) => (
-            <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
-              <Chip
-                label={chip}
-                onDelete={() => {
-                  handleDelete(chip);
-                }}
-                color="info"
-                variant="outlined"
-              />
-            </Grow>
-          ))}
+          {chips?.length > 0 &&
+            chips?.map((chip) => (
+              <Grow in={true} {...(true ? { timeout: 1000 } : {})}>
+                <Chip
+                  label={chip}
+                  // onDelete={() => {
+                  //   // handleDelete(chip);
+                  // }}
+                  color="info"
+                  variant="outlined"
+                />
+              </Grow>
+            ))}
         </Stack>
       </Grid>
       <Grid>

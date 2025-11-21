@@ -42,6 +42,7 @@ function TreeSelect({
       };
     });
   };
+console.log("filter-------",filter);
 
   return (
     <Stack spacing={1}>

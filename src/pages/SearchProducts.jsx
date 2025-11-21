@@ -72,6 +72,8 @@ const SearchProducts = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
+
       if (queryObj.search) {
         const data = await FetchAllProductsApi(
           queryObj.search,
@@ -93,6 +95,7 @@ const SearchProducts = () => {
         setPage(data.page);
         setMaximumPage(Math.ceil(data.count / limit));
         console.log("API response:", data);
+        // window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
       }
     };
     fetchData();
@@ -209,6 +212,8 @@ const SearchProducts = () => {
               setProducts={setProducts}
               filter={filter}
               setFilter={setFilter}
+              chips={chips}
+              setChip={setChip}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={2}>
@@ -241,7 +246,7 @@ const SearchProducts = () => {
             <PaginationOutlined
               handlePageChange={handlePageChange}
               page={page}
-              count={maximumPage} // total pages
+              totalPages={maximumPage} // total pages
             />
           </Grid>
         </Grid>

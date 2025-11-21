@@ -67,10 +67,10 @@ const ProductCategory = () => {
     }
   }, [search]);
   6;
- 
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       if (queryObj.search) {
         const data = await FetchAllProductsApi(
           queryObj.search,
@@ -92,6 +92,7 @@ const ProductCategory = () => {
         setPage(data.page);
         setMaximumPage(Math.ceil(data.count / limit));
         console.log("API response:", data);
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -208,6 +209,8 @@ const ProductCategory = () => {
               setProducts={setProducts}
               filter={filter}
               setFilter={setFilter}
+              chips={chips}
+              setChip={setChip}
             />
           </Grid>
           <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={2}>
@@ -240,7 +243,7 @@ const ProductCategory = () => {
             <PaginationOutlined
               handlePageChange={handlePageChange}
               page={page}
-              count={maximumPage} // total pages
+              totalPages={maximumPage} // total pages
             />
           </Grid>
         </Grid>

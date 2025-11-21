@@ -76,6 +76,7 @@ function Products() {
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       setLoading(true);
       const data = await FetchAllProductsApi("", filter, page, limit);
       if (FrameMaterial.length === 0) {
@@ -229,7 +230,7 @@ function Products() {
             <PaginationOutlined
               handlePageChange={handlePageChange}
               page={page}
-              count={maximumPage} // total pages
+              totalPages={maximumPage} // total pages
             />
           </Grid>
         </Grid>

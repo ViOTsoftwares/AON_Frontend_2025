@@ -1,37 +1,72 @@
-import Pagination from "@mui/material/Pagination";
-import Paper from "@mui/material/Paper";
-import Stack from "@mui/material/Stack";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import { Paper, Toolbar, Typography, Stack, Pagination } from "@mui/material";
 
-export default function PaginationOutlined({ handlePageChange, page }) {
+export default function PaginationOutlined({ handlePageChange, page, totalPages }) {
   return (
-     <Paper elevation={0} sx={{ mt: 1, width: { xs: "100%" }, boxShadow: "none", border: "1px solid rgba(0,0,0,0.06)" }}>
-      <Toolbar>
+    <Paper
+      elevation={0}
+      sx={{
+        mt: 4,
+        px: { xs: 1.5, sm: 3 },
+        py: 2,
+        borderRadius: 4,
+        backgroundColor: "#ffffff",
+        border: "1px solid rgba(0,0,0,0.05)",
+        boxShadow: "0 3px 12px rgba(0,0,0,0.04)",
+      }}
+    >
+      <Toolbar
+        disableGutters
+        sx={{
+          display: "flex",
+          justifyContent: { xs: "center", md: "space-between" }, // 🔥 MOBILE CENTER
+          alignItems: "center",
+          minHeight: "48px",
+        }}
+      >
+        {/* Page Info Only for Desktop */}
         <Typography
-          flexGrow={{ xs: 0.2, sm: 0.5 }}
-          sx={{ display: { xs: "none", md: "block" } }}
+          sx={{
+            fontSize: 15,
+            fontWeight: 600,
+            color: "#4f4f4f",
+            display: { xs: "none", md: "block" }, // 🔥 HIDE ON MOBILE
+          }}
         >
-          Page {page} of 10
+          Page {page} of {totalPages}
         </Typography>
 
-        <Stack spacing={2}>
+        {/* Pagination Buttons */}
+        <Stack>
           <Pagination
-            count={10}
-            color="primary"
+            count={totalPages}
             page={page}
             onChange={handlePageChange}
-           
+            shape="rounded"
+            siblingCount={0}
+            boundaryCount={1}
             sx={{
+              display: "flex",
+              justifyContent: "center", // 🔥 CENTER BUTTONS ON MOBILE
+
               "& .MuiPaginationItem-root": {
-                boxShadow: "none",
+                borderRadius: "12px",
+                fontSize: 14,
+                fontWeight: 500,
+                minWidth: 36,
+                height: 36,
+                mx: 0.3,
+                transition: "all 0.25s ease",
               },
+
+              "& .MuiPaginationItem-root:hover": {
+                backgroundColor: "rgba(0,0,0,0.05)",
+              },
+
               "& .MuiPaginationItem-page.Mui-selected": {
-                boxShadow: "none",
-              },
-             
-              "& .MuiPaginationItem-root:focus": {
-                boxShadow: "none",
+                backgroundColor: "#1976d2",
+                color: "#fff",
+                fontWeight: 700,
+                boxShadow: "0 4px 10px rgba(25,118,210,0.35)",
               },
             }}
           />
