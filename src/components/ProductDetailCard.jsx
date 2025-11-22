@@ -15,7 +15,8 @@ import FindReplaceIcon from "@mui/icons-material/FindReplace";
 import SpeedIcon from "@mui/icons-material/Speed";
 import ProductTable from "./ProductTable";
 import Box from "@mui/material/Box";
-import {toastMessage} from "../toastMessage"
+import { toastMessage } from "../toastMessage";
+import { ImageApi } from "../ImageApi";
 const ProductDetailCard = ({ Product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -30,6 +31,37 @@ const ProductDetailCard = ({ Product }) => {
     currency: "INR",
     maximumFractionDigits: 0, // removes decimals
   }).format(Product?.MRP);
+
+  const handleShare = async () => {
+    try {
+      // Check support
+      if (!navigator.canShare || !navigator.canShare({ files: [] })) {
+        alert("Sharing is not supported on this browser.");
+        return;
+      }
+
+      // Fetch the image
+      const response = await fetch(
+        `${ImageApi}/product/${Product?.ImageArray?.[0]}`,
+        {
+          mode: "cors", // Ensure CORS works
+        }
+      );
+
+      const blob = await response.blob();
+      const file = new File([blob], "product.jpg", { type: blob.type });
+
+      // Share data
+      await navigator.share({
+        title: Product?.Title,
+        text: Product?.Title,
+        files: [file],
+      });
+    } catch (err) {
+      console.error("Share failed:", err);
+    }
+  };
+
   return (
     <>
       <Grid container px={2}>
@@ -57,7 +89,7 @@ const ProductDetailCard = ({ Product }) => {
                   {Product?.Title}
                 </Typography>
                 <IconButton sx={{ alignSelf: "flex-start" }}>
-                  <ShareIcon />
+                  <ShareIcon onClick={handleShare} />
                 </IconButton>
               </Stack>
               <Typography
@@ -183,8 +215,8 @@ const ProductDetailCard = ({ Product }) => {
                     onClick={() => {
                       if (isUser) {
                         navigate("/checkout", { state: { id: Product._id } });
-                      }else{
-                        toastMessage("Please login to continue","warning")
+                      } else {
+                        toastMessage("Please login to continue", "warning");
                       }
                     }}
                   >

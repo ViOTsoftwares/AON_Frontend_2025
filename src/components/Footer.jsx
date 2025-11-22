@@ -27,6 +27,7 @@ import { CreateSubscribeEmailApi } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
 function Footer() {
   const { cmsDate } = useSelector((state) => state.CmsState);
+  const { isUser } = useSelector((state) => state.UserState);
   const [email, setEmail] = useState("");
   const handleSubmit = async () => {
     if (email.trim() === "") {
@@ -68,8 +69,8 @@ function Footer() {
     { pageName: "Privacy Policy", pageUrl: "/privacy-policy" },
     { pageName: "Shipping Policy", pageUrl: "/shipping-policy" },
     { pageName: "Refund Policy", pageUrl: "/refund-policy" },
-    { pageName: "Terms and Condition", pageUrl: "terms-condition" },
-    { pageName: "My Account", pageUrl: "blogs" },
+    { pageName: "Terms and Condition", pageUrl: "/terms-condition" },
+    // { pageName: "My Account", pageUrl: "blogs" },
   ];
 
   const ICONS = [
@@ -212,6 +213,18 @@ function Footer() {
               </Link>
             );
           })}
+          {isUser ?<Link
+            to={"/account"}
+            style={{
+              textDecoration: "none",
+              color: "black",
+              textAlign: "center",
+              fontWeight: 500,
+              fontSize: "1.1rem",
+            }}
+          >
+            My Account
+          </Link>:""}
         </Grid>
         <Grid
           container
