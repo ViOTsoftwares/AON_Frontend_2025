@@ -32,35 +32,58 @@ const ProductDetailCard = ({ Product }) => {
     maximumFractionDigits: 0, // removes decimals
   }).format(Product?.MRP);
 
-  const handleShare = async () => {
-    try {
-      // Check support
-      if (!navigator.canShare || !navigator.canShare({ files: [] })) {
-        alert("Sharing is not supported on this browser.");
-        return;
-      }
+ const handleShare = async () => {
+  const productTitle = Product?.Title || "Check this product";
+  const productLink = window.location.href;
+  const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
 
-      // Fetch the image
-      const response = await fetch(
-        `${ImageApi}/product/${Product?.ImageArray?.[0]}`,
-        {
-          mode: "cors", // Ensure CORS works
+  try {
+    // -------------------------------
+    // 1. File share support (Android)
+    // -------------------------------
+    if (navigator.canShare) {
+      try {
+        const response = await fetch(imageUrl, { mode: "cors" });
+        const blob = await response.blob();
+        const file = new File([blob], "product.jpg", { type: blob.type });
+
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: productTitle,
+            text: productTitle,
+            files: [file],
+          });
+          return;
         }
-      );
-
-      const blob = await response.blob();
-      const file = new File([blob], "product.jpg", { type: blob.type });
-
-      // Share data
-      await navigator.share({
-        title: Product?.Title,
-        text: Product?.Title,
-        files: [file],
-      });
-    } catch (err) {
-      console.error("Share failed:", err);
+      } catch (err) {
+        console.warn("Image fetch or file share failed, fallback will run.");
+      }
     }
-  };
+
+    // -------------------------------
+    // 2. Normal share (iOS + Android)
+    // -------------------------------
+    if (navigator.share) {
+      await navigator.share({
+        title: productTitle,
+        text: productTitle,
+        url: productLink,
+      });
+      return;
+    }
+
+    // -------------------------------
+    // 3. Desktop fallback: Copy to clipboard
+    // -------------------------------
+    await navigator.clipboard.writeText(`${productTitle}\n${productLink}`);
+    alert("Link copied to clipboard!");
+
+  } catch (err) {
+    console.error("Share failed:", err);
+    alert("Sharing failed. Try manually copying the link.");
+  }
+};
+
 
   return (
     <>

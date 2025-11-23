@@ -47,6 +47,7 @@ const Checkout = () => {
     ? cart?.reduce((sum, item) => sum + item.SellingPrice * item.Qty, 0)
     : oneProduct.SellingPrice * oneProduct.Qty;
   //
+  console.log("boolenValue------", boolenValue);
   const discount = isCartproduct
     ? cart?.reduce(
         (sum, item) => sum + (item.MRP - item.SellingPrice) * item.Qty,
@@ -72,10 +73,7 @@ const Checkout = () => {
   }, []);
   useEffect(() => {
     // Check if cart is empty and oneProduct is missing or empty
-    if (
-      (!cart || cart.length === 0) &&
-      (!state?.id || state?.id === "")
-    ) {
+    if ((!cart || cart.length === 0) && (!state?.id || state?.id === "")) {
       navigate("/");
     }
   }, [cart, oneProduct, navigate]);
@@ -133,61 +131,103 @@ const Checkout = () => {
     }
   };
   const onPlaceOrder = async () => {
-    // if (!cart || cart.length === 0) return;
     if (!isaddress) return toastMessage("Please fill address", "error");
-    // Construct message text with image URLs
 
-    let message = "Hello, I want to place an order:\n\n";
-    if (isCartproduct || oneProduct) {
-      const order = {
-        orderProduct: cart,
-        address: address,
-        totalAmount,
-        discount,
-      };
-      const data = await CreateOrderApi(order);
-      if (data.success) {
-        toastMessage(data.message, "success");
-        dispatch(ClearCartProduct());
-        setOneProduct({});
-        cart.forEach((item, index) => {
-          message += `${index + 1}. ${item.Title} (Qty: ${item.Qty}) - ₹${
-            item.SellingPrice
-          }\n`;
-          message += `Image:https://media.architecturaldigest.com/photos/66a914f1a958d12e0cc94a8e/16:9/w_2560%2Cc_limit/DSC_5903.jpg\n\n`;
-        });
+    try {
+      let message = "🛒 *New Order Request*\n\n";
+      let imageUrl = "";
+      let title = "";
 
-        const total = cart.reduce(
-          (sum, item) => sum + item.SellingPrice * item.Qty,
-          0
-        );
-        message += `Total: ₹${total}\nThank you!`;
-      } else {
+      if (isCartproduct) {
         const order = {
-          orderProduct: [oneProduct],
-          address: address,
+          orderProduct: cart,
+          address,
           totalAmount,
           discount,
         };
-        const data = await CreateOrderApi(order);
-        message += `1. ${oneProduct?.Title} (Qty: ${oneProduct?.Qty}) - ₹${oneProduct?.SellingPrice}\n`;
-        message += `Image:https://media.architecturaldigest.com/photos/66a914f1a958d12e0cc94a8e/16:9/w_2560%2Cc_limit/DSC_5903.jpg\n\n`;
-        const total = oneProduct?.SellingPrice * oneProduct?.Qty;
 
-        message += `Total: ₹${total}\nThank you!`;
+        const data = await CreateOrderApi(order);
+        if (data.success) {
+          toastMessage(data.message, "success");
+          setOneProduct({});
+          let total = 0;
+
+          cart.forEach((item, index) => {
+            message += `${index + 1}. *${item.Title}*\nQty: ${
+              item.Qty
+            }\nPrice: ₹${item.SellingPrice}\n\n`;
+            total += item.SellingPrice * item.Qty;
+
+            if (index === 0) {
+              imageUrl = `${ImageApi}/product/${item.ImageArray?.[0]}`;
+              title = item.Title;
+            }
+          });
+
+          message += `*Total: ₹${total}*\n\nThank you!`;
+          dispatch(ClearCartProduct());
+        }
+      } else {
+        const order = {
+          orderProduct: [oneProduct],
+          address,
+          totalAmount,
+          discount,
+        };
+
+        const data = await CreateOrderApi(order);
+        if (data.success) {
+          toastMessage(data.message, "success");
+
+          message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
+          const total = oneProduct.SellingPrice * oneProduct.Qty;
+
+          message += `*Total: ₹${total}*\n\nThank you!`;
+
+          title = oneProduct.Title;
+          imageUrl = `${ImageApi}/product/${oneProduct.ImageArray?.[0]}`;
+        }
       }
 
-      // Encode message
-      const encodedMessage = encodeURIComponent(message);
+      // Share final message + image
+      shareToWhatsApp(title, imageUrl, message);
+    } catch (error) {
+      toastMessage("Something went wrong", "error");
+    }
+  };
 
-      // WhatsApp URL (replace with your number, e.g., 911234567890)
-      const phoneNumber = "919566908720";
+  const shareToWhatsApp = async (title, imageUrl, message) => {
+    const phoneNumber = "919566908720";
+
+    try {
+      // Try image sharing first
+      if (navigator.canShare) {
+        try {
+          const response = await fetch(imageUrl, { mode: "cors" });
+          const blob = await response.blob();
+          const file = new File([blob], "product.jpg", { type: blob.type });
+
+          if (navigator.canShare({ files: [file] })) {
+            // Image + title share → Android only
+            await navigator.share({
+              title: title,
+              text: message,
+              files: [file],
+            });
+            return;
+          }
+        } catch (err) {
+          console.warn("Image share failed, falling back to link share");
+        }
+      }
+
+      // Fallback: WhatsApp text only
+      const encodedMessage = encodeURIComponent(message);
       const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
-      // Open WhatsApp
-      setTimeout(() => {
-        window.open(whatsappURL, "_blank");
-      }, 1000);
+      window.open(whatsappURL, "_blank");
+    } catch (error) {
+      console.error("Sharing failed:", error);
     }
   };
 
@@ -235,6 +275,8 @@ const Checkout = () => {
                       type="email"
                       name="email"
                       // onChange={handleChange}
+                      disabled={true}
+                      // focused={false}
                       value={address.email}
                       fullWidth
                       required
@@ -242,12 +284,26 @@ const Checkout = () => {
                     <TextField
                       label="Phone Number"
                       name="phone"
-                      type="number"
                       value={address.phone}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        const value = e.target.value;
+
+                        // Allow only digits
+                        if (/^\d*$/.test(value)) {
+                          handleChange(e);
+                          // OR set your state directly here
+                          // setAddress({ ...address, phone: value });
+                        }
+                      }}
+                      inputProps={{
+                        inputMode: "numeric",
+                        pattern: "[0-9]*",
+                        maxLength: 10, // optional: limit phone digits
+                      }}
                       fullWidth
                       required
                     />
+
                     <TextField
                       label="Address"
                       multiline
