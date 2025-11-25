@@ -11,7 +11,7 @@ import Tab from "@mui/material/Tab";
 import Button from "@mui/material/Button";
 import { FetchBlogApi } from "../Api_Action";
 import PageLoading from "../components/PageLoading";
-import Chatbox from "../components/Chatbot";
+
 function Blogs() {
   const [blogPoster, setBlogPoster] = useState([]);
   const [value, setValue] = useState(0);
@@ -153,7 +153,7 @@ function Blogs() {
           </Button>
         </Stack>
       </Stack>
-      <Chatbox />
+     
     </Container>
   );
 }

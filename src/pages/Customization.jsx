@@ -19,6 +19,7 @@ import left from "../assets/left.jpg";
 import right from "../assets/right.jpg";
 import CountUp from "../components/Animations/Counter";
 import { useEffect } from "react";
+import Chatbox from "../components/Chatbot";
 
 function Customization() {
   useEffect(() => {
@@ -40,7 +41,8 @@ function Customization() {
         <Grid size={{ xs: 12, sm: 6 }}></Grid>
         
       </Grid>
-
+      
+        <Chatbox/>
       <Grid
         flexDirection={{ xs: "column", sm: "row" }}
         container

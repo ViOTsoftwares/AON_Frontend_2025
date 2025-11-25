@@ -375,22 +375,22 @@ export default function Login() {
               sx={{ color: "white", p: 2, justifyContent: "center" }}
             >
               <Typography variant="h4" gutterBottom>
-                Discover Premium Furniture & Trusted Sellers
+                Welcome to AON's Premium Space
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Login to explore our exclusive collection and connect with
-                verified furniture sellers. From elegant sofas to modern
-                workspaces, we have everything to match your style and comfort.
+                Login to explore sleek, stylish, and customizable pieces from AON—crafted for comfort, quality, and modern workspaces. 
+                From elegant sofas to modern workspaces, 
+                we have everything to match your taste, style and comfort.
               </Typography>
               <Box sx={{ mt: 2 }}>
                 <Typography>
-                  ✅ Browse curated collections from trusted sellers
+                  Premiumly crafted & customizable collections
                 </Typography>
                 <Typography>
-                  ✅ View prices, offers, and availability
+                  Prices, offers & real-time availability
                 </Typography>
                 <Typography>
-                  ✅ Your details remain private and secure
+                  Private, secure, and seamless AON experience
                 </Typography>
               </Box>
             </Grid>
