@@ -3,6 +3,8 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
+import Avatar from "@mui/material/Avatar";
+
 import CarouselImage from "../components/CarouselImage";
 import { useDispatch, useSelector } from "react-redux";
 import { AddCart } from "../slice/CartSlice";
@@ -17,6 +19,14 @@ import ProductTable from "./ProductTable";
 import Box from "@mui/material/Box";
 import { toastMessage } from "../toastMessage";
 import { ImageApi } from "../ImageApi";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import InstagramIcon from "@mui/icons-material/Instagram";
+import YouTubeIcon from "@mui/icons-material/YouTube";
+import TwitterIcon from "@mui/icons-material/Twitter";
+
+
+
+
 const ProductDetailCard = ({ Product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -159,67 +169,9 @@ const ProductDetailCard = ({ Product }) => {
                     </Typography>
                   </Stack>
 
-                  <Button
-                    variant="contained"
-                    sx={{
-                      alignSelf: "stretch",
-                      flexGrow: 0.3,
-                      fontSize: "0.90rem",
-                    }}
-                  >
-                    Customize
-                  </Button>
+                  
                 </Stack>
-
-                <Stack
-                  flexDirection="row"
-                  columnGap={2}
-                  justifyContent="center"
-                  sx={{
-                    "& > :not(style)": {
-                      width: 200,
-                      height: 100,
-                    },
-                  }}
-                >
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    <Typography>Secure Order</Typography>
-                    <ShieldTwoToneIcon sx={{ fontSize: "40px" }} />
-                  </Paper>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    Fast Delivery
-                    <SpeedIcon sx={{ fontSize: "40px" }} />
-                  </Paper>
-                  <Paper
-                    elevation={3}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                    }}
-                  >
-                    100% Replacement warranty
-                    <FindReplaceIcon sx={{ fontSize: "40px" }} />
-                  </Paper>
-                </Stack>
-                <Stack flexDirection="row" columnGap={2}>
+                   <Stack flexDirection="row" columnGap={2}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -246,6 +198,116 @@ const ProductDetailCard = ({ Product }) => {
                     BUY NOW
                   </Button>
                 </Stack>
+                
+                <Stack
+  direction="row"
+  justifyContent="flex-end"
+  alignItems="center"
+  gap={3}
+  sx={{ mt: 2 }}
+>
+  {[
+    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
+    
+    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
+
+    
+    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
+    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
+  ].map((item, i) => (
+    <IconButton
+      key={i}
+      component="a"
+      href={item.url}
+      target="_blank"
+      rel="noopener noreferrer"
+      sx={{ p: 0 }}
+    >
+      <Avatar
+        src={item.img}
+        alt="social"
+        sx={{
+          width: 36,
+          height: 36,
+          objectFit: "contain",
+          bgcolor: "transparent",
+        }}
+      />
+    </IconButton>
+  ))}
+</Stack>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <Stack
+                  flexDirection="row"
+                  columnGap={2}
+                  justifyContent="center"
+                  sx={{
+                    "& > :not(style)": {
+                      width: 200,
+                      height: 100,
+                    },
+                  }}
+                >
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    <Typography>Secure Order</Typography>
+                    <ShieldTwoToneIcon sx={{ fontSize: "40px" }} />
+                  </Paper>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    Fast Delivery
+                    <SpeedIcon sx={{ fontSize: "40px" }} />
+                  </Paper>
+                  <Paper
+                    elevation={0}
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      flexDirection: "column",
+                    }}
+                  >
+                    100% Replacement warranty
+                    <FindReplaceIcon sx={{ fontSize: "40px" }} />
+                  </Paper>
+                  
+                </Stack>
+               {/* <Button
+                    variant="contained"
+                    sx={{
+                      alignSelf: "stretch",
+                      flexGrow: 0.3,
+                      fontSize: "0.90rem",
+                    }}
+                  >
+                    Customize
+                  </Button> */}
               </Stack>
             </Stack>
             <Grid container>
