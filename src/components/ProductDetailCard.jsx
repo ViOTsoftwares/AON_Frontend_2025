@@ -223,16 +223,17 @@ const ProductDetailCard = ({ Product }) => {
       rel="noopener noreferrer"
       sx={{ p: 0 }}
     >
-      <Avatar
+      <Box
+        component="img"
         src={item.img}
         alt="social"
         sx={{
-          width: 36,
-          height: 36,
-          objectFit: "contain",
-          bgcolor: "transparent",
+          width: 40,          // adjust size
+          height: "auto",     // keeps original ratio
+          objectFit: "contain"
         }}
       />
+
     </IconButton>
   ))}
 </Stack>
