@@ -1,0 +1,36 @@
+/* TabsBg.css - Frosted glass */
+.tabs-bg {
+  position: relative;
+  overflow: hidden;
+  /* base background layers (mask, image, color) - reuse your vars if any */
+  background-image:
+    linear-gradient(rgba(185, 218, 115, 0.25), rgba(255,255,255,0.25)),
+    var(--bg-image),
+    var(--bg-color);
+  background-size: contain, cover, cover;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+
+  /* make the bar semi-transparent so backdrop-filter can blur what's behind it */
+  background-color: rgba(255,255,255,0.15); /* fallback */
+}
+
+/* actual frosted layer using pseudo-element so icons/text aren't blurred */
+.tabs-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /* translucent layer to tint the blurred background */
+  background: rgba(255, 255, 255, 0.288);
+  /* the blur: affects content behind this element (backdrop) */
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(8px);
+  z-index: 0; /* sits under content */
+  pointer-events: none;
+}
+
+/* ensure children (Tabs) sit above the overlay */
+.tabs-bg > * {
+  position: relative;
+  z-index: 1;
+}

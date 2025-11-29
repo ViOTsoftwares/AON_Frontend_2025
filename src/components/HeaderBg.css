@@ -1,9 +1,9 @@
 .toolbar-bg {
   position: relative;
   overflow: hidden;
-
+    
   background-image:
-    linear-gradient(rgba(211, 215, 185, 0.25), rgba(166, 131, 23, 0.259)),
+    linear-gradient(rgba(208, 140, 14, 0.25), rgba(166, 131, 23, 0.259)),
     var(--bg-image),
     var(--bg-color);
 

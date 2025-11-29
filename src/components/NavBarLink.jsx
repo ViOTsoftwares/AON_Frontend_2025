@@ -6,6 +6,7 @@ import Tabs, { tabsClasses } from "@mui/material/Tabs";
 import { useNavigate } from "react-router-dom";
 import { useScroll } from "../hook/useScroll";
 import TabsBgImg from "../assets/HeaderBg.jpg";
+import "./NavBar.css";
 
 export const tabsStyles = () => ({
   root: {
@@ -113,23 +114,22 @@ export function TabsApple({ sx }) {
   return (
     <Box sx={{ display: show ? "block" : "none" }}>
       <Stack
+        className="tabs-bg"
+        style={{
+          // top mask (the same gradient you wrote inline)
+          "--bg-mask": `linear-gradient(rgba(73, 76, 1, 0.25), rgba(180, 206, 50, 0.11))`,
+          // image on top of color (middle layer is the image)
+          "--bg-image": `url(${TabsBgImg})`,
+          // bottom fallback color
+          "--bg-color": "linear-gradient(#ffffff,#ffffff)",
+        }}
         justifyContent="center"
         alignItems="center"
         sx={{
           position: "fixed",
           width: "100%",
           height: "45px",
-          opacity: "1",
           zIndex: "1100",
-          backgroundImage: `
-      linear-gradient(rgba(73, 76, 1, 0.25), rgba(180, 206, 50, 0.11)),
-      url(${TabsBgImg}),
-      linear-gradient(#ffffff,#ffffff)
-    `,
-          backgroundSize: "Cover, 100% 100% , cover",
-          backgroundPosition: "center, center, center",
-          backgroundRepeat: "no-repeat, no-repeat, no-repeat",
-          backgroundColor: "transparent",
         }}
       >
         <Tabs
