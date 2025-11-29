@@ -11,6 +11,7 @@ import { Link } from "react-router-dom";
 function CustomizationSection() {
   return (
     <>
+     
       <Typography textAlign="center" fontSize="3rem" fontWeight={600}>
         Tune Your Furniture
       </Typography>

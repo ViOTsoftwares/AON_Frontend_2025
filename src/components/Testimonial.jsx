@@ -15,6 +15,9 @@ import Modal from "@mui/material/Modal";
 import { getTestimonialApi } from "../Api_Action";
 import { ImageApi } from "../ImageApi";
 import { Link } from "react-router-dom";
+import TestimonialBg from "../assets/TestiMonial-1.jpg";
+import "../components/Testimonial.css";
+
 
 function Testimonial() {
   const [testimonial, setTestimonial] = useState([]);
@@ -45,11 +48,17 @@ function Testimonial() {
       container
       alignItems="center"
       spacing={6}
+      className="testimonial-bg"
+      style={{
+        "--bg-image": `url(${TestimonialBg})`,
+        "--bg-color": "linear-gradient(#e6f6ff, #e6f6ff)"   // optional base color
+      }}
       sx={{
         p: { xs: 2, md: 4 },
         borderRadius: "1rem",
       }}
     >
+
       {/* LEFT SIDE TEXT SECTION */}
       <Grid
         container

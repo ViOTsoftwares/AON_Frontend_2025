@@ -1,3 +1,4 @@
+// Header.jsx
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
@@ -22,16 +23,20 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { ImageApi } from "../ImageApi";
 
+import HeaderBg from "../assets/HeaderBg.jpg";      // <-- make sure this path is correct
+import "../components/HeaderBg.css";                   // <-- the CSS file I'll paste below
+
 function Header() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const { cart } = useSelector((state) => state.CartState);
   const { isUser } = useSelector((state) => state.UserState);
   const { cmsDate } = useSelector((state) => state.CmsState);
-  // const showMenu = useScroll(false);
+
   function handleClose() {
     setShow(!show);
   }
+
   const searchTerms = [
     "sofa",
     "study table",
@@ -45,22 +50,27 @@ function Header() {
 
   return (
     <AppBar
-  sx={{
-    top: 0,
-    height: { xs: "80", md: "95px" }, // ⬆️ Increased height for header
-    position: { xs: "static", md: "sticky" },
-    backgroundColor: "white",
-    boxShadow: "0 2px 8px rgba(0,0,0,0.05)", // optional soft shadow
-    zIndex: 1200,
-  }}
->
-  <Toolbar
-    sx={{
-      height: "100%",
-      backgroundColor: "white",
-      px: { xs: 1, sm: 2, md: 4 },
-    }}
-  >
+      sx={{
+        top: 0,
+        height: { xs: "80px", md: "95px" }, // fixed px values
+        position: { xs: "static", md: "sticky" },
+        backgroundColor: "white",
+        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        zIndex: 1200,
+      }}
+    >
+      <Toolbar
+        className="toolbar-bg"
+        style={{
+          "--bg-image": `url(${HeaderBg})`,
+          "--bg-color": "linear-gradient(#ffffff,#ffffff)",
+        }}
+        sx={{
+          height: "100%",
+          backgroundColor: "transparent",
+          px: { xs: 1, sm: 2, md: 4 },
+        }}
+      >
         <Grid container flexGrow={1}>
           <Grid sx={{ width: { xs: "50px", md: "100px" } }}>
             <img
@@ -73,6 +83,7 @@ function Header() {
             />
           </Grid>
         </Grid>
+
         <Box
           flexGrow={1}
           sx={{
@@ -94,17 +105,14 @@ function Header() {
           <Login />
           <CustomeButton navigate={navigate} />
 
-          <Stack
-            direction="row"
-            gap={4}
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
+          <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
             <Badge badgeContent={cart?.length || 0} color="error">
               <IconButton onClick={() => navigate("cart")}>
                 <ShoppingCartIcon fontSize="medium" />
               </IconButton>
             </Badge>
           </Stack>
+
           <Box sx={{ width: { md: 40 }, height: { md: 46 } }}>
             <IconButton
               sx={{
@@ -114,10 +122,7 @@ function Header() {
               }}
               onClick={handleClose}
             >
-              <Grow
-                in={{ sm: true, md: true }}
-                {...(true ? { timeout: 1000 } : {})}
-              >
+              <Grow in={{ sm: true, md: true }} {...(true ? { timeout: 1000 } : {})}>
                 <MenuIcon />
               </Grow>
             </IconButton>

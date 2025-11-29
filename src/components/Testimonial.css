@@ -1,0 +1,17 @@
+.testimonial-bg {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+
+  /* MASK → IMAGE → COLOR */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.282), rgba(255, 255, 255, 0.123)),
+    var(--bg-image),
+    var(--bg-color);
+
+  background-size: cover, cover, cover;
+  background-position: center center, center center, center center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+
+  padding: 2rem;
+}

@@ -12,6 +12,9 @@ import category5 from "../assets/category1.png";
 import category6 from "../assets/category1.png";
 import category7 from "../assets/category3.png";
 import category8 from "../assets/Customisation.jpeg";
+import Doodle from "../assets/Doodle.png";
+import "../pages/Home.css";
+
 
 import Box from "@mui/material/Box";
 import BestSelling from "../components/BestSelling";
@@ -84,7 +87,14 @@ function Home() {
     <Stack spacing={2}>
       <Banner />
 
-      <Grid sx={{ p: {xs:2,md:4} }}>
+      <Grid
+        className="outer-grid-bg"
+        sx={{ p: { xs: 2, md: 4 } }}
+        style={{
+          "--top-image": `url(${Doodle})`,        // picture ON TOP
+          "--bottom-color": "linear-gradient(#ffffffff, #ffffffff)",  // color BEHIND
+        }}
+      >
         <Typography
           variant="h4"
           textAlign={{ sm: "center" }}
@@ -149,7 +159,26 @@ function Home() {
         <Combo />
       </Box>
       <Box>
-        <CustomizationSection />
+
+
+        <Grid
+          sx={{
+            borderRadius: "12px",
+            overflow: "hidden",
+
+            backgroundImage: `
+      linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.61)),
+      url(${Doodle}),
+      linear-gradient(#ffffff,#ffffff)
+    `,
+            backgroundSize: "cover, cover, cover",
+            backgroundPosition: "center, center, center",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
+          <CustomizationSection />
+        </Grid>
+
       </Box>
 
       <Box>
