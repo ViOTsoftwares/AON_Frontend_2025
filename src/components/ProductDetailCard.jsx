@@ -24,9 +24,6 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 
-
-
-
 const ProductDetailCard = ({ Product }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,59 +38,57 @@ const ProductDetailCard = ({ Product }) => {
     currency: "INR",
     maximumFractionDigits: 0, // removes decimals
   }).format(Product?.MRP);
+  const { EcomLinks } = Product;
+  const handleShare = async () => {
+    const productTitle = Product?.Title || "Check this product";
+    const productLink = window.location.href;
+    const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
 
- const handleShare = async () => {
-  const productTitle = Product?.Title || "Check this product";
-  const productLink = window.location.href;
-  const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
+    try {
+      // -------------------------------
+      // 1. File share support (Android)
+      // -------------------------------
+      if (navigator.canShare) {
+        try {
+          const response = await fetch(imageUrl, { mode: "cors" });
+          const blob = await response.blob();
+          const file = new File([blob], "product.jpg", { type: blob.type });
 
-  try {
-    // -------------------------------
-    // 1. File share support (Android)
-    // -------------------------------
-    if (navigator.canShare) {
-      try {
-        const response = await fetch(imageUrl, { mode: "cors" });
-        const blob = await response.blob();
-        const file = new File([blob], "product.jpg", { type: blob.type });
-
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: productTitle,
-            text: productTitle,
-            files: [file],
-          });
-          return;
+          if (navigator.canShare({ files: [file] })) {
+            await navigator.share({
+              title: productTitle,
+              text: productTitle,
+              files: [file],
+            });
+            return;
+          }
+        } catch (err) {
+          console.warn("Image fetch or file share failed, fallback will run.");
         }
-      } catch (err) {
-        console.warn("Image fetch or file share failed, fallback will run.");
       }
+
+      // -------------------------------
+      // 2. Normal share (iOS + Android)
+      // -------------------------------
+      if (navigator.share) {
+        await navigator.share({
+          title: productTitle,
+          text: productTitle,
+          url: productLink,
+        });
+        return;
+      }
+
+      // -------------------------------
+      // 3. Desktop fallback: Copy to clipboard
+      // -------------------------------
+      await navigator.clipboard.writeText(`${productTitle}\n${productLink}`);
+      alert("Link copied to clipboard!");
+    } catch (err) {
+      console.error("Share failed:", err);
+      alert("Sharing failed. Try manually copying the link.");
     }
-
-    // -------------------------------
-    // 2. Normal share (iOS + Android)
-    // -------------------------------
-    if (navigator.share) {
-      await navigator.share({
-        title: productTitle,
-        text: productTitle,
-        url: productLink,
-      });
-      return;
-    }
-
-    // -------------------------------
-    // 3. Desktop fallback: Copy to clipboard
-    // -------------------------------
-    await navigator.clipboard.writeText(`${productTitle}\n${productLink}`);
-    alert("Link copied to clipboard!");
-
-  } catch (err) {
-    console.error("Share failed:", err);
-    alert("Sharing failed. Try manually copying the link.");
-  }
-};
-
+  };
 
   return (
     <>
@@ -168,10 +163,8 @@ const ProductDetailCard = ({ Product }) => {
                       {Product?.Discount}% off
                     </Typography>
                   </Stack>
-
-                  
                 </Stack>
-                   <Stack flexDirection="row" columnGap={2}>
+                <Stack flexDirection="row" columnGap={2}>
                   <Button
                     fullWidth
                     variant="contained"
@@ -198,57 +191,97 @@ const ProductDetailCard = ({ Product }) => {
                     BUY NOW
                   </Button>
                 </Stack>
-                
                 <Stack
-  direction="row"
-  justifyContent="flex-end"
-  alignItems="center"
-  gap={3}
-  sx={{ mt: 2 }}
->
-  {[
-    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
-    
-    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
-
-    
-    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
-    { img: "https://assets.upstox.com/content/assets/images/cms/202451/Amazon%20logo.png", url: "https://www.amazon.in/?&tag=googhydrabk1-21&ref=pd_sl_5szpgfto9i_e&adgrpid=155259813593&hvpone=&hvptwo=&hvadid=674893540034&hvpos=&hvnetw=g&hvrand=13918069511242392061&hvqmt=e&hvdev=c&hvdvcmdl=&hvlocint=&hvlocphy=1007812&hvtargid=kwd-64107830&hydadcr=14452_2316413&gad_source=1" },
-  ].map((item, i) => (
-    <IconButton
-      key={i}
-      component="a"
-      href={item.url}
-      target="_blank"
-      rel="noopener noreferrer"
-      sx={{ p: 0 }}
-    >
-      <Box
-        component="img"
-        src={item.img}
-        alt="social"
-        sx={{
-          width: 40,          // adjust size
-          height: "auto",     // keeps original ratio
-          objectFit: "contain"
-        }}
-      />
-
-    </IconButton>
-  ))}
-</Stack>
-
-
-
-
-
-
-
-
-
-
-
-
+                  direction="row"
+                  justifyContent="flex-end"
+                  alignItems="center"
+                  gap={3}
+                  sx={{ mt: 2 }}
+                >
+                  {EcomLinks?.oneImage !== "" && (
+                    <IconButton
+                      component="a"
+                      href={EcomLinks?.oneLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ p: 0 }}
+                    >
+                      <Box
+                        component="img"
+                        src={`${ImageApi}/product/` + EcomLinks?.oneImage}
+                        alt="social"
+                        sx={{
+                          width: 40, // adjust size
+                          height: "auto", // keeps original ratio
+                          objectFit: "contain",
+                        }}
+                      />
+                    </IconButton>
+                  )}
+                  {EcomLinks?.twoImage !== "" && (
+                    <IconButton
+                     
+                      component="a"
+                      href={EcomLinks?.twoLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ p: 0 }}
+                    >
+                      <Box
+                        component="img"
+                        src={`${ImageApi}/product/` + EcomLinks?.twoImage}
+                        alt="social"
+                        sx={{
+                          width: 40, // adjust size
+                          height: "auto", // keeps original ratio
+                          objectFit: "contain",
+                        }}
+                      />
+                    </IconButton>
+                  )}{" "}
+                  {EcomLinks?.threeImage !== "" && (
+                    <IconButton
+                     
+                      component="a"
+                      href={EcomLinks?.threeLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ p: 0 }}
+                    >
+                      <Box
+                        component="img"
+                        src={`${ImageApi}/product/` + EcomLinks?.threeImage}
+                        alt="social"
+                        sx={{
+                          width: 40, // adjust size
+                          height: "auto", // keeps original ratio
+                          objectFit: "contain",
+                        }}
+                      />
+                    </IconButton>
+                  )}{" "}
+                  {EcomLinks?.fourImage !== "" && (
+                    <IconButton
+                     
+                      component="a"
+                      href={EcomLinks?.fourLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      sx={{ p: 0 }}
+                    >
+                      <Box
+                        component="img"
+                        src={`${ImageApi}/product/` + EcomLinks?.fourImage}
+                        alt="social"
+                        sx={{
+                          width: 40, // adjust size
+                          height: "auto", // keeps original ratio
+                          objectFit: "contain",
+                        }}
+                      />
+                    </IconButton>
+                  )}
+                </Stack>
 
                 <Stack
                   flexDirection="row"
@@ -297,9 +330,8 @@ const ProductDetailCard = ({ Product }) => {
                     100% Replacement warranty
                     <FindReplaceIcon sx={{ fontSize: "40px" }} />
                   </Paper>
-                  
                 </Stack>
-               {/* <Button
+                {/* <Button
                     variant="contained"
                     sx={{
                       alignSelf: "stretch",

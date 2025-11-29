@@ -8,27 +8,8 @@ import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
-
-import carousel1 from "../assets/sofa1.jpg";
-import carousel2 from "../assets/sofa2.jpg";
-import carousel3 from "../assets/sofa3.jpg";
-import carousel4 from "../assets/sofa4.jpg";
-import carousel5 from "../assets/sofa5.jpg";
-import carousel6 from "../assets/sofa6.jpg";
 import { ImageApi } from "../ImageApi";
-const carouselImages = [
-  carousel1,
 
-  carousel2,
-
-  carousel3,
-
-  carousel4,
-
-  carousel5,
-
-  carousel6,
-];
 
 const ImageCarousel = ({ images }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
