@@ -25,6 +25,12 @@ import { useSelector } from "react-redux";
 import { ImageApi } from "../ImageApi";
 import { CreateSubscribeEmailApi } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
+import FooterBg from "../assets/FooterBg.jpg";
+import "./Footer.css";
+
+
+
+
 function Footer() {
   const { cmsDate } = useSelector((state) => state.CmsState);
   const { isUser } = useSelector((state) => state.UserState);
@@ -124,10 +130,10 @@ function Footer() {
 
   return (
     <footer
+      className="footer-bg"
       style={{
-        height: "auto",
-        backgroundColor: "rgb(245, 245, 245)",
-        width: "100%",
+        "--bg-image": `url(${FooterBg})`,
+        "--bg-color": "linear-gradient(rgba(188, 42, 42, 0.71), rgba(210, 170, 28, 0.88))",  // fallback color behind image
       }}
     >
       <Grid container p={2}>

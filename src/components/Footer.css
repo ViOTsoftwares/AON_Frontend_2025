@@ -1,0 +1,19 @@
+/* Footer.css */
+
+.footer-bg {
+  position: relative;
+  overflow: hidden;
+
+  /* MASK → IMAGE → COLOR (bottom layer) */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.107), rgba(255, 255, 255, 0.085)),
+    var(--bg-image),
+    var(--bg-color);
+
+  background-size: cover, cover, cover;       /* adjust if needed */
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+
+  padding: 2rem; /* optional padding to match your spacing */
+  width: 100%;
+}
