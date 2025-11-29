@@ -15,7 +15,7 @@ import Modal from "@mui/material/Modal";
 import { getTestimonialApi } from "../Api_Action";
 import { ImageApi } from "../ImageApi";
 import { Link } from "react-router-dom";
-import TestimonialBg from "../assets/TestiMonial-1.jpg";
+import TestimonialBg from "../assets/TestMBg.jpg";
 import "../components/Testimonial.css";
 
 

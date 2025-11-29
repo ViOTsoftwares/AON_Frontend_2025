@@ -3,7 +3,7 @@
   overflow: hidden;
 
   background-image:
-    linear-gradient(rgba(211, 215, 185, 0.25), rgba(160, 72, 72, 0.25)),
+    linear-gradient(rgba(211, 215, 185, 0.25), rgba(166, 131, 23, 0.259)),
     var(--bg-image),
     var(--bg-color);
 

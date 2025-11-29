@@ -25,7 +25,8 @@ import { useSelector } from "react-redux";
 import { ImageApi } from "../ImageApi";
 import { CreateSubscribeEmailApi } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
-import FooterBg from "../assets/FooterBg.jpg";
+import FooterBg from "../assets/TestiMonial-1.jpg";
+
 import "./Footer.css";
 
 
