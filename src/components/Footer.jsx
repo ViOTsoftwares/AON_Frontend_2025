@@ -28,17 +28,18 @@ import { toastMessage } from "../toastMessage";
 function Footer() {
   const { cmsDate } = useSelector((state) => state.CmsState);
   const { isUser } = useSelector((state) => state.UserState);
+  const [errorValidation, setErrorValidation] = useState("");
   const [email, setEmail] = useState("");
   const handleSubmit = async () => {
     if (email.trim() === "") {
-      return alert("Email is required");
+      return setErrorValidation("Email is required");
     }
 
     // Proper email format regex
     const emailFormat = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
     if (!emailFormat.test(email)) {
-      return alert("Invalid email format");
+      return setErrorValidation("Invalid email format");
     }
     console.log(email);
     try {
@@ -213,18 +214,22 @@ function Footer() {
               </Link>
             );
           })}
-          {isUser ?<Link
-            to={"/account"}
-            style={{
-              textDecoration: "none",
-              color: "black",
-              textAlign: "center",
-              fontWeight: 500,
-              fontSize: "1.1rem",
-            }}
-          >
-            My Account
-          </Link>:""}
+          {isUser ? (
+            <Link
+              to={"/account"}
+              style={{
+                textDecoration: "none",
+                color: "black",
+                textAlign: "center",
+                fontWeight: 500,
+                fontSize: "1.1rem",
+              }}
+            >
+              My Account
+            </Link>
+          ) : (
+            ""
+          )}
         </Grid>
         <Grid
           container
@@ -243,7 +248,12 @@ function Footer() {
               <TextField
                 placeholder="Enter your email address"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  if (e) {
+                    setEmail(e.target.value);
+                    setErrorValidation("");
+                  }
+                }}
                 slotProps={{
                   input: {
                     startAdornment: (
@@ -255,6 +265,9 @@ function Footer() {
                 }}
                 fullWidth
               />
+              <p style={{ color: "red" }}>
+                {errorValidation !== "" ? errorValidation : ""}
+              </p>
               <Button
                 variant="contained"
                 sx={{ height: "3.4rem", fontSize: "1.2rem" }}
