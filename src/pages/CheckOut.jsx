@@ -181,7 +181,6 @@ const Checkout = () => {
 
           message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
           const total = oneProduct.SellingPrice * oneProduct.Qty;
-
           message += `*Total: ₹${total}*\n\nThank you!`;
 
           title = oneProduct.Title;
@@ -200,7 +199,7 @@ const Checkout = () => {
     const phoneNumber = "919566908720";
 
     try {
-      // Try image sharing first
+      // Mobile image share
       if (navigator.canShare) {
         try {
           const response = await fetch(imageUrl, { mode: "cors" });
@@ -208,12 +207,7 @@ const Checkout = () => {
           const file = new File([blob], "product.jpg", { type: blob.type });
 
           if (navigator.canShare({ files: [file] })) {
-            // Image + title share → Android only
-            await navigator.share({
-              title: title,
-              text: message,
-              files: [file],
-            });
+            await navigator.share({ title, text: message, files: [file] });
             return;
           }
         } catch (err) {
@@ -221,10 +215,10 @@ const Checkout = () => {
         }
       }
 
-      // Fallback: WhatsApp text only
+      // Fallback: WhatsApp Web text-only
       const encodedMessage = encodeURIComponent(message);
       const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-
+      console.log("check----whatsapp");
       window.open(whatsappURL, "_blank");
     } catch (error) {
       console.error("Sharing failed:", error);

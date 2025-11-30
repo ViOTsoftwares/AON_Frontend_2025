@@ -29,7 +29,7 @@ function Filter({
   setChip,
 }) {
   const PRICE_MIN = 0;
-  const PRICE_MAX = 100000;
+  const PRICE_MAX = 50000;
 
   // useEffect(() => {
   //   const fetchFilteredData = async () => {
