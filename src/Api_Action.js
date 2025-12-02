@@ -92,6 +92,16 @@ export const BestSellingProductApi = async (category) => {
     return error.response;
   }
 };
+export const ShareProductApi = async (id) => {
+  try {
+    const { data } = await api.get(`/product/share/${id}`);
+    
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error.response;
+  }
+};
 
 export const AddAddressApi = async (address) => {
   try {
@@ -186,7 +196,7 @@ export const CreateSubscribeEmailApi = async (email) => {
 };
 export const CreateContactUsApi = async (payload) => {
   try {
-    const {data} = await api.post(`/contact-us`,payload);
+    const { data } = await api.post(`/contact-us`, payload);
 
     console.log("response" + data);
     return data;
@@ -194,14 +204,13 @@ export const CreateContactUsApi = async (payload) => {
     console.log(error);
     return error.response.data;
   }
-   
 };
-export const getTestimonialApi = async ()=>{
-    try {
-    const { data } = await api.get(`/testimonial`,);
+export const getTestimonialApi = async () => {
+  try {
+    const { data } = await api.get(`/testimonial`);
     return data;
   } catch (error) {
     console.log("error", error);
     return error.response.data;
   }
-}
+};
