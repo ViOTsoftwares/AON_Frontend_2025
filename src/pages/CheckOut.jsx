@@ -138,55 +138,55 @@ const Checkout = () => {
       let imageUrl = "";
       let title = "";
 
-      if (isCartproduct) {
-        const order = {
-          orderProduct: cart,
-          address,
-          totalAmount,
-          discount,
-        };
+      // if (isCartproduct) {
+      //   const order = {
+      //     orderProduct: cart,
+      //     address,
+      //     totalAmount,
+      //     discount,
+      //   };
 
-        const data = await CreateOrderApi(order);
-        if (data.success) {
-          toastMessage(data.message, "success");
-          setOneProduct({});
-          let total = 0;
+      //   const data = await CreateOrderApi(order);
+      //   if (data.success) {
+      //     toastMessage(data.message, "success");
+      //     setOneProduct({});
+      //     let total = 0;
 
-          cart.forEach((item, index) => {
-            message += `${index + 1}. *${item.Title}*\nQty: ${
-              item.Qty
-            }\nPrice: ₹${item.SellingPrice}\n\n`;
-            total += item.SellingPrice * item.Qty;
+      //     cart.forEach((item, index) => {
+      //       message += `${index + 1}. *${item.Title}*\nQty: ${
+      //         item.Qty
+      //       }\nPrice: ₹${item.SellingPrice}\n\n`;
+      //       total += item.SellingPrice * item.Qty;
 
-            if (index === 0) {
-              imageUrl = `${ImageApi}/product/${item.ImageArray?.[0]}`;
-              title = item.Title;
-            }
-          });
+      //       if (index === 0) {
+      //         imageUrl = `${ImageApi}/product/${item.ImageArray?.[0]}`;
+      //         title = item.Title;
+      //       }
+      //     });
 
-          message += `*Total: ₹${total}*\n\nThank you!`;
-          dispatch(ClearCartProduct());
-        }
-      } else {
-        const order = {
-          orderProduct: [oneProduct],
-          address,
-          totalAmount,
-          discount,
-        };
+      //     message += `*Total: ₹${total}*\n\nThank you!`;
+      //     dispatch(ClearCartProduct());
+      //   }
+      // } else {
+      //   const order = {
+      //     orderProduct: [oneProduct],
+      //     address,
+      //     totalAmount,
+      //     discount,
+      //   };
 
-        const data = await CreateOrderApi(order);
-        if (data.success) {
-          toastMessage(data.message, "success");
+      //   const data = await CreateOrderApi(order);
+      //   if (data.success) {
+      //     toastMessage(data.message, "success");
 
-          message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
-          const total = oneProduct.SellingPrice * oneProduct.Qty;
-          message += `*Total: ₹${total}*\n\nThank you!`;
+      //   }
+      // }
+      message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
+      const total = oneProduct.SellingPrice * oneProduct.Qty;
+      message += `*Total: ₹${total}*\n\nThank you!`;
 
-          title = oneProduct.Title;
-          imageUrl = `${ImageApi}/product/${oneProduct.ImageArray?.[0]}`;
-        }
-      }
+      title = oneProduct.Title;
+      imageUrl = `${ImageApi}/product/${oneProduct.ImageArray?.[0]}`;
 
       // Share final message + image
       shareToWhatsApp(title, imageUrl, message);
@@ -195,35 +195,41 @@ const Checkout = () => {
     }
   };
 
-  const shareToWhatsApp = async (title, imageUrl, message) => {
-    const phoneNumber = "919566908720";
+const shareToWhatsApp = async (title, imageUrl, message) => {
+  const phoneNumber = "919566908720"; // your number
+  const fullMessage = message || `${title}\n${window.location.href}`;
 
-    try {
-      // Mobile image share
-      if (navigator.canShare) {
-        try {
-          const response = await fetch(imageUrl, { mode: "cors" });
-          const blob = await response.blob();
-          const file = new File([blob], "product.jpg", { type: blob.type });
+  try {
+    const response = await fetch(imageUrl);
+    const blob = await response.blob();
+    const file = new File([blob], "product.jpg", { type: blob.type });
 
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({ title, text: message, files: [file] });
-            return;
-          }
-        } catch (err) {
-          console.warn("Image share failed, falling back to link share");
-        }
-      }
-
-      // Fallback: WhatsApp Web text-only
-      const encodedMessage = encodeURIComponent(message);
-      const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-      console.log("check----whatsapp");
-      window.open(whatsappURL, "_blank");
-    } catch (error) {
-      console.error("Sharing failed:", error);
+    // Only works on mobile browsers that support Web Share API
+    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: title,
+        text: fullMessage,
+        files: [file],
+      });
+      return;
     }
-  };
+
+    // Desktop fallback: only text + URL
+    const encodedMessage = encodeURIComponent(fullMessage + "\n" + imageUrl);
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappURL, "_blank");
+  } catch (err) {
+    console.error("Sharing failed:", err);
+    const encodedMessage = encodeURIComponent(fullMessage + "\n" + imageUrl);
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+    window.open(whatsappURL, "_blank");
+  }
+};
+
+
+
+
+
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>

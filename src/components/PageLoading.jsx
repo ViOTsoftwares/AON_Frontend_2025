@@ -1,33 +1,20 @@
 import { BlinkBlur } from "react-loading-indicators";
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent, Stack } from "@mui/material";
 
 export default function PageLoading({ load }) {
+  if(!load) return null 
   return (
-    <Dialog
-      open={load}
-      PaperProps={{
-        style: {
-          padding: 20,
-          background: "white",
-          borderRadius: 12,
-          textAlign: "center",
-        },
-      }}
+   <Stack
+      height="100vh"
+      width="100vw"
+      justifyContent="center"
+      alignItems="center"
+      display="flex"
+      sx={{ position: "fixed", top: 0, left: 0, background: "#fff", zIndex: 9999 }}
     >
-      <DialogContent
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 15,
-        }}
-      >
-        <BlinkBlur
-          text="Loading..."
-          color={["#650f55", "#91167b", "#bd1da0", "#df2ebf"]}
-        />
-      </DialogContent>
-    </Dialog>
+      <h2 style={{ display: "flex", alignItems: "center", gap: 8 }}>
+         <BlinkBlur color="#03A6A1" size="medium" text="Loading..."/>
+      </h2>
+    </Stack>
   );
 }

@@ -23,6 +23,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
+import { ShareProductApi } from "../Api_Action";
 
 const ProductDetailCard = ({ Product }) => {
   const dispatch = useDispatch();
@@ -39,79 +40,19 @@ const ProductDetailCard = ({ Product }) => {
     maximumFractionDigits: 0, // removes decimals
   }).format(Product?.MRP);
   const { EcomLinks } = Product;
+
   const handleShare = async () => {
-  const productTitle = Product?.Title || "Check this product";
-  const productLink = window.location.href;
-  const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
-
-  try {
-    // ================================
-    // 1. File Share (Android support)
-    // ================================
-    if (navigator.canShare) {
-      try {
-        const response = await fetch(imageUrl, { mode: "cors" });
-        const blob = await response.blob();
-        const file = new File([blob], "product.jpg", { type: blob.type });
-
-        if (navigator.canShare({ files: [file] })) {
-          await navigator.share({
-            title: productTitle,
-            text: productTitle,
-            files: [file],
-          });
-          return;
-        }
-      } catch (err) {
-        console.warn("Image fetch or file share failed. Falling back.");
-      }
+    try {
+      const text = encodeURIComponent(`Check this product: ${Product.Title}`);
+      const url = encodeURIComponent(
+        `${import.meta.env.VITE_FRONTEND_URL}/detail/${Product._id}`
+      );
+      window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
+    } catch (err) {
+      console.error("Share failed:", err);
+      alert("Sharing failed. Try manually copying the link.");
     }
-
-    // ================================
-    // 2. Normal Share (iOS + Android)
-    // ================================
-    if (navigator.share) {
-      await navigator.share({
-        title: productTitle,
-        text: productTitle,
-        url: productLink,
-      });
-      return;
-    }
-
-    // ================================
-    // 3. Social Share Fallback (Desktop)
-    // ================================
-    const encodedURL = encodeURIComponent(productLink);
-    const encodedTitle = encodeURIComponent(productTitle);
-
-    const whatsapp = `https://wa.me/?text=${encodedTitle}%20${encodedURL}`;
-    const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}`;
-
-    // Instagram (App only – no web share)
-    const instagram = `instagram://share?text=${encodedTitle}%20${encodedURL}`;
-
-    // Open Social Options (You choose how to show)
-    const userChoice = window.prompt(
-      "Share via: whatsapp | facebook | instagram"
-    );
-
-    if (userChoice === "whatsapp") window.open(whatsapp, "_blank");
-    else if (userChoice === "facebook") window.open(facebook, "_blank");
-    else if (userChoice === "instagram") window.location.href = instagram;
-    else {
-      // ================================
-      // 4. Copy fallback
-      // ================================
-      await navigator.clipboard.writeText(`${productTitle}\n${productLink}`);
-      alert("Link copied to clipboard!");
-    }
-  } catch (err) {
-    console.error("Share failed:", err);
-    alert("Sharing failed. Try manually copying the link.");
-  }
-};
-
+  };
 
   return (
     <>
@@ -243,7 +184,6 @@ const ProductDetailCard = ({ Product }) => {
                   )}
                   {EcomLinks?.twoImage !== "" && (
                     <IconButton
-                     
                       component="a"
                       href={EcomLinks?.twoLink}
                       target="_blank"
@@ -264,7 +204,6 @@ const ProductDetailCard = ({ Product }) => {
                   )}{" "}
                   {EcomLinks?.threeImage !== "" && (
                     <IconButton
-                     
                       component="a"
                       href={EcomLinks?.threeLink}
                       target="_blank"
@@ -285,7 +224,6 @@ const ProductDetailCard = ({ Product }) => {
                   )}{" "}
                   {EcomLinks?.fourImage !== "" && (
                     <IconButton
-                     
                       component="a"
                       href={EcomLinks?.fourLink}
                       target="_blank"
