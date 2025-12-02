@@ -38,10 +38,13 @@ function Combo() {
         >
           <Button
             variant="contained"
+            size="medium"
             textAlign="center"
-            size="small"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
+              borderRadius: "5px",
+              borderColor: "white",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -51,6 +54,7 @@ function Combo() {
           >
             Office
           </Button>
+
         </Card>
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -63,6 +67,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -84,6 +89,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -105,6 +111,8 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -126,6 +134,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -147,6 +156,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -168,6 +178,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -189,6 +200,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",
@@ -210,6 +222,7 @@ function Combo() {
             textAlign="center"
             sx={{
               color: "white",
+              background: "linear-gradient(135deg, #482C20 0%, #7B503E 100%)",
               position: "absolute",
               right: 10,
               bottom: "2rem",

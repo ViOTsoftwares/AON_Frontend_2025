@@ -21,19 +21,37 @@ const TabItem = styled(Tab)(({ theme }) => ({
   textAlign: "center",
   transition: "all .5s",
   padding: "10px 15px",
-
   height: "auto",
   margin: "10px 0",
   marginLeft: "10px",
   float: "none",
   fontSize: "16px",
   fontWeight: "500",
-  backgroundColor: "#D7E8F5",
 
+  // ✨ Base gradient shine effect
+  color: "#111",
+  backgroundColor: "#faf2e9ff",
+  backgroundImage:
+    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%)",
+  backgroundSize: "200%",
+  backdropFilter: "blur(6px)",
+  transition:
+    "background-position 0.3s ease, transform 0.2s ease, background-image 0.3s",
+
+  // ✨ Hover animation
+  "&:hover": {
+    backgroundPosition: "right",
+    transform: "translateY(-2px)",
+    backgroundImage:
+      "linear-gradient(120deg, rgba(141, 135, 135, 0.37) 30%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%)",
+  },
+
+  // ✨ Selected tab state (keeps your blue theme)
   [`&.${tabClasses.selected}`]: {
-    // ,&:hover
-    color: "#FFFFFF",
-    backgroundColor: "#1976d2",
+    color: "#fff",
+    backgroundColor: "#854932ff",
+    backgroundImage:"linear-gradient(130deg, rgba(255,255,255,0) 30%, rgba(255, 255, 255, 0.28), rgba(255,255,255,0) 70%)",
+    transform: "translateY(0)", // avoid hover lifting while active
   },
 }));
 function CustomTabPanel(props) {
@@ -82,7 +100,7 @@ function BestSelling() {
         sx={{ fontWeight: 600, fontSize: { xs: "3rem", sm: "3.5rem" } }}
         textAlign="center "
       >
-        Our <span style={{ color: "#1976D2" }}>Best Selling </span>
+        Our <span style={{ color: "#854932ff" }}>Best Selling </span>
       </Typography>
       <Stack direction="row" justifyContent="center" alignItems="center">
         <Tabs

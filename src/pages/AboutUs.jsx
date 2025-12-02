@@ -28,8 +28,8 @@ function AboutUs() {
               },
             }}
           >
-            About us
-          </Typography>
+            Arun Office Needs 
+            <h5 justifyContent="center">Our Brand Story</h5>          </Typography>
           <Stack justifyContent="center" alignContent="center">
             <Typography
               sx={{
@@ -37,14 +37,11 @@ function AboutUs() {
                 fontSize: "20px",
                 fontWeight: 400,
               }}
-            >
-              SeedLegals is the UK market standard for companies raising
-              investment, incentivising teams with share options, applying for
-              SEIS/EIS, and managing their cap table. With 1 in 3 early-stage
-              funding rounds closed on SeedLegals, and more cap tables and EMI
-              option schemes set up and managed on SeedLegals than on any other
-              platform in the UK, we're proud that we've transformed the way
-              companies start, grow and scale.
+            > <b justifyContent>A Journey That Began with Just ₹300 (1988)</b>
+               <Typography>Arun Office Needs started in 1988 with nothing more than a visiting card, a business card, and a letter pad worth ₹300. With a single catalogue in hand, I used to visit customers, show them chair and sofa models, explain the prices, take orders, and personally supply the products.
+              My first major customers were banks. Before becoming a supplier, I was a consumer myself — that experience helped me understand exactly what customers expect.
+              I rented my first office for ₹500 per month and worked there for nearly three years. I was just 25 years old when this journey began.
+               </Typography>
             </Typography>
           </Stack>
         </Stack>
@@ -66,28 +63,55 @@ function AboutUs() {
                 lineHeight: { xs: 1.2, sm: "3rem" },
               }}
             >
-              Our story
+              Early Stage
             </Typography>
-            <Typography
-              sx={{
-                fontWeight: 400,
-                lineHeight: "1.8rem",
-                fontSize: "20px",
-                // lineHeight: 1.45,
-              }}
-            >
-              SeedLegals was founded by serial entrepreneur Anthony Rose and
-              serial angel investor Laurent Laffy who met at a party in Rome.
-              They'd both had enough of paying insane amounts of money to
-              lawyers for the same legal documents at every funding round, and
-              funding rounds taking months to negotiate and close. They decided
-              to change it. Fast forward six months and SeedLegals launched in
-              2016 as the world’s first platform that lets founders and
-              investors easily create, negotiate and sign all the legal
-              agreements they need to do a funding round. We close more funding
-              rounds in the UK than anyone else. We operate in the UK, US,
-              Ireland & France and employ 160 brilliant people.
-            </Typography>
+           <Typography
+  sx={{
+    fontWeight: 400,
+    lineHeight: "1.8rem",
+    fontSize: "20px",
+  }}
+>
+  In the early years, I supplied furniture to:
+</Typography>
+
+<Grid
+  container
+  direction="column"
+  sx={{
+    fontWeight: 400,
+    lineHeight: "1.8rem",
+    fontSize: "20px",
+    justifyContent: "center",
+    pl: 4, // indent list
+  }}
+>
+  <ul style={{ margin: 0 }}>
+    <li>Banks</li>
+    <li>Railways</li>
+    <li>Post offices</li>
+    <li>Numerous private mills</li>
+  </ul>
+</Grid>
+
+<Typography
+  sx={{
+    fontWeight: 400,
+    lineHeight: "1.8rem",
+    fontSize: "20px",
+    mt: 2,
+  }}
+>
+  I handled Ramco Rajamala’s 28 units, Thiyagaraja Mills, Thiyagaraja College, 
+  and many other institutions. Step by step, the business grew — and in 1994, 
+  I opened my first factory, which continues to run successfully to this day.
+  <br /><br />
+  Today, AON supplies furniture all over Tamil Nadu to State Bank, Central Bank, 
+  Indian Bank, Overseas Bank, government offices, private companies, and spinning mills.
+  <br /><br />
+  My two sons have now joined the business — Subash (MBA) manages government-sector 
+  orders from Chennai, and Varin (B.E) oversees operations here.
+</Typography>
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
             <Typography variant="h5">
@@ -96,6 +120,84 @@ function AboutUs() {
           </Grid>
         </Grid>
       </Grid>
+
+
+<Grid size={{ xs: 12, sm: 6 }}>
+  <Typography variant="h5" justifyContent={"flex-start"} >
+  <div justifyContent="center"
+            style={{
+              backgroundImage: `url(${bgabout})`,
+              width: "50%",
+              height: "700px",
+              backgroundPosition: "center  center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "cover",
+            }}
+          ></div></Typography>
+</Grid>
+
+<Grid size={{ xs: 12, sm: 6 }}>
+  <Typography
+    sx={{
+      fontSize: { xs: "1.7777777778rem", sm: "2.4444444444rem" },
+      lineHeight: { xs: 1.2, sm: "3rem" },
+    }}
+  >
+   Products & Works
+  </Typography>
+
+  <Typography
+    sx={{
+      fontWeight: 400,
+      lineHeight: "1.8rem",
+      fontSize: "20px",
+    }}
+  >
+    In the early years, I supplied furniture to:
+  </Typography>
+
+
+
+  <Typography
+    sx={{
+      fontWeight: 400,
+      lineHeight: "1.8rem",
+      fontSize: "20px",
+      mt: 2,
+    }}
+  >
+          In the beginning, I worked alone. Two years later, I hired staff as orders grew. Managing family responsibilities and business simultaneously was challenging, but dedication kept me going.
+          My father ran a small tea shop. We weren’t financially strong, yet my mother supported me whenever she could — even ₹5,000 was a huge amount back then.
+          I once dreamt of starting a British-style biscuit shop, but the investment required (₹25–30 lakhs) was impossible. Life took me into the medical field for a short time, where I learned valuable lessons from Shri Sethuraman, a mentor who played a major role in shaping my business discipline.
+
+     <br /><br />
+    Today, AON supplies furniture all over Tamil Nadu to State Bank, Central
+    Bank, Indian Bank, Overseas Bank, government offices, private companies, and
+    spinning mills.
+    <br /><br />
+    My two sons have now joined the business — Subash (MBA) manages
+    government-sector orders from Chennai, and Varin (B.E) oversees operations
+    here.
+  </Typography>
+</Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
       <Grid>
         <Typography
           component="h2"
@@ -120,7 +222,7 @@ function AboutUs() {
               width="100%"
               height="100%"
               style={{ border: 0, borderRadius: "1rem" }}
-              allowFullScreen=""
+              allowFlilScreen=""
               loading="lazy"
               // referrerpolicy="no-referrer-when-downgrade"
             ></iframe>

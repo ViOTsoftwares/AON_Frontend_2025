@@ -102,12 +102,15 @@ function CustomizationSection() {
        <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", pr: 8, pb: 4 }}>
   <Link to="/customization" style={{ textDecoration: "none" }}>
     <Button
+    size="medium"
       variant="contained"
       sx={{
         fontSize: "1.1rem",       
         px: 4,                    
         py: 1.5,                  
-        borderRadius: "10px",     
+       borderRadius: "27px",
+        background: "linear-gradient(135deg, #8f5438 0%, #73574cff 100%)",
+           
         textTransform: "none",    
       }}
     >

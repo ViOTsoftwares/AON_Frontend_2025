@@ -94,7 +94,7 @@ function ProductCard({
                       transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",
                       transform: "scale(1)",
                       background:
-                        "linear-gradient(135deg, #1976d2, rgb(11, 206, 255))",
+                        "linear-gradient(135deg, #6e4939ff,rgba(194, 142, 74, 0.88))",
                     }}
                   />
                 ) : (
@@ -111,7 +111,7 @@ function ProductCard({
                       transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",
                       transform: "scale(1.100)",
                       background:
-                        "linear-gradient(135deg, #1976d2, rgb(11, 206, 255))",
+                        "linear-gradient(135deg, #6e4939ff,rgba(194, 142, 74, 0.88))",
                     }}
                   />
                 )}
