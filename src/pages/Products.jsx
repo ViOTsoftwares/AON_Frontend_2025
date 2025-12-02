@@ -197,28 +197,44 @@ function Products() {
               setChip={setChip}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={1}>
+          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 8.7 }} px={1}>
             <Stack rowGap={4}>
               <Grid
-                container
-                direction="row"
-                flexWrap="wrap"
-                columnGap={2}
-                rowGap={4}
-                justifyContent="center"
-                alignItems="center"
-              >
-                {isLoading ? (
-                  <PageLoading load={isLoading} />
-                ) : (
-                  products.map((product) => (
-                    <Grid
-                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
-                      alignSelf="stretch"
-                    >
-                      <ProductCard product={product} height="100%" />
-                    </Grid>
-                  ))
+  container
+  sx={{
+    // remove the default spacing gutters — use our own responsive widths
+    gap: 0,                   // no column gap
+  }}
+>
+  {isLoading ? (
+    <PageLoading load={isLoading} />
+  ) : (
+    products.map((product) => (
+      <Grid
+        item
+        key={product?._id}
+        sx={{
+          boxSizing: "border-box",
+          p: 0.5,                 // remove item padding that creates gaps
+          mb: 3,                // vertical spacing between rows (adjust as needed)
+          // responsive widths: xs 100% (1), sm 50% (2), md+ 20% (5 per row)
+          width: {
+            xs: "100%",
+            sm: "50%",
+            md: "20%",
+          },
+          maxWidth: {
+            xs: "100%",
+            sm: "50%",
+            md: "20%",
+          },
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <ProductCard product={product} maxWidth="100%" height="100%" />
+      </Grid>
+    ))
                 )}
               </Grid>
               {products.length === 0 && (

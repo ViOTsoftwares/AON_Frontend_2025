@@ -10,8 +10,8 @@ export default function PaginationOutlined({ handlePageChange, page, totalPages 
         py: 2,
         borderRadius: 4,
         backgroundColor: "#ffffff",
-        border: "1px solid rgba(0,0,0,0.05)",
-        boxShadow: "0 3px 12px rgba(0,0,0,0.04)",
+        border: "1px solid rgba(0, 0, 0, 0)",
+        boxShadow: "0 3px 12px rgba(0, 0, 0, 0)",
       }}
     >
       <Toolbar
