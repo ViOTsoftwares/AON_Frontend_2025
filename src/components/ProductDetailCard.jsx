@@ -41,15 +41,16 @@ const ProductDetailCard = ({ Product }) => {
   }).format(Product?.MRP);
   const { EcomLinks } = Product;
 
-const handleShare = () => {
-  const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product._id}`;
+  const handleShare = () => {
+    const shareUrl = `${import.meta.env.VITE_FRONTEND_URL}/product/share/${
+      Product._id
+    }`;
 
-  window.open(
-    `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
-    "_blank"
-  );
-};
-
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
+      "_blank"
+    );
+  };
 
   return (
     <>
@@ -131,7 +132,10 @@ const handleShare = () => {
                     variant="contained"
                     size="large"
                     sx={{ p: 1.4, fontSize: "1rem" }}
-                    onClick={() => dispatch(AddCart({ ...Product, Qty: 1 }))}
+                    onClick={() => {
+                      dispatch(AddCart({ ...Product, Qty: 1 }));
+                     
+                    }}
                   >
                     ADD TO CART
                   </Button>
