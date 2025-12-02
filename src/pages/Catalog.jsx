@@ -171,7 +171,10 @@ const Catelog = () => {
                     {item.title}
                   </Typography>
                   <Stack justifyContent="center" alignItems="center">
-                    <Button
+                    <Button sx={{
+                      background: "linear-gradient(135deg, #8f5438 0%, #827e7cff 100%)",
+                      color: "white",
+                    }}
                       fullWidth
                       startIcon={
                         isDownloading[index] ? (
