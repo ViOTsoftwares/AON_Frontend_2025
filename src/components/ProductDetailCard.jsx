@@ -40,55 +40,78 @@ const ProductDetailCard = ({ Product }) => {
   }).format(Product?.MRP);
   const { EcomLinks } = Product;
   const handleShare = async () => {
-    const productTitle = Product?.Title || "Check this product";
-    const productLink = window.location.href;
-    const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
+  const productTitle = Product?.Title || "Check this product";
+  const productLink = window.location.href;
+  const imageUrl = `${ImageApi}/product/${Product?.ImageArray?.[0]}`;
 
-    try {
-      // -------------------------------
-      // 1. File share support (Android)
-      // -------------------------------
-      if (navigator.canShare) {
-        try {
-          const response = await fetch(imageUrl, { mode: "cors" });
-          const blob = await response.blob();
-          const file = new File([blob], "product.jpg", { type: blob.type });
+  try {
+    // ================================
+    // 1. File Share (Android support)
+    // ================================
+    if (navigator.canShare) {
+      try {
+        const response = await fetch(imageUrl, { mode: "cors" });
+        const blob = await response.blob();
+        const file = new File([blob], "product.jpg", { type: blob.type });
 
-          if (navigator.canShare({ files: [file] })) {
-            await navigator.share({
-              title: productTitle,
-              text: productTitle,
-              files: [file],
-            });
-            return;
-          }
-        } catch (err) {
-          console.warn("Image fetch or file share failed, fallback will run.");
+        if (navigator.canShare({ files: [file] })) {
+          await navigator.share({
+            title: productTitle,
+            text: productTitle,
+            files: [file],
+          });
+          return;
         }
+      } catch (err) {
+        console.warn("Image fetch or file share failed. Falling back.");
       }
+    }
 
-      // -------------------------------
-      // 2. Normal share (iOS + Android)
-      // -------------------------------
-      if (navigator.share) {
-        await navigator.share({
-          title: productTitle,
-          text: productTitle,
-          url: productLink,
-        });
-        return;
-      }
+    // ================================
+    // 2. Normal Share (iOS + Android)
+    // ================================
+    if (navigator.share) {
+      await navigator.share({
+        title: productTitle,
+        text: productTitle,
+        url: productLink,
+      });
+      return;
+    }
 
-      // -------------------------------
-      // 3. Desktop fallback: Copy to clipboard
-      // -------------------------------
+    // ================================
+    // 3. Social Share Fallback (Desktop)
+    // ================================
+    const encodedURL = encodeURIComponent(productLink);
+    const encodedTitle = encodeURIComponent(productTitle);
+
+    const whatsapp = `https://wa.me/?text=${encodedTitle}%20${encodedURL}`;
+    const facebook = `https://www.facebook.com/sharer/sharer.php?u=${encodedURL}`;
+
+    // Instagram (App only – no web share)
+    const instagram = `instagram://share?text=${encodedTitle}%20${encodedURL}`;
+
+    // Open Social Options (You choose how to show)
+    const userChoice = window.prompt(
+      "Share via: whatsapp | facebook | instagram"
+    );
+
+    if (userChoice === "whatsapp") window.open(whatsapp, "_blank");
+    else if (userChoice === "facebook") window.open(facebook, "_blank");
+    else if (userChoice === "instagram") window.location.href = instagram;
+    else {
+      // ================================
+      // 4. Copy fallback
+      // ================================
       await navigator.clipboard.writeText(`${productTitle}\n${productLink}`);
       alert("Link copied to clipboard!");
-    } catch (err) {
-      console.error("Share failed:", err);
-      alert("Sharing failed. Try manually copying the link.");
     }
-  };
+  } catch (err) {
+    console.error("Share failed:", err);
+    alert("Sharing failed. Try manually copying the link.");
+  }
+};
+
 
   return (
     <>

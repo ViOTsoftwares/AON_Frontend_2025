@@ -238,18 +238,15 @@ export default function Login() {
                 </Button>
               )}
             </MenuItem>
-            {isUser ? (
-              <MenuItem
-                onClick={() => {
-                  navigate("/account");
-                  setAnchorEl(null);
-                }}
-              >
-                My account
-              </MenuItem>
-            ) : (
-              ""
-            )}
+
+            <MenuItem
+              onClick={() => {
+                isUser ? navigate("/account") : "";
+                setAnchorEl(null);
+              }}
+            >
+              My account
+            </MenuItem>
           </Menu>
         </Box>
         {/* {picture} */}
@@ -378,17 +375,16 @@ export default function Login() {
                 Welcome to AON's Premium Space
               </Typography>
               <Typography variant="body1" gutterBottom>
-                Login to explore sleek, stylish, and customizable pieces from AON—crafted for comfort, quality, and modern workspaces. 
-                From elegant sofas to modern workspaces, 
-                we have everything to match your taste, style and comfort.
+                Login to explore sleek, stylish, and customizable pieces from
+                AON—crafted for comfort, quality, and modern workspaces. From
+                elegant sofas to modern workspaces, we have everything to match
+                your taste, style and comfort.
               </Typography>
               <Box sx={{ mt: 2 }}>
                 <Typography>
                   Premiumly crafted & customizable collections
                 </Typography>
-                <Typography>
-                  Prices, offers & real-time availability
-                </Typography>
+                <Typography>Prices, offers & real-time availability</Typography>
                 <Typography>
                   Private, secure, and seamless AON experience
                 </Typography>

@@ -30,7 +30,7 @@ const SearchProducts = () => {
     order: "",
   });
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(12);
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [maximumPage, setMaximumPage] = useState(0);

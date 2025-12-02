@@ -31,7 +31,7 @@ function Products() {
     order: "",
   });
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(12);
   const [isLoading, setIsLoading] = useState(true);
   const [products, setProducts] = useState([]);
   const [maximumPage, setMaximumPage] = useState(0);
@@ -41,7 +41,7 @@ function Products() {
   const [FabricType, setFabricType] = useState([]);
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 30000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 50000]);
   const [Banner, setBanner] = useState({});
   const [chips, setChip] = useState([]);
   const [loading, setLoading] = useState(false);
