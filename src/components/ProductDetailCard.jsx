@@ -41,18 +41,15 @@ const ProductDetailCard = ({ Product }) => {
   }).format(Product?.MRP);
   const { EcomLinks } = Product;
 
-  const handleShare = async () => {
-    try {
-      const text = encodeURIComponent(`Check this product: ${Product.Title}`);
-      const url = encodeURIComponent(
-        `${import.meta.env.VITE_FRONTEND_URL}/detail/${Product._id}`
-      );
-      window.open(`https://wa.me/?text=${text}%20${url}`, "_blank");
-    } catch (err) {
-      console.error("Share failed:", err);
-      alert("Sharing failed. Try manually copying the link.");
-    }
-  };
+const handleShare = () => {
+  const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product._id}`;
+
+  window.open(
+    `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
+    "_blank"
+  );
+};
+
 
   return (
     <>
