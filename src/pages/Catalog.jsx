@@ -166,7 +166,9 @@ const Catelog = () => {
                   <Typography
                     variant="h6"
                     sx={{ fontWeight: "bold" }}
-                    textAlign="center"
+                    textAlign="left"
+                    paddingBottom={2}
+                    paddingLeft={1}
                   >
                     {item.title}
                   </Typography>

@@ -55,7 +55,7 @@ function Header() {
         height: { xs: "80px", md: "95px" }, // fixed px values
         position: { xs: "static", md: "sticky" },
         backgroundColor: "white",
-        boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+        boxShadow: "0 2px 8px rgba(88, 59, 59, 1)",
         zIndex: 1200,
       }}
     >

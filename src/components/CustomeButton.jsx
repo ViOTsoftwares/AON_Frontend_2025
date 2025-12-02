@@ -23,7 +23,7 @@ function CustomeButton({ navigate }) {
           src={CustomLogo}
           alt="Customization"
           style={{
-            width: "65px",
+            width: "55px",
             height: "auto",
             borderRadius: "10px",
           }}
@@ -34,7 +34,7 @@ function CustomeButton({ navigate }) {
             fontWeight: 600,
             fontSize: "0.8rem",
             color: "#333",
-            mt: "-10px", // ✅ reduces space between image & text
+            mt: "0px", // ✅ reduces space between image & text
           }}
         >
           Customisation

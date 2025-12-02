@@ -1,17 +1,49 @@
-.toolbar-bg {
+.toolbar-bg{
   position: relative;
   overflow: hidden;
-    
-  background-image:
-    linear-gradient(rgba(208, 140, 14, 0.25), rgba(166, 131, 23, 0.259)),
-    var(--bg-image),
-    var(--bg-color);
+  border-radius: 0;
 
-  background-size: 100% 100% , 100% 100%, contain;
-  background-position: center center, center center, center center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
- 
+  /* Fallback plain color under everything */
+  --bg-color: #efe6d1;
+  background-color: var(--bg-color);
+}
 
+/* blurred image layer */
+.toolbar-bg::before{
+  content: "";
+  position: absolute;
+  inset: 0;                    /* top/right/bottom/left = 0 */
+  z-index: 0;
+  pointer-events: none;
 
-  border-radius: 0; /* toolbar usually square */
+  /* put your image here (use var or url directly) */
+  background-image: var(--bg-image); /* e.g. "url('...')" */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* blur the image itself */
+  filter: blur(0px);           /* realistic blur amount */
+  -webkit-filter: blur(1.1px);   /* Safari */
+  transform: scale(1.06);      /* hide blurred edges */
+}
+
+/* optional translucent overlay + gradient */
+.toolbar-bg::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+
+  background:
+    linear-gradient(rgba(219,202,170,0.25), rgba(237,228,201,0.26)),
+    rgba(152,12,12,0.2); /* semi-transparent tint */
+  mix-blend-mode: normal;
+}
+
+/* put content above the layers */
+.toolbar-bg > *{
+  position: relative;
+  z-index: 2;
 }

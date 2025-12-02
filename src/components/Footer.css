@@ -25,7 +25,7 @@
   inset: 0;
 
   /* Slight frosted tint */
-  background: rgba(255, 0, 0, 0.056);
+  background: rgba(112, 50, 26, 0.382);
 
   /* TRUE BACKDROP BLUR (works in Chrome, Safari, Edge) */
   -webkit-backdrop-filter: blur(2px);

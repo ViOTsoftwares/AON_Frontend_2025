@@ -24,7 +24,7 @@ import { useFormik } from "formik";
 import LoginSchema from "../schema/LoginSchema";
 import BaseApi from "../BasaApi";
 import { useDispatch } from "react-redux";
-import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from "jwt-decode"; 
 import { UserLogin, UserLogout } from "../slice/UserSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -46,13 +46,11 @@ export default function Login() {
   const [Varify, setVarify] = useState({ username: "", email: "", otp: "" });
   const InnitialValues = { username: "", email: "" };
   const [isResend, setIsResend] = useState(false);
-  const [phoneMenu, setPhoneMenu] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
@@ -61,9 +59,7 @@ export default function Login() {
     initialValues: InnitialValues,
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      console.log("values", values);
       try {
-        console.log(Email);
         setVarify((pre) => ({
           ...pre,
           username: values.username,
@@ -80,8 +76,9 @@ export default function Login() {
       }
     },
   });
+
   const { User, isUser } = useSelector((state) => state.UserState);
-  const { username, picture } = User;
+  const { username, picture } = User || {};
 
   useEffect(() => {
     if (timer === 0) {
@@ -100,12 +97,10 @@ export default function Login() {
 
   const handleLogout = () => {
     dispatch(UserLogout());
-    setTimeout(() => {
-      navigate("/");
-    }, 1000);
-
+    navigate("/");
     toastMessage("Logout successfully", "success");
   };
+
   const handleVerifyOTP = async () => {
     try {
       const { data } = await BaseApi.post(`/user/verify-otp`, Varify);
@@ -113,7 +108,6 @@ export default function Login() {
       if (data.success) {
         const decode = jwtDecode(data.token);
         dispatch(UserLogin(decode));
-        // alert("✅ Login Successful!");
         toastMessage("Login Successful", "success");
         setOpen(false);
         setShowOTP(false);
@@ -121,7 +115,6 @@ export default function Login() {
         formik.resetForm();
       }
     } catch (err) {
-      // alert(err.response?.data?.message || "Invalid OTP");
       toastMessage(err.response?.data?.message || "Invalid OTP", "error");
     }
   };
@@ -140,41 +133,43 @@ export default function Login() {
     window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/google`;
   };
 
+  // Using the same OAUTH base as Google — adjust if your FB URL differs
   const loginWithFacebook = () => {
-    window.location.href = `${BaseApi}/auth/facebook`;
+    window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/facebook`;
   };
+
   const handleProfile = () => {
     if (isUser && username) {
       navigate("/account");
     }
+    handleMenuClose();
   };
-  const handleProfileOpen = () => {
-    setPhoneMenu(true);
-  };
-  const handleClose = () => {
-    setPhoneMenu(false);
-  };
-  console.log("--->", open);
+
   return (
     <>
-      <Tooltip title={username ? username : "Guest"} arrow>
-        <Box
-          component={"button"}
-          onClick={handleProfile}
-          sx={{ border: "none", bgcolor: "white" }}
-        >
+      {/* Avatar + Login/Signup Button (Stacked) */}
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          pt: 1,
+          gap: .5,
+        }}
+      >
+        <Tooltip title={username ? username : "Guest"} arrow>
           <Avatar
             onClick={handleMenuOpen}
             src={
-              User.picture?.startsWith("https")
+              User?.picture?.startsWith?.("https")
                 ? User.picture
-                : `${ImageApi}/profile/${User.picture}`
+                : `${ImageApi}/profile/${User?.picture}`
             }
             alt={username || "Guest"}
             sx={{
               bgcolor: username ? "primary.main" : "grey.500",
-              width: 48,
-              height: 48,
+              width: 44,
+              height: 44,
               fontSize: "1.2rem",
               fontWeight: "bold",
               cursor: "pointer",
@@ -186,96 +181,79 @@ export default function Login() {
             }}
             imgProps={{
               onError: (e) => {
-                e.currentTarget.style.display = "none"; // hide broken img
+                e.currentTarget.style.display = "none";
               },
             }}
           >
             {isUser ? username?.[0]?.toUpperCase() : <PersonSharpIcon />}
           </Avatar>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
-            anchorOrigin={{
-              vertical: "bottom", // ⬅️ directly below the header
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "left",
-            }}
-            keepMounted
-            // open={phoneMenu}
-            // onClose={handleClose}
+        </Tooltip>
+
+        {/* Login / Logout Button BELOW the Avatar */}
+        {isUser ? (
+          <Button
+            variant="contained"
+            color="error"
             sx={{
-              display: { xs: "block", md: "none" },
+              fontSize: "0.75rem",
+              padding: "4px 10px",
+              minWidth: "50px",
+              borderRadius: "10px",
+              display: { xs: "block" },
+            }}
+            onClick={handleLogout}
+          >
+            Logout
+          </Button>
+        ) : (
+          <Button
+            variant="text"
+            onClick={() => setOpen(true)}
+            sx={{
+              fontSize: "0.75rem",
+              padding: "4px 10px",
+              minWidth: "50px",
+              borderRadius: "10px",
+              color: "rgba(82, 55, 40, 1)",
+              fontWeight: "600",
+              display: { xs: "block" },
             }}
           >
-            <MenuItem
-              onClick={() => {
-                isUser ? handleLogout() : setOpen(!open);
-              }}
-            >
-              {" "}
-              {isUser ? (
-                <Button
-                  variant="contained"
-                  color="error"
-                  // onClick={handleLogout}
-                >
-                  Logout
-                </Button>
-              ) : (
-                <Button
-                  variant="text"
-                  // onClick={() => setOpen(!open)}
-                  sx={{
-                    fontSize: { xs: "0.85rem", sm: "1rem" },
-                    display: { xs: "block", md: "none" },
-                  }}
-                >
-                  Login / Sign-Up
-                </Button>
-              )}
-            </MenuItem>
+            Login / Sign-Up
+          </Button>
+        )}
 
-            <MenuItem
-              onClick={() => {
-                isUser ? navigate("/account") : "";
-                setAnchorEl(null);
-              }}
-            >
-              My account
-            </MenuItem>
-          </Menu>
-        </Box>
-        {/* {picture} */}
-        {/* <img src={picture} alt={username} /> */}
-      </Tooltip>
+        {/* Small menu anchored to avatar */}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          transformOrigin={{ vertical: "top", horizontal: "left" }}
+        >
+          <MenuItem
+            onClick={() => {
+              if (isUser) {
+                handleLogout();
+              } else {
+                setOpen(true);
+              }
+              handleMenuClose();
+            }}
+          >
+            {isUser ? "Logout" : "Login / Sign-Up"}
+          </MenuItem>
 
-      {isUser ? (
-        <Button
-          variant="contained"
-          color="error"
-          sx={{
-            display: { xs: "none", md: "block" },
-          }}
-          onClick={handleLogout}
-        >
-          Logout
-        </Button>
-      ) : (
-        <Button
-          variant="text"
-          onClick={() => setOpen(!open)}
-          sx={{
-            fontSize: { xs: "0.85rem", sm: "1rem" },
-            display: { xs: "none", md: "block" },
-          }}
-        >
-          Login / Sign-Up
-        </Button>
-      )}
+          <MenuItem
+            onClick={() => {
+              if (isUser) navigate("/account");
+              handleMenuClose();
+            }}
+          >
+            My account
+          </MenuItem>
+        </Menu>
+      </Box>
 
       <Dialog
         fullScreen
@@ -329,7 +307,6 @@ export default function Login() {
             position: "relative",
           }}
         >
-          {/* Overlay */}
           <Box
             sx={{
               bgcolor: "rgba(0,0,0,0.6)",
@@ -352,7 +329,7 @@ export default function Login() {
             }}
           >
             <IconButton
-              onClick={() => setOpen(!open)}
+              onClick={() => setOpen(false)}
               size="large"
               aria-label="close"
               sx={{
@@ -365,6 +342,7 @@ export default function Login() {
             >
               <CloseIcon />
             </IconButton>
+
             {/* Left side content */}
             <Grid
               container
@@ -381,13 +359,9 @@ export default function Login() {
                 your taste, style and comfort.
               </Typography>
               <Box sx={{ mt: 2 }}>
-                <Typography>
-                  Premiumly crafted & customizable collections
-                </Typography>
+                <Typography>Premiumly crafted & customizable collections</Typography>
                 <Typography>Prices, offers & real-time availability</Typography>
-                <Typography>
-                  Private, secure, and seamless AON experience
-                </Typography>
+                <Typography>Private, secure, and seamless AON experience</Typography>
               </Box>
             </Grid>
 
@@ -397,10 +371,7 @@ export default function Login() {
               size={{ xs: 12, md: 6 }}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Card
-                elevation={12}
-                sx={{ maxWidth: 400, borderRadius: 4, p: 3, width: 350, mb: 1 }}
-              >
+              <Card elevation={12} sx={{ maxWidth: 400, borderRadius: 4, p: 3, width: 350, mb: 1 }}>
                 <Typography textAlign="center" variant="h6" mb={2}>
                   Login
                 </Typography>
@@ -408,9 +379,7 @@ export default function Login() {
                 <div className="form-wrapper">
                   {/* Email step */}
                   <form onSubmit={formik.handleSubmit}>
-                    <div
-                      className={`form-slide email ${showOTP ? "exit" : ""}`}
-                    >
+                    <div className={`form-slide email ${showOTP ? "exit" : ""}`}>
                       <TextField
                         label="Username"
                         fullWidth
@@ -419,15 +388,8 @@ export default function Login() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         sx={{ mb: "10px" }}
-                        error={
-                          formik.touched.username &&
-                          Boolean(formik.errors.username)
-                        }
-                        helperText={
-                          formik.touched.username
-                            ? formik.errors.username
-                            : "  "
-                        }
+                        error={formik.touched.username && Boolean(formik.errors.username)}
+                        helperText={formik.touched.username ? formik.errors.username : "  "}
                       />
 
                       <TextField
@@ -439,12 +401,8 @@ export default function Login() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         sx={{ mb: "10px" }}
-                        error={
-                          formik.touched.email && Boolean(formik.errors.email)
-                        }
-                        helperText={
-                          formik.touched.email ? formik.errors.email : "   "
-                        }
+                        error={formik.touched.email && Boolean(formik.errors.email)}
+                        helperText={formik.touched.email ? formik.errors.email : "   "}
                       />
 
                       <Button variant="contained" fullWidth type="submit">
@@ -459,47 +417,28 @@ export default function Login() {
                       label="Enter OTP"
                       fullWidth
                       value={Varify.otp}
-                      onChange={(e) =>
-                        setVarify((prev) => ({ ...prev, otp: e.target.value }))
-                      }
+                      onChange={(e) => setVarify((prev) => ({ ...prev, otp: e.target.value }))}
                       inputProps={{ maxLength: 6 }}
                       sx={{ mb: 1 }}
                     />
-                    <Box
-                      sx={{ display: "flex", justifyContent: "space-between" }}
-                    >
-                      <Typography
-                        variant="body2"
-                        color="error"
-                        textAlign="center"
-                        mt={1}
-                      >
+                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+                      <Typography variant="body2" color="error" textAlign="center" mt={1}>
                         Time left: {formatTime(timer)}
                       </Typography>
                       {isResend ? (
                         <Button disabled={timer !== 0} onClick={handleResend}>
                           resend
                         </Button>
-                      ) : (
-                        ""
-                      )}
+                      ) : null}
                     </Box>
-                    <Button
-                      variant="contained"
-                      fullWidth
-                      sx={{ mt: 2 }}
-                      onClick={handleVerifyOTP}
-                    >
+                    <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleVerifyOTP}>
                       Verify OTP
                     </Button>
                   </div>
                 </div>
 
                 {/* Divider */}
-                <Box
-                  sx={{ display: "flex", flexDirection: "column", gap: 1 }}
-                  mt={7}
-                >
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }} mt={7}>
                   <Box display="flex" alignItems="center" gap={2}>
                     <Box flex={1} height="1px" bgcolor="gray" />
                     <Typography variant="body2" color="textSecondary">
@@ -507,21 +446,10 @@ export default function Login() {
                     </Typography>
                     <Box flex={1} height="1px" bgcolor="gray" />
                   </Box>
-                  <Button
-                    variant="outlined"
-                    startIcon={<FcGoogle />}
-                    fullWidth
-                    onClick={loginWithGoogle}
-                  >
+                  <Button variant="outlined" startIcon={<FcGoogle />} fullWidth onClick={loginWithGoogle}>
                     With Google
                   </Button>
-                  <Button
-                    variant="outlined"
-                    color="primary"
-                    startIcon={<FaFacebookSquare />}
-                    fullWidth
-                    onClick={loginWithFacebook}
-                  >
+                  <Button variant="outlined" color="primary" startIcon={<FaFacebookSquare />} fullWidth onClick={loginWithFacebook}>
                     With Facebook
                   </Button>
                 </Box>
