@@ -35,6 +35,7 @@ import {
 const Checkout = () => {
   const { cart } = useSelector((state) => state.CartState);
   const { User } = useSelector((state) => state.UserState);
+  const { cmsDate } = useSelector((state) => state.CmsState);
   const { state } = useLocation();
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,7 +48,7 @@ const Checkout = () => {
     ? cart?.reduce((sum, item) => sum + item.SellingPrice * item.Qty, 0)
     : oneProduct.SellingPrice * oneProduct.Qty;
   //
-  console.log("boolenValue------", boolenValue);
+  
   const discount = isCartproduct
     ? cart?.reduce(
         (sum, item) => sum + (item.MRP - item.SellingPrice) * item.Qty,
@@ -195,7 +196,7 @@ const Checkout = () => {
   };
 
   const shareToWhatsApp = (title, FrontendUrl, message) => {
-    const phoneNumber = "919566908720"; // your WhatsApp number
+    const phoneNumber = cmsDate?.whatsAppNumber; // your WhatsApp number
     // Combine the message with product title and URL
     // const fullMessage = `${message}\nProduct: ${title}\n${FrontendUrl}`;
 

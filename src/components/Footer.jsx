@@ -29,9 +29,6 @@ import FooterBg from "../assets/TestiMonial-1.jpg";
 
 import "./Footer.css";
 
-
-
-
 function Footer() {
   const { cmsDate } = useSelector((state) => state.CmsState);
   const { isUser } = useSelector((state) => state.UserState);
@@ -84,31 +81,31 @@ function Footer() {
   const ICONS = [
     {
       component: FacebookIcon,
-      color: "info",
+      color: "white",
       label: "Facebook",
       link: cmsDate?.facebookURL,
     },
     {
       component: InstagramIcon,
-      color: "error",
+      color: "",
       label: "Instagram",
       link: cmsDate?.instraURL,
     },
     {
       component: YouTubeIcon,
-      color: "error",
+      color: "",
       label: "YouTube",
       link: cmsDate?.youtupeURL,
     },
     {
       component: TwitterIcon,
-      color: "info",
+      color: "",
       label: "Twitter",
       link: cmsDate?.xURL,
     },
     {
       component: LinkedInIcon,
-      color: "info",
+      color: "",
       label: "LinkedIn",
       link: cmsDate?.linkedin,
     },
@@ -134,7 +131,8 @@ function Footer() {
       className="footer-bg"
       style={{
         "--bg-image": `url(${FooterBg})`,
-        "--bg-color": "linear-gradient(rgba(188, 42, 42, 0.71), rgba(210, 170, 28, 0.88))",  // fallback color behind image
+        "--bg-color":
+          "linear-gradient(rgba(188, 42, 42, 0.71), rgba(210, 170, 28, 0.88))", // fallback color behind image
       }}
     >
       <Grid container p={2}>
@@ -149,7 +147,7 @@ function Footer() {
             width={120}
           />
 
-          <Typography p={1} textAlign="center">
+          <Typography p={1} textAlign="center" color="white">
             Specialized Store for Modern furniture with Customization, Table,
             Chaire{" "}
           </Typography>
@@ -163,9 +161,9 @@ function Footer() {
               p={1}
             >
               <IconButton>
-                <Icon /> {/* ✅ Use the component variable directly */}
+                <Icon color="white"/> {/* ✅ Use the component variable directly */}
               </IconButton>
-              <Typography variant="body2">{label}</Typography>
+              <Typography variant="body2" color="white">{label}</Typography>
             </Box>
           ))}
         </Grid>
@@ -175,7 +173,7 @@ function Footer() {
           direction="column"
           sx={{ gap: 3, p: 1 }}
         >
-          <Typography variant="h6" textAlign="center">
+          <Typography variant="h6" textAlign="center" color="white">
             Pages
           </Typography>
           {Pages.map((p, i) => {
@@ -185,7 +183,7 @@ function Footer() {
                 to={p.pageUrl}
                 style={{
                   textDecoration: "none",
-                  color: "black",
+                  color: "white",
                   textAlign: "center",
                   fontWeight: 500,
                   fontSize: "1.1rem",
@@ -202,7 +200,7 @@ function Footer() {
           direction="column"
           sx={{ gap: 3, p: 1 }}
         >
-          <Typography variant="h6" textAlign="center">
+          <Typography variant="h6" textAlign="center" color="white">
             Main Menu
           </Typography>
           {Policy.map((p, i) => {
@@ -211,7 +209,7 @@ function Footer() {
                 to={p.pageUrl}
                 style={{
                   textDecoration: "none",
-                  color: "black",
+                  color: "white",
                   textAlign: "center",
                   fontWeight: 500,
                   fontSize: "1.1rem",
@@ -226,7 +224,7 @@ function Footer() {
               to={"/account"}
               style={{
                 textDecoration: "none",
-                color: "black",
+                color: "white",
                 textAlign: "center",
                 fontWeight: 500,
                 fontSize: "1.1rem",
@@ -246,8 +244,8 @@ function Footer() {
         >
           <Grid size={12} container justifyContent="center">
             <Stack>
-              <Typography variant="h6">Newsletter</Typography>
-              <Typography variant="body1">
+              <Typography variant="h6" color="white">Newsletter</Typography>
+              <Typography variant="body1" color="white">
                 Sign up for exclusive offers, original stories, events and more.
               </Typography>
             </Stack>
@@ -261,11 +259,12 @@ function Footer() {
                     setErrorValidation("");
                   }
                 }}
+                sx={{borderColor:"black"}}
                 slotProps={{
                   input: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <EmailIcon fontSize="large" color="primary" />
+                        <EmailIcon fontSize="large" color="" />
                       </InputAdornment>
                     ),
                   },
@@ -277,7 +276,7 @@ function Footer() {
               </p>
               <Button
                 variant="contained"
-                sx={{ height: "3.4rem", fontSize: "1.2rem" }}
+                sx={{ height: "3.4rem", fontSize: "1.2rem" ,backgroundColor:"burlywood"}}
                 onClick={handleSubmit}
                 fullWidth
               >
@@ -286,7 +285,7 @@ function Footer() {
             </Stack>
           </Grid>
           <Grid size={12}>
-            <Typography variant="h6" textAlign="center">
+            <Typography variant="h6" textAlign="center" color="white">
               Follow us
             </Typography>
             <Stack

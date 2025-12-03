@@ -40,7 +40,7 @@ const SearchProducts = () => {
   const [FabricType, setFabricType] = useState([]);
   const [FinishType, setFinishType] = useState([]);
   const [FrameMaterial, setFrameMaterial] = useState([]);
-  const [priceRangeValue, setPriceRangeValue] = useState([0, 100000]);
+  const [priceRangeValue, setPriceRangeValue] = useState([0, 50000]);
   const [Banner, setBanner] = useState({});
   const [open, setOpen] = React.useState(false);
   const [chips, setChip] = useState([]);
@@ -142,7 +142,7 @@ const SearchProducts = () => {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          px={2}
+          p={2}
         >
           <Typography
             fontSize="1.1rem"

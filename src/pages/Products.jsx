@@ -123,7 +123,7 @@ function Products() {
           direction="row"
           justifyContent="space-between"
           alignItems="center"
-          px={2}
+          p={2}
         >
           <Typography
             fontSize="1.1rem"
