@@ -50,9 +50,10 @@ const ProductDetailCard = ({ Product = {} }) => {
       <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
         <Box
           sx={{
-            pl: { md: 8 },
+            pl: { md: 6 },
             width: "100%",
-            maxWidth: { xs: 520, md: 520 }, // constrain so image doesn't blow layout
+            backgroundSize : "contain",
+            maxWidth: { xs: 520, md: 620 }, // constrain so image doesn't blow layout
           }}
         >
           {/* CarouselImage should itself be responsive; we wrap to enforce max width */}
@@ -63,6 +64,8 @@ const ProductDetailCard = ({ Product = {} }) => {
               overflow: "hidden",
               borderRadius: 1,
               bgcolor: "background.paper",
+              backgroundSize: "contain",
+
             }}
           >
             {/* If CarouselImage accepts style props, pass them — otherwise wrap the image container */}
@@ -78,8 +81,9 @@ const ProductDetailCard = ({ Product = {} }) => {
         xs={12}
         md={6}
         sx={{
-           ml: "auto",
-           pr: {md:15},
+           ml: "74px",
+          pl: { xs: 0, md: 0 },
+           pr: {md:12},
           width: "100%",
           // ensure details column doesn't shrink to tiny width
           maxWidth: { xs: "100%", md: "680px" },
