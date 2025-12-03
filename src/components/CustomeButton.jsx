@@ -4,7 +4,7 @@ import CustomLogo from "../assets/CustomLogo.png"; // ✅ make sure the path is 
 
 function CustomeButton({ navigate }) {
   return (
-    <Tooltip placement="bottom" title="Tune your furniture" arrow>
+    <Tooltip placement="bottom" title="Customisation - Tune your furniture " arrow>
       <Box
         onClick={() => navigate("customization")}
         sx={{
@@ -23,12 +23,13 @@ function CustomeButton({ navigate }) {
           src={CustomLogo}
           alt="Customization"
           style={{
-            width: "55px",
+            width: "60px",
             height: "auto",
             borderRadius: "10px",
+            marginTop: "6px",
           }}
         />
-        <Typography
+        {/* <Typography
           variant="body2"
           sx={{
             fontWeight: 600,
@@ -38,7 +39,7 @@ function CustomeButton({ navigate }) {
           }}
         >
           Customisation
-        </Typography>
+        </Typography> */}
       </Box>
     </Tooltip>
   );

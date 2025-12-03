@@ -108,13 +108,13 @@ function Home() {
         <Grid
           container
           spacing={{ xs: 1, sm: 2 }}
-          // justifyContent="center"
-          // rowGap={2}
-          // columnGap={4}
+        // justifyContent="center"
+        // rowGap={2}
+        // columnGap={4}
         >
           {category &&
             category.map((ct) => (
-              <Grid size={{ xs:3, sm:3,md:3}} key={ct.path}>
+              <Grid size={{ xs: 3, sm: 3, md: 3 }} key={ct.path}>
                 <Link
                   to={
                     ct.path === "Customisation"
@@ -130,6 +130,7 @@ function Home() {
       </Grid>
 
       <Box sx={{ alignSelf: "center", width: "100%" }}>
+
         <BestSelling />
       </Box>
 
@@ -155,9 +156,44 @@ function Home() {
         )}
       </Box>
 
-      <Box sx={{ padding: { xs: 1, sm: 6 } }}>
-        <Combo />
-      </Box>
+      <Box
+  sx={{
+    py: { xs: 3, sm: 8 },
+    px: { xs: 2, sm: 6 },
+    textAlign: "center",
+  }}
+>
+  <Typography
+    component="h2"
+    sx={{
+      fontWeight: 0,
+      fontSize: { xs: "2rem", sm: "2.8rem", md: "3.2rem" },
+      lineHeight: 1.2,
+      mb: { xs: 2, sm: 4 },
+      fontFamily: "Inter, Poppins, sans-serif",
+      letterSpacing: "-0.6px",
+      color: "#1a1a1a",
+    }}
+  >
+    Shop{" "}
+    <Box
+  component="span"
+  sx={{
+    background: "linear-gradient(90deg, #d4bea5 0%, #ff005d 100%)",
+    WebkitBackgroundClip: "text",
+    backgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    fontWeight: 800,
+  }}
+>
+  By Space
+</Box>
+  </Typography>
+
+  <Combo />
+</Box>
+
+
       <Box>
 
 

@@ -113,6 +113,7 @@ function Products() {
                 backgroundPosition: "center center",
                 height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
                 width: "100%",
+                mb: 1,
               }}
             />
           )

@@ -168,8 +168,8 @@ export default function Login() {
             alt={username || "Guest"}
             sx={{
               bgcolor: username ? "primary.main" : "grey.500",
-              width: 44,
-              height: 44,
+              width: 45,
+              height: "auto",
               fontSize: "1.2rem",
               fontWeight: "bold",
               cursor: "pointer",
@@ -191,21 +191,21 @@ export default function Login() {
 
         {/* Login / Logout Button BELOW the Avatar */}
         {isUser ? (
-          <Button
-            variant="contained"
-            color="error"
-            sx={{
-              fontSize: "0.75rem",
-              padding: "4px 10px",
-              minWidth: "50px",
-              borderRadius: "10px",
-              display: { xs: "block" },
-            }}
-            onClick={handleLogout}
-          >
-            Logout
-          </Button>
-        ) : (
+          // <Button
+          //   variant="contained"
+          //   color="error"
+          //   sx={{
+          //     fontSize: "0.75rem",
+          //     padding: "4px 10px",
+          //     minWidth: "50px",
+          //     borderRadius: "10px",
+          //     display: { xs: "block" },
+          //   }}
+          //   onClick={handleLogout}
+          // >
+          //   Logout
+          // </Button> 
+        null) : (
           <Button
             variant="text"
             onClick={() => setOpen(true)}
