@@ -15,10 +15,10 @@ function Circle({ title, image }) {
         alignContent: "center",
         width: { xs: 70, sm: 150, md: 220 },
         height: { xs: 70, sm: 150, md: 180 },
-        borderRadius: { xs: 1, sm: 2 ,md:3},
+        borderRadius: { xs: 1, sm: 2 ,md:7},
         cursor: "pointer",
         position: "relative",
-        m:{xs:0,md:1}
+        m:{xs:"2px",md:"12px"}
       }}
     >
       <CardMedia
@@ -47,7 +47,7 @@ function Circle({ title, image }) {
         fontWeight={500}
         fontSize={{ xs: "0.90rem", sm: "1.4rem" }}
         variant="body1"
-        color="white"
+        color="rgba(255, 255, 255, 0.9)"
       >
         {title}
       </Typography>

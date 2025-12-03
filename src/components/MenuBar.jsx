@@ -78,34 +78,43 @@ function MenuBar({ show, handleClose }) {
           alignItems="center"
           height="100%"
         >
-          <Tooltip title={username ? username : "Guest"} arrow>
-            <Avatar
-              src={isUser && picture ? picture : undefined}
-              alt={username || "Guest"}
-              sx={{
-                bgcolor: username ? "primary.main" : "grey.500",
-                width: 48,
-                height: 48,
-                fontSize: "1.2rem",
-                fontWeight: "bold",
-                cursor: "pointer",
-                "&:hover": {
-                  boxShadow: 4,
-                  transform: "scale(1.05)",
-                  transition: "0.2s ease-in-out",
-                },
-              }}
-              imgProps={{
-                onError: (e) => {
-                  e.currentTarget.style.display = "none"; // hide broken img
-                },
-              }}
-            >
-              {isUser ? username?.[0]?.toUpperCase() : <PersonSharpIcon />}
-            </Avatar>
-            {/* {picture} */}
-            {/* <img src={picture} alt={username} /> */}
-          </Tooltip>
+          <Box sx={{ ml: 2 }}>
+            <Tooltip title={username ? username : "Guest"} arrow>
+              <Avatar
+                src={isUser && picture ? picture : undefined}
+                alt={username || "Guest"}
+                sx={{
+                  bgcolor: username ? "primary.main" : "grey.500",
+                  width: 56,         // slightly larger so inner padding looks nice
+                  height: 56,
+                  p: 0,              // no invalid negative padding
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  cursor: "pointer",
+                  "&:hover": {
+                    boxShadow: 4,
+                    transform: "scale(1.05)",
+                    transition: "0.2s ease-in-out",
+                  },
+                }}
+                imgProps={{
+                  onError: (e) => {
+                    e.currentTarget.style.display = "none"; // hide broken img
+                  },
+                  style: { objectFit: "cover" },
+                }}
+              >
+                {isUser ? (
+                  <Box sx={{ px: 0.6, py: 0.4, fontSize: "1.25rem", fontWeight: "700" }}>
+                    {username?.[0]?.toUpperCase()}
+                  </Box>
+                ) : (
+                  <PersonSharpIcon sx={{ fontSize: 26 }} />
+                )}
+              </Avatar>
+            </Tooltip>
+          </Box>
           <Button
             variant="h6"
             sx={{
@@ -141,7 +150,7 @@ function MenuBar({ show, handleClose }) {
                   navigate(navLink?.link), handleClose();
                 }}
               >
-             
+
                 <ListItemText>{navLink.title}</ListItemText>
               </ListItemButton>
             </ListItem>
@@ -165,22 +174,25 @@ function MenuBar({ show, handleClose }) {
           justifyContent="center"
           alignItems="stretch"
         >
-          <Card>
+          <Box sx={{ p: 0.5, borderRadius: 2 }}>
             <IconButton>
               <FacebookIcon color="info" fontSize="large" />
             </IconButton>
-          </Card>
-          <Card>
+          </Box>
+
+          <Box sx={{ p: 0.5, borderRadius: 2 }}>
             <IconButton>
               <InstagramIcon color="error" fontSize="large" />
             </IconButton>
-          </Card>
-          <Card>
+          </Box>
+
+          <Box sx={{ p: 0.5, borderRadius: 2 }}>
             <IconButton>
               <YouTubeIcon color="error" fontSize="large" />
             </IconButton>
-          </Card>
+          </Box>
         </Stack>
+
       </Box>
     </Drawer>
   );

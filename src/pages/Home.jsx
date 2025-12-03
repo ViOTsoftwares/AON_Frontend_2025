@@ -106,11 +106,11 @@ function Home() {
         </Typography>
 
         <Grid
-          container
-          spacing={{ xs: 1, sm: 1 }}
+          container spacing={{ xs: 1, sm: 0 }}
+
           // justifyContent="center"
           // rowGap={2}
-          // columnGap={4}
+          //columnGap={0}
         >
           {category &&
             category.map((ct) => (

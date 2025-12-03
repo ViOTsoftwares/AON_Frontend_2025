@@ -98,32 +98,35 @@ function Products() {
   return (
     <div>
       <Box>
-        {isLoading ? (
-          <PageLoading load={isLoading} />
-        ) : (
-          Banner && (
-            <Box
-              sx={{
-                backgroundImage: {
-                  xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
-                  sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
-                },
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
-                width: "100%",
-              }}
-            />
-          )
-        )}
-      </Box>
-      <Grid px={1.3}>
+  {isLoading ? (
+    <PageLoading load={isLoading} />
+  ) : (
+    Banner && (
+      <Box
+        sx={{
+          backgroundImage: {
+            xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
+            sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
+          },
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
+          width: "100%",
+         
+        }}
+      />
+    )
+  )}
+</Box>
+
+      <Grid px={1.3} pt={2} >
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="center"
           px={2}
+          
         >
           <Typography
             fontSize="1.1rem"

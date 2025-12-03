@@ -296,7 +296,7 @@ const ProductDetailCard = ({ Product = {} }) => {
 
             <Paper elevation={0}>
               <FindReplaceIcon sx={{ fontSize: 34 }} />
-              <Typography variant="body2">Easy Returns</Typography>
+              <Typography variant="body2">Easy Installing</Typography>
             </Paper>
           </Stack>
 
