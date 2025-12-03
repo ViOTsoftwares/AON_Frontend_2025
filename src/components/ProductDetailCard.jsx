@@ -25,7 +25,6 @@ const ProductDetailCard = ({ Product = {} }) => {
   const navigate = useNavigate();
   const { isUser } = useSelector((state) => state.UserState || {});
 
-  // Defensive EcomLinks
   const EcomLinks = Product?.EcomLinks || {};
 
   const sellingPrice = new Intl.NumberFormat("en-IN", {
@@ -40,15 +39,10 @@ const ProductDetailCard = ({ Product = {} }) => {
     maximumFractionDigits: 0,
   }).format(Product?.MRP || 0);
 
-const handleShare = () => {
-  const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product._id}`;
-
-  window.open(
-    `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
-    "_blank"
-  );
-};
-
+  const handleShare = () => {
+    const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product?._id}`;
+    window.open(`https://wa.me/?text=${encodeURIComponent(shareUrl)}`, "_blank");
+  };
 
   return (
     <Grid container px={2} spacing={2}>
@@ -59,81 +53,70 @@ const handleShare = () => {
         </Box>
       </Grid>
 
-        <Grid size={{ xs: 12, md: 6.1 }}>
-          <Grid>
-            <Stack p={2}>
-              <Stack
-                flexDirection="row"
-                justifyContent="space-between"
-                alignItems="center"
-              >
+      {/* Right: Details */}
+      <Grid item xs={12} md={6}>
+        <Stack spacing={2} p={2}>
+          <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Typography
+              component="h1"
+              fontSize={{ xs: "1.1rem", sm: "1.25rem" }}
+              lineHeight="1.75rem"
+              fontWeight={400}
+              sx={{ fontFamily: "inter" }}
+            >
+              {Product?.Title}
+            </Typography>
+
+            <IconButton aria-label="share product" onClick={handleShare} size="large">
+              <ShareIcon />
+            </IconButton>
+          </Stack>
+
+          <Typography
+            component="h3"
+            fontSize={{ xs: "1rem", sm: "1rem" }}
+            lineHeight="1.75rem"
+            fontWeight={400}
+            sx={{ fontFamily: "inter" }}
+          >
+            {Product?.Subtitle}
+          </Typography>
+
+          <Typography fontSize="14px" lineHeight="1.2rem" fontWeight={500} color="success.main">
+            Special Price
+          </Typography>
+
+          <Stack spacing={2}>
+            <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack direction="row" spacing={1.6} alignItems="center">
                 <Typography
-                  component="h1"
-                  fontSize={{ xs: "1.1rem", sm: "1.25rem" }}
-                  lineHeight="1.75rem"
-                  fontWeight={400}
+                  fontSize={{ xs: "1.5rem", sm: "1.7rem" }}
+                  fontWeight={500}
                   sx={{ fontFamily: "inter" }}
                 >
-                  {Product?.Title}
+                  {sellingPrice}
                 </Typography>
-                <IconButton sx={{ alignSelf: "flex-start" }}>
-                  <ShareIcon onClick={handleShare} />
-                </IconButton>
+
+                <Typography variant="body1" color="text.secondary">
+                  <del>{discountPrice}</del>
+                </Typography>
+
+                <Typography variant="body1" color="success.main">
+                  {Product?.Discount ? `${Product.Discount}% off` : ""}
+                </Typography>
               </Stack>
-              <Typography
-                component="h3"
-                fontSize={{ xs: "1rem", sm: "1rem" }}
-                lineHeight="1.75rem"
-                fontWeight={400}
-                sx={{ fontFamily: "inter" }}
+            </Stack>
+
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <Button
+                fullWidth
+                variant="contained"
+                size="large"
+                sx={{ p: 1.4, fontSize: "1rem" }}
+                onClick={() => dispatch(AddCart({ ...Product, Qty: 1 }))}
               >
-                {Product?.Subtitle}
-              </Typography>
-              <Typography
-                fontSize="14px"
-                lineHeight="1.2rem"
-                fontStyle={500}
-                color="success"
-              >
-                Special Price
-              </Typography>{" "}
-              <Stack spacing={2}>
-                <Stack
-                  flexDirection="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                >
-                  <Stack
-                    flexDirection="row"
-                    columnGap={1.6}
-                    alignItems="center"
-                  >
-                    <Typography
-                      fontSize={{ xs: "1.5rem", sm: "1.7rem" }}
-                      fontWeight={500}
-                      sx={{ fontFamily: "inter" }}
-                    >
-                      {/* ₹{Product.SellingPrice} */}
-                      {sellingPrice}
-                    </Typography>
-                    <Typography variant="body1" color="textSecondary">
-                      <del>{discountPrice}</del>
-                    </Typography>
-                    <Typography variant="body1" color="success">
-                      {Product?.Discount}% off
-                    </Typography>
-                  </Stack>
-                </Stack>
-                <Stack flexDirection="row" columnGap={2}>
-                  <Button
-                    fullWidth
-                    variant="contained"
-                    size="large"
-                    sx={{ p: 1.4, fontSize: "1rem" }}
-                    onClick={() => dispatch(AddCart({ ...Product, Qty: 1 }))}
-                  >
-                    ADD TO CART
-                  </Button>
+                ADD TO CART
+              </Button>
 
               <Button
                 fullWidth
@@ -153,7 +136,6 @@ const handleShare = () => {
             </Stack>
 
             <Stack direction="row" justifyContent="flex-end" alignItems="center" gap={2} sx={{ mt: 1 }}>
-              {/* render Ecom link images defensively */}
               {EcomLinks?.oneImage && (
                 <IconButton
                   component="a"
@@ -245,7 +227,7 @@ const handleShare = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 flexDirection: "column",
-                textAlign: "center"
+                textAlign: "center",
               },
             }}
           >
@@ -261,17 +243,11 @@ const handleShare = () => {
 
             <Paper elevation={0}>
               <FindReplaceIcon sx={{ fontSize: 40 }} />
-              <Typography
-                textAlign="center"
-                lineHeight="1.15rem"
-                sx={{ mt: "2px" }}
-              >
+              <Typography textAlign="center" lineHeight="1.15rem" sx={{ mt: "2px" }}>
                 Easy Returns
               </Typography>
             </Paper>
           </Stack>
-
-
 
           {/* Product Info Table */}
           <Grid item xs={12} sx={{ p: 1 }}>
