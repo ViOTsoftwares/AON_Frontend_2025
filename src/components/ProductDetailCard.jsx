@@ -45,63 +45,103 @@ const ProductDetailCard = ({ Product = {} }) => {
   };
 
   return (
-    <Grid container px={2} spacing={2}>
-      {/* Left: Images */}
-      <Grid item xs={12} md={6}>
-        <Box sx={{ position: "sticky", top: 70 }}>
-          <CarouselImage images={Product?.ImageArray || []} />
+    <Grid container spacing={2} px={2} alignItems="flex-start">
+      {/* Left: Images - fixed max width and fixed image box to avoid layout shifts */}
+      <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+        <Box
+          sx={{
+            pl: { md: 8 },
+            width: "100%",
+            maxWidth: { xs: 520, md: 520 }, // constrain so image doesn't blow layout
+          }}
+        >
+          {/* CarouselImage should itself be responsive; we wrap to enforce max width */}
+          <Box
+            sx={{
+              width: "100%",
+              height: { xs: 280, sm: 340, md: 500 }, // consistent visible image area per breakpoint
+              overflow: "hidden",
+              borderRadius: 1,
+              bgcolor: "background.paper",
+            }}
+          >
+            {/* If CarouselImage accepts style props, pass them — otherwise wrap the image container */}
+            <CarouselImage images={Product?.ImageArray || []} />
+          </Box>
         </Box>
       </Grid>
 
       {/* Right: Details */}
-      <Grid item xs={12} md={6}>
+      <Grid
+        alignContent={"flex-end"}
+        item
+        xs={12}
+        md={6}
+        sx={{
+           ml: "auto",
+           pr: {md:15},
+          width: "100%",
+          // ensure details column doesn't shrink to tiny width
+          maxWidth: { xs: "100%", md: "680px" },
+          boxSizing: "border-box",
+        }}
+      >
         <Stack spacing={2} p={2}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center">
-            <Typography
-              component="h1"
-              fontSize={{ xs: "1.1rem", sm: "1.25rem" }}
-              lineHeight="1.75rem"
-              fontWeight={400}
-              sx={{ fontFamily: "inter" }}
-            >
-              {Product?.Title}
-            </Typography>
+          <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+            <Box sx={{ flex: 1, pr: 1 }}>
+              <Typography
+                component="h1"
+                fontSize={{ xs: "1.05rem", sm: "1.25rem" }}
+                lineHeight="1.5rem"
+                fontWeight={600}
+                sx={{
+                  fontFamily: "Inter, sans-serif",
+                  // clamp title to avoid pushing layout
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {Product?.Title}
+              </Typography>
 
-            <IconButton aria-label="share product" onClick={handleShare} size="large">
+              <Typography
+                component="h3"
+                fontSize={{ xs: "0.95rem", sm: "1rem" }}
+                lineHeight="1.4rem"
+                fontWeight={400}
+                sx={{ fontFamily: "Inter, sans-serif", color: "text.secondary", mt: 0.5 }}
+              >
+                {Product?.Subtitle}
+              </Typography>
+            </Box>
+
+            <IconButton aria-label="share product" onClick={handleShare} size="large" sx={{ ml: 1 }}>
               <ShareIcon />
             </IconButton>
           </Stack>
 
-          <Typography
-            component="h3"
-            fontSize={{ xs: "1rem", sm: "1rem" }}
-            lineHeight="1.75rem"
-            fontWeight={400}
-            sx={{ fontFamily: "inter" }}
-          >
-            {Product?.Subtitle}
-          </Typography>
-
-          <Typography fontSize="14px" lineHeight="1.2rem" fontWeight={500} color="success.main">
+          <Typography fontSize="14px" lineHeight="1.2rem" fontWeight={600} color="success.main">
             Special Price
           </Typography>
 
-          <Stack spacing={2}>
+          <Stack spacing={1}>
             <Stack direction="row" justifyContent="space-between" alignItems="center">
               <Stack direction="row" spacing={1.6} alignItems="center">
                 <Typography
-                  fontSize={{ xs: "1.5rem", sm: "1.7rem" }}
-                  fontWeight={500}
-                  sx={{ fontFamily: "inter" }}
+                  fontSize={{ xs: "1.4rem", sm: "1.6rem" }}
+                  fontWeight={700}
+                  sx={{ fontFamily: "Inter, sans-serif" }}
                 >
                   {sellingPrice}
                 </Typography>
 
-                <Typography variant="body1" color="text.secondary">
+                <Typography variant="body2" color="text.secondary">
                   <del>{discountPrice}</del>
                 </Typography>
 
-                <Typography variant="body1" color="success.main">
+                <Typography variant="body2" color="success.main">
                   {Product?.Discount ? `${Product.Discount}% off` : ""}
                 </Typography>
               </Stack>
@@ -207,22 +247,24 @@ const ProductDetailCard = ({ Product = {} }) => {
           </Stack>
 
           {/* Description */}
-          <Typography variant="h6" fontWeight={549}>
-            Product Description
-          </Typography>
-          <Typography mt={1} variant="body1">
-            {Product?.Description}
-          </Typography>
+          <Box>
+            <Typography variant="h6" fontWeight={600}>
+              Product Description
+            </Typography>
+            <Typography mt={1} variant="body1" sx={{ color: "text.secondary" }}>
+              {Product?.Description}
+            </Typography>
+          </Box>
 
           {/* Benefits */}
           <Stack
             direction="row"
             justifyContent="center"
-            spacing={4}
+            spacing={3}
             sx={{
               "& > :not(style)": {
-                width: 200,
-                height: 100,
+                width: { xs: 120, sm: 160, md: 200 },
+                height: { xs: 80, sm: 90, md: 100 },
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -232,32 +274,30 @@ const ProductDetailCard = ({ Product = {} }) => {
             }}
           >
             <Paper elevation={0}>
-              <ShieldTwoToneIcon sx={{ fontSize: 40 }} />
-              <Typography>Secure Order</Typography>
+              <ShieldTwoToneIcon sx={{ fontSize: 34 }} />
+              <Typography variant="body2">Secure Order</Typography>
             </Paper>
 
             <Paper elevation={0}>
-              <SpeedIcon sx={{ fontSize: 40 }} />
-              <Typography>Fast Delivery</Typography>
+              <SpeedIcon sx={{ fontSize: 34 }} />
+              <Typography variant="body2">Fast Delivery</Typography>
             </Paper>
 
             <Paper elevation={0}>
-              <FindReplaceIcon sx={{ fontSize: 40 }} />
-              <Typography textAlign="center" lineHeight="1.15rem" sx={{ mt: "2px" }}>
-                Easy Returns
-              </Typography>
+              <FindReplaceIcon sx={{ fontSize: 34 }} />
+              <Typography variant="body2">Easy Returns</Typography>
             </Paper>
           </Stack>
 
-          {/* Product Info Table */}
-          <Grid item xs={12} sx={{ p: 1 }}>
-            <Typography variant="h6" fontWeight={549}>
+          {/* Product Info Table - use Box not Grid item to avoid nested Grid misuse */}
+          <Box sx={{ p: 0 }}>
+            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Product Information
             </Typography>
-            <Box mt={1}>
+            <Box>
               <ProductTable Product={Product} />
             </Box>
-          </Grid>
+          </Box>
         </Stack>
       </Grid>
     </Grid>

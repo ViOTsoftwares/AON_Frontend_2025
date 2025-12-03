@@ -163,6 +163,7 @@ function BestSelling() {
                     bestSelling.map((product, i) => (
                       <Grid
                         size={{ xs: 6, sm: 2.8, md: 2.8 }}
+                        
                         sx={{ alignItems: "stretch" }}
                       >
                         <ProcardCard product={product} />
