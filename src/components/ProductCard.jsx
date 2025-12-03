@@ -17,7 +17,7 @@ function ProductCard({
 
   imageHeight = { xs: 187, md: 260 },
   imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
-  contentHeight = { xs: 85, md: 94.5 },   // responsive content area height
+  contentHeight = { xs: 85, md: 70.5 },   // responsive content area height
 }) {
   const [animate, setAnimate] = useState(true);
 

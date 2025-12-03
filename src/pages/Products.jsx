@@ -113,7 +113,6 @@ function Products() {
                 backgroundPosition: "center center",
                 height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
                 width: "100%",
-                mb: 1,
               }}
             />
           )
@@ -198,45 +197,26 @@ function Products() {
               setChip={setChip}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 8.7 }} px={1}>
+          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.1 }} px={1}>
             <Stack rowGap={4}>
               <Grid
-  container
-  sx={{
-    // remove the default spacing gutters — use our own responsive widths
-    gap: 0,                   // no column gap
-  }}
->
+                container
+                direction="row"
+                flexWrap="wrap"
+                columnGap={2}
+                rowGap={4}
+                justifyContent="center"
+                alignItems="center"
+              >
                 {isLoading ? (
                   <PageLoading load={isLoading} />
                 ) : (
                   products.map((product) => (
                     <Grid
-                      item
-                      key={product?._id}
-                      sx={{
-                        boxSizing: "border-box",
-                        p: 0.5,                 // small outer padding
-                        mb: 3,                  // vertical spacing between rows
-                        // responsive widths: xs 50% (2 per row), sm 50% (2 per row),
-                        // md 20% (5 per row)
-                        width: {
-                          xs: "50%",   // <- changed to 50% for two columns on xs
-                          sm: "50%",
-                          md: "20%",
-                        },
-                        maxWidth: {
-                          xs: "50%",   // ensure items don't stretch beyond 50% on xs
-                          sm: "50%",
-                          md: "20%",
-                        },
-                        height: { xs: "250px", md: "auto" },
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
+                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      alignSelf="stretch"
                     >
-                      {/* make maxWidth for the card a bit larger on xs so it fills the column nicely */}
-                      <ProductCard product={product} maxWidth={{ xs: "98%", md: "100%" }} height="200px" />
+                      <ProductCard product={product} height="100%" />
                     </Grid>
                   ))
                 )}
