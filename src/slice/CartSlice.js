@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { toastMessage } from "../toastMessage";
 const initialCart = JSON.parse(localStorage.getItem("cart")) || [];
 const CartSlice = createSlice({
   name: "cart",
@@ -14,9 +15,11 @@ const CartSlice = createSlice({
       if (!check) {
         state.cart.push(action.payload);
         state.iscart = true;
+        toastMessage("Product Added Successfully", "success");
       } else {
         state.error = "Product is already added";
         state.iscart = true;
+        toastMessage("Product is already added", "warning");
         return state;
       }
       localStorage.setItem("cart", JSON.stringify(state.cart));

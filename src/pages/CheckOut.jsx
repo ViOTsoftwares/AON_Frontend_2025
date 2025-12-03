@@ -22,7 +22,7 @@ import {
 } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
 import AddressTable from "../components/AddressTable";
-import { ImageApi } from "../ImageApi";
+import { FRONTEND_URL, ImageApi } from "../ImageApi";
 import { useLocation, useNavigate } from "react-router-dom";
 import PageLoading from "../components/PageLoading";
 import {
@@ -135,101 +135,77 @@ const Checkout = () => {
 
     try {
       let message = "🛒 *New Order Request*\n\n";
-      let imageUrl = "";
+      let FrontendUrl = "";
       let title = "";
 
-      // if (isCartproduct) {
-      //   const order = {
-      //     orderProduct: cart,
-      //     address,
-      //     totalAmount,
-      //     discount,
-      //   };
+      if (isCartproduct) {
+        const order = {
+          orderProduct: cart,
+          address,
+          totalAmount,
+          discount,
+        };
 
-      //   const data = await CreateOrderApi(order);
-      //   if (data.success) {
-      //     toastMessage(data.message, "success");
-      //     setOneProduct({});
-      //     let total = 0;
+        const data = await CreateOrderApi(order);
+        if (data.success) {
+          toastMessage(data.message, "success");
+          setOneProduct({});
+          let total = 0;
 
-      //     cart.forEach((item, index) => {
-      //       message += `${index + 1}. *${item.Title}*\nQty: ${
-      //         item.Qty
-      //       }\nPrice: ₹${item.SellingPrice}\n\n`;
-      //       total += item.SellingPrice * item.Qty;
+          cart.forEach((item, index) => {
+            message += `${index + 1}. *${item.Title}*\nQty: ${
+              item.Qty
+            }\nPrice: ₹${item.SellingPrice}\n${FRONTEND_URL}/detail/${
+              item._id
+            }\n\n`;
+            title += item.Title;
+            // FrontendUrl += `${FRONTEND_URL}/detail/${item._id}`;
+            total += item.SellingPrice * item.Qty;
+          });
 
-      //       if (index === 0) {
-      //         imageUrl = `${ImageApi}/product/${item.ImageArray?.[0]}`;
-      //         title = item.Title;
-      //       }
-      //     });
+          message += `*Total: ₹${total}*\n\nThank you!`;
+          dispatch(ClearCartProduct());
+        }
+      } else {
+        const order = {
+          orderProduct: [oneProduct],
+          address,
+          totalAmount,
+          discount,
+        };
 
-      //     message += `*Total: ₹${total}*\n\nThank you!`;
-      //     dispatch(ClearCartProduct());
-      //   }
-      // } else {
-      //   const order = {
-      //     orderProduct: [oneProduct],
-      //     address,
-      //     totalAmount,
-      //     discount,
-      //   };
+        const data = await CreateOrderApi(order);
+        if (data.success) {
+          toastMessage(data.message, "success");
 
-      //   const data = await CreateOrderApi(order);
-      //   if (data.success) {
-      //     toastMessage(data.message, "success");
+          message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
+          const total = oneProduct.SellingPrice * oneProduct.Qty;
+          message += `*Total: ₹${total}*\n\nThank you!`;
 
-      //   }
-      // }
-      message += `1. *${oneProduct.Title}*\nQty: ${oneProduct.Qty}\nPrice: ₹${oneProduct.SellingPrice}\n\n`;
-      const total = oneProduct.SellingPrice * oneProduct.Qty;
-      message += `*Total: ₹${total}*\n\nThank you!`;
-
-      title = oneProduct.Title;
-      imageUrl = `${ImageApi}/product/${oneProduct.ImageArray?.[0]}`;
+          title = oneProduct.Title;
+          FrontendUrl = `${FRONTEND_URL}/detail/${oneProduct._id}`;
+        }
+      }
 
       // Share final message + image
-      shareToWhatsApp(title, imageUrl, message);
+      shareToWhatsApp(title, FrontendUrl, message);
     } catch (error) {
       toastMessage("Something went wrong", "error");
     }
   };
 
-const shareToWhatsApp = async (title, imageUrl, message) => {
-  const phoneNumber = "919566908720"; // your number
-  const fullMessage = message || `${title}\n${window.location.href}`;
+  const shareToWhatsApp = (title, FrontendUrl, message) => {
+    const phoneNumber = "919566908720"; // your WhatsApp number
+    // Combine the message with product title and URL
+    // const fullMessage = `${message}\nProduct: ${title}\n${FrontendUrl}`;
 
-  try {
-    const response = await fetch(imageUrl);
-    const blob = await response.blob();
-    const file = new File([blob], "product.jpg", { type: blob.type });
-
-    // Only works on mobile browsers that support Web Share API
-    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        title: title,
-        text: fullMessage,
-        files: [file],
-      });
-      return;
-    }
-
-    // Desktop fallback: only text + URL
-    const encodedMessage = encodeURIComponent(fullMessage + "\n" + imageUrl);
+    // Encode message for WhatsApp URL
+    const encodedMessage = encodeURIComponent(message);
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+
+    // Open WhatsApp in new tab/window
     window.open(whatsappURL, "_blank");
-  } catch (err) {
-    console.error("Sharing failed:", err);
-    const encodedMessage = encodeURIComponent(fullMessage + "\n" + imageUrl);
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-    window.open(whatsappURL, "_blank");
-  }
-};
-
-
-
-
-
+  };
 
   return (
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
