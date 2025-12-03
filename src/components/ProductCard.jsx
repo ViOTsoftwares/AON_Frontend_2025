@@ -12,12 +12,12 @@ function ProductCard({
   product,
   // allow responsive objects or single values
   maxWidth = { xs: "100%", md: "90%" },
-  cardHeight = {xs :"310px", md: "100%"}, // renamed to avoid collision with native height attribute
+  cardHeight = {xs :"260px", md: "100%"}, // renamed to avoid collision with native height attribute
   similar = false,
 
-  imageHeight = { xs: 220, md: 270 },
+  imageHeight = { xs: 186, md: 270 },
   imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
-  contentHeight = { xs: 92, md: 100 },   // responsive content area height
+  contentHeight = { xs: 85, md: 100 },   // responsive content area height
 }) {
   const [animate, setAnimate] = useState(true);
 

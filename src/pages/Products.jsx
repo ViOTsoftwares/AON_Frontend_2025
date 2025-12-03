@@ -230,13 +230,13 @@ function Products() {
                           sm: "50%",
                           md: "20%",
                         },
-                        height: { xs: "340px", md: "auto" },
+                        height: { xs: "250px", md: "auto" },
                         display: "flex",
                         justifyContent: "center",
                       }}
                     >
                       {/* make maxWidth for the card a bit larger on xs so it fills the column nicely */}
-                      <ProductCard product={product} maxWidth={{ xs: "95%", md: "100%" }} height="200px" />
+                      <ProductCard product={product} maxWidth={{ xs: "98%", md: "100%" }} height="200px" />
                     </Grid>
                   ))
                 )}
