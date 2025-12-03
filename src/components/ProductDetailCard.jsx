@@ -50,10 +50,17 @@ const ProductDetailCard = ({ Product = {} }) => {
       <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
         <Box
           sx={{
-            pl: { md: 6 },
+            pl: { md: 8 },
             width: "100%",
-            backgroundSize : "contain",
-            maxWidth: { xs: 520, md: 620 }, // constrain so image doesn't blow layout
+            maxWidth: { xs: 520, md: 620 },
+
+            "& img": {
+              maxWidth: "100%",
+              maxHeight: "100%",
+              objectFit: "contain",
+              display: "block",
+              margin: "0 auto",
+            },
           }}
         >
           {/* CarouselImage should itself be responsive; we wrap to enforce max width */}
