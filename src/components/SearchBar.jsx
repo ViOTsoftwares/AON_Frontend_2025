@@ -93,7 +93,7 @@ function SearchBar() {
               sx={{
                 color: "whitesmoke",
                 height: "inherit",
-                width: { xs: "28%", md: "20%" },
+                width: { xs: "38%", md: "20%" },
                 minWidth: "56px",
                 borderRadius: "0px 50px 50px 0px",
                 background:
@@ -120,7 +120,7 @@ function SearchBar() {
           padding: "0px",
           backgroundColor: { md: "rgba(246, 246, 246, 1)", xs: "white" },
           borderColor: "rgba(246, 246, 246, 1)",
-          height: { xs: "38px", md: "47px" },
+          height: { xs: "50px", md: "47px" },
           " fieldset": {
             borderWidth: "0px",
           },

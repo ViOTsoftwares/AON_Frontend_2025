@@ -206,35 +206,38 @@ function Products() {
     gap: 0,                   // no column gap
   }}
 >
-  {isLoading ? (
-    <PageLoading load={isLoading} />
-  ) : (
-    products.map((product) => (
-      <Grid
-        item
-        key={product?._id}
-        sx={{
-          boxSizing: "border-box",
-          p: 0.5,                 // remove item padding that creates gaps
-          mb: 3,                // vertical spacing between rows (adjust as needed)
-          // responsive widths: xs 100% (1), sm 50% (2), md+ 20% (5 per row)
-          width: {
-            xs: "100%",
-            sm: "50%",
-            md: "20%",
-          },
-          maxWidth: {
-            xs: "100%",
-            sm: "50%",
-            md: "20%",
-          },
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
-        <ProductCard product={product} maxWidth="100%" height="100%" />
-      </Grid>
-    ))
+                {isLoading ? (
+                  <PageLoading load={isLoading} />
+                ) : (
+                  products.map((product) => (
+                    <Grid
+                      item
+                      key={product?._id}
+                      sx={{
+                        boxSizing: "border-box",
+                        p: 0.5,                 // small outer padding
+                        mb: 3,                  // vertical spacing between rows
+                        // responsive widths: xs 50% (2 per row), sm 50% (2 per row),
+                        // md 20% (5 per row)
+                        width: {
+                          xs: "50%",   // <- changed to 50% for two columns on xs
+                          sm: "50%",
+                          md: "20%",
+                        },
+                        maxWidth: {
+                          xs: "50%",   // ensure items don't stretch beyond 50% on xs
+                          sm: "50%",
+                          md: "20%",
+                        },
+                        height: { xs: "340px", md: "auto" },
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                    >
+                      {/* make maxWidth for the card a bit larger on xs so it fills the column nicely */}
+                      <ProductCard product={product} maxWidth={{ xs: "95%", md: "100%" }} height="200px" />
+                    </Grid>
+                  ))
                 )}
               </Grid>
               {products.length === 0 && (

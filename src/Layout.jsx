@@ -32,10 +32,11 @@ function Layout() {
         <Toolbar
           sx={{
             position: "sticky",
-            top: "0px",
-            backgroundColor: "#1976d2",
+            top: "80px",
+            backgroundColor: "rgba(241, 234, 234, 0.91)",
             zIndex: "1100",
             height: "74px",
+            paddingTop: "1px",
           }}
         >
           <SearchBar />

@@ -52,9 +52,9 @@ function Header() {
     <AppBar
       sx={{
         top: 0,
-        height: { xs: "80px", md: "95px" }, // fixed px values
-        position: { xs: "static", md: "sticky" },
-        backgroundColor: "white",
+        height: { xs: "80px", md: "95px" },
+        position: { xs: "sticky", md: "sticky" },
+        backgroundColor: { xs: "white", md: "white" }, // try explicit white on all sizes
         boxShadow: "0 2px 8px rgba(88, 59, 59, 1)",
         zIndex: 1200,
       }}
@@ -87,6 +87,7 @@ function Header() {
         <Box
           flexGrow={1}
           sx={{
+            
             display: { xs: "none", md: "flex", lg: "flex" },
             justifyContent: "center",
             alignItems: "center",

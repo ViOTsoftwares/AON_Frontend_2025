@@ -1,26 +1,63 @@
-import React, { useState } from "react";
-import { Grid, Typography, IconButton, Stack } from "@mui/material";
-import ProductCard from "./ProductCard"; // your card component
-import Carousel from "./Carousel";
+import React from "react";
+import { Grid, Typography, Box } from "@mui/material";
+import ProductCard from "./ProductCard";
 
-const SimilarProducts = ({ similarProduct, setIsLoading }) => {
+const SimilarProducts = ({ similarProduct = [], setIsLoading }) => {
   const handleProductClick = (product) => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
     setIsLoading(true);
+    // navigate or update state here if needed
   };
 
   return (
-    <Grid p={4} position="relative">
-      <Typography fontSize="22px" fontWeight={500} fontFamily="Inter" mb={2}>
+    <Box component="section" sx={{ px: { xs: 2, sm: 4 }, py: 4 }}>
+      <Typography fontSize={22} fontWeight={500} fontFamily="Inter" mb={2}>
         Similar Products
       </Typography>
-      <Carousel dots={false} infinite={false} sm={1} md={3} lg={4} xl={5}>
-        {similarProduct?.length > 0 &&
-          similarProduct.map((product, i) => (
-            <ProductCard product={product} maxWidth="96%" similar={true} />
-          ))}
-      </Carousel>
-    </Grid>
+
+      <Grid container spacing={2}>
+        {similarProduct && similarProduct.length > 0 ? (
+          similarProduct.map((product) => (
+            <Grid
+              item
+              key={product._id || product.id || product.title} // ensure unique key
+              xs={6}   // 2 per row on xs
+              sm={4}   // 3 per row on small
+              md={3}   // 4 per row on md
+              lg={2.4} // you can keep integers; md 3 works well
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  alignContent: "center",
+
+                  width: {
+                    xs: "190px",
+                    sm: "180px",
+                    md: "220px",
+                    lg: "260px",
+                    xl: "280px",
+                  }
+                }}
+              >
+                <ProductCard product={product} />
+              </Box>
+
+
+            </Grid>
+          ))
+        ) : (
+          <Grid item xs={12}>
+            <Typography variant="body2" color="text.secondary">
+              No similar products found.
+            </Typography>
+          </Grid>
+        )}
+      </Grid>
+    </Box>
   );
 };
 

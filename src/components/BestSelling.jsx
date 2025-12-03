@@ -15,45 +15,55 @@ import { useEffect, useState } from "react";
 import { BestSellingProductApi } from "../Api_Action";
 import PageLoading from "./PageLoading";
 
+/* Compact TabItem (update your styled Tab) */
 const TabItem = styled(Tab)(({ theme }) => ({
   position: "relative",
-  borderRadius: "30px",
+  borderRadius: 28,
   textAlign: "center",
-  transition: "all .5s",
-  padding: "10px 15px",
+  transition: "all .25s ease",
+  // responsive padding (larger on bigger screens)
+  padding: {
+    xs: "8px 12px",
+    sm: "10px 14px",
+    md: "12px 18px",
+  },
+  // don't force height to 0 — let padding define it
   height: "auto",
-  margin: "10px 0",
-  marginLeft: "10px",
-  float: "none",
-  fontSize: "16px",
-  fontWeight: "500",
-
-  // ✨ Base gradient shine effect
+  margin: "6px 8px 6px 0",
+  fontWeight: 500,
+  // responsive font sizes
+  fontSize: {
+    xs: "13px",
+    sm: "14px",
+    md: "15px",
+  },
+  whiteSpace: "nowrap",
+  // responsive minWidth (use px values as strings)
+  minWidth: {
+    xs: "72px",
+    sm: "88px",
+    md: "120px",
+  },
+  boxSizing: "border-box",
   color: "#111",
+
   backgroundColor: "#faf2e9ff",
   backgroundImage:
     "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%)",
   backgroundSize: "200%",
   backdropFilter: "blur(6px)",
-  transition:
-    "background-position 0.3s ease, transform 0.2s ease, background-image 0.3s",
 
-  // ✨ Hover animation
   "&:hover": {
-    backgroundPosition: "right",
-    transform: "translateY(-2px)",
-    backgroundImage:
-      "linear-gradient(120deg, rgba(141, 135, 135, 0.37) 30%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%)",
+    transform: "translateY(-6.5px)",
   },
 
-  // ✨ Selected tab state (keeps your blue theme)
   [`&.${tabClasses.selected}`]: {
     color: "#fff",
     backgroundColor: "#854932ff",
-    backgroundImage:"linear-gradient(130deg, rgba(255,255,255,0) 30%, rgba(255, 255, 255, 0.28), rgba(255,255,255,0) 70%)",
-    transform: "translateY(0)", // avoid hover lifting while active
+    transform: "translateY(0)",
   },
 }));
+
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
 

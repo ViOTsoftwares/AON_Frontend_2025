@@ -37,7 +37,7 @@
   pointer-events: none;
 
   background:
-    linear-gradient(rgba(219,202,170,0.25), rgba(237,228,201,0.26)),
+    linear-gradient(rgba(159, 153, 139, 0.56), rgba(237, 228, 201, 0.615)),
     rgba(152,12,12,0.2); /* semi-transparent tint */
   mix-blend-mode: normal;
 }

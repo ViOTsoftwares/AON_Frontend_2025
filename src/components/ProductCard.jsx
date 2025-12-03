@@ -10,11 +10,14 @@ import { Link } from "react-router-dom";
 
 function ProductCard({
   product,
-  maxWidth = "76%",
+  // allow responsive objects or single values
+  maxWidth = { xs: "100%", md: "90%" },
+  cardHeight = {xs :"330px", md: "100%"}, // renamed to avoid collision with native height attribute
   similar = false,
-  height = "100%",
-  imageHeight = { xs: 157, md: 270 },   // <-- new prop (can pass a number or responsive object)
-  contentHeight = 100,                 // <-- new prop (px or responsive)
+
+  imageHeight = { xs: 220, md: 270 },
+  imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
+  contentHeight = { xs: 100, md: 100 },   // responsive content area height
 }) {
   const [animate, setAnimate] = useState(true);
 
@@ -70,10 +73,11 @@ function ProductCard({
         borderTopRightRadius: 15,
         cursor: "pointer",
         mx: 0.2,
-        width: maxWidth,
-        height: height,
+        width: maxWidth,          // responsive width here
+        height: cardHeight,       // responsive or single value
         display: "flex",
         flexDirection: "column",
+        boxSizing: "border-box",
       }}
     >
       <CardActionArea
@@ -85,66 +89,64 @@ function ProductCard({
       >
         <Link to={"/detail/" + product?._id} style={{ textDecoration: "none" }}>
           <CardMedia
-            // CardMedia will render a div with background image so we can control sizing cleanly
             sx={{
+              // can accept number (px) or responsive object.
               height: imageHeight,
+              width: imageWidth,
               backgroundImage: `url(${ImageApi}/product/${product?.ImageArray?.[0]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
               position: "relative",
+              // ensure it shrink/grow properly inside card
+              flexShrink: 0,
             }}
-            // keep children for the chip
-            children={
-              <>
-                {animate ? (
-                  <Chip
-                    label={`${product?.Discount}% off`}
-                    color="primary"
-                    sx={{
-                      ...discountAnimation,
-                      width: { xs: 70, sm: 94 },
-                      height: { xs: 30, sm: 40 },
-                      fontSize: { xs: 12, sm: 14 },
-                      borderRadius: "0px 0px 24px 0px ",
-                      fontFamily: "Inter, sans-serif",
-                      transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
-                      transform: "scale(1)",
-                      background:
-                        "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                    }}
-                  />
-                ) : (
-                  <Chip
-                    label={`${product?.Discount}% off`}
-                    color="primary"
-                    sx={{
-                      ...discountAnimation,
-                      fontFamily: "Inter, sans-serif",
-                      borderRadius: "24px ",
-                      width: { xs: 70, sm: 94 },
-                      height: { xs: 30, sm: 40 },
-                      fontSize: { xs: 12, sm: 14 },
-                      transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
-                      transform: "scale(1.1)",
-                      background:
-                        "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
-                      position: "absolute",
-                      top: 9,
-                      left: 11,
-                    }}
-                  />
-                )}
-              </>
-            }
-          />
+          >
+            {/* Chip as a child of CardMedia so it sits on top */}
+            {animate ? (
+              <Chip
+                label={`${product?.Discount}% off`}
+                color="primary"
+                sx={{
+                  ...discountAnimation,
+                  width: { xs: 70, sm: 94 },
+                  height: { xs: 30, sm: 40 },
+                  fontSize: { xs: 12, sm: 14 },
+                  borderRadius: "0px 0px 24px 0px ",
+                  fontFamily: "Inter, sans-serif",
+                  transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
+                  transform: "scale(1)",
+                  background: "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                }}
+              />
+            ) : (
+              <Chip
+                label={`${product?.Discount}% off`}
+                color="primary"
+                sx={{
+                  ...discountAnimation,
+                  fontFamily: "Inter, sans-serif",
+                  borderRadius: "24px ",
+                  width: { xs: 70, sm: 94 },
+                  height: { xs: 30, sm: 40 },
+                  fontSize: { xs: 12, sm: 14 },
+                  transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
+                  transform: "scale(1.1)",
+                  background: "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
+                  position: "absolute",
+                  top: 9,
+                  left: 11,
+                }}
+              />
+            )}
+          </CardMedia>
         </Link>
 
         <CardContent
           sx={{
-            // fixed height for the text area; can pass a number (px) or responsive object
+            // responsive content area
             height: contentHeight,
             minHeight: contentHeight,
             boxSizing: "border-box",
