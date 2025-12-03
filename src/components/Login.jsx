@@ -169,7 +169,7 @@ export default function Login() {
             sx={{
               bgcolor: username ? "primary.main" : "grey.500",
               width: 45,
-              height: "auto",
+              height: "45px",
               fontSize: "1.2rem",
               fontWeight: "bold",
               cursor: "pointer",

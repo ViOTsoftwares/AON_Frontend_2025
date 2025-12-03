@@ -103,8 +103,9 @@ function Header() {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <Login />
-          <CustomeButton navigate={navigate} />
+           <CustomeButton navigate={navigate} />
+          <Login sx={{pl:2,}} />
+         
 
           <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
             <Badge badgeContent={cart?.length || 0} color="error">
