@@ -12,7 +12,9 @@ function Circle({ title, image }) {
   return (
     <Card
       sx={{
-        height: { xs: 80, sm: 150, md: 200 },
+        alignContent: "center",
+        width: { xs: 150, sm: 200, md: 220 },
+        height: { xs: 80, sm: 150, md: 180 },
         borderRadius: { xs: 1, sm: 2 ,md:3},
         cursor: "pointer",
         position: "relative",

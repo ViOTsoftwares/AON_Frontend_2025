@@ -15,9 +15,9 @@ function ProductCard({
   cardHeight = {xs :"260px", md: "100%"}, // renamed to avoid collision with native height attribute
   similar = false,
 
-  imageHeight = { xs: 186, md: 270 },
+  imageHeight = { xs: 187, md: 260 },
   imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
-  contentHeight = { xs: 85, md: 100 },   // responsive content area height
+  contentHeight = { xs: 85, md: 94.5 },   // responsive content area height
 }) {
   const [animate, setAnimate] = useState(true);
 
@@ -154,8 +154,8 @@ function ProductCard({
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            pt: 1,
-            pb: 1,
+            pt: 0.8,
+            pb: 0.9,
           }}
         >
           <Typography
@@ -175,7 +175,7 @@ function ProductCard({
             sx={{
               fontSize: { xs: "16px", md: "18px" },
               fontWeight: 600,
-              lineHeight: "2.2rem",
+              // lineHeight: "2.2rem",
               fontFamily: "Inter, sans-serif",
               display: "flex",
               alignItems: "center",

@@ -367,6 +367,7 @@ function Item({ testimonial }) {
                 onClick={handleOpen}
                 sx={{
                   width: { xs: "100%", sm: "30%" },
+                  height: { xs: 140, sm: "100%" },
                   borderRadius: 3,
                   overflow: "hidden",
                   display: "flex",

@@ -98,9 +98,10 @@ function Home() {
         <Typography
           variant="h4"
           textAlign={{ sm: "center" }}
-          fontSize={{ xs: "2rem", sm: "3rem" }}
+          fontSize={{ xs: "1.7rem", sm: "3rem" }}
           sx={{ fontWeight: 600 }}
           gutterBottom
+          paddingBottom={2}
         >
           Explore Our Furnitures
         </Typography>
@@ -114,7 +115,7 @@ function Home() {
         >
           {category &&
             category.map((ct) => (
-              <Grid size={{ xs: 3, sm: 3, md: 3 }} key={ct.path}>
+              <Grid size={{ xs: 3, sm: 3, md: 2.49 }} key={ct.path}>
                 <Link
                   to={
                     ct.path === "Customisation"
@@ -250,7 +251,8 @@ function Home() {
 
       <Stack bgcolor="#FAFAFA">
         <Typography
-          variant="h3"
+          variant="h4"
+          paddingTop={2}
           textAlign="center"
           lineHeight={1.6}
           fontWeight={770}
