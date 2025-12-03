@@ -12,12 +12,13 @@ function ProductCard({
   product,
   // allow responsive objects or single values
   maxWidth = { xs: "100%", md: "90%" },
-  cardHeight = {xs :"260px", md: "100%"}, // renamed to avoid collision with native height attribute
+  cardHeight = {xs :"270px", md: "100%"}, // renamed to avoid collision with native height attribute
+  
   similar = false,
 
   imageHeight = { xs: 187, md: 260 },
   imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
-  contentHeight = { xs: 85, md: 70.5 },   // responsive content area height
+  contentHeight = { xs: 82, md: 70.5 },   // responsive content area height
 }) {
   const [animate, setAnimate] = useState(true);
 
@@ -161,7 +162,7 @@ function ProductCard({
           <Typography
             color="textPrimary"
             sx={{
-              fontSize: { xs: "12px", md: "16px" },
+              fontSize: { xs: "13px", md: "16px" },
               fontWeight: 600,
               fontFamily: "Inter, sans-serif",
               ...lineDots,
