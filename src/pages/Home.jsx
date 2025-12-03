@@ -15,7 +15,6 @@ import category8 from "../assets/Customisation.jpeg";
 import Doodle from "../assets/Doodle.png";
 import "../pages/Home.css";
 
-
 import Box from "@mui/material/Box";
 import BestSelling from "../components/BestSelling";
 import Testimonial from "../components/Testimonial";
@@ -91,8 +90,8 @@ function Home() {
         className="outer-grid-bg"
         sx={{ p: { xs: 2, md: 4 } }}
         style={{
-          "--top-image": `url(${Doodle})`,        // picture ON TOP
-          "--bottom-color": "linear-gradient(#ffffffff, #ffffffff)",  // color BEHIND
+          "--top-image": `url(${Doodle})`, // picture ON TOP
+          "--bottom-color": "linear-gradient(#ffffffff, #ffffffff)", // color BEHIND
         }}
       >
         <Typography
@@ -108,30 +107,35 @@ function Home() {
 
         <Grid
           container
-          spacing={{ xs: 1, sm: 2 }}
-        // justifyContent="center"
-        // rowGap={2}
-        // columnGap={4}
+          spacing={{ xs: 1, sm: 1 }}
+          // justifyContent="center"
+          // rowGap={2}
+          // columnGap={4}
         >
           {category &&
             category.map((ct) => (
-              <Grid size={{ xs: 3, sm: 3, md: 2.49 }} key={ct.path}>
-                <Link
-                  to={
-                    ct.path === "Customisation"
-                      ? "/customization"
-                      : `/category?q=${ct.path}`
-                  }
-                >
-                  <Category title={ct.title} image={ct?.image} />
-                </Link>
+              <Grid
+                size={{ xs: 3, sm: 3, md: 2.49, lg: 3, xl: 3 }}
+                key={ct.path}
+                // sx={{ justifyContent: "center", alignItems: "center" }}
+              >
+                <center>
+                  <Link
+                    to={
+                      ct.path === "Customisation"
+                        ? "/customization"
+                        : `/category?q=${ct.path}`
+                    }
+                  >
+                    <Category title={ct.title} image={ct?.image} />
+                  </Link>
+                </center>
               </Grid>
             ))}
         </Grid>
       </Grid>
 
       <Box sx={{ alignSelf: "center", width: "100%" }}>
-
         <BestSelling />
       </Box>
 
@@ -158,46 +162,43 @@ function Home() {
       </Box>
 
       <Box
-  sx={{
-    py: { xs: 3, sm: 8 },
-    px: { xs: 2, sm: 6 },
-    textAlign: "center",
-  }}
->
-  <Typography
-    component="h2"
-    sx={{
-      fontWeight: 0,
-      fontSize: { xs: "2rem", sm: "2.8rem", md: "3.2rem" },
-      lineHeight: 1.2,
-      mb: { xs: 2, sm: 4 },
-      fontFamily: "Inter, Poppins, sans-serif",
-      letterSpacing: "-0.6px",
-      color: "#1a1a1a",
-    }}
-  >
-    Shop{" "}
-    <Box
-  component="span"
-  sx={{
-    background: "linear-gradient(90deg, #d4bea5 0%, #ff005d 100%)",
-    WebkitBackgroundClip: "text",
-    backgroundClip: "text",
-    WebkitTextFillColor: "transparent",
-    fontWeight: 800,
-  }}
->
-  By Space
-</Box>
-  </Typography>
+        sx={{
+          py: { xs: 3, sm: 8 },
+          px: { xs: 2, sm: 6 },
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          component="h2"
+          sx={{
+            fontWeight: 0,
+            fontSize: { xs: "2rem", sm: "2.8rem", md: "3.2rem" },
+            lineHeight: 1.2,
+            mb: { xs: 2, sm: 4 },
+            fontFamily: "Inter, Poppins, sans-serif",
+            letterSpacing: "-0.6px",
+            color: "#1a1a1a",
+          }}
+        >
+          Shop{" "}
+          <Box
+            component="span"
+            sx={{
+              background: "linear-gradient(90deg, #d4bea5 0%, #ff005d 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              fontWeight: 800,
+            }}
+          >
+            By Space
+          </Box>
+        </Typography>
 
-  <Combo />
-</Box>
-
+        <Combo />
+      </Box>
 
       <Box>
-
-
         <Grid
           sx={{
             borderRadius: "12px",
@@ -215,7 +216,6 @@ function Home() {
         >
           <CustomizationSection />
         </Grid>
-
       </Box>
 
       <Box>
