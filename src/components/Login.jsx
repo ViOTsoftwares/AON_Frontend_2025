@@ -133,7 +133,6 @@ export default function Login() {
     window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/google`;
   };
 
-  // Using the same OAUTH base as Google — adjust if your FB URL differs
   const loginWithFacebook = () => {
     window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/facebook`;
   };
@@ -147,114 +146,95 @@ export default function Login() {
 
   return (
     <>
-      {/* Avatar + Login/Signup Button (Stacked) */}
+      {/* Avatar (when logged in) OR Login / Sign-Up button (when not logged in) */}
       <Box
         sx={{
           display: "flex",
-          flexDirection: "column",
           alignItems: "center",
-          pt: 1,
-          gap: .5,
+          gap: 1,
         }}
       >
-        <Tooltip title={username ? username : "Guest"} arrow>
-          <Avatar
-            onClick={handleMenuOpen}
-            src={
-              User?.picture?.startsWith?.("https")
-                ? User.picture
-                : `${ImageApi}/profile/${User?.picture}`
-            }
-            alt={username || "Guest"}
-            sx={{
-              bgcolor: username ? "primary.main" : "grey.500",
-              width: 45,
-              height: "45px",
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-              cursor: "pointer",
-              "&:hover": {
-                boxShadow: 4,
-                transform: "scale(1.05)",
-                transition: "0.2s ease-in-out",
-              },
-            }}
-            imgProps={{
-              onError: (e) => {
-                e.currentTarget.style.display = "none";
-              },
-            }}
-          >
-            {isUser ? username?.[0]?.toUpperCase() : <PersonSharpIcon />}
-          </Avatar>
-        </Tooltip>
-
-        {/* Login / Logout Button BELOW the Avatar */}
         {isUser ? (
-          // <Button
-          //   variant="contained"
-          //   color="error"
-          //   sx={{
-          //     fontSize: "0.75rem",
-          //     padding: "4px 10px",
-          //     minWidth: "50px",
-          //     borderRadius: "10px",
-          //     display: { xs: "block" },
-          //   }}
-          //   onClick={handleLogout}
-          // >
-          //   Logout
-          // </Button> 
-        null) : (
+          // Logged in: show avatar which opens the menu
+          <Tooltip title={username ? username : "User"} arrow>
+            <Avatar
+              onClick={handleMenuOpen}
+              src={
+                User?.picture?.startsWith?.("https")
+                  ? User.picture
+                  : `${ImageApi}/profile/${User?.picture}`
+              }
+              alt={username || "User"}
+              sx={{
+                bgcolor: "primary.main",
+                width: 45,
+                height: 45,
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                cursor: "pointer",
+                "&:hover": {
+                  boxShadow: 4,
+                  transform: "scale(1.03)",
+                  transition: "0.15s ease-in-out",
+                },
+              }}
+              imgProps={{
+                onError: (e) => {
+                  e.currentTarget.style.display = "none";
+                },
+              }}
+            >
+              {username?.[0]?.toUpperCase() || <PersonSharpIcon />}
+            </Avatar>
+          </Tooltip>
+        ) : (
+          // Not logged in: show only a Login / Sign-Up button (no avatar)
           <Button
             variant="text"
             onClick={() => setOpen(true)}
             sx={{
-              fontSize: "0.75rem",
-              padding: "4px 10px",
-              minWidth: "50px",
-              borderRadius: "10px",
+              fontSize: "0.875rem",
+              padding: "6px 10px",
+              borderRadius: "8px",
               color: "rgba(82, 55, 40, 1)",
-              fontWeight: "600",
-              display: { xs: "block" },
+              fontWeight: 600,
             }}
           >
             Login / Sign-Up
           </Button>
         )}
 
-        {/* Small menu anchored to avatar */}
-        <Menu
-          anchorEl={anchorEl}
-          open={Boolean(anchorEl)}
-          onClose={handleMenuClose}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "left" }}
-        >
-          <MenuItem
-            onClick={() => {
-              if (isUser) {
+        {/* Menu only for logged-in users (avatar menu) */}
+        {isUser && (
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+          >
+            <MenuItem
+              onClick={() => {
                 handleLogout();
-              } else {
-                setOpen(true);
-              }
-              handleMenuClose();
-            }}
-          >
-            {isUser ? "Logout" : "Login / Sign-Up"}
-          </MenuItem>
+                handleMenuClose();
+              }}
+            >
+              Logout
+            </MenuItem>
 
-          <MenuItem
-            onClick={() => {
-              if (isUser) navigate("/account");
-              handleMenuClose();
-            }}
-          >
-            My account
-          </MenuItem>
-        </Menu>
+            <MenuItem
+              onClick={() => {
+                navigate("/account");
+                handleMenuClose();
+              }}
+            >
+              My account
+            </MenuItem>
+          </Menu>
+        )}
       </Box>
 
+      {/* The login dialog (unchanged) */}
       <Dialog
         fullScreen
         open={open}

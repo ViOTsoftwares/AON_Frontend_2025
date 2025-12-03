@@ -98,27 +98,29 @@ function Products() {
   return (
     <div>
       <Box>
-        {isLoading ? (
-          <PageLoading load={isLoading} />
-        ) : (
-          Banner && (
-            <Box
-              sx={{
-                backgroundImage: {
-                  xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
-                  sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
-                },
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center center",
-                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
-                width: "100%",
-              }}
-            />
-          )
-        )}
-      </Box>
-      <Grid px={1.3}>
+  {isLoading ? (
+    <PageLoading load={isLoading} />
+  ) : (
+    Banner && (
+      <Box
+        sx={{
+          backgroundImage: {
+            xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
+            sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
+          },
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+          height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
+          width: "100%",
+         
+        }}
+      />
+    )
+  )}
+</Box>
+
+      <Grid px={1.3} pt={2} >
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -213,7 +215,7 @@ function Products() {
                 ) : (
                   products.map((product) => (
                     <Grid
-                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.86 }}
                       alignSelf="stretch"
                     >
                       <ProductCard product={product} height="100%" />

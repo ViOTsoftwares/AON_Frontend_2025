@@ -54,7 +54,7 @@ function Header() {
         top: 0,
         height: { xs: "80px", md: "95px" },
         position: { xs: "sticky", md: "sticky" },
-        backgroundColor: { xs: "white", md: "white" }, // try explicit white on all sizes
+        backgroundColor: { xs: "white", md: "white" },
         boxShadow: "0 2px 8px rgba(88, 59, 59, 1)",
         zIndex: 1200,
       }}
@@ -87,7 +87,6 @@ function Header() {
         <Box
           flexGrow={1}
           sx={{
-            
             display: { xs: "none", md: "flex", lg: "flex" },
             justifyContent: "center",
             alignItems: "center",
@@ -103,9 +102,8 @@ function Header() {
           justifyContent="flex-end"
           alignItems="center"
         >
-           <CustomeButton navigate={navigate} />
-          <Login sx={{pl:2,}} />
-         
+          <CustomeButton navigate={navigate} />
+          <Login sx={{ pl: 2 }} />
 
           <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
             <Badge badgeContent={cart?.length || 0} color="error">
@@ -115,16 +113,17 @@ function Header() {
             </Badge>
           </Stack>
 
+          {/* Hamburger: visible on mobile only, hidden on md+ */}
           <Box sx={{ width: { md: 40 }, height: { md: 46 } }}>
             <IconButton
               sx={{
-                display: { sm: "block", md: true ? "block" : "none" },
+                display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
                 width: 40,
                 height: 40,
               }}
               onClick={handleClose}
             >
-              <Grow in={{ sm: true, md: true }} {...(true ? { timeout: 1000 } : {})}>
+              <Grow in={true} timeout={1000}>
                 <MenuIcon />
               </Grow>
             </IconButton>
