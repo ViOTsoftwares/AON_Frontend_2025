@@ -53,7 +53,7 @@ function Header() {
       sx={{
         top: 0,
         height: { xs: "80px", md: "95px" },
-        position: { xs: "sticky", md: "sticky" },
+        position: { xs: "absolute", md: "sticky" },
         backgroundColor: { xs: "white", md: "white" },
         boxShadow: "0 2px 8px rgba(88, 59, 59, 1)",
         zIndex: 1200,
@@ -72,7 +72,7 @@ function Header() {
         }}
       >
         <Grid container flexGrow={1}>
-          <Grid sx={{ width: { xs: "50px", md: "100px" } }}>
+          <Grid sx={{ width: { xs: "102px", md: "130px" } }}>
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
