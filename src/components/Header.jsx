@@ -74,7 +74,7 @@ function Header() {
         <Grid container flexGrow={1}>
           <Grid sx={{ width: { xs: "50px", md: "100px" } }}>
             <img
-              src={`${ImageApi}/banner/` + cmsDate?.logo}
+              src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
               height="auto"
               width="100%"

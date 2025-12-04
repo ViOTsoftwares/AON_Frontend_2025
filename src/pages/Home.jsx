@@ -14,7 +14,6 @@ import category7 from "../assets/category3.png";
 import category8 from "../assets/Customisation.jpeg";
 import Doodle from "../assets/Doodle.png";
 import "../pages/Home.css";
-
 import Box from "@mui/material/Box";
 import BestSelling from "../components/BestSelling";
 import Testimonial from "../components/Testimonial";

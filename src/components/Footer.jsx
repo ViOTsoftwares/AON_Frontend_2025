@@ -142,7 +142,7 @@ function Footer() {
           direction="column"
         >
           <img
-            src={`${ImageApi}/banner/` + cmsDate?.logo}
+            src={`${ImageApi}/testimonial/` + cmsDate?.logo}
             alt="logo"
             width={120}
           />

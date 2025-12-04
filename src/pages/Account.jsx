@@ -236,44 +236,47 @@ const Index = () => {
     switch (activeSection) {
       case "profile":
         return (
-          <Box>
-            <Typography variant="h5" gutterBottom fontWeight="600">
-              Personal Information
-            </Typography>
-            <Paper sx={{ p: 3, mt: 2 }}>
-              <Stack spacing={3}>
-                <Box display="flex" alignItems="center" gap={2}>
-                  <Avatar
-                    src={
-                      User.picture?.startsWith("https")
-                        ? User.picture
-                        : `${ImageApi}/profile/${User.picture}`
-                    }
-                    sx={{
-                      width: 80,
-                      height: 80,
-                      bgcolor: User.picture ? "transparent" : "primary.main",
-                      fontSize: "1.5rem",
-                    }}
-                  >
-                    {!User.picture &&
-                      `${User.username?.[0] ?? ""}${
-                        User.username?.split(" ")[1]?.[0] ?? ""
-                      }`}
-                  </Avatar>
-                  <Box>
-                    <Typography variant="h6">{User?.username}</Typography>
-                    <Typography color="text.secondary">
-                      {User?.email}
-                    </Typography>
-                  </Box>
-                </Box>
-                {!isEdit && (
-                  <Button onClick={() => setIsEdit(true)}>Edit</Button>
-                )}
-                {isEdit && (
-                  <form onSubmit={handleSubmit}>
+          <Grid container>
+            <Grid size={{ xs: 12, md: 12 }}>
+              <Typography variant="h5">Personal Information</Typography>
+              <Paper sx={{ p: 3, mt: 2 }}>
+                <Grid container>
+                  <Grid container sx={{justifyContent:"start",alignItems:"center"}}>
+                    <Avatar
+                      src={
+                        User.picture?.startsWith("https")
+                          ? User.picture
+                          : `${ImageApi}/profile/${User.picture}`
+                      }
+                      sx={{
+                        width: 80,
+                        height: 80,
+                        bgcolor: User.picture ? "transparent" : "primary.main",
+                        fontSize: "1.5rem",
+                      }}
+                    >
+                      {!User.picture &&
+                        `${User.username?.[0] ?? ""}${
+                          User.username?.split(" ")[1]?.[0] ?? ""
+                        }`}
+                    </Avatar>
                     <Box>
+                      <Typography variant="h6">{User?.username}</Typography>
+                      <Typography color="text.secondary">
+                        {User?.email}
+                      </Typography>
+                    </Box>
+                  {!isEdit && (
+                    <Button
+                      onClick={() => setIsEdit(true)}
+                      sx={{ width: 150, maxHeight: 30 }}
+                    >
+                      Edit
+                    </Button>
+                  )}
+                  </Grid>
+                  {isEdit && (
+                    <form onSubmit={handleSubmit}>
                       <Grid container spacing={1}>
                         <Grid container size={{ xs: 12, md: 6 }} pt={3}>
                           <TextField
@@ -288,7 +291,6 @@ const Index = () => {
                             label="Email Address"
                             type="email"
                             name="email"
-                            // onChange={handleChange}
                             value={address.email}
                             fullWidth
                             required
@@ -346,12 +348,12 @@ const Index = () => {
                           Cancel
                         </Button>
                       </Box>
-                    </Box>
-                  </form>
-                )}
-              </Stack>
-            </Paper>
-          </Box>
+                    </form>
+                  )}
+                </Grid>
+              </Paper>
+            </Grid>
+          </Grid>
         );
 
       case "orders":
