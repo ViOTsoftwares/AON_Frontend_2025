@@ -626,20 +626,22 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   // Unanswered required fields for the current category
   const unansweredForCurrent = fieldsForCurrent.filter((f) => f.required && !answers[f.id]);
 
-  const handleChatInputSubmit = () => {
-    const text = inputValue.trim();
-    if (!text) return;
-    // find first text or color field unanswered
-    const q = fieldsForCurrent.find((f) => (f.type === "text" || f.type === "color") && !answers[f.id]);
-    if (q) {
-      const newAnswers = { ...answers, [q.id]: text };
-      setAnswers(newAnswers);
-      pushMessage({ from: "user", text: `${q.text}: ${text}` });
-      setInputValue("");
-      setTyping(true);
-      generateBotResponse(newAnswers);
-    }
-  };
+ const handleChatInputSubmit = () => {
+  const text = inputValue.trim();
+  if (!text) return;
+
+  // Always treat user input as casual chat (no auto-fill of fields)
+  pushMessage({ from: "user", text });
+  setInputValue("");
+
+  // Include current answers so the AI can reference them if desired
+  const payload = { ...answers, note: text, category: current || answers.category };
+
+  setTyping(true);
+  generateBotResponse(payload);
+};
+
+
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "100%" }}>
@@ -751,41 +753,43 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
               </Box>
 
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                <TextField
-                  placeholder={fieldsForCurrent?.length ? fieldsForCurrent.find((f) => f.type === "text" || f.type === "color")?.placeholder || "Type your answer" : "Choose a category to begin"}
-                  value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      handleChatInputSubmit();
-                    }
-                  }}
-                  fullWidth
-                  size="small"
-                  disabled={!fieldsForCurrent?.length}
-                />
-                <IconButton color="primary" onClick={handleChatInputSubmit} disabled={!fieldsForCurrent?.length}>
-                  <SendIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => {
-                    setMessages([
-                      {
-                        id: "bot-1",
-                        from: "bot",
-                        text: "Welcome! Let's customize your furniture. Click a category to start.",
-                      },
-                    ]);
-                    setAnswers({});
-                    setCurrent(null);
-                    setInputValue("");
-                    setOtherInputs({});
-                    setColorDrafts({});
-                  }}
-                >
-                  <RestartAltIcon />
-                </IconButton>
-              </Box>
+  <TextField
+    placeholder={current ? `Answer for "${current}"...` : "Type your message..."}
+    value={inputValue}
+    onChange={(e) => setInputValue(e.target.value)}
+    onKeyDown={(e) => {
+      if (e.key === "Enter") {
+        handleChatInputSubmit();
+      }
+    }}
+    fullWidth
+    size="small"
+    // always enabled as a common chat input
+  />
+  <IconButton color="primary" onClick={handleChatInputSubmit}>
+    <SendIcon />
+  </IconButton>
+  <IconButton
+    onClick={() => {
+      setMessages([
+        {
+          id: "bot-1",
+          from: "bot",
+          text: "Welcome! Let's customize your furniture. Click a category to start.",
+        },
+      ]);
+      setAnswers({});
+      setCurrent(null);
+      setInputValue("");
+      setOtherInputs({});
+      setColorDrafts({});
+      setAttachments({});
+    }}
+  >
+    <RestartAltIcon />
+  </IconButton>
+</Box>
+
             </Paper>
           </Grid>
 
