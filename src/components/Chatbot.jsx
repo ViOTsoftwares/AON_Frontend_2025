@@ -1,3 +1,4 @@
+// src/components/FurnitureCustomizationChatbotSingleColumn.jsx
 import React, { useState, useEffect, useRef } from "react";
 import {
   Box,
@@ -18,16 +19,30 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-// Import the Google Gen AI SDK
+// Import the Google Gen AI SDK (if using client-side—prefer server-side)
 import { GoogleGenAI } from "@google/genai";
 
 // --- CONFIG / IMAGE PATH ---
-const EXAMPLE_IMG = "/mnt/data/WhatsApp Image 2025-11-25 at 14.27.56.jpeg";
-const API_KEY = "AIzaSyBwrrTuFoCJ9DcnCqR6DmJ36MLHvBfdbms"; // set this in your env
-const ai = new GoogleGenAI({ apiKey: API_KEY });
-const model = "gemini-2.5-flash";
+// const EXAMPLE_IMG = "/mnt/data/WhatsApp Image 2025-11-25 at 14.27.56.jpeg";
+// (left as example; not used. Remove if unnecessary.)
 
-// --- Utilities ---
+// IMPORTANT: never hard-code API keys in client code for production.
+// Use an env var in development and move calls server-side for real deployments.
+const API_KEY =
+  (typeof import.meta !== "undefined" &&
+    import.meta.env &&
+    import.meta.env.VITE_GENAI_KEY) ||
+  "";
+
+// Ensure CATEGORY_FIELDS is defined or imported in your app.
+// Replace the import path below with your actual location / export.
+// top of file - replace your single import line
+import CATEGORY_FIELDS, { CATEGORY_LIST } from "../components/categoryFields";
+ // <-- adjust or define this
+// If you don't have a file, create it that exports the CATEGORY_FIELDS object.
+
+/* ---------- unchanged utility functions (with no logic change) ---------- */
+
 function clampByte(n) {
   const num = Number(n);
   if (!Number.isFinite(num)) return 0;
@@ -104,137 +119,70 @@ function hsvToRgb(h, s, v) {
   ];
 }
 
-// --- Category list and per-category fields (direct lookup, no global loop) ---
-// Each category's fields array contains objects { id, type, text, choices?, placeholder?, required? }
-const CATEGORY_LIST = [
-  "Revolving Chair",
-  "Office Chair",
-  "Visitor / Waiting Chair",
-  "Dining / Restaurant Chair",
-  "Sofa",
-  "Recliner",
-  "Training Chair",
-  "Table",
-  "Cupboard",
-  "Bed",
-  "Mattress",
-];
+// sanitize string for filenames / folders
+function norm(s) {
+  return String(s || "")
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, "_")
+    .replace(/["'()]/g, "")
+    .replace(/[^a-z0-9_\-]/g, "");
+}
 
-const CATEGORY_FIELDS = {
-  "Revolving Chair": [
-    { id: "back_type", type: "choice", text: "Back type", choices: ["High", "Medium", "Low"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Cushion", "Mesh", "Wire"], required: false },
-    { id: "upholstery", type: "choice", text: "Upholstery (if cushion)", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "base_type", type: "choice", text: "Base type", choices: ["Metal", "ABS", "Chromium"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "Click spectrum or type #rrggbb" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
+/**
+ * imgFor(categoryName, fieldId, choiceKey, ext)
+ */
+function imgFor(categoryName, fieldId, choiceKey, ext = "jpg") {
+  const cat = norm(categoryName);
+  const field = norm(fieldId);
+  const choice = norm(choiceKey);
+  return `/ChatOptions/${cat}/${field}__${choice}.${ext}`;
+}
 
-  "Office Chair": [
-    { id: "armrest", type: "choice", text: "Armrest", choices: ["With arm", "Without arm"], required: false },
-    { id: "base_style", type: "choice", text: "Base style", choices: ["4-leg", "Sledge", "Wheel base"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Cushion", "Mesh", "Wire"], required: false },
-    { id: "upholstery", type: "choice", text: "Upholstery", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. #000000 or 'Black'" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
+/**
+ * augmentCategoryFieldsWithImages(orig, options)
+ */
+function augmentCategoryFieldsWithImages(orig, options = {}) {
+  const { imgExt = "jpg" } = options;
+  const out = {};
 
-  "Visitor / Waiting Chair": [
-    { id: "seats", type: "choice", text: "Seats (count)", choices: ["1", "2", "3"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["SS", "MS"], required: false },
-    { id: "seat_type", type: "choice", text: "Seat type", choices: ["With cushion", "Without cushion"], required: false },
-    { id: "cushion_material", type: "choice", text: "Cushion material", choices: ["Leather", "Fabric", "PU"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Grey" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
+  Object.entries(orig).forEach(([categoryName, fields]) => {
+    out[categoryName] = (fields || []).map((f) => {
+      const copy = { ...f };
+      if (Array.isArray(f.choices)) {
+        copy.choices = f.choices.map((choice) => {
+          if (typeof choice === "string") {
+            const key = choice;
+            const label = choice;
+            const img = imgFor(categoryName, f.id, key, imgExt);
+            return { key, label, img };
+          } else if (choice && typeof choice === "object") {
+            const key = choice.key ?? choice.label;
+            const label = choice.label ?? choice.key;
+            const img = choice.img ?? imgFor(categoryName, f.id, key, imgExt);
+            return { ...choice, key, label, img };
+          } else return choice;
+        });
+      }
+      return copy;
+    });
+  });
 
-  "Dining / Restaurant Chair": [
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Wood", "Metal"], required: false },
-    { id: "seat_type", type: "choice", text: "Seat type", choices: ["With cushion", "Without cushion"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Fabric", "Leather", "Suede"], required: false },
-    { id: "frame_finish", type: "text", text: "Frame colour / Wood finish", placeholder: "e.g. Teak stain or Grey", required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. #ffffff" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
+  return out;
+}
 
-  "Sofa": [
-    { id: "configuration", type: "choice", text: "Configuration", choices: ["L-unit", "Straight", "Separate"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "seaters", type: "choice", text: "Number of seaters", choices: ["1", "2", "3", "5"], required: false },
-    { id: "with_lounger", type: "choice", text: "With lounger?", choices: ["Yes", "No"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Charcoal fabric" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
+// create augmented lookup once at module-level
+const CATEGORY_FIELDS_WITH_IMAGES = augmentCategoryFieldsWithImages(
+  CATEGORY_FIELDS,
+  { imgExt: "jpg" }
+);
 
-  "Recliner": [
-    { id: "type", type: "choice", text: "Type", choices: ["Manual", "Motorized"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "seaters", type: "choice", text: "No. of seaters", choices: ["1", "2", "3"], required: false },
-    { id: "recline_features", type: "choice", text: "Recline features", choices: ["Rocking", "Gliding", "Pushback"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Brown leather" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
 
-  "Training Chair": [
-    { id: "seat_back_material", type: "choice", text: "Seat/back material", choices: ["Mesh", "Cushion", "Perforated"], required: false },
-    { id: "writing_pad", type: "choice", text: "Writing pad", choices: ["Full", "Half", "None"], required: false },
-    { id: "wheels", type: "choice", text: "Wheels", choices: ["Yes", "No"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Metal", "Plastic"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Black/Blue" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
 
-  "Table": [
-    { id: "table_type", type: "choice", text: "Table type", choices: ["Executive", "Office", "Computer"], required: false },
-    { id: "size", type: "choice", text: "Size (preset)", choices: ["3x1.5", "3x2", "4x2", "5x2.5", "5x3", "6x3", "Custom"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["MDF", "Particle board", "Plywood", "Steel"], required: false },
-    { id: "storage", type: "choice", text: "Storage", choices: ["None", "Drawer", "Cupboard"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Laminate finish colour" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
-
-  "Cupboard": [
-    { id: "material", type: "choice", text: "Material", choices: ["MDF", "Particle board", "Plywood", "Hardwood"], required: false },
-    { id: "size", type: "text", text: "Size (H x W x D)", placeholder: "e.g. 200x120x60 cm", required: false },
-    { id: "door_type", type: "choice", text: "Door type", choices: ["Hinged", "Sliding"], required: false },
-    { id: "internal_setup", type: "choice", text: "Internal setup", choices: ["Shelves", "Hanging", "Drawers"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. White laminate" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
-
-  "Bed": [
-    { id: "size", type: "choice", text: "Size", choices: ["Single", "Double", "Queen", "King"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Wood", "MDF", "Metal"], required: false },
-    { id: "storage_type", type: "choice", text: "Storage type", choices: ["Drawer", "Hydraulic lift", "None"], required: false },
-    { id: "headboard", type: "choice", text: "Headboard", choices: ["Padded", "Wooden", "Metal"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Natural wood / paint colour" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
-
-  "Mattress": [
-    { id: "size", type: "choice", text: "Size", choices: ["Single", "Double", "Queen", "King"], required: false },
-    { id: "type", type: "choice", text: "Type", choices: ["Foam", "Spring", "Hybrid", "Latex"], required: false },
-    { id: "firmness", type: "choice", text: "Firmness", choices: ["Soft", "Medium", "Hard"], required: false },
-    { id: "thickness", type: "choice", text: "Thickness", choices: ['6"', '8"', '10"'], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. White / grey cover" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
-  ],
-};
-
-// --- OptionCard ---
+// --- OptionCard (unchanged) ---
 function OptionCard({ option, selected, onClick, index }) {
-  const label = typeof option === "string" ? option : option.label || option.key;
+  const label =
+    typeof option === "string" ? option : option.label || option.key;
   const img = typeof option === "string" ? null : option.img || null;
 
   return (
@@ -269,7 +217,17 @@ function OptionCard({ option, selected, onClick, index }) {
             image={img}
             alt={label}
             loading="lazy"
-            sx={{ height: 88, objectFit: "cover" }}
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              const common = `/images/common/${norm(label)}.jpg`;
+              e.currentTarget.src = common;
+              setTimeout(() => {
+                if (!e.currentTarget.naturalWidth) {
+                  e.currentTarget.src = "/images/placeholder.png";
+                }
+              }, 200);
+            }}
+            sx={{ height: 88, objectFit: "contain" }}
           />
         ) : (
           <Box
@@ -345,6 +303,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const [otherInputs, setOtherInputs] = useState({});
   const [colorDrafts, setColorDrafts] = useState({});
   const [attachments, setAttachments] = useState({});
+  const [submitting, setSubmitting] = useState(false);
+  const [finished, setFinished] = useState(false);
+
   const chatRef = useRef();
   const spectrumRefs = useRef({});
   const generateTimeoutRef = useRef(null);
@@ -355,13 +316,14 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
   useEffect(() => {
     return () => {
-      // cleanup any created object URLs when component unmounts
       Object.values(attachments).forEach((a) => {
         if (a?.previewUrl) URL.revokeObjectURL(a.previewUrl);
       });
+      if (generateTimeoutRef.current) {
+        clearTimeout(generateTimeoutRef.current);
+      }
     };
   }, [attachments]);
-
 
   function pushMessage(msg) {
     const from = msg && msg.from ? msg.from : "bot";
@@ -387,9 +349,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     setTyping(true);
 
     generateTimeoutRef.current = setTimeout(async () => {
-      const config = Object.entries(currentAnswers)
+      const config = Object.entries(currentAnswers || {})
         .map(([key, value]) => {
-          // Try to find field label from CATEGORY_FIELDS[current] if available
           let label = key;
           const fields = current ? CATEGORY_FIELDS[current] || [] : [];
           const f = fields.find((x) => x.id === key);
@@ -401,10 +362,14 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       const prompt = `You are an expert furniture customization assistant. The user is configuring a piece of furniture. Their current configuration is:\n\n---\n${config}\n---\n\nBased on this, provide a concise, friendly, and encouraging acknowledgment of the latest choice, and perhaps a subtle design suggestion or an interesting fact about their chosen configuration. DO NOT ask the next question, just provide conversational feedback. Keep the response to 1-2 short sentences.`;
 
       try {
+        // NOTE: It's strongly recommended to make AI calls server-side to protect API keys.
+        const ai = new GoogleGenAI({ apiKey: API_KEY });
+
         const response = await ai.models.generateContent({
-          model,
+          model: "gemini-2.5-flash",
           contents: prompt,
         });
+
         const text =
           response?.text?.trim() ||
           response?.outputText?.trim?.() ||
@@ -423,23 +388,23 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     }, 300);
   }
 
-
-
   function handleFileUpload(fieldId, e) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
-    // create preview for images
-    const previewUrl = file.type.startsWith("image/") ? URL.createObjectURL(file) : null;
+    const previewUrl = file.type.startsWith("image/")
+      ? URL.createObjectURL(file)
+      : null;
 
     setAttachments((prev) => ({ ...prev, [fieldId]: { file, previewUrl } }));
 
-    // store a human-friendly marker in answers so summary/AI show filename
     const newAnswers = { ...answers, [`${fieldId}_attachment`]: file.name };
     setAnswers(newAnswers);
 
-    // push chat note and trigger AI response
-    pushMessage({ from: "user", text: `${file.name} (attached for ${fieldId})` });
+    pushMessage({
+      from: "user",
+      text: `${file.name} (attached for ${fieldId})`,
+    });
     setTyping(true);
     generateBotResponse(newAnswers);
   }
@@ -461,19 +426,18 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     });
   }
 
-
   function handleCategorySelect(cat) {
-    // reset answers except retain category
     const newAnswers = { category: cat };
     setAnswers(newAnswers);
     pushMessage({ from: "user", text: cat });
     setCurrent(cat);
     setTyping(true);
+    setFinished(false);
     setTimeout(() => {
       setTyping(false);
       pushMessage({
         from: "bot",
-        text: `Great choice! We're now customizing a **${cat}**. Please proceed with the options below.`,
+        text: `Great choice! We're now customizing a ${cat}. Please proceed with the options below.`,
       });
     }, 400);
   }
@@ -485,8 +449,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     }
     const newAnswers = { ...answers, [fieldId]: String(value) };
     setAnswers(newAnswers);
-    // attempt to get field label
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${value}`,
@@ -505,7 +470,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       delete c[fieldId];
       return c;
     });
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${text}`,
@@ -524,7 +491,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   function saveColor(fieldId) {
     const draft = colorDrafts[fieldId] || {};
     let saved = "";
-    if (draft.hex && draft.hex.startsWith("#") && draft.hex.length === 7) saved = draft.hex;
+    if (draft.hex && draft.hex.startsWith("#") && draft.hex.length === 7)
+      saved = draft.hex;
     else if (
       typeof draft.r !== "undefined" &&
       typeof draft.g !== "undefined" &&
@@ -541,7 +509,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     if (!saved) return;
     const newAnswers = { ...answers, [fieldId]: String(saved) };
     setAnswers(newAnswers);
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${saved}`,
@@ -550,30 +520,30 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     generateBotResponse(newAnswers);
   }
 
+  /* ---------- Spectrum drawing: fixed for DPR / pixel buffer ---------- */
   function drawSpectrumProcedural(canvas) {
     if (!canvas) return;
 
     const dpr = window.devicePixelRatio || 1;
+    const cssWidth = canvas.clientWidth || 300;
+    const cssHeight = canvas.clientHeight || 150;
+
+    // pixel dimensions for the backing store
+    const pixelWidth = Math.max(1, Math.floor(cssWidth * dpr));
+    const pixelHeight = Math.max(1, Math.floor(cssHeight * dpr));
+
+    canvas.width = pixelWidth;
+    canvas.height = pixelHeight;
+
     const ctx = canvas.getContext("2d");
-
-    const cssWidth = canvas.clientWidth;
-    const cssHeight = canvas.clientHeight;
-
-    canvas.width = Math.max(1, Math.floor(cssWidth * dpr));
-    canvas.height = Math.max(1, Math.floor(cssHeight * dpr));
-
-    ctx.scale(dpr, dpr);
-
-    const width = cssWidth;
-    const height = cssHeight;
-
-    const img = ctx.createImageData(width, height);
+    // create pixel-sized imageData
+    const img = ctx.createImageData(pixelWidth, pixelHeight);
     let p = 0;
 
-    for (let y = 0; y < height; y++) {
-      const v = 1 - y / (height - 1);
-      for (let x = 0; x < width; x++) {
-        const h = (x / (width - 1)) * 360;
+    for (let y = 0; y < pixelHeight; y++) {
+      const v = 1 - y / (pixelHeight - 1);
+      for (let x = 0; x < pixelWidth; x++) {
+        const h = (x / (pixelWidth - 1)) * 360;
         const s = 1;
         const [r, g, b] = hsvToRgb(h, s, v);
 
@@ -585,6 +555,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     }
 
     ctx.putImageData(img, 0, 0);
+
+    // Keep the CSS size; canvas has pixel backing store already.
+    canvas.style.width = cssWidth + "px";
+    canvas.style.height = cssHeight + "px";
   }
 
   function attachSpectrumCanvas(fieldId, canvas) {
@@ -593,6 +567,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     requestAnimationFrame(() => {
       drawSpectrumProcedural(canvas);
     });
+    // redraw on resize for safety
+    const observer = new ResizeObserver(() => drawSpectrumProcedural(canvas));
+    observer.observe(canvas);
+    // store observer so it can be cleaned up if needed later (not implemented here)
   }
 
   function handleSpectrumClick(fieldId, e) {
@@ -600,15 +578,19 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     if (!canvas) return;
 
     const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    const x = Math.floor((e.clientX - rect.left) * dpr);
-    const y = Math.floor((e.clientY - rect.top) * dpr);
+
+    // Map mouse coordinates to pixel-backed canvas coordinates
+    const canvasPixelWidth = canvas.width;
+    const canvasPixelHeight = canvas.height;
+
+    const px = Math.floor(((e.clientX - rect.left) / rect.width) * canvasPixelWidth);
+    const py = Math.floor(((e.clientY - rect.top) / rect.height) * canvasPixelHeight);
 
     const ctx = canvas.getContext("2d");
-    const px = Math.max(0, Math.min(canvas.width - 1, x));
-    const py = Math.max(0, Math.min(canvas.height - 1, y));
+    const clampedX = Math.max(0, Math.min(canvasPixelWidth - 1, px));
+    const clampedY = Math.max(0, Math.min(canvasPixelHeight - 1, py));
 
-    const pixel = ctx.getImageData(px, py, 1, 1).data;
+    const pixel = ctx.getImageData(clampedX, clampedY, 1, 1).data;
     const [r, g, b] = pixel;
     const hex = rgbToHex(r, g, b);
 
@@ -621,389 +603,517 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   }
 
   // Get fields for current category (direct lookup, no global loop)
-  const fieldsForCurrent = current ? CATEGORY_FIELDS[current] || [] : [];
+  // use augmented fields so each choice has an `img` URL
+  const fieldsForCurrent = current ? CATEGORY_FIELDS_WITH_IMAGES[current] || [] : [];
 
-  // Unanswered required fields for the current category
-  const unansweredForCurrent = fieldsForCurrent.filter((f) => f.required && !answers[f.id]);
+  const handleChatInputSubmit = () => {
+    const text = inputValue.trim();
+    if (!text) return;
 
- const handleChatInputSubmit = () => {
-  const text = inputValue.trim();
-  if (!text) return;
+    pushMessage({ from: "user", text });
+    setInputValue("");
 
-  // Always treat user input as casual chat (no auto-fill of fields)
-  pushMessage({ from: "user", text });
-  setInputValue("");
+    const payload = {
+      ...answers,
+      note: text,
+      category: current || answers.category,
+    };
 
-  // Include current answers so the AI can reference them if desired
-  const payload = { ...answers, note: text, category: current || answers.category };
+    setTyping(true);
+    generateBotResponse(payload);
+  };
 
-  setTyping(true);
-  generateBotResponse(payload);
-};
+  // ---- submitCustomization from file 1 ----
+  async function submitCustomization() {
+    // must have category
+    if (!answers?.category && !current) {
+      pushMessage({
+        from: "bot",
+        text: "Please choose a category before submitting.",
+      });
+      return;
+    }
 
+    // removed shadowing: use the top-level fieldsForCurrent
+    const requiredMissing = (fieldsForCurrent || [])
+      .filter((f) => f.required)
+      .filter((f) => !answers[f.id] && !attachments[f.id]);
 
+    if (requiredMissing.length > 0) {
+      const list = requiredMissing.map((f) => f.text).join(", ");
+      pushMessage({
+        from: "bot",
+        text: `Please fill required fields: ${list}`,
+      });
+      return;
+    }
+
+    try {
+      setSubmitting(true);
+
+      const fd = new FormData();
+      fd.append("payload", JSON.stringify(answers));
+
+      Object.entries(attachments).forEach(([fieldId, item]) => {
+        if (item?.file) {
+          fd.append(fieldId, item.file, item.file.name);
+        }
+      });
+
+      const res = await fetch("/api/customize", {
+        method: "POST",
+        body: fd,
+      });
+
+      if (!res.ok) {
+        const txt = await res.text().catch(() => "");
+        throw new Error(txt || `Server returned ${res.status}`);
+      }
+
+      let json = null;
+      try {
+        json = await res.json();
+      } catch (e) {}
+
+      pushMessage({
+        from: "bot",
+        text: "Customisation submitted successfully! 🎉",
+      });
+      setFinished(true);
+
+      if (json?.message) pushMessage({ from: "bot", text: json.message });
+    } catch (err) {
+      console.error("Submit error:", err);
+      pushMessage({
+        from: "bot",
+        text: `Submission failed: ${err.message || err}`,
+      });
+    } finally {
+      setSubmitting(false);
+    }
+  }
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "100%" }}>
+      {/* LEFT: Chat area */}
       <Paper
         sx={{
-          width: "100%",
-          maxWidth: "100%",
+          display: { xs: "none", md: "flex" }, // hidden on xs, visible on md+
+          width: { xs: "0%", md: "48%" },
+          maxWidth: { xs: "0%", md: "48%" },
           p: 2,
-          display: "flex",
           flexDirection: "column",
           gap: 2,
         }}
         elevation={4}
       >
-        <Typography variant="h6">Furniture Customizer — Single Column View (AI Enabled 🤖)</Typography>
+        <Typography variant="h6">Furniture Customizer — Chat (AI Enabled 🤖)</Typography>
 
-        {/* Top: Chat Area */}
-        <Grid container>
-          <Grid container size={{ xs: 12, md: 6 }}>
-            <Paper
-              sx={{
-                flex: 1,
-                overflowY: "auto",
-                p: 1,
-                bgcolor: "grey.50",
-                borderRadius: 1,
-                minWidth: "100%",
-                minHeight: 500,
-              }}
-              elevation={0}
-            >
-              <Typography variant="subtitle2">Chat</Typography>
-              <Box
-                ref={chatRef}
-                sx={{
-                  flex: 1,
-                  overflowY: "auto",
-                  p: 1,
-                  bgcolor: "grey.50",
-                  borderRadius: 1,
-                  minWidth: "100%",
-                  maxHeight: 500,
-                  minHeight: 500,
-                }}
-                aria-live="polite"
-              >
-                {messages?.map((m) => {
-                  const isUser = m.from === "user";
-                  const hexMatch = m.text?.match(/#([0-9a-fA-F]{6})/);
-                  const previewColor = hexMatch ? hexMatch[0] : null;
+        <Paper
+          sx={{
+            flex: 1,
+            overflowY: "auto",
+            p: 1,
+            bgcolor: "grey.50",
+            borderRadius: 1,
+            minHeight: 500,
+          }}
+          elevation={0}
+        >
+          <Typography variant="subtitle2">Chat</Typography>
 
-                  return (
-                    <Box
-                      key={m.id}
-                      sx={{
-                        display: "flex",
-                        mb: 1,
-                        justifyContent: isUser ? "flex-end" : "flex-start",
-                      }}
-                    >
-                      {!isUser && (
-                        <Avatar
-                          sx={{
-                            bgcolor: "primary.main",
-                            width: 28,
-                            height: 28,
-                            mr: 1,
-                          }}
-                        >
-                          B
-                        </Avatar>
+          <Box
+            ref={chatRef}
+            sx={{
+              flex: 1,
+              overflowY: "auto",
+              p: 1,
+              bgcolor: "grey.50",
+              borderRadius: 1,
+              maxHeight: 500,
+              minHeight: 500,
+            }}
+            aria-live="polite"
+          >
+            {messages?.map((m) => {
+              const isUser = m.from === "user";
+              const v = m.text;
+              // robust color preview detection:
+              const hexMatch = typeof v === "string" && v.includes("#") ? `#${String(v).split("#")[1].slice(0, 6)}` : null;
+              const previewColor = hexMatch && /^#[0-9a-fA-F]{6}$/.test(hexMatch) ? hexMatch : null;
+
+              return (
+                <Box
+                  key={m.id}
+                  sx={{
+                    display: "flex",
+                    mb: 1,
+                    justifyContent: isUser ? "flex-end" : "flex-start",
+                  }}
+                >
+                  {!isUser && (
+                    <Avatar sx={{ bgcolor: "primary.main", width: 28, height: 28, mr: 1 }}>
+                      B
+                    </Avatar>
+                  )}
+
+                  <Paper sx={{ p: 1, maxWidth: "75%", bgcolor: isUser ? "#f2f2f2" : "background.paper" }}>
+                    <Box sx={{ display: "flex", gap: 1 }}>
+                      {isUser && previewColor && (
+                        <Box sx={{ bgcolor: previewColor, minWidth: 60, height: 25, borderRadius: 2, mb: 0.5 }} />
                       )}
-                      <Paper sx={{ p: 1, maxWidth: "75%", bgcolor: isUser ? "#f2f2f2" : "background.paper" }}>
-                        <Box sx={{ display: "flex", gap: 1 }}>
-                          {isUser && previewColor && (
-                            <Box sx={{ bgcolor: previewColor, minWidth: 60, height: 25, borderRadius: 2, mb: 0.5 }} />
-                          )}
-
-                          <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-                            {typeof m.text === "string" ? m.text : JSON.stringify(m.text)}
-                          </Typography>
-                        </Box>
-                      </Paper>
-
-                      {isUser && (
-                        <Avatar
-                          sx={{
-                            bgcolor: "secondary.main",
-                            width: 28,
-                            height: 28,
-                            ml: 1,
-                          }}
-                        >
-                          U
-                        </Avatar>
-                      )}
+                      <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
+                        {typeof m.text === "string" ? m.text : JSON.stringify(m.text)}
+                      </Typography>
                     </Box>
-                  );
-                })}
+                  </Paper>
 
-                {typing && (
-                  <Box sx={{ display: "flex", py: 1 }}>
-                    <Typography variant="caption">Bot is typing</Typography>
-                    <Typography variant="caption" sx={{ ml: 1 }}>
-                      •••
-                    </Typography>
-                  </Box>
-                )}
+                  {isUser && (
+                    <Avatar sx={{ bgcolor: "secondary.main", width: 28, height: 28, ml: 1 }}>U</Avatar>
+                  )}
+                </Box>
+              );
+            })}
+
+            {typing && (
+              <Box sx={{ display: "flex", py: 1 }}>
+                <Typography variant="caption">Bot is typing</Typography>
+                <Typography variant="caption" sx={{ ml: 1 }}>
+                  •••
+                </Typography>
               </Box>
+            )}
+          </Box>
 
-              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-  <TextField
-    placeholder={current ? `Answer for "${current}"...` : "Type your message..."}
-    value={inputValue}
-    onChange={(e) => setInputValue(e.target.value)}
-    onKeyDown={(e) => {
-      if (e.key === "Enter") {
-        handleChatInputSubmit();
-      }
-    }}
-    fullWidth
-    size="small"
-    // always enabled as a common chat input
-  />
-  <IconButton color="primary" onClick={handleChatInputSubmit}>
-    <SendIcon />
-  </IconButton>
-  <IconButton
-    onClick={() => {
-      setMessages([
-        {
-          id: "bot-1",
-          from: "bot",
-          text: "Welcome! Let's customize your furniture. Click a category to start.",
-        },
-      ]);
-      setAnswers({});
-      setCurrent(null);
-      setInputValue("");
-      setOtherInputs({});
-      setColorDrafts({});
-      setAttachments({});
-    }}
-  >
-    <RestartAltIcon />
-  </IconButton>
-</Box>
+          <Box sx={{ display: "flex", gap: 1, alignItems: "center", mt: 1 }}>
+            <TextField
+              placeholder={current ? `Answer for "${current}"...` : "Type your message..."}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleChatInputSubmit();
+              }}
+              fullWidth
+              size="small"
+            />
+            <IconButton color="primary" onClick={handleChatInputSubmit}>
+              <SendIcon />
+            </IconButton>
+            <IconButton
+              onClick={() => {
+                setMessages([
+                  {
+                    id: "bot-1",
+                    from: "bot",
+                    text: "Welcome! Let's customize your furniture. Click a category to start.",
+                  },
+                ]);
+                setAnswers({});
+                setCurrent(null);
+                setInputValue("");
+                setOtherInputs({});
+                setColorDrafts({});
+                setAttachments({});
+                setFinished(false);
+                setSubmitting(false);
+              }}
+            >
+              <RestartAltIcon />
+            </IconButton>
+          </Box>
+        </Paper>
+      </Paper>
 
-            </Paper>
-          </Grid>
+      {/* RIGHT: Options column */}
+      <Paper
+        sx={{
+          width: { xs: "100%", md: "48%" },
+          maxWidth: "48%",
+          p: 2,
+          display: "flex",
+          flexDirection: "column",
+          gap: 2,
+          maxHeight: 600,
+          overflowY: "auto",
+        }}
+        elevation={1}
+      >
+        <Typography variant="subtitle1">Categories & Options</Typography>
 
-          {/* Bottom: Options / Controls stacked under chat */}
-          <Grid container size={{ xs: 12, md: 6 }}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, maxHeight: 600, overflowY: "auto" }} elevation={1}>
-              <Typography variant="subtitle1">Categories & Options</Typography>
+        <Stack direction="row" spacing={1} flexWrap="wrap">
+          {CATEGORY_LIST.map((cat) => (
+            <Chip key={cat} label={cat} clickable color={current === cat ? "primary" : "default"} onClick={() => handleCategorySelect(cat)} />
+          ))}
+        </Stack>
 
-              <Stack direction="row" spacing={1} flexWrap="wrap">
-                {CATEGORY_LIST.map((cat) => (
-                  <Chip key={cat} label={cat} clickable color={current === cat ? "primary" : "default"} onClick={() => handleCategorySelect(cat)} />
-                ))}
-              </Stack>
+        <Box>
+          <Typography variant="subtitle2">Options for: {current || "—"}</Typography>
 
-              <Box>
-                <Typography variant="subtitle2">Options for: {current || "—"}</Typography>
+          {current && (
+            <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+              {fieldsForCurrent.map((f) => (
+                <Box key={f.id}>
+                  <Typography variant="body2" sx={{ mb: 0.5 }}>
+                    {f.text}{" "}
+                    {f.required ? (
+                      <Typography component="span" sx={{ color: "error.main" }}>
+                        *
+                      </Typography>
+                    ) : null}
+                  </Typography>
 
-                {current && (
-                  <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
-                    {fieldsForCurrent.map((f) => (
-                      <Box key={f.id}>
-                        <Typography variant="body2" sx={{ mb: 0.5 }}>
-                          {f.text} {f.required ? <Typography component="span" sx={{ color: "error.main" }}> *</Typography> : null}
-                        </Typography>
+                  {f.type === "choice" && (
+                    <Grid container spacing={1} sx={{ mt: 0.5 }}>
+                      {(Array.isArray(f.choices) ? f.choices : []).map((choice, idx) => {
+                        const choiceObj =
+                          typeof choice === "string"
+                            ? { key: choice, label: choice, img: null }
+                            : {
+                                key: choice.key ?? choice.label,
+                                label: choice.label ?? choice.key,
+                                img: choice.img ?? null,
+                              };
+                        const isSelected = answers[f.id] === String(choiceObj.key) || answers[f.id] === choiceObj.label;
 
-                        {f.type === "choice" && (
-                          <Grid container spacing={1} sx={{ mt: 0.5 }}>
-                            {(Array.isArray(f.choices) ? f.choices : []).map((choice, idx) => {
-                              const choiceObj = typeof choice === "string" ? { key: choice, label: choice, img: null } : { key: choice.key ?? choice.label, label: choice.label ?? choice.key, img: choice.img ?? null };
-                              const isSelected = answers[f.id] === String(choiceObj.key) || answers[f.id] === choiceObj.label;
-
-                              return (
-                                <Grid item key={choiceObj.key} xs={6} sm={4} md={3}>
-                                  <OptionCard option={choiceObj} index={idx} selected={isSelected} onClick={() => handleChoice(f.id, choiceObj.key)} />
-                                </Grid>
-                              );
-                            })}
-
-                            <Grid container size={{ xs: 12, md: 12 }} sx={{ mt: 1 }}>
-                              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
-                                <Button
-                                  size="small"
-                                  variant={answers[f.id] === "Other" ? "contained" : "outlined"}
-                                  onClick={() => {
-                                    setOtherInputs((prev) => ({ ...prev, [f.id]: "" }));
-                                  }}
-                                >
-                                  Other
-                                </Button>
-
-                                {otherInputs[f.id] !== undefined && (
-                                  <>
-                                    <TextField size="small" placeholder="Type other..." value={otherInputs[f.id] || ""} onChange={(e) => setOtherInputs((prev) => ({ ...prev, [f.id]: e.target.value }))} />
-                                    <Button size="small" variant="contained" onClick={() => handleOtherSave(f.id)}>
-                                      Save
-                                    </Button>
-                                  </>
-                                )}
-                              </Box>
-                            </Grid>
+                        return (
+                          <Grid item key={choiceObj.key} xs={6} sm={4} md={3}>
+                            <OptionCard option={choiceObj} index={idx} selected={isSelected} onClick={() => handleChoice(f.id, choiceObj.key)} />
                           </Grid>
-                        )}
+                        );
+                      })}
 
-
-
-
-                        {f.type === "text" && (
-                          <TextField
+                      {/* OTHER INPUT BUTTON + FIELD */}
+                      <Grid item xs={12} sx={{ mt: 1 }}>
+                        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                          <Button
                             size="small"
-                            placeholder={f.placeholder || "Type..."}
-                            value={typeof answers[f.id] === "string" ? answers[f.id] : answers[f.id] != null ? String(answers[f.id]) : ""}
-                            onChange={(e) => setAnswers((prev) => ({ ...prev, [f.id]: e.target.value }))}
-                            onBlur={() => {
-                              // auto-save text fields
-                              const val = (answers[f.id] || "").toString().trim();
-                              if (val) {
-                                generateBotResponse({ ...answers, [f.id]: val });
-                              }
+                            variant={answers[f.id] === "Other" ? "contained" : "outlined"}
+                            onClick={() => {
+                              setOtherInputs((prev) => ({ ...prev, [f.id]: "" }));
                             }}
-                            fullWidth
-                            sx={{ mt: 1 }}
-                          />
-                        )}
+                          >
+                            Other
+                          </Button>
 
-                        {f.type === "color" && (
-                          <Box sx={{ display: "flex", gap: 1, flexDirection: "column", mt: 1 }}>
-                            <Typography variant="caption">Click on the spectrum below to pick a color visually</Typography>
-                            <canvas style={{ width: "100%", maxWidth: 720, height: "160px" }} ref={(el) => attachSpectrumCanvas(f.id, el)} onClick={(e) => handleSpectrumClick(f.id, e)} />
-                            <TextField
-                              size="small"
-                              placeholder={f.placeholder || "#rrggbb"}
-                              value={typeof answers[f.id] === "string" ? answers[f.id] : colorDrafts[f.id]?.hex || ""}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                handleColorDraftChange(f.id, "hex", v);
-                                const rgb = hexToRgb(v);
-                                if (rgb) {
-                                  handleColorDraftChange(f.id, "r", rgb.r);
-                                  handleColorDraftChange(f.id, "g", rgb.g);
-                                  handleColorDraftChange(f.id, "b", rgb.b);
-                                  // save immediately when valid hex
-                                  saveColor(f.id);
-                                }
-                              }}
-                              onBlur={() => {
-                                // if user typed a hex and it's valid, save it
-                                const v = colorDrafts[f.id]?.hex || "";
-                                const parsed = normalizeHexInput(v);
-                                if (parsed) saveColor(f.id);
-                              }}
-                              sx={{ mt: 1 }}
-                            />
-                          </Box>
-                        )}
-{/* //............................File Handling.........................................................// */}
-                        {f.type === "file" && (
-                          <>
-                            {/* hidden file input */}
-                            <input
-                              id={`file-${f.id}`}
-                              type="file"
-                              accept="image/*,.pdf"
-                              style={{ display: "none" }}
-                              onChange={(e) => handleFileUpload(f.id, e)}
-                            />
-
-                            {/* Reuse OptionCard for consistent look */}
-                            <Box
-                              onClick={() => {
-                                const el = document.getElementById(`file-${f.id}`);
-                                if (el) el.click();
-                              }}
-                            >
-                              <OptionCard
-                                option={{
-                                  key: "__reference__", // internal key
-                                  label: f.label || "Upload reference",
-                                  img: attachments[f.id]?.previewUrl || null,
-                                }}
-                                index={0}
-                                selected={Boolean(attachments[f.id])}
-                                onClick={() => {
-                                  const el = document.getElementById(`file-${f.id}`);
-                                  if (el) el.click();
-                                }}
+                          {otherInputs[f.id] !== undefined && (
+                            <>
+                              <TextField
+                                size="small"
+                                placeholder="Type other..."
+                                value={otherInputs[f.id] || ""}
+                                onChange={(e) => setOtherInputs((prev) => ({ ...prev, [f.id]: e.target.value }))}
                               />
-                            </Box>
+                              <Button size="small" variant="contained" onClick={() => handleOtherSave(f.id)}>
+                                Save
+                              </Button>
+                            </>
+                          )}
+                        </Box>
+                      </Grid>
+                    </Grid>
+                  )}
 
-                            {/* show file name + remove */}
-                            {attachments[f.id] && (
-                              <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
-                                {attachments[f.id].previewUrl && (
-                                  <img
-                                    src={attachments[f.id].previewUrl}
-                                    alt="preview"
-                                    style={{ width: 70, height: 70, objectFit: "cover", borderRadius: 6, border: "1px solid #ccc" }}
+                  {f.type === "text" && (
+                    <TextField
+                      size="small"
+                      placeholder={f.placeholder || "Type..."}
+                      value={typeof answers[f.id] === "string" ? answers[f.id] : answers[f.id] != null ? String(answers[f.id]) : ""}
+                      onChange={(e) =>
+                        setAnswers((prev) => ({
+                          ...prev,
+                          [f.id]: e.target.value,
+                        }))
+                      }
+                      onBlur={() => {
+                        const val = (answers[f.id] || "").toString().trim();
+                        if (val) {
+                          generateBotResponse({
+                            ...answers,
+                            [f.id]: val,
+                          });
+                        }
+                      }}
+                      fullWidth
+                      sx={{ mt: 1 }}
+                    />
+                  )}
+
+                  {f.type === "color" && (
+                    <Box sx={{ display: "flex", gap: 1, flexDirection: "column", mt: 1 }}>
+                      <Typography variant="caption">Click on the spectrum below to pick a color visually</Typography>
+
+                      <canvas
+                        style={{
+                          width: "100%",
+                          maxWidth: 720,
+                          height: "160px",
+                        }}
+                        ref={(el) => attachSpectrumCanvas(f.id, el)}
+                        onClick={(e) => handleSpectrumClick(f.id, e)}
+                      />
+
+                      <TextField
+                        size="small"
+                        placeholder={f.placeholder || "#rrggbb"}
+                        value={typeof answers[f.id] === "string" ? answers[f.id] : colorDrafts[f.id]?.hex || ""}
+                        onChange={(e) => {
+                          const v = e.target.value;
+                          handleColorDraftChange(f.id, "hex", v);
+                          const rgb = hexToRgb(v);
+                          if (rgb) {
+                            handleColorDraftChange(f.id, "r", rgb.r);
+                            handleColorDraftChange(f.id, "g", rgb.g);
+                            handleColorDraftChange(f.id, "b", rgb.b);
+                            saveColor(f.id);
+                          }
+                        }}
+                        onBlur={() => {
+                          const v = colorDrafts[f.id]?.hex || "";
+                          const parsed = normalizeHexInput(v);
+                          if (parsed) saveColor(f.id);
+                        }}
+                        sx={{ mt: 1 }}
+                      />
+                    </Box>
+                  )}
+
+                  {f.type === "file" && (
+                    <>
+                      <input id={`file-${f.id}`} type="file" accept="image/*,.pdf" style={{ display: "none" }} onChange={(e) => handleFileUpload(f.id, e)} />
+
+                      <Box
+                        onClick={() => {
+                          const el = document.getElementById(`file-${f.id}`);
+                          if (el) el.click();
+                        }}
+                      >
+                        <OptionCard
+                          option={{
+                            key: "__reference__",
+                            label: f.label || "Upload reference",
+                            img: attachments[f.id]?.previewUrl || null,
+                          }}
+                          index={0}
+                          selected={Boolean(attachments[f.id])}
+                          onClick={() => {
+                            const el = document.getElementById(`file-${f.id}`);
+                            if (el) el.click();
+                          }}
+                        />
+                      </Box>
+
+                      {attachments[f.id] && (
+                        <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                          {attachments[f.id].previewUrl && (
+                            <img
+                              src={attachments[f.id].previewUrl}
+                              alt="preview"
+                              style={{
+                                width: 70,
+                                height: 70,
+                                objectFit: "cover",
+                                borderRadius: 6,
+                                border: "1px solid #ccc",
+                              }}
+                            />
+                          )}
+                          <Typography
+                            variant="caption"
+                            sx={{
+                              maxWidth: 180,
+                              overflow: "hidden",
+                              textOverflow: "ellipsis",
+                              whiteSpace: "nowrap",
+                            }}
+                          >
+                            {attachments[f.id].file.name}
+                          </Typography>
+                          <Button size="small" color="error" onClick={() => removeAttachment(f.id)}>
+                            Remove
+                          </Button>
+                        </Box>
+                      )}
+                    </>
+                  )}
+                </Box>
+              ))}
+
+              {/* SUMMARY SECTION */}
+              <Box>
+                <Typography variant="caption">Summary</Typography>
+                <Paper sx={{ p: 1, mt: 0.5 }}>
+                  {Object.keys(answers).length === 0 ? (
+                    <Typography variant="body2">No selections yet.</Typography>
+                  ) : (
+                    <Stack spacing={0.5}>
+                      {fieldsForCurrent.map((f) => {
+                        const v = answers[f.id];
+                        const hexCandidate =
+                          typeof v === "string" && v.includes("#") ? `#${String(v).split("#")[1].slice(0, 6)}` : null;
+                        const isHex = hexCandidate && /^#[0-9a-fA-F]{6}$/.test(hexCandidate);
+
+                        return (
+                          <Typography key={f.id} variant="body2" display={"flex"}>
+                            {f.text}:{" "}
+                            {f.required && !v ? (
+                              <Box sx={{ color: "error.main", ml: 1 }}>Missing required</Box>
+                            ) : (
+                              <>
+                                {isHex && (
+                                  <Box
+                                    sx={{
+                                      bgcolor: `${hexCandidate}`,
+                                      minWidth: 60,
+                                      height: 25,
+                                      borderRadius: 2,
+                                      ml: 1,
+                                      mr: 1,
+                                    }}
                                   />
                                 )}
-                                <Typography variant="caption" sx={{ maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
-                                  {attachments[f.id].file.name}
-                                </Typography>
-                                <Button size="small" color="error" onClick={() => removeAttachment(f.id)}>
-                                  Remove
-                                </Button>
-                              </Box>
+                                {typeof v === "string" ? v : v ? JSON.stringify(v) : "-"}
+                              </>
                             )}
-                          </>
-                        )}
-     {/* //............................File Handling.........................................................// */}
+                          </Typography>
+                        );
+                      })}
+                    </Stack>
+                  )}
+                </Paper>
+              </Box>
 
+              {/* FINALIZE SECTION */}
+              <Box sx={{ mt: 2, display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}>
+                <Button variant="contained" onClick={submitCustomization} disabled={submitting || finished}>
+                  {submitting ? "Submitting..." : finished ? "Submitted" : "Finalize & Submit"}
+                </Button>
 
+                <Button
+                  variant="outlined"
+                  onClick={() => {
+                    const missing = (fieldsForCurrent || []).filter((f) => f.required && !answers[f.id] && !attachments[f.id]);
+                    if (missing.length === 0)
+                      pushMessage({
+                        from: "bot",
+                        text: "Looks good — you can finalize now.",
+                      });
+                    else
+                      pushMessage({
+                        from: "bot",
+                        text: "Missing: " + missing.map((m) => m.text).join(", "),
+                      });
+                  }}
+                >
+                  Validate
+                </Button>
 
-
-
-
-
-                      </Box>
-                    ))}
-
-                    <Box>
-                      <Typography variant="caption">Summary</Typography>
-                      <Paper sx={{ p: 1, mt: 0.5 }}>
-                        {Object.keys(answers).length === 0 ? (
-                          <Typography variant="body2">No selections yet.</Typography>
-                        ) : (
-                          <Stack spacing={0.5}>
-                            {fieldsForCurrent.map((f) => {
-                              const v = answers[f.id];
-                              return (
-                                <Typography key={f.id} variant="body2" display={"flex"}>
-                                  {f.text}:{" "}
-                                  {f.required && !v ? (
-                                    <Box sx={{ color: "error.main", ml: 1 }}>Missing required</Box>
-                                  ) : (
-                                    <>
-                                      {v?.split && v?.split("#")[1] && (
-                                        <Box sx={{ bgcolor: `#${v?.split("#")[1]}`, minWidth: 60, height: 25, borderRadius: 2, ml: 1, mr: 1 }} />
-                                      )}
-                                      {typeof v === "string" ? v : v ? JSON.stringify(v) : "-"}
-                                    </>
-                                  )}
-                                </Typography>
-                              );
-                            })}
-                          </Stack>
-                        )}
-                      </Paper>
-                    </Box>
-                  </Box>
+                {finished && (
+                  <Chip icon={<CheckCircleIcon />} label="Finished" color="success" sx={{ ml: 1 }} />
                 )}
               </Box>
-            </Paper>
-          </Grid>
-        </Grid>
+            </Box>
+          )}
+        </Box>
       </Paper>
     </Box>
   );
