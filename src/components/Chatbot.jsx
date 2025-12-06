@@ -19,6 +19,8 @@ import {
 import SendIcon from "@mui/icons-material/Send";
 import RestartAltIcon from "@mui/icons-material/RestartAlt";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import about2 from "../assets/about2.jpg";
+
 // Import the Google Gen AI SDK (if using client-side—prefer server-side)
 import { GoogleGenAI } from "@google/genai";
 
@@ -213,22 +215,27 @@ function OptionCard({ option, selected, onClick, index }) {
       >
         {img ? (
           <CardMedia
-            component="img"
-            image={img}
-            alt={label}
-            loading="lazy"
-            onError={(e) => {
-              e.currentTarget.onerror = null;
-              const common = `/images/common/${norm(label)}.jpg`;
-              e.currentTarget.src = common;
-              setTimeout(() => {
-                if (!e.currentTarget.naturalWidth) {
-                  e.currentTarget.src = "/images/placeholder.png";
-                }
-              }, 200);
-            }}
-            sx={{ height: 88, objectFit: "contain" }}
-          />
+  component="img"
+  image={img}
+  alt={label}
+  loading="lazy"
+  onError={(e) => {
+    const imgEl = e.currentTarget;
+
+    // first time error → try common folder
+    if (!imgEl.dataset.fallbackTried) {
+      imgEl.dataset.fallbackTried = "1";
+      imgEl.src = `/images/common/${norm(label)}.jpg`;
+      return;
+    }
+
+    // second time error → final fallback & stop further errors
+    imgEl.onerror = null;
+    imgEl.src = about2; // imported at top
+  }}
+  sx={{ height: 88, objectFit: "contain" }}
+/>
+
         ) : (
           <Box
             sx={{
@@ -305,6 +312,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const [attachments, setAttachments] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [finished, setFinished] = useState(false);
+
 
   const chatRef = useRef();
   const spectrumRefs = useRef({});
@@ -625,6 +633,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
   // ---- submitCustomization from file 1 ----
   async function submitCustomization() {
+
+
+    console.log("FINAL ANSWERS =>", answers);
+
     // must have category
     if (!answers?.category && !current) {
       pushMessage({
@@ -828,7 +840,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       <Paper
         sx={{
           width: { xs: "100%", md: "48%" },
-          maxWidth: "48%",
+          maxWidth: { xs: "100%", md: "48%" },
           p: 2,
           display: "flex",
           flexDirection: "column",
