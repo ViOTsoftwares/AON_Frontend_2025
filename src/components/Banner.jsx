@@ -18,15 +18,17 @@ function Banner() {
     const filter = data.filter(
       (item) => item.isActive == true && item.bannerType === "Main"
     );
-    console.log("---filter",filter);
+    console.log("---filter", filter);
     setLoading(false);
     setBanners(filter);
   };
-  useEffect(() => {GetBanner()}, []);
+  useEffect(() => {
+    GetBanner();
+  }, []);
   return (
     <>
       <PageLoading load={Loading} />
-      <Carousel>
+      <Carousel >
         {banners?.map((banner, index) => (
           <Box
             loading="lazy"
@@ -42,6 +44,8 @@ function Banner() {
               backgroundPosition: "center center",
               height: { xs: "40vh", sm: "58vh", md: "50vh", lg: "70vh" },
               width: "100%",
+              m: 0,
+              p: 0,
             }}
           ></Box>
         ))}

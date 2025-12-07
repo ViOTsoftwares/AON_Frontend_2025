@@ -122,119 +122,571 @@ const CATEGORY_LIST = [
 
 const CATEGORY_FIELDS = {
   "Revolving Chair": [
-    { id: "back_type", type: "choice", text: "Back type", choices: ["High", "Medium", "Low"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Cushion", "Mesh", "Wire"], required: false },
-    { id: "upholstery", type: "choice", text: "Upholstery (if cushion)", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "base_type", type: "choice", text: "Base type", choices: ["Metal", "ABS", "Chromium"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "Click spectrum or type #rrggbb" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+    {
+      id: "back_type",
+      type: "choice",
+      text: "Back type",
+      choices: ["High", "Medium", "Low"],
+      required: false,
+    },
+    {
+      id: "seat_material",
+      type: "choice",
+      text: "Seat material",
+      choices: ["Cushion", "Mesh", "Wire"],
+      required: false,
+    },
+    {
+      id: "upholstery",
+      type: "choice",
+      text: "Upholstery (if cushion)",
+      choices: ["Fabric", "Leather", "PU"],
+      required: false,
+    },
+    {
+      id: "base_type",
+      type: "choice",
+      text: "Base type",
+      choices: ["Metal", "ABS", "Chromium"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "Click spectrum or type #rrggbb",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
   "Office Chair": [
-    { id: "armrest", type: "choice", text: "Armrest", choices: ["With arm", "Without arm"], required: false },
-    { id: "base_style", type: "choice", text: "Base style", choices: ["4-leg", "Sledge", "Wheel base"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Cushion", "Mesh", "Wire"], required: false },
-    { id: "upholstery", type: "choice", text: "Upholstery", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. #000000 or 'Black'" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+    {
+      id: "armrest",
+      type: "choice",
+      text: "Armrest",
+      choices: ["With arm", "Without arm"],
+      required: false,
+    },
+    {
+      id: "base_style",
+      type: "choice",
+      text: "Base style",
+      choices: ["4-leg", "Sledge", "Wheel base"],
+      required: false,
+    },
+    {
+      id: "seat_material",
+      type: "choice",
+      text: "Seat material",
+      choices: ["Cushion", "Mesh", "Wire"],
+      required: false,
+    },
+    {
+      id: "upholstery",
+      type: "choice",
+      text: "Upholstery",
+      choices: ["Fabric", "Leather", "PU"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. #000000 or 'Black'",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
   "Visitor / Waiting Chair": [
-    { id: "seats", type: "choice", text: "Seats (count)", choices: ["1", "2", "3"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["SS", "MS"], required: false },
-    { id: "seat_type", type: "choice", text: "Seat type", choices: ["With cushion", "Without cushion"], required: false },
-    { id: "cushion_material", type: "choice", text: "Cushion material", choices: ["Leather", "Fabric", "PU"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Grey" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+    {
+      id: "seats",
+      type: "choice",
+      text: "Seats (count)",
+      choices: ["1", "2", "3"],
+      required: false,
+    },
+    {
+      id: "frame_material",
+      type: "choice",
+      text: "Frame material",
+      choices: ["SS", "MS"],
+      required: false,
+    },
+    {
+      id: "seat_type",
+      type: "choice",
+      text: "Seat type",
+      choices: ["With cushion", "Without cushion"],
+      required: false,
+    },
+    {
+      id: "cushion_material",
+      type: "choice",
+      text: "Cushion material",
+      choices: ["Leather", "Fabric", "PU"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Grey",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
   "Dining / Restaurant Chair": [
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Wood", "Metal"], required: false },
-    { id: "seat_type", type: "choice", text: "Seat type", choices: ["With cushion", "Without cushion"], required: false },
-    { id: "seat_material", type: "choice", text: "Seat material", choices: ["Fabric", "Leather", "Suede"], required: false },
-    { id: "frame_finish", type: "text", text: "Frame colour / Wood finish", placeholder: "e.g. Teak stain or Grey", required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. #ffffff" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+    {
+      id: "frame_material",
+      type: "choice",
+      text: "Frame material",
+      choices: ["Wood", "Metal"],
+      required: false,
+    },
+    {
+      id: "seat_type",
+      type: "choice",
+      text: "Seat type",
+      choices: ["With cushion", "Without cushion"],
+      required: false,
+    },
+    {
+      id: "seat_material",
+      type: "choice",
+      text: "Seat material",
+      choices: ["Fabric", "Leather", "Suede"],
+      required: false,
+    },
+    {
+      id: "frame_finish",
+      type: "text",
+      text: "Frame colour / Wood finish",
+      placeholder: "e.g. Teak stain or Grey",
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. #ffffff",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Sofa": [
-    { id: "configuration", type: "choice", text: "Configuration", choices: ["L-unit", "Straight", "Separate"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "seaters", type: "choice", text: "Number of seaters", choices: ["1", "2", "3", "5"], required: false },
-    { id: "with_lounger", type: "choice", text: "With lounger?", choices: ["Yes", "No"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Charcoal fabric" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Sofa: [
+    {
+      id: "configuration",
+      type: "choice",
+      text: "Configuration",
+      choices: ["L-unit", "Straight", "Separate"],
+      required: false,
+    },
+    {
+      id: "material",
+      type: "choice",
+      text: "Material",
+      choices: ["Fabric", "Leather", "PU"],
+      required: false,
+    },
+    {
+      id: "seaters",
+      type: "choice",
+      text: "Number of seaters",
+      choices: ["1", "2", "3", "5"],
+      required: false,
+    },
+    {
+      id: "with_lounger",
+      type: "choice",
+      text: "With lounger?",
+      choices: ["Yes", "No"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Charcoal fabric",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Recliner": [
-    { id: "type", type: "choice", text: "Type", choices: ["Manual", "Motorized"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["Fabric", "Leather", "PU"], required: false },
-    { id: "seaters", type: "choice", text: "No. of seaters", choices: ["1", "2", "3"], required: false },
-    { id: "recline_features", type: "choice", text: "Recline features", choices: ["Rocking", "Gliding", "Pushback"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Brown leather" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Recliner: [
+    {
+      id: "type",
+      type: "choice",
+      text: "Type",
+      choices: ["Manual", "Motorized"],
+      required: false,
+    },
+    {
+      id: "material",
+      type: "choice",
+      text: "Material",
+      choices: ["Fabric", "Leather", "PU"],
+      required: false,
+    },
+    {
+      id: "seaters",
+      type: "choice",
+      text: "No. of seaters",
+      choices: ["1", "2", "3"],
+      required: false,
+    },
+    {
+      id: "recline_features",
+      type: "choice",
+      text: "Recline features",
+      choices: ["Rocking", "Gliding", "Pushback"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Brown leather",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
   "Training Chair": [
-    { id: "seat_back_material", type: "choice", text: "Seat/back material", choices: ["Mesh", "Cushion", "Perforated"], required: false },
-    { id: "writing_pad", type: "choice", text: "Writing pad", choices: ["Full", "Half", "None"], required: false },
-    { id: "wheels", type: "choice", text: "Wheels", choices: ["Yes", "No"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Metal", "Plastic"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Black/Blue" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+    {
+      id: "seat_back_material",
+      type: "choice",
+      text: "Seat/back material",
+      choices: ["Mesh", "Cushion", "Perforated"],
+      required: false,
+    },
+    {
+      id: "writing_pad",
+      type: "choice",
+      text: "Writing pad",
+      choices: ["Full", "Half", "None"],
+      required: false,
+    },
+    {
+      id: "wheels",
+      type: "choice",
+      text: "Wheels",
+      choices: ["Yes", "No"],
+      required: false,
+    },
+    {
+      id: "frame_material",
+      type: "choice",
+      text: "Frame material",
+      choices: ["Metal", "Plastic"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Black/Blue",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Table": [
-    { id: "table_type", type: "choice", text: "Table type", choices: ["Executive", "Office", "Computer"], required: false },
-    { id: "size", type: "choice", text: "Size (preset)", choices: ["3x1.5", "3x2", "4x2", "5x2.5", "5x3", "6x3", "Custom"], required: false },
-    { id: "material", type: "choice", text: "Material", choices: ["MDF", "Particle board", "Plywood", "Steel"], required: false },
-    { id: "storage", type: "choice", text: "Storage", choices: ["None", "Drawer", "Cupboard"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Laminate finish colour" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Table: [
+    {
+      id: "table_type",
+      type: "choice",
+      text: "Table type",
+      choices: ["Executive", "Office", "Computer"],
+      required: false,
+    },
+    {
+      id: "size",
+      type: "choice",
+      text: "Size (preset)",
+      choices: ["3x1.5", "3x2", "4x2", "5x2.5", "5x3", "6x3", "Custom"],
+      required: false,
+    },
+    {
+      id: "material",
+      type: "choice",
+      text: "Material",
+      choices: ["MDF", "Particle board", "Plywood", "Steel"],
+      required: false,
+    },
+    {
+      id: "storage",
+      type: "choice",
+      text: "Storage",
+      choices: ["None", "Drawer", "Cupboard"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Laminate finish colour",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Cupboard": [
-    { id: "material", type: "choice", text: "Material", choices: ["MDF", "Particle board", "Plywood", "Hardwood"], required: false },
-    { id: "size", type: "text", text: "Size (H x W x D)", placeholder: "e.g. 200x120x60 cm", required: false },
-    { id: "door_type", type: "choice", text: "Door type", choices: ["Hinged", "Sliding"], required: false },
-    { id: "internal_setup", type: "choice", text: "Internal setup", choices: ["Shelves", "Hanging", "Drawers"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. White laminate" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Cupboard: [
+    {
+      id: "material",
+      type: "choice",
+      text: "Material",
+      choices: ["MDF", "Particle board", "Plywood", "Hardwood"],
+      required: false,
+    },
+    {
+      id: "size",
+      type: "text",
+      text: "Size (H x W x D)",
+      placeholder: "e.g. 200x120x60 cm",
+      required: false,
+    },
+    {
+      id: "door_type",
+      type: "choice",
+      text: "Door type",
+      choices: ["Hinged", "Sliding"],
+      required: false,
+    },
+    {
+      id: "internal_setup",
+      type: "choice",
+      text: "Internal setup",
+      choices: ["Shelves", "Hanging", "Drawers"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. White laminate",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Bed": [
-    { id: "size", type: "choice", text: "Size", choices: ["Single", "Double", "Queen", "King"], required: false },
-    { id: "frame_material", type: "choice", text: "Frame material", choices: ["Wood", "MDF", "Metal"], required: false },
-    { id: "storage_type", type: "choice", text: "Storage type", choices: ["Drawer", "Hydraulic lift", "None"], required: false },
-    { id: "headboard", type: "choice", text: "Headboard", choices: ["Padded", "Wooden", "Metal"], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. Natural wood / paint colour" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Bed: [
+    {
+      id: "size",
+      type: "choice",
+      text: "Size",
+      choices: ["Single", "Double", "Queen", "King"],
+      required: false,
+    },
+    {
+      id: "frame_material",
+      type: "choice",
+      text: "Frame material",
+      choices: ["Wood", "MDF", "Metal"],
+      required: false,
+    },
+    {
+      id: "storage_type",
+      type: "choice",
+      text: "Storage type",
+      choices: ["Drawer", "Hydraulic lift", "None"],
+      required: false,
+    },
+    {
+      id: "headboard",
+      type: "choice",
+      text: "Headboard",
+      choices: ["Padded", "Wooden", "Metal"],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. Natural wood / paint colour",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 
-  "Mattress": [
-    { id: "size", type: "choice", text: "Size", choices: ["Single", "Double", "Queen", "King"], required: false },
-    { id: "type", type: "choice", text: "Type", choices: ["Foam", "Spring", "Hybrid", "Latex"], required: false },
-    { id: "firmness", type: "choice", text: "Firmness", choices: ["Soft", "Medium", "Hard"], required: false },
-    { id: "thickness", type: "choice", text: "Thickness", choices: ['6"', '8"', '10"'], required: false },
-    { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. White / grey cover" },
-    { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
-    { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false }
+  Mattress: [
+    {
+      id: "size",
+      type: "choice",
+      text: "Size",
+      choices: ["Single", "Double", "Queen", "King"],
+      required: false,
+    },
+    {
+      id: "type",
+      type: "choice",
+      text: "Type",
+      choices: ["Foam", "Spring", "Hybrid", "Latex"],
+      required: false,
+    },
+    {
+      id: "firmness",
+      type: "choice",
+      text: "Firmness",
+      choices: ["Soft", "Medium", "Hard"],
+      required: false,
+    },
+    {
+      id: "thickness",
+      type: "choice",
+      text: "Thickness",
+      choices: ['6"', '8"', '10"'],
+      required: false,
+    },
+    {
+      id: "primary_color",
+      type: "color",
+      text: "Primary colour (required)",
+      required: true,
+      placeholder: "e.g. White / grey cover",
+    },
+    {
+      id: "secondary_color",
+      type: "color",
+      text: "Secondary colour (optional)",
+      required: false,
+      placeholder: "e.g. #rrggbb",
+    },
+    {
+      id: "reference",
+      type: "file",
+      text: "Reference image / sample (optional)",
+      required: false,
+    },
   ],
 };
 
 // --- OptionCard ---
 function OptionCard({ option, selected, onClick, index }) {
-  const label = typeof option === "string" ? option : option.label || option.key;
+  const label =
+    typeof option === "string" ? option : option.label || option.key;
   const img = typeof option === "string" ? null : option.img || null;
 
   return (
@@ -350,7 +802,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const generateTimeoutRef = useRef(null);
 
   useEffect(() => {
-    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    if (chatRef.current)
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [messages]);
 
   useEffect(() => {
@@ -362,7 +815,6 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     };
   }, [attachments]);
 
-
   function pushMessage(msg) {
     const from = msg && msg.from ? msg.from : "bot";
     const raw = Object.prototype.hasOwnProperty.call(msg || {}, "text")
@@ -370,7 +822,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       : "";
     const text =
       raw == null ? "" : typeof raw === "string" ? raw : JSON.stringify(raw);
-    setMessages((prev) => [...prev, { id: `${from}-${Date.now()}`, from, text }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: `${from}-${Date.now()}`, from, text },
+    ]);
   }
 
   async function generateBotResponse(currentAnswers) {
@@ -423,14 +878,14 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     }, 300);
   }
 
-
-
   function handleFileUpload(fieldId, e) {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
 
     // create preview for images
-    const previewUrl = file.type.startsWith("image/") ? URL.createObjectURL(file) : null;
+    const previewUrl = file.type.startsWith("image/")
+      ? URL.createObjectURL(file)
+      : null;
 
     setAttachments((prev) => ({ ...prev, [fieldId]: { file, previewUrl } }));
 
@@ -439,7 +894,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     setAnswers(newAnswers);
 
     // push chat note and trigger AI response
-    pushMessage({ from: "user", text: `${file.name} (attached for ${fieldId})` });
+    pushMessage({
+      from: "user",
+      text: `${file.name} (attached for ${fieldId})`,
+    });
     setTyping(true);
     generateBotResponse(newAnswers);
   }
@@ -460,7 +918,6 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       return copy;
     });
   }
-
 
   function handleCategorySelect(cat) {
     // reset answers except retain category
@@ -486,7 +943,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     const newAnswers = { ...answers, [fieldId]: String(value) };
     setAnswers(newAnswers);
     // attempt to get field label
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${value}`,
@@ -505,7 +964,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       delete c[fieldId];
       return c;
     });
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${text}`,
@@ -524,7 +985,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   function saveColor(fieldId) {
     const draft = colorDrafts[fieldId] || {};
     let saved = "";
-    if (draft.hex && draft.hex.startsWith("#") && draft.hex.length === 7) saved = draft.hex;
+    if (draft.hex && draft.hex.startsWith("#") && draft.hex.length === 7)
+      saved = draft.hex;
     else if (
       typeof draft.r !== "undefined" &&
       typeof draft.g !== "undefined" &&
@@ -541,7 +1003,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     if (!saved) return;
     const newAnswers = { ...answers, [fieldId]: String(saved) };
     setAnswers(newAnswers);
-    const fieldLabel = current ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text : fieldId;
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
     pushMessage({
       from: "user",
       text: `${fieldLabel || fieldId}: ${saved}`,
@@ -624,24 +1088,30 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const fieldsForCurrent = current ? CATEGORY_FIELDS[current] || [] : [];
 
   // Unanswered required fields for the current category
-  const unansweredForCurrent = fieldsForCurrent.filter((f) => f.required && !answers[f.id]);
+  const unansweredForCurrent = fieldsForCurrent.filter(
+    (f) => f.required && !answers[f.id]
+  );
 
- const handleChatInputSubmit = () => {
-  const text = inputValue.trim();
-  if (!text) return;
+  const handleChatInputSubmit = () => {
+    const text = inputValue.trim();
+    if (!text) return;
 
-  // Always treat user input as casual chat (no auto-fill of fields)
-  pushMessage({ from: "user", text });
-  setInputValue("");
+    // Always treat user input as casual chat (no auto-fill of fields)
+    pushMessage({ from: "user", text });
+    setInputValue("");
 
-  // Include current answers so the AI can reference them if desired
-  const payload = { ...answers, note: text, category: current || answers.category };
+    // Include current answers so the AI can reference them if desired
+    const payload = {
+      ...answers,
+      note: text,
+      category: current || answers.category,
+    };
 
-  setTyping(true);
-  generateBotResponse(payload);
-};
+    setTyping(true);
+    generateBotResponse(payload);
+  };
 
-
+  console.log("fieldsForCurrent", fieldsForCurrent);
 
   return (
     <Box sx={{ display: "flex", flexDirection: "row", gap: 2, width: "100%" }}>
@@ -656,7 +1126,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         }}
         elevation={4}
       >
-        <Typography variant="h6">Furniture Customizer — Single Column View (AI Enabled 🤖)</Typography>
+        <Typography variant="h6">
+          Furniture Customizer — Single Column View (AI Enabled 🤖)
+        </Typography>
 
         {/* Top: Chat Area */}
         <Grid container>
@@ -714,14 +1186,33 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                           B
                         </Avatar>
                       )}
-                      <Paper sx={{ p: 1, maxWidth: "75%", bgcolor: isUser ? "#f2f2f2" : "background.paper" }}>
+                      <Paper
+                        sx={{
+                          p: 1,
+                          maxWidth: "75%",
+                          bgcolor: isUser ? "#f2f2f2" : "background.paper",
+                        }}
+                      >
                         <Box sx={{ display: "flex", gap: 1 }}>
                           {isUser && previewColor && (
-                            <Box sx={{ bgcolor: previewColor, minWidth: 60, height: 25, borderRadius: 2, mb: 0.5 }} />
+                            <Box
+                              sx={{
+                                bgcolor: previewColor,
+                                minWidth: 60,
+                                height: 25,
+                                borderRadius: 2,
+                                mb: 0.5,
+                              }}
+                            />
                           )}
 
-                          <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-                            {typeof m.text === "string" ? m.text : JSON.stringify(m.text)}
+                          <Typography
+                            variant="body2"
+                            sx={{ whiteSpace: "pre-wrap" }}
+                          >
+                            {typeof m.text === "string"
+                              ? m.text
+                              : JSON.stringify(m.text)}
                           </Typography>
                         </Box>
                       </Paper>
@@ -753,88 +1244,166 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
               </Box>
 
               <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-  <TextField
-    placeholder={current ? `Answer for "${current}"...` : "Type your message..."}
-    value={inputValue}
-    onChange={(e) => setInputValue(e.target.value)}
-    onKeyDown={(e) => {
-      if (e.key === "Enter") {
-        handleChatInputSubmit();
-      }
-    }}
-    fullWidth
-    size="small"
-    // always enabled as a common chat input
-  />
-  <IconButton color="primary" onClick={handleChatInputSubmit}>
-    <SendIcon />
-  </IconButton>
-  <IconButton
-    onClick={() => {
-      setMessages([
-        {
-          id: "bot-1",
-          from: "bot",
-          text: "Welcome! Let's customize your furniture. Click a category to start.",
-        },
-      ]);
-      setAnswers({});
-      setCurrent(null);
-      setInputValue("");
-      setOtherInputs({});
-      setColorDrafts({});
-      setAttachments({});
-    }}
-  >
-    <RestartAltIcon />
-  </IconButton>
-</Box>
-
+                <TextField
+                  placeholder={
+                    current
+                      ? `Answer for "${current}"...`
+                      : "Type your message..."
+                  }
+                  value={inputValue}
+                  onChange={(e) => setInputValue(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleChatInputSubmit();
+                    }
+                  }}
+                  fullWidth
+                  size="small"
+                  // always enabled as a common chat input
+                />
+                <IconButton color="primary" onClick={handleChatInputSubmit}>
+                  <SendIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => {
+                    setMessages([
+                      {
+                        id: "bot-1",
+                        from: "bot",
+                        text: "Welcome! Let's customize your furniture. Click a category to start.",
+                      },
+                    ]);
+                    setAnswers({});
+                    setCurrent(null);
+                    setInputValue("");
+                    setOtherInputs({});
+                    setColorDrafts({});
+                    setAttachments({});
+                  }}
+                >
+                  <RestartAltIcon />
+                </IconButton>
+              </Box>
             </Paper>
           </Grid>
 
           {/* Bottom: Options / Controls stacked under chat */}
           <Grid container size={{ xs: 12, md: 6 }}>
-            <Paper sx={{ p: 2, display: "flex", flexDirection: "column", gap: 2, maxHeight: 600, overflowY: "auto" }} elevation={1}>
+            <Paper
+              sx={{
+                p: 2,
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+                maxHeight: 600,
+                overflowY: "auto",
+              }}
+              elevation={1}
+            >
               <Typography variant="subtitle1">Categories & Options</Typography>
 
               <Stack direction="row" spacing={1} flexWrap="wrap">
                 {CATEGORY_LIST.map((cat) => (
-                  <Chip key={cat} label={cat} clickable color={current === cat ? "primary" : "default"} onClick={() => handleCategorySelect(cat)} />
+                  <Chip
+                    key={cat}
+                    label={cat}
+                    clickable
+                    color={current === cat ? "primary" : "default"}
+                    onClick={() => handleCategorySelect(cat)}
+                  />
                 ))}
               </Stack>
 
               <Box>
-                <Typography variant="subtitle2">Options for: {current || "—"}</Typography>
+                <Typography variant="subtitle2">
+                  Options for: {current || "—"}
+                </Typography>
 
                 {current && (
-                  <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+                  <Box
+                    sx={{
+                      mt: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 2,
+                    }}
+                  >
                     {fieldsForCurrent.map((f) => (
                       <Box key={f.id}>
                         <Typography variant="body2" sx={{ mb: 0.5 }}>
-                          {f.text} {f.required ? <Typography component="span" sx={{ color: "error.main" }}> *</Typography> : null}
+                          {f.text}{" "}
+                          {f.required ? (
+                            <Typography
+                              component="span"
+                              sx={{ color: "error.main" }}
+                            >
+                              {" "}
+                              *
+                            </Typography>
+                          ) : null}
                         </Typography>
 
                         {f.type === "choice" && (
                           <Grid container spacing={1} sx={{ mt: 0.5 }}>
-                            {(Array.isArray(f.choices) ? f.choices : []).map((choice, idx) => {
-                              const choiceObj = typeof choice === "string" ? { key: choice, label: choice, img: null } : { key: choice.key ?? choice.label, label: choice.label ?? choice.key, img: choice.img ?? null };
-                              const isSelected = answers[f.id] === String(choiceObj.key) || answers[f.id] === choiceObj.label;
+                            {(Array.isArray(f.choices) ? f.choices : []).map(
+                              (choice, idx) => {
+                                const choiceObj =
+                                  typeof choice === "string"
+                                    ? { key: choice, label: choice, img: null }
+                                    : {
+                                        key: choice.key ?? choice.label,
+                                        label: choice.label ?? choice.key,
+                                        img: choice.img ?? null,
+                                      };
+                                const isSelected =
+                                  answers[f.id] === String(choiceObj.key) ||
+                                  answers[f.id] === choiceObj.label;
 
-                              return (
-                                <Grid item key={choiceObj.key} xs={6} sm={4} md={3}>
-                                  <OptionCard option={choiceObj} index={idx} selected={isSelected} onClick={() => handleChoice(f.id, choiceObj.key)} />
-                                </Grid>
-                              );
-                            })}
+                                return (
+                                  <Grid
+                                    item
+                                    key={choiceObj.key}
+                                    xs={6}
+                                    sm={4}
+                                    md={3}
+                                  >
+                                    <OptionCard
+                                      option={choiceObj}
+                                      index={idx}
+                                      selected={isSelected}
+                                      onClick={() =>
+                                        handleChoice(f.id, choiceObj.key)
+                                      }
+                                    />
+                                  </Grid>
+                                );
+                              }
+                            )}
 
-                            <Grid container size={{ xs: 12, md: 12 }} sx={{ mt: 1 }}>
-                              <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
+                            <Grid
+                              container
+                              size={{ xs: 12, md: 12 }}
+                              sx={{ mt: 1 }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  gap: 1,
+                                  flexWrap: "wrap",
+                                }}
+                              >
                                 <Button
                                   size="small"
-                                  variant={answers[f.id] === "Other" ? "contained" : "outlined"}
+                                  variant={
+                                    answers[f.id] === "Other"
+                                      ? "contained"
+                                      : "outlined"
+                                  }
                                   onClick={() => {
-                                    setOtherInputs((prev) => ({ ...prev, [f.id]: "" }));
+                                    setOtherInputs((prev) => ({
+                                      ...prev,
+                                      [f.id]: "",
+                                    }));
                                   }}
                                 >
                                   Other
@@ -842,8 +1411,22 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
                                 {otherInputs[f.id] !== undefined && (
                                   <>
-                                    <TextField size="small" placeholder="Type other..." value={otherInputs[f.id] || ""} onChange={(e) => setOtherInputs((prev) => ({ ...prev, [f.id]: e.target.value }))} />
-                                    <Button size="small" variant="contained" onClick={() => handleOtherSave(f.id)}>
+                                    <TextField
+                                      size="small"
+                                      placeholder="Type other..."
+                                      value={otherInputs[f.id] || ""}
+                                      onChange={(e) =>
+                                        setOtherInputs((prev) => ({
+                                          ...prev,
+                                          [f.id]: e.target.value,
+                                        }))
+                                      }
+                                    />
+                                    <Button
+                                      size="small"
+                                      variant="contained"
+                                      onClick={() => handleOtherSave(f.id)}
+                                    >
                                       Save
                                     </Button>
                                   </>
@@ -853,20 +1436,33 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                           </Grid>
                         )}
 
-
-
-
                         {f.type === "text" && (
                           <TextField
                             size="small"
                             placeholder={f.placeholder || "Type..."}
-                            value={typeof answers[f.id] === "string" ? answers[f.id] : answers[f.id] != null ? String(answers[f.id]) : ""}
-                            onChange={(e) => setAnswers((prev) => ({ ...prev, [f.id]: e.target.value }))}
+                            value={
+                              typeof answers[f.id] === "string"
+                                ? answers[f.id]
+                                : answers[f.id] != null
+                                ? String(answers[f.id])
+                                : ""
+                            }
+                            onChange={(e) =>
+                              setAnswers((prev) => ({
+                                ...prev,
+                                [f.id]: e.target.value,
+                              }))
+                            }
                             onBlur={() => {
                               // auto-save text fields
-                              const val = (answers[f.id] || "").toString().trim();
+                              const val = (answers[f.id] || "")
+                                .toString()
+                                .trim();
                               if (val) {
-                                generateBotResponse({ ...answers, [f.id]: val });
+                                generateBotResponse({
+                                  ...answers,
+                                  [f.id]: val,
+                                });
                               }
                             }}
                             fullWidth
@@ -875,13 +1471,35 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                         )}
 
                         {f.type === "color" && (
-                          <Box sx={{ display: "flex", gap: 1, flexDirection: "column", mt: 1 }}>
-                            <Typography variant="caption">Click on the spectrum below to pick a color visually</Typography>
-                            <canvas style={{ width: "100%", maxWidth: 720, height: "160px" }} ref={(el) => attachSpectrumCanvas(f.id, el)} onClick={(e) => handleSpectrumClick(f.id, e)} />
+                          <Box
+                            sx={{
+                              display: "flex",
+                              gap: 1,
+                              flexDirection: "column",
+                              mt: 1,
+                            }}
+                          >
+                            <Typography variant="caption">
+                              Click on the spectrum below to pick a color
+                              visually
+                            </Typography>
+                            <canvas
+                              style={{
+                                width: "100%",
+                                maxWidth: 720,
+                                height: "160px",
+                              }}
+                              ref={(el) => attachSpectrumCanvas(f.id, el)}
+                              onClick={(e) => handleSpectrumClick(f.id, e)}
+                            />
                             <TextField
                               size="small"
                               placeholder={f.placeholder || "#rrggbb"}
-                              value={typeof answers[f.id] === "string" ? answers[f.id] : colorDrafts[f.id]?.hex || ""}
+                              value={
+                                typeof answers[f.id] === "string"
+                                  ? answers[f.id]
+                                  : colorDrafts[f.id]?.hex || ""
+                              }
                               onChange={(e) => {
                                 const v = e.target.value;
                                 handleColorDraftChange(f.id, "hex", v);
@@ -904,7 +1522,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                             />
                           </Box>
                         )}
-{/* //............................File Handling.........................................................// */}
+                        {/* //............................File Handling.........................................................// */}
                         {f.type === "file" && (
                           <>
                             {/* hidden file input */}
@@ -919,7 +1537,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                             {/* Reuse OptionCard for consistent look */}
                             <Box
                               onClick={() => {
-                                const el = document.getElementById(`file-${f.id}`);
+                                const el = document.getElementById(
+                                  `file-${f.id}`
+                                );
                                 if (el) el.click();
                               }}
                             >
@@ -932,7 +1552,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                                 index={0}
                                 selected={Boolean(attachments[f.id])}
                                 onClick={() => {
-                                  const el = document.getElementById(`file-${f.id}`);
+                                  const el = document.getElementById(
+                                    `file-${f.id}`
+                                  );
                                   if (el) el.click();
                                 }}
                               />
@@ -940,32 +1562,50 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
                             {/* show file name + remove */}
                             {attachments[f.id] && (
-                              <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                              <Box
+                                sx={{
+                                  mt: 1,
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                }}
+                              >
                                 {attachments[f.id].previewUrl && (
                                   <img
                                     src={attachments[f.id].previewUrl}
                                     alt="preview"
-                                    style={{ width: 70, height: 70, objectFit: "cover", borderRadius: 6, border: "1px solid #ccc" }}
+                                    style={{
+                                      width: 70,
+                                      height: 70,
+                                      objectFit: "cover",
+                                      borderRadius: 6,
+                                      border: "1px solid #ccc",
+                                    }}
                                   />
                                 )}
-                                <Typography variant="caption" sx={{ maxWidth: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                                <Typography
+                                  variant="caption"
+                                  sx={{
+                                    maxWidth: 180,
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                  }}
+                                >
                                   {attachments[f.id].file.name}
                                 </Typography>
-                                <Button size="small" color="error" onClick={() => removeAttachment(f.id)}>
+                                <Button
+                                  size="small"
+                                  color="error"
+                                  onClick={() => removeAttachment(f.id)}
+                                >
                                   Remove
                                 </Button>
                               </Box>
                             )}
                           </>
                         )}
-     {/* //............................File Handling.........................................................// */}
-
-
-
-
-
-
-
+                        {/* //............................File Handling.........................................................// */}
                       </Box>
                     ))}
 
@@ -973,22 +1613,44 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       <Typography variant="caption">Summary</Typography>
                       <Paper sx={{ p: 1, mt: 0.5 }}>
                         {Object.keys(answers).length === 0 ? (
-                          <Typography variant="body2">No selections yet.</Typography>
+                          <Typography variant="body2">
+                            No selections yet.
+                          </Typography>
                         ) : (
                           <Stack spacing={0.5}>
                             {fieldsForCurrent.map((f) => {
                               const v = answers[f.id];
+                              console.log("-----", v);
                               return (
-                                <Typography key={f.id} variant="body2" display={"flex"}>
+                                <Typography
+                                  key={f.id}
+                                  variant="body2"
+                                  display={"flex"}
+                                >
                                   {f.text}:{" "}
                                   {f.required && !v ? (
-                                    <Box sx={{ color: "error.main", ml: 1 }}>Missing required</Box>
+                                    <Box sx={{ color: "error.main", ml: 1 }}>
+                                      Missing required
+                                    </Box>
                                   ) : (
                                     <>
                                       {v?.split && v?.split("#")[1] && (
-                                        <Box sx={{ bgcolor: `#${v?.split("#")[1]}`, minWidth: 60, height: 25, borderRadius: 2, ml: 1, mr: 1 }} />
+                                        <Box
+                                          sx={{
+                                            bgcolor: `#${v?.split("#")[1]}`,
+                                            minWidth: 60,
+                                            height: 25,
+                                            borderRadius: 2,
+                                            ml: 1,
+                                            mr: 1,
+                                          }}
+                                        />
                                       )}
-                                      {typeof v === "string" ? v : v ? JSON.stringify(v) : "-"}
+                                      {typeof v === "string"
+                                        ? v
+                                        : v
+                                        ? JSON.stringify(v)
+                                        : "-"}
                                     </>
                                   )}
                                 </Typography>
