@@ -108,6 +108,7 @@ export default function Login() {
       if (data.success) {
         const decode = jwtDecode(data.token);
         dispatch(UserLogin(decode));
+        localStorage.setItem("authToken", data.token);
         toastMessage("Login Successful", "success");
         setOpen(false);
         setShowOTP(false);

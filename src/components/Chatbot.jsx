@@ -42,6 +42,7 @@ const API_KEY =
 import CATEGORY_FIELDS, { CATEGORY_LIST } from "../components/categoryFields";
 import { CustomizationApi } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
+import { useSelector } from "react-redux";
 // <-- adjust or define this
 // If you don't have a file, create it that exports the CATEGORY_FIELDS object.
 
@@ -311,7 +312,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const [attachments, setAttachments] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [finished, setFinished] = useState(false);
-
+  const { isUser } = useSelector((state) => state.UserState);
   const chatRef = useRef();
   const spectrumRefs = useRef({});
   const generateTimeoutRef = useRef(null);
@@ -437,6 +438,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   }
 
   function handleCategorySelect(cat) {
+    if (!isUser) {
+      toastMessage("Please login to continue customization", "warning");
+      return;
+    }
     const newAnswers = { category: cat };
     setAnswers(newAnswers);
     pushMessage({ from: "user", text: cat });
