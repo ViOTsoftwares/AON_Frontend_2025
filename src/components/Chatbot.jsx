@@ -40,7 +40,9 @@ const API_KEY =
 // Replace the import path below with your actual location / export.
 // top of file - replace your single import line
 import CATEGORY_FIELDS, { CATEGORY_LIST } from "../components/categoryFields";
- // <-- adjust or define this
+import { CustomizationApi } from "../Api_Action";
+import { toastMessage } from "../toastMessage";
+// <-- adjust or define this
 // If you don't have a file, create it that exports the CATEGORY_FIELDS object.
 
 /* ---------- unchanged utility functions (with no logic change) ---------- */
@@ -179,8 +181,6 @@ const CATEGORY_FIELDS_WITH_IMAGES = augmentCategoryFieldsWithImages(
   { imgExt: "jpg" }
 );
 
-
-
 // --- OptionCard (unchanged) ---
 function OptionCard({ option, selected, onClick, index }) {
   const label =
@@ -215,27 +215,26 @@ function OptionCard({ option, selected, onClick, index }) {
       >
         {img ? (
           <CardMedia
-  component="img"
-  image={img}
-  alt={label}
-  loading="lazy"
-  onError={(e) => {
-    const imgEl = e.currentTarget;
+            component="img"
+            image={img}
+            alt={label}
+            loading="lazy"
+            onError={(e) => {
+              const imgEl = e.currentTarget;
 
-    // first time error → try common folder
-    if (!imgEl.dataset.fallbackTried) {
-      imgEl.dataset.fallbackTried = "1";
-      imgEl.src = `/images/common/${norm(label)}.jpg`;
-      return;
-    }
+              // first time error → try common folder
+              if (!imgEl.dataset.fallbackTried) {
+                imgEl.dataset.fallbackTried = "1";
+                imgEl.src = `/images/common/${norm(label)}.jpg`;
+                return;
+              }
 
-    // second time error → final fallback & stop further errors
-    imgEl.onerror = null;
-    imgEl.src = about2; // imported at top
-  }}
-  sx={{ height: 88, objectFit: "contain" }}
-/>
-
+              // second time error → final fallback & stop further errors
+              imgEl.onerror = null;
+              imgEl.src = about2; // imported at top
+            }}
+            sx={{ height: 88, objectFit: "contain" }}
+          />
         ) : (
           <Box
             sx={{
@@ -313,13 +312,13 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const [submitting, setSubmitting] = useState(false);
   const [finished, setFinished] = useState(false);
 
-
   const chatRef = useRef();
   const spectrumRefs = useRef({});
   const generateTimeoutRef = useRef(null);
 
   useEffect(() => {
-    if (chatRef.current) chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    if (chatRef.current)
+      chatRef.current.scrollTop = chatRef.current.scrollHeight;
   }, [messages]);
 
   useEffect(() => {
@@ -340,7 +339,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       : "";
     const text =
       raw == null ? "" : typeof raw === "string" ? raw : JSON.stringify(raw);
-    setMessages((prev) => [...prev, { id: `${from}-${Date.now()}`, from, text }]);
+    setMessages((prev) => [
+      ...prev,
+      { id: `${from}-${Date.now()}`, from, text },
+    ]);
   }
 
   async function generateBotResponse(currentAnswers) {
@@ -591,8 +593,12 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     const canvasPixelWidth = canvas.width;
     const canvasPixelHeight = canvas.height;
 
-    const px = Math.floor(((e.clientX - rect.left) / rect.width) * canvasPixelWidth);
-    const py = Math.floor(((e.clientY - rect.top) / rect.height) * canvasPixelHeight);
+    const px = Math.floor(
+      ((e.clientX - rect.left) / rect.width) * canvasPixelWidth
+    );
+    const py = Math.floor(
+      ((e.clientY - rect.top) / rect.height) * canvasPixelHeight
+    );
 
     const ctx = canvas.getContext("2d");
     const clampedX = Math.max(0, Math.min(canvasPixelWidth - 1, px));
@@ -612,7 +618,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
   // Get fields for current category (direct lookup, no global loop)
   // use augmented fields so each choice has an `img` URL
-  const fieldsForCurrent = current ? CATEGORY_FIELDS_WITH_IMAGES[current] || [] : [];
+  const fieldsForCurrent = current
+    ? CATEGORY_FIELDS_WITH_IMAGES[current] || []
+    : [];
 
   const handleChatInputSubmit = () => {
     const text = inputValue.trim();
@@ -630,11 +638,31 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     setTyping(true);
     generateBotResponse(payload);
   };
+  function resetForm() {
+    setMessages([
+      {
+        id: "bot-1",
+        from: "bot",
+        text: "Welcome! Let's customize your furniture. Click a category to start.",
+      },
+    ]);
+    setAnswers({});
+    setCurrent(null);
+    setInputValue("");
+    setOtherInputs({});
+    setColorDrafts({});
+    setAttachments({});
+    setFinished(false);
+    setSubmitting(false);
+
+    // Revoke any object URLs to free memory
+    Object.values(attachments).forEach((a) => {
+      if (a?.previewUrl) URL.revokeObjectURL(a.previewUrl);
+    });
+  }
 
   // ---- submitCustomization from file 1 ----
   async function submitCustomization() {
-
-
     console.log("FINAL ANSWERS =>", answers);
 
     // must have category
@@ -672,28 +700,18 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         }
       });
 
-      const res = await fetch("/api/customize", {
-        method: "POST",
-        body: fd,
-      });
+      const res = await CustomizationApi(fd);
+      console.log("res", res);
+      if (res.success) {
+        toastMessage(res.message, "success");
+        setFinished(true);
 
-      if (!res.ok) {
-        const txt = await res.text().catch(() => "");
-        throw new Error(txt || `Server returned ${res.status}`);
+        setTimeout(() => {
+          resetForm();
+        }, 1500); // 1.5 seconds delay
+      } else {
+        toastMessage(res.message, "error");
       }
-
-      let json = null;
-      try {
-        json = await res.json();
-      } catch (e) {}
-
-      pushMessage({
-        from: "bot",
-        text: "Customisation submitted successfully! 🎉",
-      });
-      setFinished(true);
-
-      if (json?.message) pushMessage({ from: "bot", text: json.message });
     } catch (err) {
       console.error("Submit error:", err);
       pushMessage({
@@ -719,7 +737,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         }}
         elevation={4}
       >
-        <Typography variant="h6">Furniture Customizer — Chat (AI Enabled 🤖)</Typography>
+        <Typography variant="h6">
+          Furniture Customizer — Chat (AI Enabled 🤖)
+        </Typography>
 
         <Paper
           sx={{
@@ -751,8 +771,14 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
               const isUser = m.from === "user";
               const v = m.text;
               // robust color preview detection:
-              const hexMatch = typeof v === "string" && v.includes("#") ? `#${String(v).split("#")[1].slice(0, 6)}` : null;
-              const previewColor = hexMatch && /^#[0-9a-fA-F]{6}$/.test(hexMatch) ? hexMatch : null;
+              const hexMatch =
+                typeof v === "string" && v.includes("#")
+                  ? `#${String(v).split("#")[1].slice(0, 6)}`
+                  : null;
+              const previewColor =
+                hexMatch && /^#[0-9a-fA-F]{6}$/.test(hexMatch)
+                  ? hexMatch
+                  : null;
 
               return (
                 <Box
@@ -764,24 +790,59 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                   }}
                 >
                   {!isUser && (
-                    <Avatar sx={{ bgcolor: "primary.main", width: 28, height: 28, mr: 1 }}>
+                    <Avatar
+                      sx={{
+                        bgcolor: "primary.main",
+                        width: 28,
+                        height: 28,
+                        mr: 1,
+                      }}
+                    >
                       B
                     </Avatar>
                   )}
 
-                  <Paper sx={{ p: 1, maxWidth: "75%", bgcolor: isUser ? "#f2f2f2" : "background.paper" }}>
+                  <Paper
+                    sx={{
+                      p: 1,
+                      maxWidth: "75%",
+                      bgcolor: isUser ? "#f2f2f2" : "background.paper",
+                    }}
+                  >
                     <Box sx={{ display: "flex", gap: 1 }}>
                       {isUser && previewColor && (
-                        <Box sx={{ bgcolor: previewColor, minWidth: 60, height: 25, borderRadius: 2, mb: 0.5 }} />
+                        <Box
+                          sx={{
+                            bgcolor: previewColor,
+                            minWidth: 60,
+                            height: 25,
+                            borderRadius: 2,
+                            mb: 0.5,
+                          }}
+                        />
                       )}
-                      <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>
-                        {typeof m.text === "string" ? m.text : JSON.stringify(m.text)}
+                      <Typography
+                        variant="body2"
+                        sx={{ whiteSpace: "pre-wrap" }}
+                      >
+                        {typeof m.text === "string"
+                          ? m.text
+                          : JSON.stringify(m.text)}
                       </Typography>
                     </Box>
                   </Paper>
 
                   {isUser && (
-                    <Avatar sx={{ bgcolor: "secondary.main", width: 28, height: 28, ml: 1 }}>U</Avatar>
+                    <Avatar
+                      sx={{
+                        bgcolor: "secondary.main",
+                        width: 28,
+                        height: 28,
+                        ml: 1,
+                      }}
+                    >
+                      U
+                    </Avatar>
                   )}
                 </Box>
               );
@@ -799,7 +860,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
           <Box sx={{ display: "flex", gap: 1, alignItems: "center", mt: 1 }}>
             <TextField
-              placeholder={current ? `Answer for "${current}"...` : "Type your message..."}
+              placeholder={
+                current ? `Answer for "${current}"...` : "Type your message..."
+              }
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={(e) => {
@@ -854,15 +917,25 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
         <Stack direction="row" spacing={1} flexWrap="wrap">
           {CATEGORY_LIST.map((cat) => (
-            <Chip key={cat} label={cat} clickable color={current === cat ? "primary" : "default"} onClick={() => handleCategorySelect(cat)} />
+            <Chip
+              key={cat}
+              label={cat}
+              clickable
+              color={current === cat ? "primary" : "default"}
+              onClick={() => handleCategorySelect(cat)}
+            />
           ))}
         </Stack>
 
         <Box>
-          <Typography variant="subtitle2">Options for: {current || "—"}</Typography>
+          <Typography variant="subtitle2">
+            Options for: {current || "—"}
+          </Typography>
 
           {current && (
-            <Box sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box
+              sx={{ mt: 1, display: "flex", flexDirection: "column", gap: 2 }}
+            >
               {fieldsForCurrent.map((f) => (
                 <Box key={f.id}>
                   <Typography variant="body2" sx={{ mb: 0.5 }}>
@@ -876,32 +949,50 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
                   {f.type === "choice" && (
                     <Grid container spacing={1} sx={{ mt: 0.5 }}>
-                      {(Array.isArray(f.choices) ? f.choices : []).map((choice, idx) => {
-                        const choiceObj =
-                          typeof choice === "string"
-                            ? { key: choice, label: choice, img: null }
-                            : {
-                                key: choice.key ?? choice.label,
-                                label: choice.label ?? choice.key,
-                                img: choice.img ?? null,
-                              };
-                        const isSelected = answers[f.id] === String(choiceObj.key) || answers[f.id] === choiceObj.label;
+                      {(Array.isArray(f.choices) ? f.choices : []).map(
+                        (choice, idx) => {
+                          const choiceObj =
+                            typeof choice === "string"
+                              ? { key: choice, label: choice, img: null }
+                              : {
+                                  key: choice.key ?? choice.label,
+                                  label: choice.label ?? choice.key,
+                                  img: choice.img ?? null,
+                                };
+                          const isSelected =
+                            answers[f.id] === String(choiceObj.key) ||
+                            answers[f.id] === choiceObj.label;
 
-                        return (
-                          <Grid item key={choiceObj.key} xs={6} sm={4} md={3}>
-                            <OptionCard option={choiceObj} index={idx} selected={isSelected} onClick={() => handleChoice(f.id, choiceObj.key)} />
-                          </Grid>
-                        );
-                      })}
+                          return (
+                            <Grid item key={choiceObj.key} xs={6} sm={4} md={3}>
+                              <OptionCard
+                                option={choiceObj}
+                                index={idx}
+                                selected={isSelected}
+                                onClick={() =>
+                                  handleChoice(f.id, choiceObj.key)
+                                }
+                              />
+                            </Grid>
+                          );
+                        }
+                      )}
 
                       {/* OTHER INPUT BUTTON + FIELD */}
                       <Grid item xs={12} sx={{ mt: 1 }}>
                         <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap" }}>
                           <Button
                             size="small"
-                            variant={answers[f.id] === "Other" ? "contained" : "outlined"}
+                            variant={
+                              answers[f.id] === "Other"
+                                ? "contained"
+                                : "outlined"
+                            }
                             onClick={() => {
-                              setOtherInputs((prev) => ({ ...prev, [f.id]: "" }));
+                              setOtherInputs((prev) => ({
+                                ...prev,
+                                [f.id]: "",
+                              }));
                             }}
                           >
                             Other
@@ -913,9 +1004,18 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                                 size="small"
                                 placeholder="Type other..."
                                 value={otherInputs[f.id] || ""}
-                                onChange={(e) => setOtherInputs((prev) => ({ ...prev, [f.id]: e.target.value }))}
+                                onChange={(e) =>
+                                  setOtherInputs((prev) => ({
+                                    ...prev,
+                                    [f.id]: e.target.value,
+                                  }))
+                                }
                               />
-                              <Button size="small" variant="contained" onClick={() => handleOtherSave(f.id)}>
+                              <Button
+                                size="small"
+                                variant="contained"
+                                onClick={() => handleOtherSave(f.id)}
+                              >
                                 Save
                               </Button>
                             </>
@@ -929,7 +1029,13 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                     <TextField
                       size="small"
                       placeholder={f.placeholder || "Type..."}
-                      value={typeof answers[f.id] === "string" ? answers[f.id] : answers[f.id] != null ? String(answers[f.id]) : ""}
+                      value={
+                        typeof answers[f.id] === "string"
+                          ? answers[f.id]
+                          : answers[f.id] != null
+                          ? String(answers[f.id])
+                          : ""
+                      }
                       onChange={(e) =>
                         setAnswers((prev) => ({
                           ...prev,
@@ -951,8 +1057,17 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                   )}
 
                   {f.type === "color" && (
-                    <Box sx={{ display: "flex", gap: 1, flexDirection: "column", mt: 1 }}>
-                      <Typography variant="caption">Click on the spectrum below to pick a color visually</Typography>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        flexDirection: "column",
+                        mt: 1,
+                      }}
+                    >
+                      <Typography variant="caption">
+                        Click on the spectrum below to pick a color visually
+                      </Typography>
 
                       <canvas
                         style={{
@@ -967,7 +1082,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       <TextField
                         size="small"
                         placeholder={f.placeholder || "#rrggbb"}
-                        value={typeof answers[f.id] === "string" ? answers[f.id] : colorDrafts[f.id]?.hex || ""}
+                        value={
+                          typeof answers[f.id] === "string"
+                            ? answers[f.id]
+                            : colorDrafts[f.id]?.hex || ""
+                        }
                         onChange={(e) => {
                           const v = e.target.value;
                           handleColorDraftChange(f.id, "hex", v);
@@ -991,7 +1110,13 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
                   {f.type === "file" && (
                     <>
-                      <input id={`file-${f.id}`} type="file" accept="image/*,.pdf" style={{ display: "none" }} onChange={(e) => handleFileUpload(f.id, e)} />
+                      <input
+                        id={`file-${f.id}`}
+                        type="file"
+                        accept="image/*,.pdf"
+                        style={{ display: "none" }}
+                        onChange={(e) => handleFileUpload(f.id, e)}
+                      />
 
                       <Box
                         onClick={() => {
@@ -1015,7 +1140,14 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       </Box>
 
                       {attachments[f.id] && (
-                        <Box sx={{ mt: 1, display: "flex", alignItems: "center", gap: 1 }}>
+                        <Box
+                          sx={{
+                            mt: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                          }}
+                        >
                           {attachments[f.id].previewUrl && (
                             <img
                               src={attachments[f.id].previewUrl}
@@ -1040,7 +1172,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                           >
                             {attachments[f.id].file.name}
                           </Typography>
-                          <Button size="small" color="error" onClick={() => removeAttachment(f.id)}>
+                          <Button
+                            size="small"
+                            color="error"
+                            onClick={() => removeAttachment(f.id)}
+                          >
                             Remove
                           </Button>
                         </Box>
@@ -1061,14 +1197,24 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       {fieldsForCurrent.map((f) => {
                         const v = answers[f.id];
                         const hexCandidate =
-                          typeof v === "string" && v.includes("#") ? `#${String(v).split("#")[1].slice(0, 6)}` : null;
-                        const isHex = hexCandidate && /^#[0-9a-fA-F]{6}$/.test(hexCandidate);
+                          typeof v === "string" && v.includes("#")
+                            ? `#${String(v).split("#")[1].slice(0, 6)}`
+                            : null;
+                        const isHex =
+                          hexCandidate &&
+                          /^#[0-9a-fA-F]{6}$/.test(hexCandidate);
 
                         return (
-                          <Typography key={f.id} variant="body2" display={"flex"}>
+                          <Typography
+                            key={f.id}
+                            variant="body2"
+                            display={"flex"}
+                          >
                             {f.text}:{" "}
                             {f.required && !v ? (
-                              <Box sx={{ color: "error.main", ml: 1 }}>Missing required</Box>
+                              <Box sx={{ color: "error.main", ml: 1 }}>
+                                Missing required
+                              </Box>
                             ) : (
                               <>
                                 {isHex && (
@@ -1083,7 +1229,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                                     }}
                                   />
                                 )}
-                                {typeof v === "string" ? v : v ? JSON.stringify(v) : "-"}
+                                {typeof v === "string"
+                                  ? v
+                                  : v
+                                  ? JSON.stringify(v)
+                                  : "-"}
                               </>
                             )}
                           </Typography>
@@ -1095,15 +1245,33 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
               </Box>
 
               {/* FINALIZE SECTION */}
-              <Box sx={{ mt: 2, display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}>
-                <Button variant="contained" onClick={submitCustomization} disabled={submitting || finished}>
-                  {submitting ? "Submitting..." : finished ? "Submitted" : "Finalize & Submit"}
+              <Box
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  gap: 1,
+                  alignItems: "center",
+                  flexWrap: "wrap",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  onClick={submitCustomization}
+                  disabled={submitting || finished}
+                >
+                  {submitting
+                    ? "Submitting..."
+                    : finished
+                    ? "Submitted"
+                    : "Finalize & Submit"}
                 </Button>
 
                 <Button
                   variant="outlined"
                   onClick={() => {
-                    const missing = (fieldsForCurrent || []).filter((f) => f.required && !answers[f.id] && !attachments[f.id]);
+                    const missing = (fieldsForCurrent || []).filter(
+                      (f) => f.required && !answers[f.id] && !attachments[f.id]
+                    );
                     if (missing.length === 0)
                       pushMessage({
                         from: "bot",
@@ -1112,7 +1280,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                     else
                       pushMessage({
                         from: "bot",
-                        text: "Missing: " + missing.map((m) => m.text).join(", "),
+                        text:
+                          "Missing: " + missing.map((m) => m.text).join(", "),
                       });
                   }}
                 >
@@ -1120,7 +1289,12 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                 </Button>
 
                 {finished && (
-                  <Chip icon={<CheckCircleIcon />} label="Finished" color="success" sx={{ ml: 1 }} />
+                  <Chip
+                    icon={<CheckCircleIcon />}
+                    label="Finished"
+                    color="success"
+                    sx={{ ml: 1 }}
+                  />
                 )}
               </Box>
             </Box>

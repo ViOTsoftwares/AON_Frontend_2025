@@ -24,7 +24,7 @@ import { useFormik } from "formik";
 import LoginSchema from "../schema/LoginSchema";
 import BaseApi from "../BasaApi";
 import { useDispatch } from "react-redux";
-import { jwtDecode } from "jwt-decode"; 
+import { jwtDecode } from "jwt-decode";
 import { UserLogin, UserLogout } from "../slice/UserSlice";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -38,7 +38,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Login() {
   const [open, setOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(300);
   const containerRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -47,7 +47,7 @@ export default function Login() {
   const InnitialValues = { username: "", email: "" };
   const [isResend, setIsResend] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-
+  const [resentBtn, setResentBtn] = useState(false);
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -70,7 +70,7 @@ export default function Login() {
         });
         setShowOTP(true);
         setIsResend(false);
-        setTimer(60);
+        setTimer(300);
       } catch (err) {
         alert(err.response?.data?.message || "Failed to send OTP");
       }
@@ -121,8 +121,9 @@ export default function Login() {
 
   const handleResend = async () => {
     try {
+      setResentBtn(true);
       await BaseApi.post("/user/send-otp", Varify);
-      setTimer(60);
+      setTimer(300);
       toastMessage("OTP resent successfully", "success");
     } catch (err) {
       toastMessage("Failed to resend OTP", "error");
@@ -339,9 +340,13 @@ export default function Login() {
                 your taste, style and comfort.
               </Typography>
               <Box sx={{ mt: 2 }}>
-                <Typography>Premiumly crafted & customizable collections</Typography>
+                <Typography>
+                  Premiumly crafted & customizable collections
+                </Typography>
                 <Typography>Prices, offers & real-time availability</Typography>
-                <Typography>Private, secure, and seamless AON experience</Typography>
+                <Typography>
+                  Private, secure, and seamless AON experience
+                </Typography>
               </Box>
             </Grid>
 
@@ -351,7 +356,10 @@ export default function Login() {
               size={{ xs: 12, md: 6 }}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Card elevation={12} sx={{ maxWidth: 400, borderRadius: 4, p: 3, width: 350, mb: 1 }}>
+              <Card
+                elevation={12}
+                sx={{ maxWidth: 400, borderRadius: 4, p: 3, width: 350, mb: 1 }}
+              >
                 <Typography textAlign="center" variant="h6" mb={2}>
                   Login
                 </Typography>
@@ -359,7 +367,9 @@ export default function Login() {
                 <div className="form-wrapper">
                   {/* Email step */}
                   <form onSubmit={formik.handleSubmit}>
-                    <div className={`form-slide email ${showOTP ? "exit" : ""}`}>
+                    <div
+                      className={`form-slide email ${showOTP ? "exit" : ""}`}
+                    >
                       <TextField
                         label="Username"
                         fullWidth
@@ -368,8 +378,15 @@ export default function Login() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         sx={{ mb: "10px" }}
-                        error={formik.touched.username && Boolean(formik.errors.username)}
-                        helperText={formik.touched.username ? formik.errors.username : "  "}
+                        error={
+                          formik.touched.username &&
+                          Boolean(formik.errors.username)
+                        }
+                        helperText={
+                          formik.touched.username
+                            ? formik.errors.username
+                            : "  "
+                        }
                       />
 
                       <TextField
@@ -381,8 +398,12 @@ export default function Login() {
                         onChange={formik.handleChange}
                         onBlur={formik.handleBlur}
                         sx={{ mb: "10px" }}
-                        error={formik.touched.email && Boolean(formik.errors.email)}
-                        helperText={formik.touched.email ? formik.errors.email : "   "}
+                        error={
+                          formik.touched.email && Boolean(formik.errors.email)
+                        }
+                        helperText={
+                          formik.touched.email ? formik.errors.email : "   "
+                        }
                       />
 
                       <Button variant="contained" fullWidth type="submit">
@@ -397,28 +418,48 @@ export default function Login() {
                       label="Enter OTP"
                       fullWidth
                       value={Varify.otp}
-                      onChange={(e) => setVarify((prev) => ({ ...prev, otp: e.target.value }))}
+                      onChange={(e) =>
+                        setVarify((prev) => ({ ...prev, otp: e.target.value }))
+                      }
                       inputProps={{ maxLength: 6 }}
                       sx={{ mb: 1 }}
                     />
-                    <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                      <Typography variant="body2" color="error" textAlign="center" mt={1}>
+                    <Box
+                      sx={{ display: "flex", justifyContent: "space-between" }}
+                    >
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        textAlign="center"
+                        mt={1}
+                      >
                         Time left: {formatTime(timer)}
                       </Typography>
                       {isResend ? (
-                        <Button disabled={timer !== 0} onClick={handleResend}>
+                        <Button
+                          disabled={timer !== 0 || resentBtn}
+                          onClick={handleResend}
+                        >
                           resend
                         </Button>
                       ) : null}
                     </Box>
-                    <Button variant="contained" fullWidth sx={{ mt: 2 }} onClick={handleVerifyOTP}>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      sx={{ mt: 2 }}
+                      onClick={handleVerifyOTP}
+                    >
                       Verify OTP
                     </Button>
                   </div>
                 </div>
 
                 {/* Divider */}
-                <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }} mt={7}>
+                <Box
+                  sx={{ display: "flex", flexDirection: "column", gap: 1 }}
+                  mt={7}
+                >
                   <Box display="flex" alignItems="center" gap={2}>
                     <Box flex={1} height="1px" bgcolor="gray" />
                     <Typography variant="body2" color="textSecondary">
@@ -426,10 +467,21 @@ export default function Login() {
                     </Typography>
                     <Box flex={1} height="1px" bgcolor="gray" />
                   </Box>
-                  <Button variant="outlined" startIcon={<FcGoogle />} fullWidth onClick={loginWithGoogle}>
+                  <Button
+                    variant="outlined"
+                    startIcon={<FcGoogle />}
+                    fullWidth
+                    onClick={loginWithGoogle}
+                  >
                     With Google
                   </Button>
-                  <Button variant="outlined" color="primary" startIcon={<FaFacebookSquare />} fullWidth onClick={loginWithFacebook}>
+                  <Button
+                    variant="outlined"
+                    color="primary"
+                    startIcon={<FaFacebookSquare />}
+                    fullWidth
+                    onClick={loginWithFacebook}
+                  >
                     With Facebook
                   </Button>
                 </Box>

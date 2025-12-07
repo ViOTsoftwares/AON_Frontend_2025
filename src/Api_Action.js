@@ -95,7 +95,7 @@ export const BestSellingProductApi = async (category) => {
 export const ShareProductApi = async (id) => {
   try {
     const { data } = await api.get(`/product/share/${id}`);
-    
+
     return data;
   } catch (error) {
     console.log("error", error);
@@ -212,5 +212,14 @@ export const getTestimonialApi = async () => {
   } catch (error) {
     console.log("error", error);
     return error.response.data;
+  }
+};
+export const CustomizationApi = async (payload) => {
+  try {
+    const { data } = await api.post("/customize", payload);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error.response?.data;
   }
 };
