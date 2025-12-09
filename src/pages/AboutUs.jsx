@@ -7,10 +7,13 @@ import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import ContactusForm from "../components/ContactusForm";
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 function AboutUs() {
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
   }, []);
+  const { cmsDate } = useSelector((state) => state.CmsState);
+  
   return (
     <Container>
       <Grid container alignItems="center" justifyContent="center">
@@ -28,7 +31,7 @@ function AboutUs() {
               },
             }}
           >
-            Arun Office Needs 
+             {cmsDate?.title}
             <h5 justifyContent="center">Our Brand Story</h5>          </Typography>
           <Stack justifyContent="center" alignContent="center">
             <Typography

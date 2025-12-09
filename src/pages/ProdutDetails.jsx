@@ -42,10 +42,14 @@ const ProductDetails = () => {
         <>
           <ProductDetailCard Product={Product} />
 
-          <SimilarProducts
-            similarProduct={similarProduct}
-            setIsLoading={setIsLoading}
-          />
+          {similarProduct.length > 0 ? (
+            <SimilarProducts
+              similarProduct={similarProduct}
+              setIsLoading={setIsLoading}
+            />
+          ) : (
+            ""
+          )}
         </>
       )}
     </>

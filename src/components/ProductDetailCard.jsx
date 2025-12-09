@@ -40,14 +40,27 @@ const ProductDetailCard = ({ Product = {} }) => {
   }).format(Product?.MRP || 0);
 
   const handleShare = () => {
-    const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product?._id}`;
-    window.open(`https://wa.me/?text=${encodeURIComponent(shareUrl)}`, "_blank");
+    const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${
+      Product?._id
+    }`;
+    window.open(
+      `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
+      "_blank"
+    );
   };
 
   return (
     <Grid container spacing={2} px={2} alignItems="flex-start">
       {/* Left: Images - fixed max width and fixed image box to avoid layout shifts */}
-      <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: { xs: "center", md: "flex-start" } }}>
+      <Grid
+        item
+        xs={12}
+        md={6}
+        sx={{
+          display: "flex",
+          justifyContent: { xs: "center", md: "flex-start" },
+        }}
+      >
         <Box
           sx={{
             pl: { md: 8 },
@@ -72,7 +85,6 @@ const ProductDetailCard = ({ Product = {} }) => {
               borderRadius: 1,
               bgcolor: "background.paper",
               backgroundSize: "contain",
-
             }}
           >
             {/* If CarouselImage accepts style props, pass them — otherwise wrap the image container */}
@@ -88,17 +100,23 @@ const ProductDetailCard = ({ Product = {} }) => {
         xs={12}
         md={6}
         sx={{
-           ml: "74px",
+          ml: "74px",
           pl: { xs: 0, md: 0 },
-           pr: {md:12},
+          pr: { md: 12 },
           width: "100%",
+          overflowY: "auto",
+          maxHeight: "100vh",
           // ensure details column doesn't shrink to tiny width
           maxWidth: { xs: "100%", md: "680px" },
           boxSizing: "border-box",
         }}
       >
         <Stack spacing={2} p={2}>
-          <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+          <Stack
+            direction="row"
+            justifyContent="space-between"
+            alignItems="flex-start"
+          >
             <Box sx={{ flex: 1, pr: 1 }}>
               <Typography
                 component="h1"
@@ -122,23 +140,41 @@ const ProductDetailCard = ({ Product = {} }) => {
                 fontSize={{ xs: "0.95rem", sm: "1rem" }}
                 lineHeight="1.4rem"
                 fontWeight={400}
-                sx={{ fontFamily: "Inter, sans-serif", color: "text.secondary", mt: 0.5 }}
+                sx={{
+                  fontFamily: "Inter, sans-serif",
+                  color: "text.secondary",
+                  mt: 0.5,
+                }}
               >
                 {Product?.Subtitle}
               </Typography>
             </Box>
 
-            <IconButton aria-label="share product" onClick={handleShare} size="large" sx={{ ml: 1 }}>
+            <IconButton
+              aria-label="share product"
+              onClick={handleShare}
+              size="large"
+              sx={{ ml: 1 }}
+            >
               <ShareIcon />
             </IconButton>
           </Stack>
 
-          <Typography fontSize="14px" lineHeight="1.2rem" fontWeight={600} color="success.main">
+          <Typography
+            fontSize="14px"
+            lineHeight="1.2rem"
+            fontWeight={600}
+            color="success.main"
+          >
             Special Price
           </Typography>
 
           <Stack spacing={1}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
               <Stack direction="row" spacing={1.6} alignItems="center">
                 <Typography
                   fontSize={{ xs: "1.4rem", sm: "1.6rem" }}
@@ -186,7 +222,13 @@ const ProductDetailCard = ({ Product = {} }) => {
               </Button>
             </Stack>
 
-            <Stack direction="row" justifyContent="flex-end" alignItems="center" gap={2} sx={{ mt: 1 }}>
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              alignItems="center"
+              gap={2}
+              sx={{ mt: 1 }}
+            >
               {EcomLinks?.oneImage && (
                 <IconButton
                   component="a"
