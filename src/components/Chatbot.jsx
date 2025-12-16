@@ -740,7 +740,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
           flexDirection: "column",
           gap: 2,
         }}
-        elevation={4}
+        elevation={1}
       >
         <Typography variant="h6">
           Furniture Customizer — Chat (AI Enabled 🤖)
@@ -916,7 +916,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
           maxHeight: 600,
           overflowY: "auto",
         }}
-        elevation={1}
+        elevation={0}
       >
         <Typography variant="subtitle1">Categories & Options</Typography>
 

@@ -24,7 +24,7 @@ function Circle({ title, image }) {
       <CardMedia
         sx={{
           height: { xs: 120, sm: 292 },
-          objectFit: "cover",
+          objectFit: "contain",
           objectPosition: "center",
           "&:hover": {
             transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",

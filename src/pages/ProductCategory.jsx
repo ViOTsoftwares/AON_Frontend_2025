@@ -127,7 +127,7 @@ const ProductCategory = () => {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center center",
-                height: { xs: "20vh", sm: "40vh", md: "45vh", lg: "52vh" },
+                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" }, 
                 width: "100%",
               }}
             />
