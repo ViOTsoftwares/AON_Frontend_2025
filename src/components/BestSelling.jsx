@@ -47,9 +47,9 @@ const TabItem = styled(Tab)(({ theme }) => ({
   boxSizing: "border-box",
   color: "#111",
 
-  backgroundColor: "#faf2e9ff",
+  backgroundColor: "#ecd7bfff",
   backgroundImage:
-    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.8), rgba(255,255,255,0) 70%)",
+    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(175, 152, 152, 0.66), rgba(255,255,255,0) 70%)",
   backgroundSize: "200%",
   backdropFilter: "blur(6px)",
 
@@ -57,11 +57,12 @@ const TabItem = styled(Tab)(({ theme }) => ({
     transform: "translateY(-6.5px)",
   },
 
-  [`&.${tabClasses.selected}`]: {
-    color: "#fff",
-    backgroundColor: "#854932ff",
-    transform: "translateY(0)",
-  },
+ [`&.${tabClasses.selected}`]: {
+  color: "#fff",
+  background: "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+  transform: "translateY(0)",
+},
+
 }));
 
 function CustomTabPanel(props) {

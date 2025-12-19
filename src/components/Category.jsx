@@ -44,7 +44,7 @@ function Circle({ title, image }) {
           transform: "translateX(-50%)",
           textAlign: "center",
         }}
-        fontWeight={500}
+        fontWeight={600}
         fontSize={{ xs: "0.90rem", sm: "1.4rem" }}
         variant="body1"
         color="rgba(255, 255, 255, 0.9)"

@@ -97,11 +97,11 @@ function SearchBar() {
                 minWidth: "56px",
                 borderRadius: "0px 50px 50px 0px",
                 background:
-                  "linear-gradient(135deg, #8f5438 0%, #5e3e30ff 100%)",
+                  "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(105, 7, 0, 0.9), rgba(71, 0, 16, 0.9))",
                 // Hover effect for button: darker gradient + shadow
                 "&:hover": {
                   background:
-                    "linear-gradient(135deg, #7a3f2b 0%, #4b2b20 100%)",
+                    "linear-gradient(129deg, rgba(87, 3, 0, 0.48), rgba(148, 10, 0, 0.51), rgba(78, 5, 0, 0.41))",
                   boxShadow: "0 6px 18px rgba(92, 58, 48, 0.25)",
                   transform: "translateY(-1px)",
                 },

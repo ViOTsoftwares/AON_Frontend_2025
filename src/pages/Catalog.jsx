@@ -174,7 +174,7 @@ const Catelog = () => {
                   </Typography>
                   <Stack justifyContent="center" alignItems="center">
                     <Button sx={{
-                      background: "linear-gradient(135deg, #8f5438 0%, #827e7cff 100%)",
+                      background: "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
                       color: "white",
                     }}
                       fullWidth

@@ -215,7 +215,7 @@ function Products() {
                 ) : (
                   products.map((product) => (
                     <Grid
-                      size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.81 }}
                       alignSelf="stretch"
                     >
                       <ProductCard product={product} height="100%" />
