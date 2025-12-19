@@ -22,25 +22,27 @@ export const tabsStyles = () => ({
     bottom: 3,
     right: 3,
     height: "auto",
-    borderRadius: "8px",
-    backgroundColor: "#fff",
+    borderRadius: "18px",
+    backgroundColor: "rgba(255, 255, 255, 0.36)",
     boxShadow: "0 4px 12px 0 rgba(0,0,0,0.16)",
   },
 });
 
 export const tabItemStyles = (theme) => ({
   root: {
-    fontWeight: 500,
+    fontWeight: 600,
+
     minHeight: 44,
     minWidth: 100,
     opacity: 0.7,
-    color: (theme.vars || theme).palette.text.primary,
+    color: "  rgba(59, 23, 23, 1)",
+    stroke: "rgba(134, 0, 0, 1)",
     textTransform: "initial",
     "&:hover": {
       opacity: 1,
     },
     [`&.${tabClasses.selected}`]: {
-      color: (theme.vars || theme).palette.text.primary,
+      color: "  rgba(59, 23, 23, 1)",
       opacity: 1,
     },
     [theme.breakpoints.up("md")]: {

@@ -116,7 +116,8 @@ function ProductCard({
                   fontFamily: "Inter, sans-serif",
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
                   transform: "scale(1)",
-                  background: "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
+                  background: "linear-gradient(129deg,rgba(87, 3, 0, 0.925),rgba(148, 10, 0, 0.822),rgba(78, 5, 0, 0.897))",
+                 
                   position: "absolute",
                   top: 0,
                   left: 0,
@@ -135,7 +136,7 @@ function ProductCard({
                   fontSize: { xs: 12, sm: 14 },
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
                   transform: "scale(1.1)",
-                  background: "linear-gradient(135deg, #6e4939ff, rgba(194,142,74,0.88))",
+                  background: "linear-gradient(129deg,rgba(87, 3, 0, 0.925),rgba(148, 10, 0, 0.822),rgba(78, 5, 0, 0.897))",
                   position: "absolute",
                   top: 9,
                   left: 11,

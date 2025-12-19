@@ -89,8 +89,10 @@ function Home() {
         className="outer-grid-bg"
         sx={{ p: { xs: 2, md: 4 } }}
         style={{
-          "--top-image": `url(${Doodle})`, // picture ON TOP
-          "--bottom-color": "linear-gradient(#ffffffff, #ffffffff)", // color BEHIND
+          "--top-image": `linear-gradient(rgba(255, 254, 254, 0), rgba(255, 255, 255, 0)), url(${Doodle})`,
+  "--bottom-color": "linear-gradient(#ffffffff,#ffffffff)",
+          mixBlendMode: "multiply",
+          // filter: "contrast(0.8)"
         }}
       >
         <Typography

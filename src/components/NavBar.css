@@ -2,17 +2,27 @@
 .tabs-bg {
   position: relative;
   overflow: hidden;
-  /* base background layers (mask, image, color) - reuse your vars if any */
+
   background-image:
-    linear-gradient(rgba(185, 218, 115, 0.25), rgba(255,255,255,0.25)),
+    linear-gradient(
+      280deg,
+      rgba(255, 255, 255, 0.877),
+      rgba(199, 194, 194, 0.733),
+      rgba(199, 194, 194, 0.733),
+      rgba(199, 194, 194, 0.733),
+      rgba(199, 194, 194, 0.733),
+      
+      rgba(255, 255, 255, 0.877)
+    ),
+    url("../assets/woody.jpg"),
     var(--bg-image),
     var(--bg-color);
-  background-size: contain, cover, cover;
-  background-position: center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
 
-  /* make the bar semi-transparent so backdrop-filter can blur what's behind it */
-  background-color: rgba(255,255,255,0.15); /* fallback */
+  background-size: cover, cover, cover, cover;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat, no-repeat;
+
+  background-color: rgba(255, 255, 255, 0.15); /* fallback */
 }
 
 /* actual frosted layer using pseudo-element so icons/text aren't blurred */

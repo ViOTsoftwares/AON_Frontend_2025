@@ -132,7 +132,7 @@ function Footer() {
       style={{
         "--bg-image": `url(${FooterBg})`,
         "--bg-color":
-          "linear-gradient(rgba(188, 42, 42, 0.71), rgba(210, 170, 28, 0.88))", // fallback color behind image
+          "linear-gradient(hsla(0, 96%, 50%, 1.00), rgba(210, 170, 28, 0.88))", // fallback color behind image
       }}
     >
       <Grid container p={2}>
