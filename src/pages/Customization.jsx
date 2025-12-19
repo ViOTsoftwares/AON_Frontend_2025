@@ -16,7 +16,7 @@ import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined
 import custom from "../assets/customize.jpg";
 import ReactCompareImage from "react-compare-image";
 import left from "../assets/left.jpg";
-import right from "../assets/right.jpg";
+import right from "../assets/Ri8.jpg"; 
 import CountUp from "../components/Animations/Counter";
 import { useEffect } from "react";
 import Chatbox from "../components/Chatbot";
