@@ -72,7 +72,7 @@ function Testimonial() {
       >
         <Typography
           variant="body1"
-          color="primary"
+          color="#fdf1d2"
           sx={{
             fontWeight: 700,
             letterSpacing: "0.15em",
@@ -95,6 +95,7 @@ function Testimonial() {
         <Typography
           variant="h2"
           textAlign={{ xs: "center", md: "start" }}
+          color="#fdf1d2"
           sx={{
             position: "relative",
             "&::after": {
@@ -108,8 +109,8 @@ function Testimonial() {
                 "linear-gradient(90deg, #1976D2, rgba(0,105,153,0.38), transparent)",
               borderRadius: 2,
             },
-            fontWeight: 800,
-            fontSize: { xs: "2rem", sm: "3.25rem" },
+            fontWeight: 600,
+            fontSize: { xs: "2rem", sm: "3.5rem" },
             lineHeight: 1.1,
           }}
         >
@@ -118,7 +119,7 @@ function Testimonial() {
 
         <Typography
           variant="body1"
-          color="textSecondary"
+          color="#dbca9dff"
           textAlign={{ xs: "center", md: "left" }}
           sx={{ fontWeight: 400, fontSize: "1.25rem", lineHeight: 1.7 }}
         >
@@ -137,7 +138,7 @@ function Testimonial() {
                 content: '""',
                 height: 68,
                 width: 68,
-                backgroundColor: "rgba(0,128,255,0.07)",
+                backgroundColor: "rgba(228, 236, 245, 0.07)",
                 borderRadius: "50%",
               },
             }}
@@ -149,7 +150,7 @@ function Testimonial() {
                 fontWeight: 900,
                 fontSize: "2.5rem",
               }}
-              color="primary"
+              color="#fdf1d2"
             >
               <CountUp
                 from={0}
@@ -160,7 +161,7 @@ function Testimonial() {
               />
               +
             </Typography>
-            <Typography variant="body1" color="textSecondary" fontWeight={600}>
+            <Typography variant="body1" color="#dbca9dff" fontWeight={600}>
               Happy Customers
             </Typography>
           </Box>
@@ -170,7 +171,7 @@ function Testimonial() {
               variant="h3"
               textAlign="center"
               sx={{ lineHeight: 1.167, fontWeight: 900, fontSize: "2.5rem" }}
-              color="primary"
+              color="#fdf1d2"
             >
               <CountUp
                 from={0}
@@ -180,7 +181,7 @@ function Testimonial() {
                 duration={0.78}
               />
             </Typography>
-            <Typography variant="body1" color="textSecondary" fontWeight={600}>
+            <Typography variant="body1" color="#dbca9dff" fontWeight={600}>
               Average Rating
             </Typography>
           </Box>

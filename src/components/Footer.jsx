@@ -1,310 +1,258 @@
-import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
+import EmailIcon from "@mui/icons-material/Email";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import { Grid } from "@mui/material";
+import TextField from "@mui/material/TextField";
+import InputAdornment from "@mui/material/InputAdornment";
 import { Link } from "react-router-dom";
-import { Chip } from "@mui/material";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
-import EmailIcon from "@mui/icons-material/Email";
-import { IoMdMail } from "react-icons/io";
-import InputAdornment from "@mui/material/InputAdornment";
-import logo from "../assets/logo.png";
-import TextField from "@mui/material/TextField";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { ImageApi } from "../ImageApi";
 import { CreateSubscribeEmailApi } from "../Api_Action";
 import { toastMessage } from "../toastMessage";
 import FooterBg from "../assets/TestiMonial-1.jpg";
-
 import "./Footer.css";
 
 function Footer() {
   const { cmsDate } = useSelector((state) => state.CmsState);
   const { isUser } = useSelector((state) => state.UserState);
-  const [errorValidation, setErrorValidation] = useState("");
+
   const [email, setEmail] = useState("");
-  const handleSubmit = async () => {
-    if (email.trim() === "") {
-      return setErrorValidation("Email is required");
-    }
-
-    // Proper email format regex
-    const emailFormat = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-    if (!emailFormat.test(email)) {
-      return setErrorValidation("Invalid email format");
-    }
-    console.log(email);
-    try {
-      const data = await CreateSubscribeEmailApi(email);
-      if (data.success) {
-        toastMessage(data.message, "success");
-        setEmail("");
-      } else {
-        setEmail("");
-        toastMessage(data.message, "error");
-      }
-    } catch (error) {
-      toastMessage("Something went wrong", "error");
-      console.error(error);
-    }
-  };
+  const [errorValidation, setErrorValidation] = useState("");
+  const [year, setYear] = useState("");
 
   const Pages = [
-    { pageName: "Products", pageUrl: "products" },
-    // { pageName: "Contacts", pageUrl: "contact-us" },
-    { pageName: "Clients", pageUrl: "/" },
-    { pageName: "About US", pageUrl: "about-us" },
-    { pageName: "Blogs", pageUrl: "blogs" },
-    { pageName: "Catalog", pageUrl: "catalog" },
+    { page: "Products", url: "products" },
+    { page: "Clients", url: "/" },
+    { page: "About Us", url: "about-us" },
+    { page: "Blogs", url: "blogs" },
+    { page: "Catalog", url: "catalog" },
   ];
 
-  const Policy = [
-    { pageName: "Privacy Policy", pageUrl: "/privacy-policy" },
-    { pageName: "Shipping Policy", pageUrl: "/shipping-policy" },
-    { pageName: "Refund Policy", pageUrl: "/refund-policy" },
-    { pageName: "Terms and Condition", pageUrl: "/terms-condition" },
-    // { pageName: "My Account", pageUrl: "blogs" },
+  const Policies = [
+    { page: "Privacy Policy", url: "/privacy-policy" },
+    { page: "Shipping Policy", url: "/shipping-policy" },
+    { page: "Refund Policy", url: "/refund-policy" },
+    { page: "Terms & Conditions", url: "/terms-condition" },
   ];
 
-  const ICONS = [
-    {
-      component: FacebookIcon,
-      color: "white",
-      label: "Facebook",
-      link: cmsDate?.facebookURL,
-    },
-    {
-      component: InstagramIcon,
-      color: "",
-      label: "Instagram",
-      link: cmsDate?.instraURL,
-    },
-    {
-      component: YouTubeIcon,
-      color: "",
-      label: "YouTube",
-      link: cmsDate?.youtupeURL,
-    },
-    {
-      component: TwitterIcon,
-      color: "",
-      label: "Twitter",
-      link: cmsDate?.xURL,
-    },
-    {
-      component: LinkedInIcon,
-      color: "",
-      label: "LinkedIn",
-      link: cmsDate?.linkedin,
-    },
+  const Icons = [
+    { icon: FacebookIcon, url: cmsDate?.facebookURL },
+    { icon: InstagramIcon, url: cmsDate?.instraURL },
+    { icon: YouTubeIcon, url: cmsDate?.youtupeURL },
+    { icon: TwitterIcon, url: cmsDate?.xURL },
+    { icon: LinkedInIcon, url: cmsDate?.linkedin },
   ];
-  const address = [
-    {
-      component: FaLocationDot,
-      label: cmsDate?.address || "",
-    },
-    { component: FaPhoneAlt, label: cmsDate?.phone || "" },
-    { component: MdEmail, label: cmsDate?.email || "" },
+
+  const Address = [
+    { icon: FaLocationDot, label: cmsDate?.address },
+    { icon: FaPhoneAlt, label: cmsDate?.phone },
+    { icon: MdEmail, label: cmsDate?.email },
   ];
-  const [year, setYear] = useState("");
+
+  const handleSubmit = async () => {
+    if (!email.trim()) return setErrorValidation("Email is required");
+    const format = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!format.test(email)) return setErrorValidation("Invalid email");
+
+    const res = await CreateSubscribeEmailApi(email);
+    toastMessage(res.message, res.success ? "success" : "error");
+    setEmail("");
+  };
 
   useEffect(() => {
     setYear(new Date().getFullYear());
   }, []);
-
-  console.log(year, "year");
 
   return (
     <footer
       className="footer-bg"
       style={{
         "--bg-image": `url(${FooterBg})`,
-        "--bg-color":
-          "linear-gradient(hsla(0, 96%, 50%, 1.00), rgba(210, 170, 28, 0.88))", // fallback color behind image
+        "--bg-color": "rgba(133,60,29,.9)",
+        paddingBottom: "20px"
       }}
     >
-      <Grid container p={2}>
-        <Grid
-          container
-          size={{ xs: 12, sm: 6, md: 6, xl: 3, lg: 3 }}
-          direction="column"
-        >
-          <img
-            src={`${ImageApi}/testimonial/` + cmsDate?.logo}
-            alt="logo"
-            width={120}
-          />
+      {/* Logo Section */}
+      <Box textAlign="center" mt={-1.4}>
+        <img
+          src={`${ImageApi}/testimonial/${cmsDate?.logo}`}
+          alt="logo"
+          width={340}
+        />
+        <Typography color="white" mt={1} fontWeight={500}>
+          Specialized store for modern furniture with customization.
+        </Typography>
+      </Box>
 
-          <Typography p={1} textAlign="center" color="white">
-            Specialized Store for Modern furniture with Customization, Table,
-            Chaire{" "}
-          </Typography>
-          {address.map(({ component: Icon, label }, i) => (
-            <Box
-              key={i}
-              display="flex"
-              alignItems="center"
-              gap={1}
-              maxWidth="100%"
-              p={1}
-            >
-              <IconButton>
-                <Icon color="white"/> {/* ✅ Use the component variable directly */}
-              </IconButton>
-              <Typography variant="body2" color="white">{label}</Typography>
-            </Box>
+      {/* Content Columns */}
+      <Grid container spacing={3} px={4} py={3} justifyContent="center">
+
+        {/* Address */}
+        <Grid item xs={12} sm={4} md={2}>
+          <Stack spacing={1} textAlign="left">
+            {Address.map(({ icon: Icon, label }, i) => (
+              <Stack direction="row" spacing={1} alignItems="center" key={i}>
+                <IconButton size="small">
+                  <Icon color="white" />
+                </IconButton>
+                <Typography color="white">{label}</Typography>
+              </Stack>
+            ))}
+          </Stack>
+        </Grid>
+
+        {/* Map */}
+        <Grid item xs={12} sm={4} md={3}>
+          <Box
+            sx={{
+              width: "100%",
+              height: 160,
+              borderRadius: "12px",
+              overflow: "hidden",
+            }}
+          >
+            <iframe
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              loading="lazy"
+              src="https://maps.google.com/maps?width=260&height=200&hl=en&q=Arun Office Needs&t=&z=12&ie=UTF8&iwloc=B&output=embed"
+            ></iframe>
+          </Box>
+        </Grid>
+
+        {/* Pages */}
+        <Grid item xs={6} sm={4} md={2}>
+          <Typography color="white" fontWeight={700}>Pages</Typography>
+          {Pages.map((p, i) => (
+            <Typography
+  key={i}
+  component={Link}
+  to={p.url}
+  fontSize=".86rem"
+  variant="caption"
+  sx={{
+    display: "block",
+    color: "white",
+    mt: 1,
+    textDecoration: "none",
+    "&:hover": { textDecoration: "underline" }
+  }}
+>
+  {p.page}
+</Typography>
+
           ))}
         </Grid>
-        <Grid
-          container
-          size={{ xs: 12, sm: 6, md: 6, xl: 2, lg: 2 }}
-          direction="column"
-          sx={{ gap: 3, p: 1 }}
-        >
-          <Typography variant="h6" textAlign="center" color="white">
-            Pages
-          </Typography>
-          {Pages.map((p, i) => {
-            return (
-              <Link
-                key={i}
-                to={p.pageUrl}
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontSize: "1.1rem",
-                }}
-              >
-                {p.pageName}
-              </Link>
-            );
-          })}
-        </Grid>
-        <Grid
-          container
-          size={{ xs: 12, sm: 6, md: 6, xl: 2.5, lg: 2.5 }}
-          direction="column"
-          sx={{ gap: 3, p: 1 }}
-        >
-          <Typography variant="h6" textAlign="center" color="white">
-            Main Menu
-          </Typography>
-          {Policy.map((p, i) => {
-            return (
-              <Link
-                to={p.pageUrl}
-                style={{
-                  textDecoration: "none",
-                  color: "white",
-                  textAlign: "center",
-                  fontWeight: 500,
-                  fontSize: "1.1rem",
-                }}
-              >
-                {p.pageName}
-              </Link>
-            );
-          })}
-          {isUser ? (
+
+        {/* Policies */}
+        <Grid item xs={6} sm={4} md={2}>
+          <Typography color="white" fontWeight={700}>Policies</Typography>
+          {Policies.map((p, i) => (
+            <Typography
+  key={i}
+  component={Link}
+  to={p.url}
+  fontSize={".83rem"}
+  variant="caption"
+  sx={{
+    display: "block",
+    color: "white",
+    mt: 1,
+    textDecoration: "none",
+    "&:hover": { textDecoration: "underline" }
+  }}
+>
+  {p.page}
+</Typography>
+
+          ))}
+          {isUser && (
             <Link
-              to={"/account"}
-              style={{
-                textDecoration: "none",
-                color: "white",
-                textAlign: "center",
-                fontWeight: 500,
-                fontSize: "1.1rem",
-              }}
+              to="/account"
+              style={{ display: "block", color: "white", marginTop: "8px" }}
             >
               My Account
             </Link>
-          ) : (
-            ""
           )}
         </Grid>
-        <Grid
-          container
-          size={{ xs: 12, sm: 6, md: 6, xl: 4.5, lg: 4.5 }}
-          justifyContent="start"
-          p={1}
-        >
-          <Grid size={12} container justifyContent="center">
-            <Stack>
-              <Typography variant="h6" color="white">Newsletter</Typography>
-              <Typography variant="body1" color="white">
-                Sign up for exclusive offers, original stories, events and more.
-              </Typography>
-            </Stack>
-            <Stack spacing={1}>
-              <TextField
-                placeholder="Enter your email address"
-                value={email}
-                onChange={(e) => {
-                  if (e) {
-                    setEmail(e.target.value);
-                    setErrorValidation("");
-                  }
-                }}
-                sx={{borderColor:"black"}}
-                slotProps={{
-                  input: {
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <EmailIcon fontSize="large" color="" />
-                      </InputAdornment>
-                    ),
-                  },
-                }}
-                fullWidth
-              />
-              <p style={{ color: "red" }}>
-                {errorValidation !== "" ? errorValidation : ""}
-              </p>
-              <Button
-                variant="contained"
-                sx={{ height: "3.4rem", fontSize: "1.2rem" ,backgroundColor:"burlywood"}}
-                onClick={handleSubmit}
-                fullWidth
-              >
-                Subscribe
-              </Button>
-            </Stack>
-          </Grid>
-          <Grid size={12}>
-            <Typography variant="h6" textAlign="center" color="white">
-              Follow us
-            </Typography>
-            <Stack
-              direction="row"
-              spacing={1}
-              justifyContent="center"
-              alignItems="center"
+
+        {/* Newsletter */}
+        <Grid item xs={12} sm={6} md={3}>
+          <Typography color="white" fontWeight={700}>Newsletter</Typography>
+
+          <Typography color="white" fontSize="0.8rem" mt={1}>
+            Sign up for exclusive offers, events & more.
+          </Typography>
+
+          <Stack direction="row" spacing={1} mt={1}>
+            <TextField
+              size="small"
+              placeholder="Enter email"
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setErrorValidation("");
+              }}
+              fullWidth
+              sx={{
+                "& .MuiInputBase-root": {
+                  background: "white",
+                  borderRadius: "6px",
+                },
+              }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <EmailIcon />
+                  </InputAdornment>
+                ),
+              }}
+            />
+
+            <Button
+              variant="contained"
+              sx={{ background: "#cfb886ff", color: "black" }}
+              onClick={handleSubmit}
             >
-              {ICONS.map(({ component: Icon, color, label, link }, i) => (
-                <Link to={link} target="_blank">
-                  <IconButton key={i} aria-label={label}>
-                    <Icon color={color} fontSize="large" />
-                  </IconButton>
-                </Link>
-              ))}
-            </Stack>
-          </Grid>
+              Subscribe
+            </Button>
+          </Stack>
+
+          <Typography color="red" fontSize="0.75rem">
+            {errorValidation}
+          </Typography>
+
+          <Typography color="white" mt={1}>Follow us</Typography>
+          <Stack direction="row" spacing={1} mt={1}>
+            {Icons.map(({ icon: Icon, url }, i) => (
+              <Link key={i} to={url} target="_blank">
+                <IconButton size="small">
+                  <Icon color="white" />
+                </IconButton>
+              </Link>
+            ))}
+          </Stack>
         </Grid>
+
       </Grid>
+
+      {/* Copyright */}
+      <Typography textAlign="center" color="white" fontSize="0.8rem">
+        © {year} Arun Office Needs — All Rights Reserved.
+      </Typography>
     </footer>
   );
 }

@@ -16,6 +16,7 @@
   padding: 2rem;
 }
 
+
 /* This creates REAL blur behind the footer background */
 .footer-bg::before {
   content: "";
