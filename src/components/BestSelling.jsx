@@ -47,9 +47,9 @@ const TabItem = styled(Tab)(({ theme }) => ({
   boxSizing: "border-box",
   color: "#111",
 
-  backgroundColor: "#ecd7bfff",
+  backgroundColor: "#e7d3bbff ",
   backgroundImage:
-    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(175, 152, 152, 0.66), rgba(255,255,255,0) 70%)",
+    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(252, 241, 205, 0.53), rgba(255,255,255,0) 70%)",
   backgroundSize: "200%",
   backdropFilter: "blur(6px)",
 
