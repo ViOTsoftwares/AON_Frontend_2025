@@ -71,17 +71,12 @@ function Header() {
           px: { xs: 1, sm: 2, md: 4 },
         }}
       >
-        <Grid container display="flex">
-          <Grid
-            sx={{
-              width: { xs: "220px", md: "360px" },
-             
-            }}
-          >
+        <Grid container flexGrow={1}>
+          <Grid sx={{ width: { xs: "102px", md: "130px" } }}>
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
-              height="auto"
+              height="100%"
               width="100%"
               onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
