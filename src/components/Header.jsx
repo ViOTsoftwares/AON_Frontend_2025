@@ -72,11 +72,11 @@ function Header() {
         }}
       >
         <Grid container flexGrow={1}>
-          <Grid sx={{ width: { xs: "102px", md: "130px" } }}>
+          <Grid sx={{ width: { xs: "102px", md: "130px" },height:{xs:"85%",md:"90%"} }}>
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
-              height="auto"
+              height="100%"
               width="100%"
               onClick={() => navigate("/")}
               style={{ cursor: "pointer" }}
