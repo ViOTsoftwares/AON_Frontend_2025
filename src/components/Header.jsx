@@ -72,7 +72,7 @@ function Header() {
         }}
       >
         <Grid container flexGrow={1}>
-          <Grid sx={{ width: { xs: "102px", md: "130px" } }}>
+          <Grid sx={{ width: { xs: "220px", md: "360px" } }}>
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
