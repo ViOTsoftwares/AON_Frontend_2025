@@ -14,6 +14,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+// import Avatar from "../assets/log.png"
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { FcGoogle } from "react-icons/fc";
@@ -157,7 +158,6 @@ export default function Login() {
         }}
       >
         {isUser ? (
-          // Logged in: show avatar which opens the menu
           <Tooltip title={username ? username : "User"} arrow>
             <Avatar
               onClick={handleMenuOpen}
@@ -180,31 +180,32 @@ export default function Login() {
                   transition: "0.15s ease-in-out",
                 },
               }}
-              imgProps={{
-                onError: (e) => {
-                  e.currentTarget.style.display = "none";
-                },
-              }}
             >
               {username?.[0]?.toUpperCase() || <PersonSharpIcon />}
             </Avatar>
           </Tooltip>
         ) : (
-          // Not logged in: show only a Login / Sign-Up button (no avatar)
-          <Button
-            variant="text"
-            onClick={() => setOpen(true)}
-            sx={{
-              fontSize: "0.875rem",
-              padding: "6px 10px",
-              borderRadius: "8px",
-              color: "rgba(82, 55, 40, 1)",
-              fontWeight: 600,
-            }}
-          >
-            Login / Sign-Up
-          </Button>
-        )}
+          <Tooltip title="Login / Sign-Up" arrow>
+            <Avatar
+              onClick={() => setOpen(true)}   // opens your login modal
+              sx={{
+                bgcolor: "grey.400",
+                width: 45,
+                height: 45,
+                cursor: "pointer",
+                "&:hover": {
+                  boxShadow: 4,
+                  transform: "scale(1.03)",
+                  transition: "0.15s ease-in-out",
+                },
+              }}
+            >
+              <PersonSharpIcon />
+            </Avatar>
+          </Tooltip>
+        )} 
+
+
 
         {/* Menu only for logged-in users (avatar menu) */}
         {isUser && (
