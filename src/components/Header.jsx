@@ -71,8 +71,13 @@ function Header() {
           px: { xs: 1, sm: 2, md: 4 },
         }}
       >
-        <Grid container flexGrow={1}>
-          <Grid sx={{ width: { xs: "102px", md: "130px" } }}>
+        <Grid container display="flex">
+          <Grid
+            sx={{
+              width: { xs: "220px", md: "360px" },
+             
+            }}
+          >
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
@@ -85,9 +90,10 @@ function Header() {
         </Grid>
 
         <Box
-          flexGrow={1}
+          flexGrow={0.5}
           sx={{
             display: { xs: "none", md: "flex", lg: "flex" },
+            ml: 6,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -120,6 +126,7 @@ function Header() {
                 display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
                 width: 40,
                 height: 40,
+                
               }}
               onClick={handleClose}
             >

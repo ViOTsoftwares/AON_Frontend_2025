@@ -30,17 +30,19 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useSelector } from "react-redux";
 function MenuBar({ show, handleClose }) {
   const navLinks = [
-    {
-      title: "Customization",
-
-      link: "customization",
-    },
+    { title: "Products", link: "products" },
     {
       title: "Cart",
 
       link: "cart",
     },
-    { title: "Products", link: "products" },
+    {
+      title: "Customization",
+
+      link: "customization",
+    },
+    
+    
     { title: "Catalog", link: "catalog" },
     { title: "Blogs", link: "blogs" },
     { title: "About Us", link: "about-us" },
