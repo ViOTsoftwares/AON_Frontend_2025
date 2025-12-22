@@ -1,5 +1,5 @@
 // src/Layout.jsx
-import { Outlet } from "react-router-dom";
+import { Outlet  , useNavigate } from "react-router-dom";
 import Header from "./components/Header";
 import NavBarLink from "./components/NavBarLink";
 import Stack from "@mui/material/Stack";
@@ -9,15 +9,20 @@ import SearchBar from "./components/SearchBar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import NorthIcon from "@mui/icons-material/North";
+import CustomeButton from "./components/CustomeButton";
 import { getCMSApi } from "./Api_Action";
 import { useDispatch } from "react-redux";
 import { GetCMS } from "./slice/CMS_Slice";
 import { useEffect, useState } from "react";
 
+
+
 export default function Layout() {
   const theme = useTheme(); // expects a ThemeProvider higher in the tree (typical in App)
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   // CMS fetch
   useEffect(() => {
@@ -71,7 +76,8 @@ export default function Layout() {
             height: "74px",
             paddingTop: 0,
           }}
-        >
+        > <CustomeButton navigate={navigate} />
+
           <SearchBar />
         </Toolbar>
       ) : (

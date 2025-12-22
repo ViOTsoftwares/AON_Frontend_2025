@@ -71,7 +71,7 @@ function Header() {
           px: { xs: 1, sm: 2, md: 4 },
         }}
       >
-        <Grid container flexGrow={1}>
+        <Grid container flexGrow={0.4}>
           <Grid sx={{ width: { xs: "220px", md: "360px" } }}>
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
@@ -85,10 +85,10 @@ function Header() {
         </Grid>
 
         <Box
-          flexGrow={0.5}
+          flexGrow={1.2}
           sx={{
             display: { xs: "none", md: "flex", lg: "flex" },
-            ml: 6,
+            ml: 1,
             justifyContent: "center",
             alignItems: "center",
           }}
@@ -103,7 +103,9 @@ function Header() {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <CustomeButton navigate={navigate} />
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <CustomeButton navigate={navigate} />
+          </Box>
           <Login sx={{ pl: 2 }} />
 
           <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
@@ -121,7 +123,7 @@ function Header() {
                 display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
                 width: 40,
                 height: 40,
-                
+
               }}
               onClick={handleClose}
             >
