@@ -116,7 +116,7 @@ function Home() {
           {category &&
             category.map((ct) => (
               <Grid
-                size={{ xs: 3, sm: 3, md: 2.49, lg: 3, xl: 3 }}
+                size={{ xs: 3, sm: 3, md: 3, lg: 3, xl: 3 }}
                 key={ct.path}
                 // sx={{ justifyContent: "center", alignItems: "center" }}
               >

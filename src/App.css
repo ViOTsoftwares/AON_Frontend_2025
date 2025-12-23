@@ -1,0 +1,6 @@
+html {
+  overflow-y: scroll; /* always reserve space for vertical scrollbar */
+}
+body {
+  overflow-x: hidden; /* prevent horizontal overflow */
+}

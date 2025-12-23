@@ -28,7 +28,7 @@ function Circle({ title, image }) {
         image={image}
         alt={title}
         sx={{
-          height: { xs: 120, sm: 292 },
+          height: { xs: 120, sm: 292 ,md:300},
           width: "100%",
           backgroundColor: "transparent",
           objectFit: "contain",
