@@ -9,7 +9,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-
 import { useState, useEffect } from "react";
 import MenuBar from "./MenuBar";
 import Login from "./Login";
@@ -21,7 +20,6 @@ import { useScroll } from "../hook/useScroll";
 import { useSelector } from "react-redux";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
-import { Typography } from '@mui/material';
 import { ImageApi } from "../ImageApi";
 
 import HeaderBg from "../assets/HeaderBg.jpg"; // <-- make sure this path is correct
@@ -102,37 +100,45 @@ function Header() {
         </Box>
 
         <Stack
-  flexGrow={0.6}
-  direction="row"
-  spacing={1}
-  justifyContent="flex-end"
-  alignItems="center"
->
-  {/* Desktop-only button */}
-  <Box sx={{ display: { xs: "none", sm: "block" } }}>
-    <CustomeButton navigate={navigate} />
-  </Box>
+          flexGrow={0.4}
+          direction="row"
+          spacing={1}
+          justifyContent="flex-end"
+          alignItems="center"
+        >
+          <Box sx={{ display: { xs: "none", sm: "block" } }}>
+            <CustomeButton navigate={navigate} />
+          </Box>
+          <Login sx={{ pl: 2 }} />
 
-  {/* Login / Avatar */}
-  <Login sx={{ pl: 1.5, pr: 1.5 }} />
+          <Stack
+            direction="row"
+            gap={4}
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
+            <Badge badgeContent={cart?.length || 0} color="error">
+              <IconButton onClick={() => navigate("cart")}>
+                <ShoppingCartIcon sx={{ width: 37, height: 34 }} fontSize="medium" />
+              </IconButton>
+            </Badge>
+          </Stack>
 
-  {/* Cart */}
-  <Badge badgeContent={cart?.length || 0} color="error">
-    <IconButton onClick={() => navigate("cart")}>
-      <ShoppingCartIcon fontSize="medium" />
-    </IconButton>
-  </Badge>
-
-  {/* Hamburger – mobile only */}
-  <IconButton
-    sx={{ display: { xs: "block", md: "none" }, ml: 0.5 }}
-    onClick={handleClose}
-  >
-    <Grow in timeout={800}>
-      <MenuIcon />
-    </Grow>
-  </IconButton>
-</Stack>
+          {/* Hamburger: visible on mobile only, hidden on md+ */}
+          <Box sx={{ width: { md: 40 }, height: { md: 46 } }}>
+            <IconButton
+              sx={{
+                display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
+                width: 40,
+                height: 40,
+              }}
+              onClick={handleClose}
+            >
+              <Grow in={true} timeout={1000}>
+                <MenuIcon />
+              </Grow>
+            </IconButton>
+          </Box>
+        </Stack>
 
         <MenuBar show={show} handleClose={handleClose} />
       </Toolbar>

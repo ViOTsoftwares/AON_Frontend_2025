@@ -3,10 +3,12 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Tab, { tabClasses } from "@mui/material/Tab";
 import Tabs, { tabsClasses } from "@mui/material/Tabs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useScroll } from "../hook/useScroll";
 import TabsBgImg from "../assets/HeaderBg.jpg";
 import "./NavBar.css";
+
+/* ---------------- Tabs styles ---------------- */
 
 export const tabsStyles = () => ({
   root: {
@@ -14,42 +16,49 @@ export const tabsStyles = () => ({
   },
   flexContainer: {
     position: "relative",
-    padding: "0 3px",
+    padding: "0 6px",
     zIndex: 1,
   },
   indicator: {
-    top: 3,
-    bottom: 3,
+    top: 6,
+    bottom: 6,
     right: 3,
     height: "auto",
-    borderRadius: "18px",
+    borderRadius: "16px",
     backgroundColor: "rgba(255, 255, 255, 0.36)",
-    boxShadow: "0 4px 12px 0 rgba(0,0,0,0.16)",
+    boxShadow: "0 4px 12px rgba(0,0,0,0.16)",
   },
 });
 
 export const tabItemStyles = (theme) => ({
   root: {
     fontWeight: 600,
-
     minHeight: 44,
     minWidth: 100,
-    opacity: 0.7,
-    color: "  rgba(59, 23, 23, 1)",
-    stroke: "rgba(134, 0, 0, 1)",
+    padding: "6px 16px",
+    opacity: 0.75,
+    color: "rgba(59, 23, 23, 1)",
     textTransform: "initial",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+
     "&:hover": {
       opacity: 1,
     },
+
     [`&.${tabClasses.selected}`]: {
-      color: "  rgba(59, 23, 23, 1)",
       opacity: 1,
+      color: "rgba(59, 23, 23, 1)",
     },
+
     [theme.breakpoints.up("md")]: {
       minWidth: 120,
     },
   },
 });
+
+/* ---------------- Utility ---------------- */
 
 function toSx(styles, classes) {
   return function sxCallback(theme) {
@@ -65,64 +74,38 @@ function toSx(styles, classes) {
   };
 }
 
+/* ---------------- Component ---------------- */
+
 export function TabsApple({ sx }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const show = useScroll(true);
-  const [tabIndex, setTabIndex] = React.useState(0);
-  const tabItemSx = toSx(tabItemStyles, tabClasses);
-  const Pages = [
-    {
-      pageName: "Home",
-      pageUrl: "/",
-    },
-    {
-      pageName: "Products",
-      pageUrl: "products",
-    },
-    {
-      pageName: "Catalog",
-      pageUrl: "catalog",
-    },
-    {
-      pageName: "Customization",
-      pageUrl: "customization",
-    },
-    {
-      pageName: "Contact Us",
-      pageUrl: "about-us",
-    },
-    {
-      pageName: "Blogs",
-      pageUrl: "blogs",
-    },
-    // {
-    //   pageName: "Privacy Policy",
-    //   pageUrl: "privacy-policy",
-    // },
-    // {
-    //   pageName: "Shipping Policy",
 
-    //   pageUrl: "shipping-policy",
-    // },
-    // {
-    //   pageName: "Refund Policy",
-    //   pageUrl: "refund-policy",
-    // },
-    // {
-    //   pageName: "Terms & Condition",
-    //   pageUrl: "terms-condition",
-    // },
+  const tabItemSx = toSx(tabItemStyles, tabClasses);
+
+  const Pages = [
+    { pageName: "Home", pageUrl: "/" },
+    { pageName: "Products", pageUrl: "/products" },
+    { pageName: "Catalog", pageUrl: "/catalog" },
+    { pageName: "Customization", pageUrl: "/customization" },
+    { pageName: "Contact Us", pageUrl: "/about-us" },
+    { pageName: "Blogs", pageUrl: "/blogs" },
   ];
+
+  /* 🔥 Route-driven tab index (SOURCE OF TRUTH) */
+  const currentTabIndex = Pages.findIndex(
+    (pg) => location.pathname === pg.pageUrl
+  );
+
+  const safeTabIndex = currentTabIndex === -1 ? 0 : currentTabIndex;
+
   return (
     <Box sx={{ display: show ? "block" : "none" }}>
       <Stack
         className="tabs-bg"
         style={{
-          // top mask (the same gradient you wrote inline)
           "--bg-mask": `linear-gradient(rgba(73, 76, 1, 0.25), rgba(180, 206, 50, 0.11))`,
-          // image on top of color (middle layer is the image)
           "--bg-image": `url(${TabsBgImg})`,
-          // bottom fallback color
           "--bg-color": "linear-gradient(#ffffff,#ffffff)",
         }}
         justifyContent="center"
@@ -130,13 +113,12 @@ export function TabsApple({ sx }) {
         sx={{
           position: "fixed",
           width: "100%",
-          height: "45px",
-          zIndex: "1100",
+          height: "56px",
+          zIndex: 1100,
         }}
       >
         <Tabs
-          value={tabIndex}
-          onChange={(e, index) => setTabIndex(index)}
+          value={safeTabIndex}
           sx={[
             toSx(tabsStyles, tabsClasses),
             ...(Array.isArray(sx) ? sx : [sx]),
