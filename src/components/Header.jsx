@@ -23,8 +23,8 @@ import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import { ImageApi } from "../ImageApi";
 
-import HeaderBg from "../assets/HeaderBg.jpg";      // <-- make sure this path is correct
-import "../components/HeaderBg.css";                   // <-- the CSS file I'll paste below
+import HeaderBg from "../assets/HeaderBg.jpg"; // <-- make sure this path is correct
+import "../components/HeaderBg.css"; // <-- the CSS file I'll paste below
 
 function Header() {
   const navigate = useNavigate();
@@ -53,10 +53,12 @@ function Header() {
       sx={{
         top: 0,
         height: { xs: "80px", md: "95px" },
+        width: "100%", // <-- use 100% instead of 100vw
         position: { xs: "absolute", md: "sticky" },
         backgroundColor: { xs: "white", md: "white" },
         boxShadow: "0 2px 8px rgba(59, 36, 36, 1)",
         zIndex: 1200,
+        overflowX: "hidden",
       }}
     >
       <Toolbar
@@ -68,6 +70,8 @@ function Header() {
         sx={{
           height: "100%",
           backgroundColor: "transparent",
+          width: "100%", // <-- also 100%
+          overflowX: "hidden",
           px: { xs: 1, sm: 2, md: 4 },
         }}
       >
@@ -106,12 +110,17 @@ function Header() {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <CustomeButton navigate={navigate} />
           </Box>
-          <Login sx={{ pl: 2 }} />
 
-          <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
+          <Login />
+
+          <Stack
+            direction="row"
+            gap={4}
+            sx={{ display: { xs: "none", sm: "block" } }}
+          >
             <Badge badgeContent={cart?.length || 0} color="error">
               <IconButton onClick={() => navigate("cart")}>
-                <ShoppingCartIcon fontSize="medium" />
+                <ShoppingCartIcon fontSize="medium" color="warning" />
               </IconButton>
             </Badge>
           </Stack>
@@ -123,7 +132,6 @@ function Header() {
                 display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
                 width: 40,
                 height: 40,
-
               }}
               onClick={handleClose}
             >

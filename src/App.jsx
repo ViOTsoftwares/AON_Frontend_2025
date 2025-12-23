@@ -4,6 +4,7 @@ import { store } from "./store";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import { HelperRouter } from "./HelperRouter";
+import "./App.css"
 const Layout = React.lazy(() => import("./Layout"));
 const Products = React.lazy(() => import("./pages/Products"));
 const Home = React.lazy(() => import("./pages/Home"));

@@ -31,7 +31,9 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ImageApi } from "../ImageApi";
 import { toastMessage } from "../toastMessage";
-
+import LogoutIcon from "@mui/icons-material/Logout";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -187,7 +189,7 @@ export default function Login() {
         ) : (
           <Tooltip title="Login / Sign-Up" arrow>
             <Avatar
-              onClick={() => setOpen(true)}   // opens your login modal
+              onClick={() => setOpen(true)} // opens your login modal
               sx={{
                 bgcolor: "grey.400",
                 width: 45,
@@ -203,9 +205,7 @@ export default function Login() {
               <PersonSharpIcon />
             </Avatar>
           </Tooltip>
-        )} 
-
-
+        )}
 
         {/* Menu only for logged-in users (avatar menu) */}
         {isUser && (
@@ -222,6 +222,9 @@ export default function Login() {
                 handleMenuClose();
               }}
             >
+              <ListItemIcon>
+                <LogoutIcon fontSize="small" />
+              </ListItemIcon>
               Logout
             </MenuItem>
 
@@ -231,6 +234,9 @@ export default function Login() {
                 handleMenuClose();
               }}
             >
+              <ListItemIcon>
+                <AccountCircleIcon fontSize="small" />
+              </ListItemIcon>
               My account
             </MenuItem>
           </Menu>
