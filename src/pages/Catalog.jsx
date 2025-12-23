@@ -10,11 +10,7 @@ import {
   CardActionArea,
   Stack,
 } from "@mui/material";
-// import SofaBg from "../assets/sofa1.jpg";
-// import chairone from "../assets/chairone.jpg";
-// import chairtwo from "../assets/chairtwo.jpg";
-// import context from "../assets/context.jpg";
-// import group4 from "../assets/group4.jpg";
+import SofaBg from "../assets/CoLive.jpeg";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import CircularProgress from "@mui/material/CircularProgress";
 import axios from "axios";

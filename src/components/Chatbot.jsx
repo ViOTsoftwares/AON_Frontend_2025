@@ -743,7 +743,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         elevation={1}
       >
         <Typography variant="h6">
-          Furniture Customizer — Chat (AI Enabled 🤖)
+          Furniture Customizer — Chat Enabled
         </Typography>
 
         <Paper

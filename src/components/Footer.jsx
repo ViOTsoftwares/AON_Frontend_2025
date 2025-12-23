@@ -92,7 +92,7 @@ function Footer() {
           width={340}
         />
         <Typography color="white" mt={1} fontWeight={500}>
-          Specialized store for modern furniture with customization.
+          Specialized Store For Modern Furniture With Customization.
         </Typography>
       </Box>
 

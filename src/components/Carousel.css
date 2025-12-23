@@ -45,7 +45,7 @@
 
 .slick-active button:after {
   border-radius: 4px;
-  background-color: rgb(210, 121, 25);
+  background-color: rgba(78, 13, 1, 0.938);
   animation: progress 6s infinite;
 }
 /* Remove default button look */
@@ -57,7 +57,7 @@
 
 /* Active dot color */
 .slick-dots li.slick-active button:before {
-  color: #ff5722; /* active dot */
+  color:rgb(78, 14, 1); /* active dot */
 }
 
 /* Optional: spacing */
