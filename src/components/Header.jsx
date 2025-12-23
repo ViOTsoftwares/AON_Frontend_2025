@@ -106,16 +106,22 @@ function Header() {
           justifyContent="flex-end"
           alignItems="center"
         >
-          <Box sx={{ display: { xs: "none", sm: "block" } }}>
-            <CustomeButton navigate={navigate} />
-          </Box>
-          <Login sx={{ pl: 2 , pr: 2.5}} />
+          <Box alignItems="center">
+            <Box sx={{ display: { xs: "none", sm: "block" } }}>
+              <CustomeButton navigate={navigate} />
+            </Box>
 
-          <Stack
-            direction="row"
-            gap={4}
-            sx={{ display: { xs: "none", sm: "block" } }}
-          >
+            <Login sx={{ pl: 2, pr: 2.5 }} />
+
+            <Stack
+              direction="row"
+              gap={4}
+              sx={{ display: { xs: "none", sm: "block" } }}
+            >
+              {/* other header items */}
+            </Stack>
+          </Box>
+
             <Badge badgeContent={cart?.length || 0} color="error">
               <IconButton onClick={() => navigate("cart")}>
                 <ShoppingCartIcon fontSize="medium" />
