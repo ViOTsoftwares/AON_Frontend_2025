@@ -105,12 +105,12 @@ function Header() {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <CustomeButton navigate={navigate} />
           </Box>
-          <Login sx={{ pl: 2 }} />
+          <Login sx={{ pl: 2 ,pr:2.5}} />
 
           <Stack direction="row" gap={4} sx={{ display: { xs: "none", sm: "block" } }}>
             <Badge badgeContent={cart?.length || 0} color="error">
               <IconButton onClick={() => navigate("cart")}>
-                <ShoppingCartIcon fontSize="medium" />
+                 <ShoppingCartIcon sx={{ height: 32, width: 39 }} fontSize="medium" />
               </IconButton>
             </Badge>
           </Stack>

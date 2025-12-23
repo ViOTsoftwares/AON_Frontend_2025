@@ -53,7 +53,7 @@ function BlogCard({ blog, width = 320, valueOfDisplay = "block" }) {
             },
           }}
         />
-        <Grid
+        {/* <Grid
           sx={{
             position: "absolute",
             top: "10px",
@@ -72,7 +72,7 @@ function BlogCard({ blog, width = 320, valueOfDisplay = "block" }) {
           >
             {date.toLocaleDateString("en-GB", options)}
           </Typography>
-        </Grid>
+        </Grid> */}
       </Grid>
       <CardContent>
         <Typography

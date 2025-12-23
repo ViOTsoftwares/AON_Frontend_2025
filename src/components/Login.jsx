@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
+import axios from "axios";
 import {
   Dialog,
   Grid,
@@ -13,6 +14,7 @@ import {
   Menu,
   MenuItem,
 } from "@mui/material";
+// import Avatar from "../assets/log.png"
 import CloseIcon from "@mui/icons-material/Close";
 import Slide from "@mui/material/Slide";
 import { FcGoogle } from "react-icons/fc";
@@ -22,9 +24,10 @@ import PersonSharpIcon from "@mui/icons-material/PersonSharp";
 import { useFormik } from "formik";
 import LoginSchema from "../schema/LoginSchema";
 import BaseApi from "../BasaApi";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { UserLogin, UserLogout } from "../slice/UserSlice";
+import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { ImageApi } from "../ImageApi";
 import { toastMessage } from "../toastMessage";
@@ -37,47 +40,53 @@ export default function Login() {
   const [open, setOpen] = useState(false);
   const [showOTP, setShowOTP] = useState(false);
   const [timer, setTimer] = useState(300);
-  const [isResend, setIsResend] = useState(false);
-  const [resentBtn, setResentBtn] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
+  const containerRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-
-  const [Varify, setVarify] = useState({
-    username: "",
-    email: "",
-    otp: "",
-  });
+  const [Email, setEmail] = useState({ username: "", email: "" });
+  const [Varify, setVarify] = useState({ username: "", email: "", otp: "" });
+  const InnitialValues = { username: "", email: "" };
+  const [isResend, setIsResend] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [resentBtn, setResentBtn] = useState(false);
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
   const formik = useFormik({
-    initialValues: { username: "", email: "" },
+    initialValues: InnitialValues,
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
       try {
-        setVarify({ ...values, otp: "" });
+        setVarify((pre) => ({
+          ...pre,
+          username: values.username,
+          email: values.email,
+        }));
         await BaseApi.post("/user/send-otp", values, {
           withCredentials: true,
         });
         setShowOTP(true);
-        setTimer(300);
         setIsResend(false);
+        setTimer(300);
       } catch (err) {
-        toastMessage(
-          err.response?.data?.message || "Failed to send OTP",
-          "error"
-        );
+        alert(err.response?.data?.message || "Failed to send OTP");
       }
     },
   });
 
   const { User, isUser } = useSelector((state) => state.UserState);
-  const { username } = User || {};
+  const { username, picture } = User || {};
 
   useEffect(() => {
+    if (timer === 0) {
+      setIsResend(true);
+    }
     if (!showOTP || timer <= 0) return;
-    const interval = setInterval(() => setTimer((t) => t - 1), 1000);
-    if (timer === 0) setIsResend(true);
+    const interval = setInterval(() => setTimer((prev) => prev - 1), 1000);
     return () => clearInterval(interval);
   }, [showOTP, timer]);
 
@@ -87,19 +96,28 @@ export default function Login() {
     return `${min}:${sec}`;
   };
 
+  const handleLogout = () => {
+    dispatch(UserLogout());
+    navigate("/");
+    toastMessage("Logout successfully", "success");
+  };
+
   const handleVerifyOTP = async () => {
     try {
-      const { data } = await BaseApi.post("/user/verify-otp", Varify);
-      const decode = jwtDecode(data.token);
-      dispatch(UserLogin(decode));
-      localStorage.setItem("authToken", data.token);
-      toastMessage("Login Successful", "success");
-      setOpen(false);
-      setShowOTP(false);
-      setVarify({ username: "", email: "", otp: "" });
-      formik.resetForm();
-    } catch {
-      toastMessage("Invalid OTP", "error");
+      const { data } = await BaseApi.post(`/user/verify-otp`, Varify);
+
+      if (data.success) {
+        const decode = jwtDecode(data.token);
+        dispatch(UserLogin(decode));
+        localStorage.setItem("authToken", data.token);
+        toastMessage("Login Successful", "success");
+        setOpen(false);
+        setShowOTP(false);
+        setVarify({ username: "", email: "", otp: "" });
+        formik.resetForm();
+      }
+    } catch (err) {
+      toastMessage(err.response?.data?.message || "Invalid OTP", "error");
     }
   };
 
@@ -109,34 +127,163 @@ export default function Login() {
       await BaseApi.post("/user/send-otp", Varify);
       setTimer(300);
       toastMessage("OTP resent successfully", "success");
-    } catch {
+    } catch (err) {
       toastMessage("Failed to resend OTP", "error");
     }
   };
 
+  const loginWithGoogle = () => {
+    window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/google`;
+  };
+
+  const loginWithFacebook = () => {
+    window.location.href = `${import.meta.env.VITE_API_OAUTH}/auth/facebook`;
+  };
+
+  const handleProfile = () => {
+    if (isUser && username) {
+      navigate("/account");
+    }
+    handleMenuClose();
+  };
+
   return (
     <>
-      {/* LOGIN ICON */}
-      <Tooltip title="Login / Sign-Up">
-        <Avatar
-          onClick={() => setOpen(true)}
-          sx={{
-            bgcolor: "grey.400",
-            width: 45,
-            height: 45,
-            cursor: "pointer",
-          }}
-        >
-          <PersonSharpIcon />
-        </Avatar>
-      </Tooltip>
+      {/* Avatar (when logged in) OR Login / Sign-Up button (when not logged in) */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          gap: 1,
+        }}
+      >
+        {isUser ? (
+          <Tooltip title={username ? username : "User"} arrow>
+            <Avatar
+              onClick={handleMenuOpen}
+              src={
+                User?.picture?.startsWith?.("https")
+                  ? User.picture
+                  : `${ImageApi}/profile/${User?.picture}`
+              }
+              alt={username || "User"}
+              sx={{
+                bgcolor: "primary.main",
+                width: 45,
+                height: 45,
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                cursor: "pointer",
+                "&:hover": {
+                  boxShadow: 4,
+                  transform: "scale(1.03)",
+                  transition: "0.15s ease-in-out",
+                },
+              }}
+            >
+              {username?.[0]?.toUpperCase() || <PersonSharpIcon />}
+            </Avatar>
+          </Tooltip>
+        ) : (
+          <Tooltip title="Login / Sign-Up" arrow>
+            <Avatar
+              onClick={() => setOpen(true)}   // opens your login modal
+              sx={{
+                bgcolor: "grey.400",
+                width: 45,
+                height: 45,
+                cursor: "pointer",
+                "&:hover": {
+                  boxShadow: 4,
+                  transform: "scale(1.03)",
+                  transition: "0.15s ease-in-out",
+                },
+              }}
+            >
+              <PersonSharpIcon />
+            </Avatar>
+          </Tooltip>
+        )}
 
-      {/* LOGIN DIALOG */}
+
+
+        {/* Menu only for logged-in users (avatar menu) */}
+        {isUser && (
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleMenuClose}
+            
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "left" }}
+          > 
+
+            <MenuItem
+              onClick={() => {
+                navigate("/account");
+                handleMenuClose();
+              }}
+              sx={{
+                backgroundColor: "#ffffff",   // pure white
+                fontWeight: 500,
+
+                // remove default grey focus / selected state
+                "&.Mui-selected": {
+                  backgroundColor: "#ffffff",
+                },
+                "&.Mui-selected:hover": {
+                  backgroundColor: "#f5f5f5",
+                },
+                "&.Mui-focusVisible": {
+                  backgroundColor: "#ffffff",
+                },
+
+                // normal hover
+                "&:hover": {
+                  backgroundColor: "#f5f5f5",
+                },
+              }}
+            >
+              My account
+            </MenuItem>
+
+
+            <MenuItem
+              onClick={() => {
+                handleLogout();
+                handleMenuClose();
+              }}
+              sx={{
+                color: "#d32f2f",
+                fontWeight: 500,
+                backgroundColor: "rgba(211, 47, 47, 0.08)",
+                "&:hover": {
+                  backgroundColor: "rgba(231, 154, 154, 0.49)",
+                },
+              }}
+            >
+              Logout
+            </MenuItem>
+
+
+            
+          </Menu>
+        )}
+      </Box>
+
+      {/* The login dialog (unchanged) */}
       <Dialog
         fullScreen
         open={open}
         onClose={() => setOpen(false)}
         TransitionComponent={Transition}
+        TransitionProps={{
+          onExited: () => {
+            setShowOTP(false);
+            setVarify({ username: "", email: "", otp: "" });
+            formik.resetForm();
+          },
+        }}
       >
         <style>
           {`
@@ -147,7 +294,11 @@ export default function Login() {
           .form-slide {
             position: absolute;
             width: 100%;
-            transition: transform 0.5s ease, opacity 0.5s ease;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+          }
+          .form-slide.email {
+            transform: translateX(0);
+            opacity: 1;
           }
           .form-slide.email.exit {
             transform: translateX(-100%);
@@ -169,15 +320,18 @@ export default function Login() {
             backgroundImage: `url(${loginBG})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
-            height: "100%",
+            height: "100vh",
             position: "relative",
           }}
         >
           <Box
             sx={{
-              position: "absolute",
-              inset: 0,
               bgcolor: "rgba(0,0,0,0.6)",
+              position: "absolute",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
             }}
           />
 
@@ -188,99 +342,100 @@ export default function Login() {
               zIndex: 2,
               height: "100%",
               alignItems: "center",
-              p: { xs: 1, md: 3 }, // mobile spacing fix
+              p: 3,
             }}
           >
             <IconButton
               onClick={() => setOpen(false)}
+              size="large"
+              aria-label="close"
               sx={{
                 position: "absolute",
                 top: 16,
-                right: 16,
+                right: 10,
                 color: "white",
+                zIndex: 2,
               }}
             >
               <CloseIcon />
             </IconButton>
 
-            {/* LEFT CONTENT (SIMPLIFIED FOR MOBILE) */}
+            {/* Left side content */}
             <Grid
               container
               size={{ xs: 12, md: 6 }}
-              sx={{
-                color: "white",
-                p: { xs: 1, md: 2 },
-                justifyContent: "center",
-                textAlign: { xs: "center", md: "left" },
-                mb: { xs: -3, md: 0 },
-              }}
+              sx={{ display :{xs:"none" , md :"flex"} , color: "white", p: 2, justifyContent: "center" }}
             >
-              <Typography
-                sx={{
-                  fontSize: { xs: "1.3rem", md: "2.1rem" },
-                  fontWeight: 600,
-                  mb: { xs: 1, md: 2 },
-                }}
-              >
-                Welcome to AON&apos;s Premium Space
+              <Typography variant="h4" gutterBottom>
+                Welcome to AON's Premium Space
               </Typography>
-
-              <Typography
-                sx={{
-                  fontSize: { xs: "0.9rem", md: "1rem" },
-                  lineHeight: 1.4,
-                  mb: { xs: 1.5, md: 2 },
-                }}
-              >
-                Login to explore sleek, stylish, and customizable furniture from
-                AON—crafted for comfort, quality, and modern workspaces. Enjoy
-                premium collections with real-time pricing, offers, and a secure,
-                seamless experience.
+              <Typography variant="body1" gutterBottom>
+                Login to explore sleek, stylish, and customizable pieces from
+                AON—crafted for comfort, quality, and modern workspaces. From
+                elegant sofas to modern workspaces, we have everything to match
+                your taste, style and comfort.
               </Typography>
-
-              <Box sx={{ display: { xs: "none", md: "block" }, mt: 2 }}>
-                <Typography variant="body2">
+              <Box sx={{ mt: 2 }}>
+                <Typography>
                   Premiumly crafted & customizable collections
                 </Typography>
-                <Typography variant="body2">
-                  Prices, offers & real-time availability
-                </Typography>
-                <Typography variant="body2">
+                <Typography>Prices, offers & real-time availability</Typography>
+                <Typography>
                   Private, secure, and seamless AON experience
                 </Typography>
               </Box>
             </Grid>
 
-            {/* RIGHT LOGIN CARD */}
             <Grid
               container
               size={{ xs: 12, md: 6 }}
-              sx={{ justifyContent: "center", mt: { xs: 0, md: 0 } }}
+              sx={{ display: { xs: "flex", md: "none" }, color: "white", p: 2, justifyContent: "center" }}
+            >
+              <Typography
+                variant="h6"
+                gutterBottom
+                sx={{
+                  fontSize: "1rem",      // adjust as needed
+                  fontWeight: 600,
+                }}
+              >
+                Designed for Better Workspaces
+              </Typography>
+
+              <Typography variant="body1">
+                Well-crafted, customizable furniture for offices, teams, and modern spaces — all in one secure AON experience.
+              </Typography>
+
+            </Grid>
+
+            {/* Right side login form */}
+            <Grid
+              container
+              size={{ xs: 12, md: 6 }}
+              sx={{ display: "flex", justifyContent: "center" }}
             >
               <Card
                 elevation={12}
-                sx={{
-                  maxWidth: 400,
-                  width: 350,
-                  borderRadius: 4,
-                  p: { xs: 2, md: 3 },
-                }}
+                sx={{ maxWidth: 400, borderRadius: 4, p: 3, width: 350, mb: 1 }}
               >
-                <Typography textAlign="center" variant="h6" mb={2}>
+                <Typography textAlign="center" variant="h6" mb={1.2}>
                   Login
                 </Typography>
 
                 <div className="form-wrapper">
+                  {/* Email step */}
                   <form onSubmit={formik.handleSubmit}>
                     <div
-                      className={`form-slide email ${showOTP ? "exit" : ""
-                        }`}
+                      className={`form-slide email ${showOTP ? "exit" : ""}`}
                     >
                       <TextField
                         label="Username"
                         fullWidth
-                        {...formik.getFieldProps("username")}
-                        sx={{ mb: 1 }}
+                        name="username"
+                        value={formik.values.username}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        sx={{ mb: "10px" }}
                         error={
                           formik.touched.username &&
                           Boolean(formik.errors.username)
@@ -288,62 +443,65 @@ export default function Login() {
                         helperText={
                           formik.touched.username
                             ? formik.errors.username
-                            : " "
+                            : "  "
                         }
                       />
 
                       <TextField
                         label="Email"
-                        type="email"
                         fullWidth
-                        {...formik.getFieldProps("email")}
-                        sx={{ mb: 1 }}
+                        type="email"
+                        name="email"
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        sx={{ mb: "10px" }}
                         error={
-                          formik.touched.email &&
-                          Boolean(formik.errors.email)
+                          formik.touched.email && Boolean(formik.errors.email)
                         }
                         helperText={
-                          formik.touched.email ? formik.errors.email : " "
+                          formik.touched.email ? formik.errors.email : "   "
                         }
                       />
 
-                      <Button
-                        variant="contained"
-                        fullWidth
-                        type="submit"
-                        sx={{ mb: 2 }}   // ✅ clean bottom gap
-                      >
+                      <Button variant="contained" fullWidth type="submit">
                         Send OTP
                       </Button>
                     </div>
                   </form>
 
+                  {/* OTP step */}
                   <div className={`form-slide otp ${showOTP ? "enter" : ""}`}>
                     <TextField
                       label="Enter OTP"
                       fullWidth
-                      sx={{ mb: 1 }}
+                      value={Varify.otp}
                       onChange={(e) =>
-                        setVarify((p) => ({ ...p, otp: e.target.value }))
+                        setVarify((prev) => ({ ...prev, otp: e.target.value }))
                       }
+                      inputProps={{ maxLength: 6 }}
+                      sx={{ mb: 1 }}
                     />
-
                     <Box
                       sx={{ display: "flex", justifyContent: "space-between" }}
                     >
-                      <Typography color="error">
-                        {formatTime(timer)}
+                      <Typography
+                        variant="body2"
+                        color="error"
+                        textAlign="center"
+                        mt={1}
+                      >
+                        Time left: {formatTime(timer)}
                       </Typography>
-                      {isResend && (
+                      {isResend ? (
                         <Button
-                          disabled={resentBtn}
+                          disabled={timer !== 0 || resentBtn}
                           onClick={handleResend}
                         >
-                          Resend
+                          resend
                         </Button>
-                      )}
+                      ) : null}
                     </Box>
-
                     <Button
                       variant="contained"
                       fullWidth
@@ -355,35 +513,32 @@ export default function Login() {
                   </div>
                 </div>
 
-                {/* SOCIAL LOGIN */}
+                {/* Divider */}
                 <Box
-                  sx={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 1,
-                    mt: { xs: 3.9, md: 7 },
-                  }}
+                  sx={{ display: "flex", flexDirection: "column", gap: 1.2 }}
+                  mt={3.4}
                 >
                   <Box display="flex" alignItems="center" gap={2}>
                     <Box flex={1} height="1px" bgcolor="gray" />
-                    <Typography variant="body2">
+                    <Typography variant="body2" color="textSecondary">
                       Or Continue with
                     </Typography>
                     <Box flex={1} height="1px" bgcolor="gray" />
                   </Box>
-
                   <Button
                     variant="outlined"
                     startIcon={<FcGoogle />}
                     fullWidth
+                    onClick={loginWithGoogle}
                   >
                     With Google
                   </Button>
-
                   <Button
                     variant="outlined"
+                    color="primary"
                     startIcon={<FaFacebookSquare />}
                     fullWidth
+                    onClick={loginWithFacebook}
                   >
                     With Facebook
                   </Button>
@@ -393,7 +548,6 @@ export default function Login() {
                       mt: 1.5,
                       textAlign: "center",
                       color: "text.secondary",
-                      fontSize: { xs: "0.7rem", md: "0.75rem" },
                       lineHeight: 1.4,
                     }}
                   >
@@ -401,8 +555,8 @@ export default function Login() {
                     <Link
                       to="/terms-condition"
                       onClick={(e) => {
-                        e.preventDefault();          // ⛔ stop default Link
-                        setOpen(false);              // ✅ close dialog
+                        e.preventDefault();        // ⛔ stop Link default
+                        setOpen(false);            // ✅ close dialog
                         setTimeout(() => {
                           navigate("/terms-condition");
                         }, 150);
