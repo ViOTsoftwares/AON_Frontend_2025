@@ -4,14 +4,14 @@ import Combo from "../components/Combo";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Category from "../components/Category";
-import category1 from "../assets/category2.png";
-import category2 from "../assets/category4.png";
-import category3 from "../assets/category3.png";
-import category4 from "../assets/category4.png";
-import category5 from "../assets/category1.png";
-import category6 from "../assets/category1.png";
-import category7 from "../assets/category3.png";
-import category8 from "../assets/Customisation.jpeg";
+import category1 from "../assets/Grid1.png";
+import category2 from "../assets/Grid2.png";
+import category3 from "../assets/Grid3.png";
+import category4 from "../assets/Grid4.png";
+import category5 from "../assets/Grid5.png";
+import category6 from "../assets/Grid6.png";
+import category7 from "../assets/Grid7.png";
+import category8 from "../assets/Grid8.png";
 import Doodle from "../assets/Doodle.png";
 import "../pages/Home.css";
 import Box from "@mui/material/Box";
@@ -128,7 +128,7 @@ function Home() {
                         : `/category?q=${ct.path}`
                     }
                   >
-                    <Category title={ct.title} image={ct?.image} />
+                    <Category image={ct?.image} />
                   </Link>
                 </center>
               </Grid>

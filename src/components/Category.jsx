@@ -11,48 +11,53 @@ import Stack from "@mui/material/Stack";
 function Circle({ title, image }) {
   return (
     <Card
+      elevation={0}
       sx={{
-        alignContent: "center",
-        width: { xs: 70, sm: 150, md: 220 },
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        width: { xs: 70, sm: 150, md: 217 },
         height: { xs: 70, sm: 150, md: 180 },
-        borderRadius: { xs: 1, sm: 2 ,md:7},
+        borderRadius: { xs: 1, sm: 2, md: 7 },
         cursor: "pointer",
         position: "relative",
-        m:{xs:"2px",md:"12px"}
+        m: { xs: "2px", md: "12px" },
       }}
     >
       <CardMedia
+        component="img"
+        image={image}
+        alt={title}
         sx={{
           height: { xs: 120, sm: 292 },
+          width: "100%",
+          backgroundColor: "transparent",
           objectFit: "contain",
           objectPosition: "center",
+          transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",
           "&:hover": {
-            transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",
             transform: "scale(1.1)",
           },
-          transition: "0.4s cubic-bezier(0.68, 0.46, 0.45, 0.68)",
-          transform: "scale(1)",
         }}
-        image={image}
       />
 
-      <Typography
+      {/* <Typography
         sx={{
           position: "absolute",
-          top: {xs:"70%",md:"80%"},
+          top: { xs: "70%", md: "80%" },
           left: "50%",
           transform: "translateX(-50%)",
           textAlign: "center",
+          pointerEvents: "none",
         }}
         fontWeight={600}
-        fontSize={{ xs: "0.90rem", sm: "1.4rem" }}
-        variant="body1"
-        color="rgba(255, 255, 255, 0.9)"
+        fontSize={{ xs: "0.9rem", sm: "1.4rem" }}
+        color="rgba(255, 255, 255, 1)"
       >
         {title}
-      </Typography>
+      </Typography> */}
     </Card>
   );
 }
+
 
 export default Circle;
