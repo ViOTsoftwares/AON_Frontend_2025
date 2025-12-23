@@ -5,28 +5,35 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import CardActionArea from "@mui/material/CardActionArea";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import office from "../assets/Office.jpeg";
-import reception from "../assets/reception.jpg";
-import luxuryLiving from "../assets/Luxury Living Area.jpeg";
-import hostel from "../assets/Hostel.jpeg";
-import hospital from "../assets/Hospital.jpeg";
-import classroom from "../assets/Classroom Design.jpeg";
-import cafeteria from "../assets/cafeteria.jpeg";
-import outdoor from "../assets/Outdoor.jpeg";
+
+import office from "../assets/CoOffice.jpeg";
+import Reception from "../assets/CoRecep.jpg";
+import luxuryLiving from "../assets/CoLive.jpeg";
+import hostel from "../assets/CoHostel.jpeg";
+import hospital from "../assets/CoHospital.jpeg";
+import classroom from "../assets/CoClass.jpeg";
+import cafeteria from "../assets/CoCafe.jpg";
+import outdoor from "../assets/CoOutdoor.jpeg";
+import Others from "../assets/CoOthers.jpg";
 import { useNavigate } from "react-router-dom";
 function Combo() {
   const navigate = useNavigate();
-  const comboStyle = (image) => ({
-    width: "100%",
-    height: { xs: 150, sm: 250 },
-    borderRadius: 2,
-    backgroundImage: `url(${image})`,
-    backgroundSize: "cover",
-    backgroundRepeat: "no-repeat",
-    backgroundPosition: "center",
-    position: "relative",
-    cursor:"pointer"
-  });
+ const comboStyle = (image) => ({
+  width: "100%",
+  height: { xs: 150, sm: 250 },
+  borderRadius: 2,
+  overflow: "hidden",
+  backgroundImage: `url(${image})`,
+  backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  backgroundPosition: "center",
+  position: "relative",
+  cursor: "pointer",
+  transition: "transform 0.4s ease",
+  "&:hover": {
+    transform: "scale(1.02)",
+  },
+});
 
   return (
     <Grid container spacing={1} sx={{ p: "15px", borderRadius: "10px" }}>
@@ -192,8 +199,8 @@ function Combo() {
       </Grid>
       <Grid  size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(classroom)}
-          onClick={() => navigate("/category?q=Institutional")}
+          sx={comboStyle(Reception)}
+          onClick={() => navigate("/category?q=Reception")}
         >
           <Button
             variant="contained"
@@ -206,7 +213,7 @@ function Combo() {
               bottom: "2rem",
             }}
             endIcon={<ArrowForwardIcon />}
-            onClick={() => navigate("/category?q=Institutional")}
+            onClick={() => navigate("/category?q=Reception")}
           >
             Reception
           </Button>
@@ -214,8 +221,8 @@ function Combo() {
       </Grid>{" "}
       <Grid size={12}>
         <Card
-          sx={comboStyle(hostel)}
-          onClick={() => navigate("/category?q=Hostel")}
+          sx={comboStyle(Others)}
+          onClick={() => navigate("/category?q=Others")}
         >
           <Button
             variant="contained"
@@ -228,7 +235,7 @@ function Combo() {
               bottom: "2rem",
             }}
             endIcon={<ArrowForwardIcon />}
-            onClick={() => navigate("/category?q=Hostel")}
+            onClick={() => navigate("/category?q=Others")}
           >
             Others
           </Button>

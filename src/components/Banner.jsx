@@ -1,13 +1,11 @@
-import banner1 from "../assets/banner1.png";
-import banner2 from "../assets/banner2.png";
-import banner3 from "../assets/banner3.png";
-
 import Box from "@mui/material/Box";
 import Carousel from "./Carousel";
 import { useEffect, useState } from "react";
 import { FetchBannerApi } from "../Api_Action";
 import { ImageApi } from "../ImageApi";
 import PageLoading from "./PageLoading";
+
+
 function Banner() {
   // const banners = [banner1, banner2, banner3];
   const [banners, setBanners] = useState([]);
@@ -28,7 +26,7 @@ function Banner() {
   return (
     <>
       <PageLoading load={Loading} />
-      <Carousel >
+      <Carousel>
         {banners?.map((banner, index) => (
           <Box
             loading="lazy"
@@ -47,7 +45,7 @@ function Banner() {
               m: 0,
               p: 0,
             }}
-          ></Box>
+          />
         ))}
       </Carousel>
     </>
