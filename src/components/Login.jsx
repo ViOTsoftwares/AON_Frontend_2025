@@ -13,6 +13,7 @@ import {
   Avatar,
   Menu,
   MenuItem,
+  Icon,
 } from "@mui/material";
 // import Avatar from "../assets/log.png"
 import CloseIcon from "@mui/icons-material/Close";
@@ -189,7 +190,7 @@ export default function Login() {
         ) : (
           <Tooltip title="Login / Sign-Up" arrow>
             <Avatar
-              onClick={() => setOpen(true)}   // opens your login modal
+              onClick={() => setOpen(true)} // opens your login modal
               sx={{
                 bgcolor: "grey.400",
                 width: 45,
@@ -207,26 +208,22 @@ export default function Login() {
           </Tooltip>
         )}
 
-
-
         {/* Menu only for logged-in users (avatar menu) */}
         {isUser && (
           <Menu
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={handleMenuClose}
-            
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
-          > 
-
+          >
             <MenuItem
               onClick={() => {
-                navigate("/account");
-                handleMenuClose();
+                handleProfile();
+                // handleMenuClose();
               }}
               sx={{
-                backgroundColor: "#ffffff",   // pure white
+                backgroundColor: "#ffffff", // pure white
                 fontWeight: 500,
 
                 // remove default grey focus / selected state
@@ -246,9 +243,11 @@ export default function Login() {
                 },
               }}
             >
+              <ListItemIcon>
+                <LogoutIcon fontSize="small" />
+              </ListItemIcon>
               My account
             </MenuItem>
-
 
             <MenuItem
               onClick={() => {
@@ -264,11 +263,11 @@ export default function Login() {
                 },
               }}
             >
+              <ListItemIcon>
+                <AccountCircleIcon fontSize="small" />
+              </ListItemIcon>
               Logout
             </MenuItem>
-
-
-            
           </Menu>
         )}
       </Box>
@@ -366,7 +365,12 @@ export default function Login() {
             <Grid
               container
               size={{ xs: 12, md: 6 }}
-              sx={{ display :{xs:"none" , md :"flex"} , color: "white", p: 2, justifyContent: "center" }}
+              sx={{
+                display: { xs: "none", md: "flex" },
+                color: "white",
+                p: 2,
+                justifyContent: "center",
+              }}
             >
               <Typography variant="h4" gutterBottom>
                 Welcome to AON's Premium Space
@@ -391,13 +395,18 @@ export default function Login() {
             <Grid
               container
               size={{ xs: 12, md: 6 }}
-              sx={{ display: { xs: "flex", md: "none" }, color: "white", p: 2, justifyContent: "center" }}
+              sx={{
+                display: { xs: "flex", md: "none" },
+                color: "white",
+                p: 2,
+                justifyContent: "center",
+              }}
             >
               <Typography
                 variant="h6"
                 gutterBottom
                 sx={{
-                  fontSize: "1rem",      // adjust as needed
+                  fontSize: "1rem", // adjust as needed
                   fontWeight: 600,
                 }}
               >
@@ -405,9 +414,9 @@ export default function Login() {
               </Typography>
 
               <Typography variant="body1">
-                Well-crafted, customizable furniture for offices, teams, and modern spaces — all in one secure AON experience.
+                Well-crafted, customizable furniture for offices, teams, and
+                modern spaces — all in one secure AON experience.
               </Typography>
-
             </Grid>
 
             {/* Right side login form */}
@@ -557,8 +566,8 @@ export default function Login() {
                     <Link
                       to="/terms-condition"
                       onClick={(e) => {
-                        e.preventDefault();        // ⛔ stop Link default
-                        setOpen(false);            // ✅ close dialog
+                        e.preventDefault(); // ⛔ stop Link default
+                        setOpen(false); // ✅ close dialog
                         setTimeout(() => {
                           navigate("/terms-condition");
                         }, 150);
@@ -591,8 +600,6 @@ export default function Login() {
                     </Link>
                     .
                   </Typography>
-
-
                 </Box>
               </Card>
             </Grid>

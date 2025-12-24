@@ -33,6 +33,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ImageApi } from "../ImageApi";
 import { toastMessage } from "../toastMessage";
 import {
+  AddAddressApi,
   GetAddressApi,
   getOneProfileApi,
   GetOneUserOrderApi,
@@ -43,21 +44,15 @@ import { UserLogin } from "../slice/UserSlice";
 import Cookie from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 import AddressTable from "../components/AddressTable";
+import PageLoading from "../components/PageLoading";
 
 var Section = "profile";
 
 const Index = () => {
   const { isUser, User } = useSelector((state) => state.UserState);
   const [isaddress, setIsAddress] = useState(false);
-  // const [address, setAddress] = useState({
-  //   fullName: "",
-  //   email: User.email,
-  //   address: "",
-  //   phone: "",
-  //   city: "",
-  //   postalCode: "",
-  // });
   const [activeSection, setActiveSection] = useState(Section);
+  const [loading, setLoading] = useState(true);
   const [isEdit, setIsEdit] = useState(false);
   const [address, setAddress] = useState({
     username: User?.username,
@@ -97,72 +92,34 @@ const Index = () => {
 
   const [orders, setOrder] = useState([]);
   const GetOrderList = async () => {
+    setLoading(true);
     const data = await GetOneUserOrderApi(User.id);
     if (data.success) {
       setOrder(data.order);
+      setLoading(false);
     }
   };
   useEffect(() => {
     GetOrderList();
   }, []);
-  const wishlistItems = [
-    {
-      id: "1",
-      name: "iPhone 15 Pro Max",
-      price: "₹1,59,900",
-      discount: "5% off",
-      image: "📱",
-    },
-    {
-      id: "2",
-      name: "Dell XPS 15 Laptop",
-      price: "₹1,45,990",
-      discount: "10% off",
-      image: "💻",
-    },
-    {
-      id: "3",
-      name: "Canon EOS R6 Camera",
-      price: "₹2,15,995",
-      discount: "8% off",
-      image: "📷",
-    },
-  ];
 
-  const addresses = [
-    {
-      id: "1",
-      type: "Home",
-      name: "Rahul Sharma",
-      address: "123, MG Road, Sector 15",
-      city: "Bangalore, Karnataka - 560001",
-      phone: "+91 98765 43210",
-      default: true,
-    },
-    {
-      id: "2",
-      type: "Work",
-      name: "Rahul Sharma",
-      address: "45, Tech Park, Whitefield",
-      city: "Bangalore, Karnataka - 560066",
-      phone: "+91 98765 43210",
-      default: false,
-    },
-  ];
   const getUserInfo = async () => {
+    setLoading(true);
+
     const data = await getOneProfileApi(User.id);
-    console.log("-->", data);
+
     if (data.success) {
       localStorage.getItem("authToken", data.token);
       const decode = jwtDecode(data.token);
       dispatch(UserLogin(decode));
+      setLoading(false);
     }
   };
-  console.log("--->", address);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsDisable(true);
-    console.log("hiiii");
+    setLoading(true);
 
     if (!address.username?.trim()) {
       toastMessage("Username is required", "error");
@@ -180,15 +137,20 @@ const Index = () => {
       setIsDisable(false);
       toastMessage(data.message, "success");
       setIsEdit(false);
+      setLoading(false);
+
       getUserInfo();
     } else {
       setIsDisable(false);
       setIsEdit(false);
       toastMessage(data.message, "error");
+      setLoading(false);
     }
   };
   // new address submit
   const handleAddressSubmit = async (e) => {
+    setLoading(true);
+
     e.preventDefault();
     if (isEdit) {
       const data = await UpdateAddressApi(address._id, address);
@@ -197,10 +159,13 @@ const Index = () => {
         getaddress();
         setIsAddress(true);
         setIsEdit(false);
+        setLoading(false);
+
         toastMessage(data.message, "success");
       } else {
         setIsAddress(false);
         toastMessage(data.message, "error");
+        setLoading(false);
       }
     } else {
       const data = await AddAddressApi(address);
@@ -209,9 +174,11 @@ const Index = () => {
         getaddress();
         setIsAddress(true);
         toastMessage(data.message, "success");
+        setLoading(false);
       } else {
         setIsAddress(false);
         toastMessage(data.message, "error");
+        setLoading(false);
       }
     }
   };
@@ -220,12 +187,16 @@ const Index = () => {
     setIsAddress(false);
   };
   const getaddress = async () => {
+    setLoading(true);
+
     const data = await GetAddressApi();
     if (data.success) {
       setAddress(data.address);
       setIsAddress(true);
+      setLoading(false);
     } else {
       setIsAddress(false);
+      setLoading(false);
     }
   };
   useEffect(() => {
@@ -241,7 +212,10 @@ const Index = () => {
               <Typography variant="h5">Personal Information</Typography>
               <Paper sx={{ p: 3, mt: 2 }}>
                 <Grid container>
-                  <Grid container sx={{justifyContent:"start",alignItems:"center"}}>
+                  <Grid
+                    container
+                    sx={{ justifyContent: "start", alignItems: "center" }}
+                  >
                     <Avatar
                       src={
                         User.picture?.startsWith("https")
@@ -266,14 +240,14 @@ const Index = () => {
                         {User?.email}
                       </Typography>
                     </Box>
-                  {!isEdit && (
-                    <Button
-                      onClick={() => setIsEdit(true)}
-                      sx={{ width: 150, maxHeight: 30 }}
-                    >
-                      Edit
-                    </Button>
-                  )}
+                    {!isEdit && (
+                      <Button
+                        onClick={() => setIsEdit(true)}
+                        sx={{ width: 150, maxHeight: 30 }}
+                      >
+                        Edit
+                      </Button>
+                    )}
                   </Grid>
                   {isEdit && (
                     <form onSubmit={handleSubmit}>
@@ -478,7 +452,7 @@ const Index = () => {
               gap={2}
             >
               <Typography variant="h5" fontWeight="600">
-                My Addresses
+                My Address
               </Typography>
               {/* <Button variant="contained" startIcon={<LocationOn />}>
                 Add New Address
@@ -601,6 +575,7 @@ const Index = () => {
 
   return (
     <Box sx={{ bgcolor: "background.default", minHeight: "100vh", py: 4 }}>
+      <PageLoading load={loading} />
       <Container maxWidth="xl">
         <Box
           sx={{
