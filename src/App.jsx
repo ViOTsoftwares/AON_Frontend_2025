@@ -10,7 +10,6 @@ const Products = React.lazy(() => import("./pages/Products"));
 const Home = React.lazy(() => import("./pages/Home"));
 const Catalog = React.lazy(() => import("./pages/Catalog"));
 const Blogs = React.lazy(() => import("./pages/Blogs"));
-const ContactUS = React.lazy(() => import("./pages/ContactUs"));
 const AboutUs = React.lazy(() => import("./pages/AboutUs"));
 const ProdutDetails = React.lazy(() => import("./pages/ProdutDetails"));
 const Customization = React.lazy(() => import("./pages/Customization"));
