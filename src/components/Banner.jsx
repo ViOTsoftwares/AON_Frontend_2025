@@ -29,23 +29,51 @@ function Banner() {
       <Carousel>
         {banners?.map((banner, index) => (
           <Box
-            loading="lazy"
-            key={index}
             sx={{
-              // backgroundImage: `url(${ImageApi}/banner/${banner?.imageUri})`,
               backgroundImage: {
-                xs: `url(${ImageApi}/banner/${banner?.mobileImage})`, // For small screens
-                sm: `url(${ImageApi}/banner/${banner?.desktopImage})`, // For larger screens
+                xs: `url(${ImageApi}/banner/${banner?.mobileImage})`,
+                sm: `url(${ImageApi}/banner/${banner?.desktopImage})`,
               },
-              backgroundSize: "cover",
+
               backgroundRepeat: "no-repeat",
-              backgroundPosition: "center center",
-              height: { xs: "40vh", sm: "58vh", md: "50vh", lg: "70vh" },
+              backgroundPosition: "center",
+
+              backgroundSize: {
+                xs: "cover",
+                sm: "cover",
+                md: "cover",
+                lg: "cover",
+              },
+
+              "@media (min-width: 1200px) and (max-width: 1300px)": {
+                aspectRatio: "16 / 4",
+                height: "unset",
+                minHeight: "380px",
+              },
+              // aspectRatio: {
+              //   xs: "none",
+              //   sm: "16 / 7",
+              //   md: "16 / 5",
+              //   lg: "none",
+              // },
+              // ❌ remove height for tablet
+              height: {
+                xs: "40vh",
+                sm: "45vh",   // 🔥 REQUIRED
+                md: "50vh",
+                lg: "70vh",
+              },
+
+              // ✅ NOW aspectRatio works
+              
+
               width: "100%",
               m: 0,
               p: 0,
             }}
           />
+
+
         ))}
       </Carousel>
     </>
