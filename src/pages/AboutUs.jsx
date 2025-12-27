@@ -2,239 +2,258 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+
+
 import bgabout from "../assets/bgabout.jpg";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import AONFactory from "../assets/AON_Factory.png";
+import AONFDR from "../assets/AON_FDR.jpg";
+import AONFDR1 from "../assets/AON_FDR_1.jpg";
+import AONBNR from "../assets/AON_HeroBanner.png";
+
 import ContactusForm from "../components/ContactusForm";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import { ImageApi } from "../ImageApi";
+
+
 function AboutUs() {
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
+
   const { cmsDate } = useSelector((state) => state.CmsState);
-  
+
   return (
-    <Container>
-      <Grid container alignItems="center" justifyContent="center">
-        <Stack spacing={4} sx={{ py: { xs: 5, sm: 4 } }}>
+    <Container maxWidth={false} sx={{ pt: 8, pb: 4 }}>
+      {/* ================= HERO ================= */}
+      {/* ===== H1 STAYS CENTERED ALONE ===== */}
+      <Typography
+        component="h1"
+        textAlign="center"
+        sx={{
+          fontSize: { xs: "3rem", sm: "4rem" },
+          fontWeight: 700,
+          lineHeight: { xs: "3rem", sm: "3.8rem" },
+          px: 2,
+        }}
+      >
+        {cmsDate?.title}
+        <h5>Trusted Office Furniture Manufacturer in Tamil Nadu Since 1988</h5>
+      </Typography>
+
+      {/* ===== PARAGRAPH + LOGO ROW ===== */}
+      <Grid
+
+        container
+        spacing={4}
+        alignItems="center"
+        justifyContent="center"
+        sx={{ mt: 4 }}
+      >
+        {/* LEFT – STORY PARAGRAPH */}
+        <Grid size={{ xs: 12, md: 8 }}
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+          }} >
           <Typography
-            component="h1"
-            textAlign="center"
             sx={{
-              fontSize: {
-                xs: "3rem",
-                sm: "4rem",
-                fontWeight: 700,
-                lineHeight: { xs: "3rem", sm: "3.8rem" },
-                p: { xs: "4rem 1rem", md: "4rem 0px" },
-              },
+              lineHeight: "2rem",
+              fontSize: "20px",
+              fontWeight: 400,
+              textAlign: "center",
+              maxWidth: "900px",
+              mx: "auto",
+              px: 2,
             }}
           >
-             {cmsDate?.title}
-            <h5 justifyContent="center">Our Brand Story</h5>          </Typography>
-          <Stack justifyContent="center" alignContent="center">
-            <Typography
-              sx={{
-                lineHeight: "2rem",
-                fontSize: "20px",
-                fontWeight: 400,
-              }}
-            > <b justifyContent>A Journey That Began with Just ₹300 (1988)</b>
-               <Typography>Arun Office Needs started in 1988 with nothing more than a visiting card, a business card, and a letter pad worth ₹300. With a single catalogue in hand, I used to visit customers, show them chair and sofa models, explain the prices, take orders, and personally supply the products.
-              My first major customers were banks. Before becoming a supplier, I was a consumer myself — that experience helped me understand exactly what customers expect.
-              I rented my first office for ₹500 per month and worked there for nearly three years. I was just 25 years old when this journey began.
-               </Typography>
-            </Typography>
-          </Stack>
-        </Stack>
-        <Grid container spacing={4}>
-          <div
-            style={{
-              backgroundImage: `url(${bgabout})`,
-              width: "100%",
-              height: "700px",
-              backgroundPosition: "center  center",
-              backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
-            }}
-          ></div>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography
-              sx={{
-                fontSize: { xs: "1.7777777778rem", sm: "2.4444444444rem" },
-                lineHeight: { xs: 1.2, sm: "3rem" },
-              }}
-            >
-              Early Stage
-            </Typography>
-           <Typography
-  sx={{
-    fontWeight: 400,
-    lineHeight: "1.8rem",
-    fontSize: "20px",
-  }}
->
-  In the early years, I supplied furniture to:
-</Typography>
+            <b>A Journey That Began with Belief & ₹300 (1988)</b>
+            <br /><br />
+            Founded in 1988, Arun Office Needs is a leading office furniture
+            manufacturer based in Madurai, Tamil Nadu. The journey began with a
+            visiting card, a letter pad, one catalogue, and an investment of just ₹300.
+            <br /><br />
+            At the age of 25, the founder personally met customers, explained office
+            chair and sofa models, finalized pricing, took orders, and ensured delivery.
+            Being a customer before becoming a supplier helped build a strong
+            understanding of quality, durability, and customer expectations.
+            <br /><br />
+            A modest office rented for ₹500 per month served as the foundation for
+            nearly three years. What began as a one-person effort laid the groundwork
+            for a trusted institutional and government furniture supplier.
+          </Typography>
+        </Grid>
 
-<Grid
-  container
-  direction="column"
+        {/* RIGHT – CMS LOGO */}
+        <Grid
+          size={{ xs: 12, md: 4 }}
+          sx={{
+            display: "flex",
+            justifyContent: { xs: "center", md: "flex-start" },
+            alignItems: "center",
+          }}
+        >
+          {cmsDate?.logo && (
+            <Box
+  component="img"
+  src={`${ImageApi}/testimonial/` + cmsDate.logo}
+  alt="Arun Office Needs Logo"
+  loading="lazy"
   sx={{
-    fontWeight: 400,
-    lineHeight: "1.8rem",
-    fontSize: "20px",
-    justifyContent: "center",
-    pl: 4, // indent list
-  }}
->
-  <ul style={{ margin: 0 }}>
-    <li>Banks</li>
-    <li>Railways</li>
-    <li>Post offices</li>
-    <li>Numerous private mills</li>
-  </ul>
-</Grid>
+    width: "100%",
+    // maxWidth: "100%",
+    height: "auto",
+    cursor: "pointer",
 
-<Typography
-  sx={{
-    fontWeight: 400,
-    lineHeight: "1.8rem",
-    fontSize: "20px",
-    mt: 2,
+    /* stroke + depth for transparent PNG */
+    filter: `
+      drop-shadow(1px 0 0 rgba(109, 3, 3, 0.65))
+      drop-shadow(-1px 0 0 rgba(100, 0, 0, 0.35))
+      drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35))
+      drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.30))
+    `,
+
+    transition: "transform 0.25s ease, filter 0.25s ease",
+
+    "&:hover": {
+      transform: "scale(1.03)",
+      filter: `
+        drop-shadow(1px 0 0 rgba(0, 0, 0, 0.27))
+        drop-shadow(-1px 0 0 rgba(0, 0, 0, 0.27))
+        drop-shadow(0 6px 16px rgba(0, 0, 0, 0.21))
+      `,
+    },
   }}
->
-  I handled Ramco Rajamala’s 28 units, Thiyagaraja Mills, Thiyagaraja College, 
-  and many other institutions. Step by step, the business grew — and in 1994, 
-  I opened my first factory, which continues to run successfully to this day.
-  <br /><br />
-  Today, AON supplies furniture all over Tamil Nadu to State Bank, Central Bank, 
-  Indian Bank, Overseas Bank, government offices, private companies, and spinning mills.
-  <br /><br />
-  My two sons have now joined the business — Subash (MBA) manages government-sector 
-  orders from Chennai, and Varin (B.E) oversees operations here.
-</Typography>
-          </Grid>
-          <Grid size={{ xs: 12, sm: 6 }}>
-            <Typography variant="h5">
-              Please Inset Here Any Image about Company
-            </Typography>
-          </Grid>
+/>
+  
+          )}
         </Grid>
       </Grid>
 
 
-<Grid size={{ xs: 12, sm: 6 }}>
-  <Typography variant="h5" justifyContent={"flex-start"} >
-  <div justifyContent="center"
+
+      {/* ================= HERO IMAGE ================= */}
+      <Grid container>
+        <Grid size={{ xs: 12 }} sx={{ pt: 2 }}>
+          <div
             style={{
-              backgroundImage: `url(${bgabout})`,
-              width: "50%",
-              height: "700px",
-              backgroundPosition: "center  center",
+              backgroundImage: `url(${AONBNR})`,
+              width: "100%",
+              height: "450px",
+              backgroundPosition: "center",
               backgroundRepeat: "no-repeat",
-              backgroundSize: "cover",
+              backgroundSize: "auto",
             }}
-          ></div></Typography>
-</Grid>
+          />
+        </Grid>
+      </Grid>
 
-<Grid size={{ xs: 12, sm: 6 }}>
-  <Typography
-    sx={{
-      fontSize: { xs: "1.7777777778rem", sm: "2.4444444444rem" },
-      lineHeight: { xs: 1.2, sm: "3rem" },
-    }}
-  >
-   Products & Works
-  </Typography>
+      {/* ================= EARLY STAGE ================= */}
+      <Grid container spacing={4} sx={{ px: { xs: 2, md: 8 }, py: 6 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Typography sx={{ fontSize: { xs: "1.8rem", sm: "2.3rem" }, mb: 2 }}>
+            Early Stage – Growth Through Trust
+          </Typography>
 
-  <Typography
-    sx={{
-      fontWeight: 400,
-      lineHeight: "1.8rem",
-      fontSize: "20px",
-    }}
-  >
-    In the early years, I supplied furniture to:
-  </Typography>
+          <Typography sx={{ fontSize: "20px", lineHeight: "1.8rem", textAlign: "center" }}>
+            The first major customers were banks, followed by railways, post
+            offices, private mills, and educational institutions. Organizations
+            such as Ramco Mills’ 28 units, Thiyagaraja Mills, and Thiyagaraja
+            College placed their trust in Arun Office Needs.
+            <br /><br />
+            As demand increased, operations expanded steadily. In 1994, the
+            company established its first furniture manufacturing factory in
+            Madurai.
+            <br /><br />
+            Today, Arun Office Needs supplies office furniture across Tamil Nadu,
+            serving State Bank, Central Bank, Indian Bank, Overseas Bank,
+            government offices, spinning mills, and private companies.
+          </Typography>
+        </Grid>
 
+        {/* Secondary Image 1 */}
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <div
+            style={{
+              backgroundImage: `url(${AONFDR1})`,
+              width: "100%",
+              height: "500px",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+            }}
+          />
+        </Grid>
+      </Grid>
 
+      {/* ================= MANUFACTURING ================= */}
+      <Grid container spacing={4} sx={{ px: { xs: 2, md: 8 }, pb: 6 }}>
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <Typography sx={{ fontSize: { xs: "1.8rem", sm: "2.4rem" }, mb: 2, textAlign: "center" }}>
+            Office Furniture Manufacturing Built for Long-Term Use
+          </Typography>
 
-  <Typography
-    sx={{
-      fontWeight: 400,
-      lineHeight: "1.8rem",
-      fontSize: "20px",
-      mt: 2,
-    }}
-  >
-          In the beginning, I worked alone. Two years later, I hired staff as orders grew. Managing family responsibilities and business simultaneously was challenging, but dedication kept me going.
-          My father ran a small tea shop. We weren’t financially strong, yet my mother supported me whenever she could — even ₹5,000 was a huge amount back then.
-          I once dreamt of starting a British-style biscuit shop, but the investment required (₹25–30 lakhs) was impossible. Life took me into the medical field for a short time, where I learned valuable lessons from Shri Sethuraman, a mentor who played a major role in shaping my business discipline.
+          <Typography sx={{ fontSize: "20px", lineHeight: "1.8rem", textAlign: "center" }}>
+            Every product is manufactured through a disciplined, process-driven
+            approach. Skilled workers, quality inspections, and experience built
+            over decades ensure long-term durability.
+            <br /><br />
+            The company specializes in office tables, workstations, steel
+            cupboards, racks, and custom furniture solutions for banks and
+            government offices.
+            <br /><br />
+            With more than 35 years of experience, Arun Office Needs remains a
+            trusted office furniture manufacturer in Tamil Nadu.
+          </Typography>
+        </Grid>
 
-     <br /><br />
-    Today, AON supplies furniture all over Tamil Nadu to State Bank, Central
-    Bank, Indian Bank, Overseas Bank, government offices, private companies, and
-    spinning mills.
-    <br /><br />
-    My two sons have now joined the business — Subash (MBA) manages
-    government-sector orders from Chennai, and Varin (B.E) oversees operations
-    here.
-  </Typography>
-</Grid>
+        {/* Secondary Images 2 & 3 */}
+        <Grid size={{ xs: 12, sm: 6 }}>
+          <div
+            style={{
+              backgroundImage: `url(${AONFactory})`,
+              width: "100%",
+              height: "400px",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+              backgroundSize: "contain",
+            }}
+          />
+        </Grid>
+      </Grid>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      <Grid>
+      {/* ================= CONTACT ================= */}
+      <Grid sx={{ px: { xs: 2, md: 8 }, pb: 8 }}>
         <Typography
           component="h2"
           sx={{
             fontSize: { xs: "2rem", sm: "4rem" },
-            fontWeight: 400,
-            lineHeight: { xs: "2.1rem", sm: "4.1rem" },
-            mt: "72px",
-            mb: "34px",
             textAlign: "center",
+            mb: 4,
           }}
         >
           Get in touch with Arun Office Needs
         </Typography>
-        <Grid container>
-          <Grid
-            size={{ xs: 12, sm: 8 }}
-            sx={{ height: { xs: "328px", sm: "480px" } }}
-          >
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m28!1m12!1m3!1d62885.97386678456!2d78.10892268540438!3d9.902828645372765!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!4m13!3e6!4m5!1s0x3b00c584051e4e03%3A0x1e93c7a5d6f0876a!2sArun%20Office%20Needs%2C%20Sourashtra%20Teachers%20Colony%20Main%20Road%2C%20Sourastra%20Teachers%20Colony%2C%20Tamil%20Nadu!3m2!1d9.9027466!2d78.1501229!4m5!1s0x3b00c584051e4e03%3A0x1e93c7a5d6f0876a!2s4%2F393%2C%20Sourashtra%20Teachers%20Colony%20Main%20Rd%2C%20Sourastra%20Teachers%20Colony%2C%20Babu%20Nagar%2C%20Tamil%20Nadu%20625009!3m2!1d9.9027466!2d78.1501229!5e0!3m2!1sen!2sin!4v1758191055170!5m2!1sen!2sin"
-              width="100%"
-              height="100%"
-              style={{ border: 0, borderRadius: "1rem" }}
-              allowFlilScreen=""
-              loading="lazy"
-              // referrerpolicy="no-referrer-when-downgrade"
-            ></iframe>
+
+        <Grid container spacing={3}>
+          <Grid size={{ xs: 12, sm: 8 }} sx={{ height: "480px" }}>
+            {/* <Grid size={{ xs: 12, sm: 6 }}> */}
+            <div
+              style={{
+                backgroundImage: `url(${AONFDR})`,
+                width: "100%",
+                height: "500px",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "contain",
+              }}
+            />
+            {/* </Grid> */}
+            {/* Map iframe can be added here */}
           </Grid>
 
-          <Grid
-            size={{ xs: 12, sm: 4 }}
-            sx={{ p: { xs: "1.3rem", sm: "2rem" } }}
-          >
+          <Grid size={{ xs: 12, sm: 4 }}>
             <ContactusForm />
           </Grid>
         </Grid>
