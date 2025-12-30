@@ -343,7 +343,7 @@ const ProductDetailCard = ({ Product = {} }) => {
           </Stack>
 
           {/* Product Info Table - use Box not Grid item to avoid nested Grid misuse */}
-          <Box sx={{ p: 0 }}>
+          <Box sx={{ p: 0 , width: '100%' }}>
             <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
               Product Information
             </Typography>
