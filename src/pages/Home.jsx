@@ -90,7 +90,7 @@ function Home() {
         sx={{ p: { xs: 2, md: 4 } }}
         style={{
           "--top-image": `linear-gradient(rgba(255, 254, 254, 0), rgba(255, 255, 255, 0)), url(${Doodle})`,
-  "--bottom-color": "linear-gradient(#ffffffff,#ffffffff)",
+          "--bottom-color": "linear-gradient(#ffffffff,#ffffffff)",
           mixBlendMode: "multiply",
           // filter: "contrast(0.8)"
         }}
@@ -107,7 +107,8 @@ function Home() {
         </Typography>
 
         <Grid
-          container spacing={{ xs: 1, sm: 0 }}
+          container
+          spacing={{ xs: 1, sm: 0 }}
 
           // justifyContent="center"
           // rowGap={2}
@@ -279,7 +280,8 @@ function Home() {
           alignItems="center"
           p={4}
         >
-          {blogPoster && blogPoster.map((blog) => <BlogCard blog={blog} />)}
+          {blogPoster &&
+            blogPoster.map((blog, i) => <BlogCard blog={blog} key={i} />)}
         </Stack>
       </Stack>
     </Stack>

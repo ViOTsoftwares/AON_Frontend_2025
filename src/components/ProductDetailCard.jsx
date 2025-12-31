@@ -50,65 +50,31 @@ const ProductDetailCard = ({ Product = {} }) => {
   };
 
   return (
-    <Grid container spacing={2} px={2} alignItems="flex-start">
-      {/* Left: Images - fixed max width and fixed image box to avoid layout shifts */}
+    <Grid container spacing={2} px={2}>
       <Grid
-        item
-        xs={12}
-        md={6}
-        sx={{
-          display: "flex",
-          justifyContent: { xs: "center", md: "flex-start" },
-        }}
+        container
+        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
+        sx={{ position: "sticky", top: 0 }}
       >
         <Box
           sx={{
-            pl: { md: 8 },
-            width: "100%",
-            maxWidth: { xs: 520, md: 620 },
-
-            "& img": {
-              maxWidth: "100%",
-              maxHeight: "100%",
-              objectFit: "contain",
-              display: "block",
-              margin: "0 auto",
-            },
+            height: { xs: 280, sm: 340, md: 500 },
+            overflow: "hidden",
+            borderRadius: 1,
+            bgcolor: "background.paper",
           }}
         >
-          {/* CarouselImage should itself be responsive; we wrap to enforce max width */}
-          <Box
-            sx={{
-              width: "100%",
-              height: { xs: 280, sm: 340, md: 500 }, // consistent visible image area per breakpoint
-              overflow: "hidden",
-              borderRadius: 1,
-              bgcolor: "background.paper",
-              backgroundSize: "contain",
-            }}
-          >
-            {/* If CarouselImage accepts style props, pass them — otherwise wrap the image container */}
-            <CarouselImage images={Product?.ImageArray || []} />
-          </Box>
+          <CarouselImage images={Product?.ImageArray || []} />
         </Box>
       </Grid>
 
-      {/* Right: Details */}
       <Grid
-        alignContent={"flex-end"}
-        item
-        xs={12}
-        md={6}
+        container
+        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
         sx={{
-          ml: "74px",
-          pl: { xs: 0, md: 0 },
-          pr: { md: 12 },
-          width: "100%",
-          overflowY: "auto",
+          justifyContent: "center",
+          overflowY: "auto", 
           maxHeight: "100vh",
-          // ensure details column doesn't shrink to tiny width
-          maxWidth: { xs: "100%", md: "680px" },
-          boxSizing: "border-box",
         }}
       >
         <Stack spacing={2} p={2}>
@@ -125,7 +91,7 @@ const ProductDetailCard = ({ Product = {} }) => {
                 fontWeight={600}
                 sx={{
                   fontFamily: "Inter, sans-serif",
-                  // clamp title to avoid pushing layout
+
                   display: "-webkit-box",
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",

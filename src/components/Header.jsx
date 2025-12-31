@@ -48,30 +48,12 @@ function Header() {
   ];
 
   return (
-    <AppBar
-      sx={{
-        top: 0,
-        height: { xs: "80px", md: "95px" },
-        width: "100%", // <-- use 100% instead of 100vw
-        position: { xs: "absolute", md: "sticky" },
-        backgroundColor: { xs: "white", md: "white" },
-        boxShadow: "0 2px 8px rgba(59, 36, 36, 1)",
-        zIndex: 1200,
-        overflowX: "hidden",
-      }}
-    >
+    <AppBar sx={{ position: { xs: "static", md: "fixed" } }}>
       <Toolbar
         className="toolbar-bg"
         style={{
           "--bg-image": `url(${HeaderBg})`,
           "--bg-color": "linear-gradient(#ffffff,#ffffff)",
-        }}
-        sx={{
-          height: "100%",
-          backgroundColor: "transparent",
-          width: "100%", // <-- also 100%
-          overflowX: "hidden",
-          px: { xs: 1, sm: 2, md: 4 },
         }}
       >
         <Grid container flexGrow={0.4}>
@@ -118,7 +100,10 @@ function Header() {
           >
             <Badge badgeContent={cart?.length || 0} color="error">
               <IconButton onClick={() => navigate("cart")}>
-                <ShoppingCartIcon sx={{ width: 37, height: 34 }} fontSize="medium" />
+                <ShoppingCartIcon
+                  sx={{ width: 37, height: 34, color: "white" }}
+                  fontSize="medium"
+                />
               </IconButton>
             </Badge>
           </Stack>
@@ -127,14 +112,13 @@ function Header() {
           <Box sx={{ width: { md: 40 }, height: { md: 46 } }}>
             <IconButton
               sx={{
-                display: { xs: "block", md: "none" }, // <-- show only on xs/sm, hide on md and up
                 width: 40,
                 height: 40,
               }}
               onClick={handleClose}
             >
               <Grow in={true} timeout={1000}>
-                <MenuIcon />
+                <MenuIcon sx={{ color: "white" }} />
               </Grow>
             </IconButton>
           </Box>

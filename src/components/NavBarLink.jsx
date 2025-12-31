@@ -112,6 +112,7 @@ export function TabsApple({ sx }) {
         alignItems="center"
         sx={{
           position: "fixed",
+          top:"96px",
           width: "100%",
           height: "56px",
           zIndex: 1100,
