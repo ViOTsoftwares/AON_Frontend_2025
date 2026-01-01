@@ -15,9 +15,7 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import CarouselImage from "../components/CarouselImage";
 import ProductTable from "./ProductTable";
 import { useDispatch, useSelector } from "react-redux";
-import { AddCart } from "../slice/CartSlice";
 import { useNavigate } from "react-router-dom";
-import { toastMessage } from "../toastMessage";
 import { ImageApi } from "../ImageApi";
 
 const ProductDetailCard = ({ Product = {} }) => {
@@ -50,129 +48,118 @@ const ProductDetailCard = ({ Product = {} }) => {
   };
 
   return (
-    <Grid container spacing={2} px={2} sx={{ position: "relative" }}>
-      {/* Left: Images - fixed max width and fixed image box to avoid layout shifts */}
+    <Grid
+      container
+      columnSpacing={{ xs: 0, md: 4 }}
+      sx={{
+        px: { xs: 1, md: 2 },
+        margin: 0, // 🔥 kill negative margins
+      }}
+    >
+      {/* ================= LEFT : IMAGE ================= */}
       <Grid
-        container
-        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
+        size={{ xs: 12, md: 6 }}
         sx={{
-          justifyContent: "center",
-        
-
-          alignSelf: "flex-start",
+          alignSelf: "flex-start", // 🔥 REQUIRED for sticky in Grid
         }}
       >
-        <Box sx={{}}>
-          <Box
-            sx={{
-              pl: { md: 8 },
-              width: "100%",
-              maxWidth: { xs: 520, md: 620 },
+        <Box
+          sx={{
+            mt: 1.4,
+       
 
-              top: "100px",
-              "& img": {
-                maxWidth: "100%",
-                maxHeight: "100%",
-                objectFit: "contain",
-                display: "block",
-                margin: "0 auto",
-              },
-            }}
-          >
-            <Box
-              sx={{
-                width: "100%",
-                height: { xs: 280, sm: 340, md: 500 },
-                overflow: "hidden",
-                borderRadius: 1,
-                bgcolor: "background.paper",
-              }}
-            >
-              <CarouselImage images={Product?.ImageArray || []} />
-            </Box>
-          </Box>
+            position: { md: "sticky" },
+            top: { md: 120 }, 
+
+        
+            maxHeight: { md: "calc(100vh - 140px)" }, // viewport limit
+            overflow: { md: "hidden" }, // contain image
+
+          
+          }}
+        >
+          <CarouselImage images={Product?.ImageArray || []} />
         </Box>
       </Grid>
 
-      {/* Right: Details */}
+      {/* ================= RIGHT : DETAILS ================= */}
       <Grid
-        // alignContent={"flex-end"}
-        container
-        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
-        sx={{
-          justifyContent: "center",
-        }}
+        item
+        size={{ xs: 12, md: 6 }}
+        mb={3}
+        display="flex"
+        justifyContent={{ xs: "center", md: "flex-start" }}
+        sx={{ height: { xs: "default", md: "100vh" }, overflowY: "auto" }}
       >
-        <Stack spacing={2} p={2}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="flex-start"
+        <Stack
+          spacing={2}
+          sx={{ mt: 4.4, width: "100%" }}
+          alignItems={{ xs: "center", md: "flex-start" }}
+        >
+          {/* ===== TITLE + PRICE WRAPPER ===== */}
+
+          <Box
+            sx={{
+              width: "100%",
+              px: { xs: 2.3, md: 0 }, // 👈 XS padding only
+              // py: { xs: 0.5, md: 0 },   // optional vertical spacing
+            }}
           >
-            <Box sx={{ flex: 1, pr: 1 }}>
-              <Typography
-                component="h1"
-                fontSize={{ xs: "1.05rem", sm: "1.25rem" }}
-                lineHeight="1.5rem"
-                fontWeight={600}
-                sx={{
-                  fontFamily: "Inter, sans-serif",
-                  // clamp title to avoid pushing layout
-                  display: "-webkit-box",
-                  WebkitLineClamp: 2,
-                  WebkitBoxOrient: "vertical",
-                  overflow: "hidden",
-                }}
-              >
-                {Product?.Title}
-              </Typography>
-
-              <Typography
-                component="h3"
-                fontSize={{ xs: "0.95rem", sm: "1rem" }}
-                lineHeight="1.4rem"
-                fontWeight={400}
-                sx={{
-                  fontFamily: "Inter, sans-serif",
-                  color: "text.secondary",
-                  mt: 0.5,
-                }}
-              >
-                {Product?.Subtitle}
-              </Typography>
-            </Box>
-
-            <IconButton
-              aria-label="share product"
-              onClick={handleShare}
-              size="large"
-              sx={{ ml: 1 }}
-            >
-              <ShareIcon />
-            </IconButton>
-          </Stack>
-
-          <Typography
-            fontSize="14px"
-            lineHeight="1.2rem"
-            fontWeight={600}
-            color="success.main"
-          >
-            Special Price
-          </Typography>
-
-          <Stack spacing={1}>
+            {/* TITLE & SHARE */}
             <Stack
               direction="row"
-              justifyContent="space-between"
-              alignItems="center"
+              width="100%"
+              justifyContent={{ xs: "center", md: "space-between" }}
+              alignItems="flex-start"
             >
-              <Stack direction="row" spacing={1.6} alignItems="center">
+              <Box sx={{ flex: 1, pr: { md: 2 } }}>
                 <Typography
-                  fontSize={{ xs: "1.4rem", sm: "1.6rem" }}
-                  fontWeight={700}
-                  sx={{ fontFamily: "Inter, sans-serif" }}
+                  component="h1"
+                  fontSize={{ xs: "1.45rem", sm: "1.25rem" }}
+                  lineHeight="1.5rem"
+                  fontWeight={600}
+                  textAlign="left"
+                  sx={{
+                    fontFamily: "Inter, sans-serif",
+                    display: "-webkit-box",
+                    WebkitLineClamp: 2,
+                    WebkitBoxOrient: "vertical",
+                    overflow: "hidden",
+                  }}
                 >
+                  {Product?.Title}
+                </Typography>
+
+                <Typography
+                  component="h3"
+                  fontSize={{ xs: "0.95rem", sm: "1rem" }}
+                  lineHeight="1.4rem"
+                  fontWeight={400}
+                  textAlign="left"
+                  sx={{ color: "text.secondary", mt: 0.5 }}
+                >
+                  {Product?.Subtitle}
+                </Typography>
+              </Box>
+
+              <IconButton onClick={handleShare} sx={{ ml: { xs: 1, md: 0 } }}>
+                <ShareIcon />
+              </IconButton>
+            </Stack>
+
+            {/* PRICE */}
+            <Box mt={1}>
+              <Typography
+                fontSize="14px"
+                fontWeight={600}
+                color="success.main"
+                textAlign="left"
+              >
+                Special Price
+              </Typography>
+
+              <Stack direction="row" spacing={1.6} alignItems="center">
+                <Typography fontSize="1.6rem" fontWeight={700}>
                   {sellingPrice}
                 </Typography>
 
@@ -180,168 +167,120 @@ const ProductDetailCard = ({ Product = {} }) => {
                   <del>{discountPrice}</del>
                 </Typography>
 
-                <Typography variant="body2" color="success.main">
-                  {Product?.Discount ? `${Product.Discount}% off` : ""}
-                </Typography>
+                {Product?.Discount && (
+                  <Typography variant="body2" color="success.main">
+                    {Product.Discount}% off
+                  </Typography>
+                )}
               </Stack>
-            </Stack>
+            </Box>
+          </Box>
 
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+          {/* BUTTONS */}
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            width="100%"
+            alignItems="center"
+          >
+            <Box sx={{ width: { xs: "90%", sm: "100%" }, mx: "auto" }}>
               <Button
                 fullWidth
                 variant="contained"
-                size="large"
-                sx={{ p: 1.4, fontSize: "1rem" }}
-                onClick={() => dispatch(AddCart({ ...Product, Qty: 1 }))}
+                sx={{
+                  height: 55,
+                  fontWeight: 600,
+                  borderRadius: "10px",
+                }}
               >
                 ADD TO CART
               </Button>
+            </Box>
 
+            <Box sx={{ width: { xs: "90%", sm: "100%" }, mx: "auto" }}>
               <Button
                 fullWidth
                 variant="outlined"
-                size="large"
-                sx={{ p: 1.4, fontSize: "1rem" }}
-                onClick={() => {
-                  if (isUser) {
-                    navigate("/checkout", { state: { id: Product._id } });
-                  } else {
-                    toastMessage("Please login to continue", "warning");
-                  }
+                sx={{
+                  height: 55,
+                  fontWeight: 600,
+                  borderRadius: "10px",
                 }}
               >
                 BUY NOW
               </Button>
-            </Stack>
-
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              alignItems="center"
-              gap={2}
-              sx={{ mt: 1 }}
-            >
-              {EcomLinks?.oneImage && (
-                <IconButton
-                  component="a"
-                  href={EcomLinks.oneLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ p: 0 }}
-                >
-                  <Box
-                    component="img"
-                    src={`${ImageApi}/product/${EcomLinks.oneImage}`}
-                    alt="social-1"
-                    sx={{ width: 40, height: "auto", objectFit: "contain" }}
-                  />
-                </IconButton>
-              )}
-
-              {EcomLinks?.twoImage && (
-                <IconButton
-                  component="a"
-                  href={EcomLinks.twoLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ p: 0 }}
-                >
-                  <Box
-                    component="img"
-                    src={`${ImageApi}/product/${EcomLinks.twoImage}`}
-                    alt="social-2"
-                    sx={{ width: 40, height: "auto", objectFit: "contain" }}
-                  />
-                </IconButton>
-              )}
-
-              {EcomLinks?.threeImage && (
-                <IconButton
-                  component="a"
-                  href={EcomLinks.threeLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ p: 0 }}
-                >
-                  <Box
-                    component="img"
-                    src={`${ImageApi}/product/${EcomLinks.threeImage}`}
-                    alt="social-3"
-                    sx={{ width: 40, height: "auto", objectFit: "contain" }}
-                  />
-                </IconButton>
-              )}
-
-              {EcomLinks?.fourImage && (
-                <IconButton
-                  component="a"
-                  href={EcomLinks.fourLink || "#"}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  sx={{ p: 0 }}
-                >
-                  <Box
-                    component="img"
-                    src={`${ImageApi}/product/${EcomLinks.fourImage}`}
-                    alt="social-4"
-                    sx={{ width: 40, height: "auto", objectFit: "contain" }}
-                  />
-                </IconButton>
-              )}
-            </Stack>
+            </Box>
           </Stack>
 
-          {/* Description */}
-          <Box>
-            <Typography variant="h6" fontWeight={600}>
+          {/* ECOM ICONS */}
+          <Stack
+            direction="row"
+            justifyContent={{ xs: "center", md: "flex-end" }}
+            gap={2}
+            width="100%"
+          >
+            {Object.values(EcomLinks).map((img, i) =>
+              img ? (
+                <IconButton key={i} sx={{ p: 0 }}>
+                  <Box
+                    component="img"
+                    src={`${ImageApi}/product/${img}`}
+                    sx={{ width: 40 }}
+                  />
+                </IconButton>
+              ) : null
+            )}
+          </Stack>
+
+          {/* DESCRIPTION */}
+          <Box width="100%" px={{ xs: 2.7, md: 0 }}>
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              textAlign={{ xs: "left", md: "left" }}
+            >
               Product Description
             </Typography>
-            <Typography mt={1} variant="body1" sx={{ color: "text.secondary" }}>
+            <Typography
+              mt={1}
+              color="text.secondary"
+              textAlign={{ xs: "left", md: "left" }}
+            >
               {Product?.Description}
             </Typography>
           </Box>
 
-          {/* Benefits */}
+          {/* BENEFITS */}
           <Stack
             direction="row"
             justifyContent="center"
             spacing={3}
-            sx={{
-              "& > :not(style)": {
-                width: { xs: 120, sm: 160, md: 200 },
-                height: { xs: 80, sm: 90, md: 100 },
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                flexDirection: "column",
-                textAlign: "center",
-              },
-            }}
+            width="100%"
           >
-            <Paper elevation={0}>
-              <ShieldTwoToneIcon sx={{ fontSize: 34 }} />
+            <Paper elevation={0} sx={{ textAlign: "center" }}>
+              <ShieldTwoToneIcon fontSize="large" />
               <Typography variant="body2">Secure Order</Typography>
             </Paper>
-
-            <Paper elevation={0}>
-              <SpeedIcon sx={{ fontSize: 34 }} />
+            <Paper elevation={0} sx={{ textAlign: "center" }}>
+              <SpeedIcon fontSize="large" />
               <Typography variant="body2">Fast Delivery</Typography>
             </Paper>
-
-            <Paper elevation={0}>
-              <FindReplaceIcon sx={{ fontSize: 34 }} />
+            <Paper elevation={0} sx={{ textAlign: "center" }}>
+              <FindReplaceIcon fontSize="large" />
               <Typography variant="body2">Easy Installing</Typography>
             </Paper>
           </Stack>
 
-          {/* Product Info Table - use Box not Grid item to avoid nested Grid misuse */}
-          <Box sx={{ p: 0 }}>
-            <Typography variant="h6" fontWeight={600} sx={{ mb: 1 }}>
+          {/* PRODUCT INFO */}
+          <Box width="100%">
+            <Typography
+              variant="h6"
+              fontWeight={600}
+              textAlign={{ xs: "center", md: "left" }}
+            >
               Product Information
             </Typography>
-            <Box>
-              <ProductTable Product={Product} />
-            </Box>
+            <ProductTable Product={Product} />
           </Box>
         </Stack>
       </Grid>

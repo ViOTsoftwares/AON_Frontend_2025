@@ -100,7 +100,7 @@ export function TabsApple({ sx }) {
   const safeTabIndex = currentTabIndex === -1 ? 0 : currentTabIndex;
 
   return (
-    <Box sx={{ display: show ? "block" : "none" }}>
+    <Box sx={{ display: show ? "block" : "none"}}>
       <Stack
         className="tabs-bg"
         style={{
@@ -112,7 +112,7 @@ export function TabsApple({ sx }) {
         alignItems="center"
         sx={{
           position: "fixed",
-          top:"96px",
+          top: "96px",
           width: "100%",
           height: "56px",
           zIndex: 1100,

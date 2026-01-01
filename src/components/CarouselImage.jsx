@@ -1,4 +1,4 @@
-  import { useState } from "react";
+import { useState } from "react";
 import { useTheme, alpha } from "@mui/material";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -13,15 +13,11 @@ const ImageCarousel = ({ images = [] }) => {
   const theme = useTheme();
 
   const goToPrevious = () => {
-    setCurrentIndex((prev) =>
-      prev === 0 ? images.length - 1 : prev - 1
-    );
+    setCurrentIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
   };
 
   const goToNext = () => {
-    setCurrentIndex((prev) =>
-      prev === images.length - 1 ? 0 : prev + 1
-    );
+    setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
 
   const currentImage = images[currentIndex];
@@ -36,7 +32,6 @@ const ImageCarousel = ({ images = [] }) => {
         justifyContent: "center",
       }}
     >
-
       <Stack
         direction={{ xs: "column", md: "row" }}
         sx={{
@@ -45,7 +40,6 @@ const ImageCarousel = ({ images = [] }) => {
           alignItems: { xs: "center", md: "stretch" },
         }}
       >
-
         {/* THUMBNAILS — LEFT (PC), BOTTOM (MOBILE) */}
         <Box
           sx={{
@@ -65,8 +59,8 @@ const ImageCarousel = ({ images = [] }) => {
             alignItems: "center",
 
             // 🔑 THIS IS THE CENTERING MAGIC
-            width: "fit-content",   // grid hugs content
-            marginX: "auto",        // center the whole grid
+            width: "fit-content", // grid hugs content
+            marginX: "auto", // center the whole grid
 
             // desktop constraints
             minWidth: { md: 90 },
@@ -103,8 +97,6 @@ const ImageCarousel = ({ images = [] }) => {
           ))}
         </Box>
 
-
-
         {/* MAIN IMAGE — RIGHT (PC), TOP (MOBILE) */}
         <Box
           sx={{
@@ -121,7 +113,6 @@ const ImageCarousel = ({ images = [] }) => {
             justifyContent: "center",
           }}
         >
-
           <CardMedia
             component="img"
             src={`${ImageApi}/product/${currentImage}`}

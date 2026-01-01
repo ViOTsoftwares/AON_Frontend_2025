@@ -63,7 +63,7 @@ export default function Layout() {
           sx={{
             position: "fixed",
             top: isScrolled ? 0 : "60px",
-
+            width:"100%",
             backgroundColor: "rgba(241, 234, 234, 0.91)",
             zIndex: 1200,
             height: "74px",
