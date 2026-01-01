@@ -50,31 +50,57 @@ const ProductDetailCard = ({ Product = {} }) => {
   };
 
   return (
-    <Grid container spacing={2} px={2}>
-      <Grid
-        container
-        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
-        sx={{ position: "sticky", top: 0 }}
-      >
-        <Box
-          sx={{
-            height: { xs: 280, sm: 340, md: 500 },
-            overflow: "hidden",
-            borderRadius: 1,
-            bgcolor: "background.paper",
-          }}
-        >
-          <CarouselImage images={Product?.ImageArray || []} />
-        </Box>
-      </Grid>
-
+    <Grid container spacing={2} px={2} sx={{ position: "relative" }}>
+      {/* Left: Images - fixed max width and fixed image box to avoid layout shifts */}
       <Grid
         container
         size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
         sx={{
           justifyContent: "center",
-          overflowY: "auto", 
-          maxHeight: "100vh",
+        
+
+          alignSelf: "flex-start",
+        }}
+      >
+        <Box sx={{}}>
+          <Box
+            sx={{
+              pl: { md: 8 },
+              width: "100%",
+              maxWidth: { xs: 520, md: 620 },
+
+              top: "100px",
+              "& img": {
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                display: "block",
+                margin: "0 auto",
+              },
+            }}
+          >
+            <Box
+              sx={{
+                width: "100%",
+                height: { xs: 280, sm: 340, md: 500 },
+                overflow: "hidden",
+                borderRadius: 1,
+                bgcolor: "background.paper",
+              }}
+            >
+              <CarouselImage images={Product?.ImageArray || []} />
+            </Box>
+          </Box>
+        </Box>
+      </Grid>
+
+      {/* Right: Details */}
+      <Grid
+        // alignContent={"flex-end"}
+        container
+        size={{ xs: 12, md: 12, xl: 6, lg: 6, sm: 12 }}
+        sx={{
+          justifyContent: "center",
         }}
       >
         <Stack spacing={2} p={2}>
@@ -91,7 +117,7 @@ const ProductDetailCard = ({ Product = {} }) => {
                 fontWeight={600}
                 sx={{
                   fontFamily: "Inter, sans-serif",
-
+                  // clamp title to avoid pushing layout
                   display: "-webkit-box",
                   WebkitLineClamp: 2,
                   WebkitBoxOrient: "vertical",

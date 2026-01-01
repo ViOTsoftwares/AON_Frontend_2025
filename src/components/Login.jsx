@@ -170,6 +170,7 @@ export default function Login() {
                   : `${ImageApi}/profile/${User?.picture}`
               }
               alt={username || "User"}
+              disableScrollLock
               sx={{
                 bgcolor: "primary.main",
                 width: 45,
@@ -216,6 +217,7 @@ export default function Login() {
             onClose={handleMenuClose}
             anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
             transformOrigin={{ vertical: "top", horizontal: "left" }}
+            disableScrollLock
           >
             <MenuItem
               onClick={() => {
@@ -278,6 +280,7 @@ export default function Login() {
         open={open}
         onClose={() => setOpen(false)}
         TransitionComponent={Transition}
+        disableScrollLock
         TransitionProps={{
           onExited: () => {
             setShowOTP(false);
