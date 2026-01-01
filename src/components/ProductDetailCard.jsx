@@ -236,24 +236,52 @@ const handleBuyNow = () => {
           </Stack>
 
           {/* ECOM ICONS */}
-          <Stack
-            direction="row"
-            justifyContent={{ xs: "center", md: "flex-end" }}
-            gap={2}
-            width="100%"
-          >
-            {Object.values(EcomLinks).map((img, i) =>
-              img ? (
-                <IconButton key={i} sx={{ p: 0 }}>
-                  <Box
-                    component="img"
-                    src={`${ImageApi}/product/${img}`}
-                    sx={{ width: 40 }}
-                  />
-                </IconButton>
-              ) : null
-            )}
-          </Stack>
+         <Stack
+  direction="row"
+  justifyContent={{ xs: "center", md: "flex-end" }}
+  gap={2}
+  width="100%"
+>
+  {Object.entries(EcomLinks).map(([key, value], i) => {
+    if (key.includes("Image")) {
+      const linkKey = key.replace("Image", "Link");
+      const link = EcomLinks[linkKey];
+
+      return link ? (
+        <IconButton
+          key={i}
+          component="a"
+          href={link}
+          target="_blank"
+          rel="noopener noreferrer"
+          sx={{
+            p: 0,
+            transition: "transform 0.25s ease, box-shadow 0.25s ease",
+            "&:hover": {
+              transform: "scale(1.08)",
+              boxShadow: "0 0 10px rgba(25, 118, 210, 0.55)",
+            },
+          }}
+        >
+          <Box
+            component="img"
+            src={`${ImageApi}/product/${value}`}
+            sx={{
+              width: 40,
+              transition: "filter 0.25s ease",
+              "&:hover": {
+                filter: "drop-shadow(0 0 6px rgba(25, 118, 210, 0.7))",
+              },
+            }}
+          />
+        </IconButton>
+      ) : null;
+    }
+    return null;
+  })}
+</Stack>
+
+
 
           {/* DESCRIPTION */}
           <Box width="100%" px={{ xs: 2.7, md: 0 }}>
