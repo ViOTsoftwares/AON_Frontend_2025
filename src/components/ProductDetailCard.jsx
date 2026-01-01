@@ -240,6 +240,7 @@ const handleBuyNow = () => {
   direction="row"
   justifyContent={{ xs: "center", md: "flex-end" }}
   gap={2}
+   sx={{ pl: { xs: 3.6 } }}
   width="100%"
 >
   {Object.entries(EcomLinks).map(([key, value], i) => {
@@ -248,33 +249,52 @@ const handleBuyNow = () => {
       const link = EcomLinks[linkKey];
 
       return link ? (
-        <IconButton
-          key={i}
-          component="a"
-          href={link}
-          target="_blank"
-          rel="noopener noreferrer"
-          sx={{
-            p: 0,
-            transition: "transform 0.25s ease, box-shadow 0.25s ease",
-            "&:hover": {
-              transform: "scale(1.08)",
-              boxShadow: "0 0 10px rgba(25, 118, 210, 0.55)",
-            },
-          }}
-        >
-          <Box
-            component="img"
-            src={`${ImageApi}/product/${value}`}
-            sx={{
-              width: 40,
-              transition: "filter 0.25s ease",
-              "&:hover": {
-                filter: "drop-shadow(0 0 6px rgba(25, 118, 210, 0.7))",
-              },
-            }}
-          />
-        </IconButton>
+      <IconButton
+  key={i}
+  component="a"
+  href={link}
+  target="_blank"
+  rel="noopener noreferrer"
+  sx={{
+    p: 0,
+    width: 48,
+    height: 48,
+    borderRadius: "50%",
+    overflow: "hidden",
+    display: "flex",
+    alignItems: "center",
+    mr: 3,
+    // ml:{ xs: 1, md: 0},
+    justifyContent: "center",
+    backgroundColor: "#f5f5f5", // 👈 helps transparent images
+    transition: "all 0.25s ease",
+    boxShadow: "0 0 12px rgba(197, 30, 0, 0.77)",
+
+    "&:hover": {
+      transform: "scale(1.08)",
+      boxShadow: "0 0 12px rgba(167, 0, 92, 0.55)",
+    },
+  }}
+>
+  <Box
+    component="img"
+    src={`${ImageApi}/product/${value}`}
+    sx={{
+      width: "100%",
+      height: "100%",
+      objectFit: "cover",
+      objectPosition: "center",
+      transform: "scale(1.15)",   // 🔥 IMPORTANT: fills empty space
+      transition: "transform 0.25s ease, filter 0.25s ease",
+
+      "&:hover": {
+        filter: "drop-shadow(0 0 6px rgba(184, 3, 3, 0.82))",
+      },
+    }}
+  />
+</IconButton>
+
+
       ) : null;
     }
     return null;
