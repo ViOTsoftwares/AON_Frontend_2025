@@ -95,7 +95,7 @@ function Blogs() {
             <Tab
               key={index}
               label={blogNav}
-              sx={{ fontSize: { xs: "0.8rem", sm: "1rem" } }}
+              sx={{ fontSize: { xs: "0.8rem", sm: "1rem" }, color: "#8a0707" }}
             />
           ))}
         </Tabs>
@@ -153,7 +153,6 @@ function Blogs() {
           </Button>
         </Stack>
       </Stack>
-     
     </Container>
   );
 }

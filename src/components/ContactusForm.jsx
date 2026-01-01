@@ -27,7 +27,7 @@ const ContactusForm = () => {
       }
       console.log("api..");
       const response = await CreateContactUsApi(FormValue);
-      console.log(response)
+      console.log(response);
       if (response.success) {
         setFormValue(initialValues);
         setLoading(false);
@@ -42,6 +42,25 @@ const ContactusForm = () => {
       toastMessage("Somthing went wrong", "error");
     }
   };
+
+  const TextFieldStyle = {
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused": {
+        "& .MuiOutlinedInput-notchedOutline": {
+          borderColor: "#8a0707",
+          borderWidth: "3px",
+        },
+      },
+      "& .MuiInputLabel-outlined": {
+        color: "#2e2e2e",
+        fontWeight: "bold",
+        "&.Mui-focused": {
+          color: "secondary.main",
+          fontWeight: "bold",
+        },
+      },
+    },
+  };
   return (
     <div>
       {" "}
@@ -51,6 +70,7 @@ const ContactusForm = () => {
           value={name}
           onChange={handleChange}
           placeholder="Name"
+          sx={{ ...TextFieldStyle }}
         />
         {Error?.name ? <p style={{ color: "red" }}>{Error?.name}</p> : ""}
         <TextField
@@ -59,6 +79,8 @@ const ContactusForm = () => {
           value={phone}
           onChange={handleChange}
           placeholder="Phone number"
+          sx={{ ...TextFieldStyle }}
+
         />
         {Error?.phone ? <p style={{ color: "red" }}>{Error?.phone}</p> : ""}
         <TextField
@@ -67,6 +89,8 @@ const ContactusForm = () => {
           type="email"
           onChange={handleChange}
           placeholder="Email ID"
+          sx={{ ...TextFieldStyle }}
+
         />
         {Error?.email ? <p style={{ color: "red" }}>{Error?.email}</p> : ""}
         <TextField
@@ -76,12 +100,14 @@ const ContactusForm = () => {
           placeholder="What's your needs"
           multiline
           rows={5}
+          sx={{ ...TextFieldStyle }}
+
         />
         {Error?.message ? <p style={{ color: "red" }}>{Error?.message}</p> : ""}
 
         <Button
           variant="contained"
-          sx={{ height: "48px" }}
+          sx={{ height: "48px", backgroundColor: "#8a0707" }}
           onClick={handleSubmit}
         >
           {loading ? "Loading" : "Submit"}

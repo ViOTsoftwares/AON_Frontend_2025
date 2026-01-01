@@ -41,7 +41,9 @@ const ProductDetailCard = ({ Product = {} }) => {
   }).format(Product?.MRP || 0);
 
   const handleShare = () => {
-    const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${Product?._id}`;
+    const shareUrl = `${import.meta.env.VITE_API_URL}/product/share/${
+      Product?._id
+    }`;
     window.open(
       `https://wa.me/?text=${encodeURIComponent(shareUrl)}`,
       "_blank"
@@ -69,65 +71,58 @@ const handleBuyNow = () => {
     <Grid
       container
       columnSpacing={{ xs: 0, md: 4 }}
-        sx={{
-        px: { xs: 1, md: 6 },
-        margin: 0,          // 🔥 kill negative margins
-        width: "100%",
+      sx={{
+        px: { xs: 1, md: 2 },
+        margin: 0, // 🔥 kill negative margins
       }}
     >
-     {/* ================= LEFT : IMAGE ================= */}
-<Grid
-  item
-  xs={12}
-  md={6}
-  sx={{
-    alignSelf: "flex-start", // 🔥 REQUIRED for sticky in Grid
-  }}
+      {/* ================= LEFT : IMAGE ================= */}
+      <Grid
+        size={{ xs: 12, md: 6 }}
+        sx={{
+          alignSelf: "flex-start", // 🔥 REQUIRED for sticky in Grid
+        }}
       >
         <Box
           sx={{
             mt: 1.4,
-            ml: { xs: 0.58 , md: 0 },
+            ml: { xs: 0.58, md: 0 },
             width: "100%",
 
             position: { md: "sticky" },
-            top: { md: 120 }, // header offset
+            top: { md: 120 }, 
 
-            // 🔑 THIS IS THE FIX
+        
             maxHeight: { md: "calc(100vh - 140px)" }, // viewport limit
-            overflow: { md: "hidden" },               // contain image
+            overflow: { md: "hidden" }, // contain image
 
-            alignSelf: "flex-start",
+          
           }}
         >
           <CarouselImage images={Product?.ImageArray || []} />
         </Box>
-
-</Grid>
-
-
+      </Grid>
 
       {/* ================= RIGHT : DETAILS ================= */}
       <Grid
         item
-        xs={12}
-        md={6}
-        width={{ xs: "100%", md: "45%" }}
+        size={{ xs: 12, md: 6 }}
         mb={3}
         display="flex"
         justifyContent={{ xs: "center", md: "flex-start" }}
+        sx={{ height: { xs: "default", md: "100vh" }, overflowY: "auto" }}
       >
         <Stack
           spacing={2}
           sx={{ mt: 4.4, width: "100%" }}
           alignItems={{ xs: "center", md: "flex-start" }}
         >
-         {/* ===== TITLE + PRICE WRAPPER ===== */}
+          {/* ===== TITLE + PRICE WRAPPER ===== */}
 
           <Box
             sx={{
               width: "100%",
-              px: { xs: 2.3, md: 0 },     // 👈 XS padding only
+              px: { xs: 2.3, md: 0 }, // 👈 XS padding only
               // py: { xs: 0.5, md: 0 },   // optional vertical spacing
             }}
           >
@@ -202,8 +197,6 @@ const handleBuyNow = () => {
             </Box>
           </Box>
 
-
-
           {/* BUTTONS */}
           <Stack
             direction={{ xs: "column", sm: "row" }}
@@ -240,7 +233,6 @@ const handleBuyNow = () => {
                 BUY NOW
               </Button>
             </Box>
-
           </Stack>
 
           {/* ECOM ICONS */}

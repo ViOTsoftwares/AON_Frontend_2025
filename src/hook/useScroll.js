@@ -15,6 +15,7 @@ export function useScroll(show) {
     return () => {
       window.removeEventListener("scroll", controlNavbar);
     };
+
   }, []);
   return showMenu;
 }

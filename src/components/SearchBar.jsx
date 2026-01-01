@@ -61,7 +61,7 @@ function SearchBar() {
   }, [currentIndex, placeholderOptions]);
 
   return (
-    <FormControl fullWidth>
+    <FormControl fullWidth >
       <OutlinedInput
         value={show}
         type="text"

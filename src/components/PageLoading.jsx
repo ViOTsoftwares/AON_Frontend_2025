@@ -1,4 +1,4 @@
-import { BlinkBlur } from "react-loading-indicators";
+import { ThreeDot } from "react-loading-indicators";
 import { Stack } from "@mui/material";
 import "./PageLoading.css";
 
@@ -20,7 +20,7 @@ export default function PageLoading({ load }) {
       }}
     >
       <div className="loading-wrapper">
-        <BlinkBlur size="medium" color="#8a0707" />
+        <ThreeDot color="#8a0707" size="medium" text="" textColor="" />
         <span className="gradient-text">Loading...</span>
       </div>
     </Stack>

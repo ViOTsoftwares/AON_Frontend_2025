@@ -41,8 +41,7 @@ function MenuBar({ show, handleClose }) {
 
       link: "customization",
     },
-    
-    
+
     { title: "Catalog", link: "catalog" },
     { title: "Blogs", link: "blogs" },
     { title: "About Us", link: "about-us" },
@@ -87,9 +86,9 @@ function MenuBar({ show, handleClose }) {
                 alt={username || "Guest"}
                 sx={{
                   bgcolor: username ? "primary.main" : "grey.500",
-                  width: 56,         // slightly larger so inner padding looks nice
+                  width: 56, // slightly larger so inner padding looks nice
                   height: 56,
-                  p: 0,              // no invalid negative padding
+                  p: 0, // no invalid negative padding
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -108,7 +107,14 @@ function MenuBar({ show, handleClose }) {
                 }}
               >
                 {isUser ? (
-                  <Box sx={{ px: 0.6, py: 0.4, fontSize: "1.25rem", fontWeight: "700" }}>
+                  <Box
+                    sx={{
+                      px: 0.6,
+                      py: 0.4,
+                      fontSize: "1.25rem",
+                      fontWeight: "700",
+                    }}
+                  >
                     {username?.[0]?.toUpperCase()}
                   </Box>
                 ) : (
@@ -120,7 +126,7 @@ function MenuBar({ show, handleClose }) {
           <Button
             variant="h6"
             sx={{
-              color: "#1976d2",
+              color: "#8a0707",
 
               px: "0px",
             }}
@@ -152,7 +158,6 @@ function MenuBar({ show, handleClose }) {
                   navigate(navLink?.link), handleClose();
                 }}
               >
-
                 <ListItemText>{navLink.title}</ListItemText>
               </ListItemButton>
             </ListItem>
@@ -194,7 +199,6 @@ function MenuBar({ show, handleClose }) {
             </IconButton>
           </Box>
         </Stack>
-
       </Box>
     </Drawer>
   );

@@ -53,12 +53,12 @@ const TabItem = styled(Tab)(({ theme }) => ({
     transform: "translateY(-6.5px)",
   },
 
- [`&.${tabClasses.selected}`]: {
-  color: "#fff",
-  background: "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
-  transform: "translateY(0)",
-},
-
+  [`&.${tabClasses.selected}`]: {
+    color: "#fff",
+    background:
+      "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+    transform: "translateY(0)",
+  },
 }));
 
 function CustomTabPanel(props) {
@@ -159,8 +159,8 @@ function BestSelling() {
                   {bestSelling &&
                     bestSelling.map((product, i) => (
                       <Grid
+                        key={i}
                         size={{ xs: 6, sm: 2.8, md: 2.8 }}
-                        
                         sx={{ alignItems: "stretch" }}
                       >
                         <ProcardCard product={product} />
