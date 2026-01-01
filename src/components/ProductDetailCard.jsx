@@ -6,6 +6,9 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import { AddCart } from "../slice/CartSlice";
+import { toastMessage } from "../toastMessage";
+
 
 import ShareIcon from "@mui/icons-material/Share";
 import ShieldTwoToneIcon from "@mui/icons-material/ShieldTwoTone";
@@ -45,6 +48,23 @@ const ProductDetailCard = ({ Product = {} }) => {
     );
   };
 
+  const handleAddToCart = () => {
+  if (!Product?._id) return;
+  dispatch(AddCart({ ...Product, Qty: 1 }));
+  toastMessage("Added to cart", "success");
+};
+
+const handleBuyNow = () => {
+  if (!Product?._id) return;
+
+  if (isUser) {
+    navigate("/checkout", { state: { id: Product._id } });
+  } else {
+    toastMessage("Please login to continue", "warning");
+  }
+};
+
+
   return (
     <Grid
       container
@@ -67,7 +87,7 @@ const ProductDetailCard = ({ Product = {} }) => {
         <Box
           sx={{
             mt: 1.4,
-            ml: { xs: 2, md: 0 },
+            ml: { xs: 0.58 , md: 0 },
             width: "100%",
 
             position: { md: "sticky" },
@@ -195,6 +215,7 @@ const ProductDetailCard = ({ Product = {} }) => {
               <Button
                 fullWidth
                 variant="contained"
+                onClick={handleAddToCart}
                 sx={{
                   height: 55,
                   fontWeight: 600,
@@ -209,6 +230,7 @@ const ProductDetailCard = ({ Product = {} }) => {
               <Button
                 fullWidth
                 variant="outlined"
+                onClick={handleBuyNow}
                 sx={{
                   height: 55,
                   fontWeight: 600,
