@@ -213,7 +213,17 @@ const handleBuyNow = () => {
                   height: 55,
                   fontWeight: 600,
                   borderRadius: "10px",
+
+                  background: "linear-gradient(129deg,rgba(104, 30, 0, 0.84),rgba(94, 0, 5, 0.88),rgba(170, 68, 0, 0.84))",
+                  boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    background: "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
+                    boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
+                    transform: "translateY(-1px)",
+                  },
                 }}
+      
               >
                 ADD TO CART
               </Button>
@@ -228,6 +238,15 @@ const handleBuyNow = () => {
                   height: 55,
                   fontWeight: 600,
                   borderRadius: "10px",
+                  background: "linear-gradient(129deg,rgba(104, 29, 0, 0.22),rgba(94, 0, 5, 0.26),rgba(170, 68, 0, 0.23))",
+                  boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    color: "#fff",
+                    background: "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
+                    boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
+                    transform: "translateY(-1px)",
+                  },
                 }}
               >
                 BUY NOW
