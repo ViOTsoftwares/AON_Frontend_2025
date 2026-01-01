@@ -21,6 +21,7 @@ import {
   RemoveCart,
 } from "../slice/CartSlice";
 
+
 export default function Cart() {
   const navigate = useNavigate();
   const { cart, iscart } = useSelector((state) => state.CartState);
@@ -80,95 +81,119 @@ export default function Cart() {
           {/* Cart Items */}
           <Grid size={{ xs: 12, sm: 8, xl: 8, md: 8, lg: 8 }}>
             {cart.map((item) => (
-              <Card
-                key={item?._id}
-                sx={{
-                  display: "flex",
-                  mb: 2,
-                  borderRadius: 3,
-                  boxShadow: 3,
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <CardMedia
-                  component="img"
-                  sx={{
-                    width: 150,
-                    borderRadius: "12px 0 0 12px",
-                    height: 150,
-                    objectFit: "contain",
-                  }}
-                  image={`${ImageApi}/product/${item?.ImageArray[0]}`}
-                  alt={item?.Title}
-                />
-                <CardContent
-                  sx={{
-                    flex: 1,
-                    flexDirection: "row",
-                    justifyItems: "baseline",
-                    justifySelf: "baseline",
-                  }}
-                >
-                  <Typography variant="h6" fontWeight="bold">
-                    {item?.Title}
-                  </Typography>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      gap: 2,
-                      flexDirection: "row",
-                      alignItems: "baseline",
-                    }}
-                  >
-                    <Typography
-                      color="text.secondary"
-                      sx={{ textDecoration: "line-through" }}
-                    >
-                      ₹{item.MRP}
-                    </Typography>
-                    <Typography color="" variant="h6" fontWeight="bold">
-                      ₹{item.SellingPrice}
-                    </Typography>
-                    <Typography color="success">
-                      {item.Discount} % Off
-                    </Typography>
-                  </Box>
-                  <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="space-around"
-                    width="100%"
-                    mt={2}
-                  >
-                    <Box display="flex" alignItems="center" gap={1}>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        onClick={() => dispatch(DecreaseCartQty(item._id))}
-                      >
-                        −
-                      </Button>
-                      <Typography>{item?.Qty}</Typography>
-                      <Button
-                        variant="outlined"
-                        size="small"
-                        onClick={() => dispatch(IncreaseCartQty(item._id))}
-                      >
-                        +
-                      </Button>
-                    </Box>
+                 <Card
+                            key={item?._id}
+                            sx={{
+                              display: "flex",
+                              mb: 2,
+                              borderRadius: 3,
+                              boxShadow: 3,
+        
+                              // 🔑 FIX: remove hard centering
+                              alignItems: "flex-start",
+                              gap: 2,
+                              p: 1.5,
+                            }}
+                          >
+                            <CardMedia
+                              component="img"
+                              sx={{
+                                width: 120,          // 🔑 smaller = more room
+                                height: 120,
+                                borderRadius: 2,
+                                objectFit: "contain",
+                                flexShrink: 0,       // 🔑 prevents squeezing
+                              }}
+                              image={`${ImageApi}/product/${item?.ImageArray?.[0] || ""}`}
+                              alt={item?.Title}
+                            />
+        
+                            <CardContent
+                              sx={{
+                                flex: 1,
+                                display: "flex",     // 🔑 was missing
+                                flexDirection: "column",
+                                justifyContent: "space-between",
+                                p: 0,
+                                gap: 0.8,
+                              }}
+                            >
+                              {/* TITLE */}
+                              <Typography
+                                variant="h6"
+                                fontWeight="bold"
+                                sx={{
+                                  fontSize: "1rem",   // 🔑 controlled size
+                                  lineHeight: 1.2,
+                                }}
+                              >
+                                {item?.Title}
+                              </Typography>
+        
+                              {/* PRICE ROW */}
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  gap: 1,
+                                  alignItems: "center",
+                                  flexWrap: "wrap",
+                                }}
+                              >
+                                <Typography
+                                  color="text.secondary"
+                                  sx={{ textDecoration: "line-through", fontSize: "0.85rem" }}
+                                >
+                                  ₹{item.MRP}
+                                </Typography>
+        
+                                <Typography fontWeight="bold" sx={{ fontSize: "1rem" }}>
+                                  ₹{item.SellingPrice}
+                                </Typography>
+        
+                                <Typography color="success.main" sx={{ fontSize: "0.8rem" }}>
+                                  {item.Discount}% Off
+                                </Typography>
+                              </Box>
+        
+                              {/* QTY CONTROLS */}
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  justifyContent: "space-between",
+                                  mt: 0.5,
+                                }}
+                              >
+                                <Box display="flex" alignItems="center" gap={1}>
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ minWidth: 32 }}
+                                    onClick={() => dispatch(DecreaseCartQty(item._id))}
+                                  >
+                                    −
+                                  </Button>
+        
+                                  <Typography fontWeight={600}>{item?.Qty}</Typography>
+        
+                                  <Button
+                                    variant="outlined"
+                                    size="small"
+                                    sx={{ minWidth: 32 }}
+                                    onClick={() => dispatch(IncreaseCartQty(item._id))}
+                                  >
+                                    +
+                                  </Button>
+                                </Box>
 
-                    <Button
-                      color="error"
-                      variant="text"
+                    {/* Delete */} <Button color="error" variant="text" size="small"
                       onClick={() => dispatch(RemoveCart(item._id))}
-                    >
-                      Delete
-                    </Button>
-                  </Box>
-                </CardContent>
-              </Card>
+                      sx={{ alignSelf: { xs: "flex-end", sm: "auto" } }} >
+                      Remove </Button>
+                              </Box>
+                            </CardContent>
+                          </Card>
+
             ))}
           </Grid>
 

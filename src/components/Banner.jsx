@@ -30,10 +30,14 @@ function Banner() {
         {banners?.map((banner, index) => (
           <Box
             sx={{
+              //  pt: "200px", 
               backgroundImage: {
                 xs: `url(${ImageApi}/banner/${banner?.mobileImage})`,
                 sm: `url(${ImageApi}/banner/${banner?.desktopImage})`,
+                  // 👈 negative margin to compensate nav height
               },
+             
+              
 
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",

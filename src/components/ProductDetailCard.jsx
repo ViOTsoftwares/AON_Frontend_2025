@@ -21,10 +21,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ImageApi } from "../ImageApi";
 
+
+
+
+
 const ProductDetailCard = ({ Product = {} }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isUser } = useSelector((state) => state.UserState || {});
+
+  
+const { cart } = useSelector((state) => state.CartState);
+
 
   const EcomLinks = Product?.EcomLinks || {};
 
@@ -50,11 +58,25 @@ const ProductDetailCard = ({ Product = {} }) => {
     );
   };
 
-  const handleAddToCart = () => {
+  const isAlreadyInCart = cart?.some(
+  (item) => item._id === Product?._id
+);
+
+
+
+ const handleAddToCart = () => {
   if (!Product?._id) return;
+
+  if (isAlreadyInCart) {
+    toastMessage("Product already in cart", "info");
+    return;
+  }
+
   dispatch(AddCart({ ...Product, Qty: 1 }));
-  toastMessage("Added to cart", "success");
+
 };
+
+
 
 const handleBuyNow = () => {
   if (!Product?._id) return;
@@ -162,10 +184,16 @@ const handleBuyNow = () => {
                   {Product?.Subtitle}
                 </Typography>
               </Box>
+              <Box sx={{ pr: { xs: 1, md: 6 } }}>
+                <IconButton
+                  onClick={handleShare}
+                  size="small"
+                  sx={{ p: 1, borderRadius: "50%" }}
+                >
+                  <ShareIcon fontSize="small" />
+                </IconButton>
+              </Box>
 
-              <IconButton onClick={handleShare} sx={{ ml: { xs: 1, md: 0 } }}>
-                <ShareIcon />
-              </IconButton>
             </Stack>
 
             {/* PRICE */}
@@ -203,6 +231,9 @@ const handleBuyNow = () => {
             spacing={2}
             width="100%"
             alignItems="center"
+            sx={{
+              pr: { xs: 0, sm: 5 }   // ⭐ only change
+            }}
           >
             <Box sx={{ width: { xs: "90%", sm: "100%" }, mx: "auto" }}>
               <Button
@@ -241,7 +272,7 @@ const handleBuyNow = () => {
                   background: "linear-gradient(129deg,rgba(104, 29, 0, 0.22),rgba(94, 0, 5, 0.26),rgba(170, 68, 0, 0.23))",
                   boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
                   transition: "all 0.3s ease",
-                  "&:hover": {
+                    "&:hover": {
                     color: "#fff",
                     background: "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
                     boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
@@ -259,7 +290,7 @@ const handleBuyNow = () => {
   direction="row"
   justifyContent={{ xs: "center", md: "flex-end" }}
   gap={2}
-   sx={{ pl: { xs: 3.6 } }}
+   sx={{ pl: { xs: 5.6 } , pr: { xs: 0, md: 2.1 } ,pt: { md: 1.3 } }}
   width="100%"
 >
   {Object.entries(EcomLinks).map(([key, value], i) => {

@@ -13,8 +13,8 @@ function CustomeButton({ navigate }) {
           alignItems: "center",
           justifyContent: "center",
           cursor: "pointer",
-          px: 1.1,
-          py: 0.2,
+          px: 0.2,
+          py: 0.1,
           transition: "transform 0.3s ease",
           "&:hover": { transform: "scale(1.05)" },
         }}
@@ -23,10 +23,10 @@ function CustomeButton({ navigate }) {
           src={CustomLogo}
           alt="Customization"
           style={{
-            width: "60px",
+            width: "62px",
             height: "auto",
             borderRadius: "10px",
-            marginTop: "6px",
+            marginTop: "2px",
           }}
         />
         {/* <Typography

@@ -1,5 +1,6 @@
 // Header.jsx
 import AppBar from "@mui/material/AppBar";
+import Tooltip from "@mui/material/Tooltip";
 import Toolbar from "@mui/material/Toolbar";
 import Box from "@mui/material/Box";
 import SearchBar from "./SearchBar";
@@ -91,25 +92,50 @@ function Header() {
           <Box sx={{ display: { xs: "none", sm: "block" } }}>
             <CustomeButton navigate={navigate} />
           </Box>
-          <Login sx={{ pl: 2 }} />
+          <Login sx={{ pl: 2, pt: 1}} />
 
           <Stack
             direction="row"
             gap={4}
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            <Badge badgeContent={cart?.length || 0} color="error">
-              <IconButton onClick={() => navigate("cart")}>
-                <ShoppingCartIcon
-                  sx={{ width: 37, height: 34, color: "white" }}
-                  fontSize="medium"
-                />
-              </IconButton>
-            </Badge>
-          </Stack>
+            <Tooltip title="Cart" placement="bottom" arrow>
+  <IconButton
+    onClick={() => navigate("/cart")}
+    aria-label={`Cart with ${cart?.length || 0} items`}
+  >
+    <Badge
+      badgeContent={cart?.length}
+      color="error"
+      invisible={!cart?.length}   // ✅ hides badge when 0
+    >
+      <ShoppingCartIcon
+        sx={{ width: 32, height: 34, color: "white" }}
+        fontSize="medium"
+      />
+    </Badge>
+  </IconButton>
+</Tooltip>
 
-          {/* Hamburger: visible on mobile only, hidden on md+ */}
-          <Box sx={{ width: { md: 40 }, height: { md: 46 } }}>
+          </Stack>
+ <Tooltip title="Menu" placement="bottom" arrow>
+          <Badge>
+              <IconButton
+              sx={{
+                width: 40,
+                height: 40,
+              }}
+              onClick={handleClose}
+            >
+              <Grow in={true} timeout={1000}>
+                <MenuIcon sx={{ color: "white" , width : 30 ,  height:30  }} />
+              </Grow>
+            </IconButton>
+             
+            </Badge>
+ </Tooltip>
+          {/* Hamburger: visible on mobile only, hidden on md+
+          <Box sx={{ width: { md: 90 }, height: { md: 95 } }}>
             <IconButton
               sx={{
                 width: 40,
@@ -121,7 +147,7 @@ function Header() {
                 <MenuIcon sx={{ color: "white" }} />
               </Grow>
             </IconButton>
-          </Box>
+          </Box> */}
         </Stack>
 
         <MenuBar show={show} handleClose={handleClose} />

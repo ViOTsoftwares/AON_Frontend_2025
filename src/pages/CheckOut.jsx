@@ -345,205 +345,243 @@ const Checkout = () => {
           <Box sx={{ pt: 1 }}>
             {isCartproduct
               ? cart &&
-                cart.map((item) => (
-                  <Card
-                    key={item?._id}
+              cart.map((item) => (
+                <Card
+                  key={item?._id}
+                  sx={{
+                    display: "flex",
+                    mb: 2,
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    alignItems: "flex-start",
+                    gap: 2,
+                    p: 1.5,
+                  }}
+                >
+                  {/* IMAGE */}
+                  <CardMedia
+                    component="img"
                     sx={{
+                      width: { xs: 90, sm: 120 },
+                      height: { xs: 90, sm: 120 },
+                      borderRadius: 2,
+                      objectFit: "contain",
+                      flexShrink: 0,
+                    }}
+                    image={`${ImageApi}/product/${item?.ImageArray?.[0] || ""}`}
+                    alt={item?.Title}
+                  />
+
+                  {/* CONTENT */}
+                  <CardContent
+                    sx={{
+                      flex: 1,
                       display: "flex",
-                      mb: 2,
-                      borderRadius: 3,
-                      boxShadow: 3,
-                      justifyContent: "center",
-                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      p: 0,
+                      gap: 0.8,
                     }}
                   >
-                    <CardMedia
-                      component="img"
+                    {/* TITLE */}
+                    <Typography
+                      fontWeight="bold"
                       sx={{
-                        width: 150,
-                        borderRadius: "12px 0 0 12px",
-                        height: 150,
-                        objectFit: "contain",
-                      }}
-                      image={`${ImageApi}/product/${
-                        item?.ImageArray?.[0] || ""
-                      }`}
-                      alt={item?.Title}
-                    />
-                    <CardContent
-                      sx={{
-                        flex: 1,
-                        flexDirection: "row",
-                        justifyItems: "baseline",
-                        justifySelf: "baseline",
+                        fontSize: "1rem",
+                        lineHeight: 1.2,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
                       }}
                     >
-                      <Typography variant="h6" fontWeight="bold">
-                        {item?.Title}
-                      </Typography>
-                      <Box
+                      {item?.Title}
+                    </Typography>
+
+                    {/* PRICE */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                      }}
+                    >
+                      <Typography
                         sx={{
-                          display: "flex",
-                          gap: 2,
-                          flexDirection: "row",
-                          alignItems: "baseline",
+                          textDecoration: "line-through",
+                          color: "text.secondary",
+                          fontSize: "0.85rem",
                         }}
                       >
-                        <Typography
-                          color="text.secondary"
-                          sx={{ textDecoration: "line-through" }}
-                        >
-                          ₹{item.MRP}
-                        </Typography>
-                        <Typography color="" variant="h6" fontWeight="bold">
-                          ₹{item.SellingPrice}
-                        </Typography>
-                        <Typography color="success">
-                          {item.Discount} % Off
-                        </Typography>
-                      </Box>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="space-around"
-                        width="100%"
-                        mt={2}
-                      >
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={() => dispatch(DecreaseCartQty(item._id))}
-                          >
-                            −
-                          </Button>
-                          <Typography>{item?.Qty}</Typography>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={() => dispatch(IncreaseCartQty(item._id))}
-                          >
-                            +
-                          </Button>
-                        </Box>
+                        ₹{item.MRP}
+                      </Typography>
 
-                        {/* <Button
-                      color="error"
-                      variant="text"
-                      onClick={() => dispatch(RemoveCart(item._id))}
+                      <Typography fontWeight="bold" sx={{ fontSize: "1rem" }}>
+                        ₹{item.SellingPrice}
+                      </Typography>
+
+                      <Typography color="success.main" sx={{ fontSize: "0.8rem" }}>
+                        {item.Discount}% Off
+                      </Typography>
+                    </Box>
+
+                    {/* QTY CONTROLS */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        mt: 0.5,
+                      }}
                     >
-                      Delete
-                    </Button> */}
+                      <Box display="flex" alignItems="center" gap={1}>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          sx={{ minWidth: 32 }}
+                          onClick={() => dispatch(DecreaseCartQty(item._id))}
+                        >
+                          −
+                        </Button>
+
+                        <Typography fontWeight={600}>{item?.Qty}</Typography>
+
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          sx={{ minWidth: 32 }}
+                          onClick={() => dispatch(IncreaseCartQty(item._id))}
+                        >
+                          +
+                        </Button>
                       </Box>
-                    </CardContent>
-                  </Card>
-                ))
+
+                     
+                    </Box>
+                  </CardContent>
+                </Card>
+              ))
               : oneProduct && (
-                  <Card
+                <Card
+                  sx={{
+                    display: "flex",
+                    mb: 2,
+                    borderRadius: 3,
+                    boxShadow: 3,
+                    alignItems: "flex-start",
+                    gap: 2,
+                    p: 1.5,
+                  }}
+                >
+                  {/* IMAGE */}
+                  <CardMedia
+                    component="img"
                     sx={{
+                      width: { xs: 90, sm: 120 },
+                      height: { xs: 90, sm: 120 },
+                      borderRadius: 2,
+                      objectFit: "contain",
+                      flexShrink: 0,
+                    }}
+                    image={`${ImageApi}/product/${oneProduct?.ImageArray?.[0] || ""}`}
+                    alt={oneProduct?.Title}
+                  />
+
+                  {/* CONTENT */}
+                  <CardContent
+                    sx={{
+                      flex: 1,
                       display: "flex",
-                      mb: 2,
-                      borderRadius: 3,
-                      boxShadow: 3,
-                      justifyContent: "center",
-                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "space-between",
+                      p: 0,
+                      gap: 0.8,
                     }}
                   >
-                    <CardMedia
-                      component="img"
+                    {/* TITLE */}
+                    <Typography
+                      fontWeight="bold"
                       sx={{
-                        width: 150,
-                        borderRadius: "12px 0 0 12px",
-                        height: 150,
-                        objectFit: "contain",
-                      }}
-                      image={`${ImageApi}/product/${
-                        oneProduct?.ImageArray?.[0] || ""
-                      }`}
-                      alt={oneProduct?.Title}
-                    />
-                    <CardContent
-                      sx={{
-                        flex: 1,
-                        flexDirection: "row",
-                        justifyItems: "baseline",
-                        justifySelf: "baseline",
+                        fontSize: "1rem",
+                        lineHeight: 1.2,
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 2,
+                        WebkitBoxOrient: "vertical",
                       }}
                     >
-                      <Typography variant="h6" fontWeight="bold">
-                        {oneProduct?.Title}
-                      </Typography>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          gap: 2,
-                          flexDirection: "row",
-                          alignItems: "baseline",
-                        }}
-                      >
-                        <Typography
-                          color="text.secondary"
-                          sx={{ textDecoration: "line-through" }}
-                        >
-                          ₹{oneProduct?.MRP}
-                        </Typography>
-                        <Typography color="" variant="h6" fontWeight="bold">
-                          ₹{oneProduct?.SellingPrice}
-                        </Typography>
-                        <Typography color="success">
-                          {oneProduct?.Discount} % Off
-                        </Typography>
-                      </Box>
-                      <Box
-                        display="flex"
-                        alignItems="center"
-                        // justifyContent="space-around"
-                        width="100%"
-                        mt={2}
-                      >
-                        <Box display="flex" alignItems="center" gap={1}>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={() =>
-                              setOneProduct((pre) => ({
-                                ...pre,
-                                Qty: pre?.Qty > 1 ? pre?.Qty - 1 : pre?.Qty,
-                              }))
-                            }
-                          >
-                            −
-                          </Button>
-                          <Typography>{oneProduct?.Qty}</Typography>
-                          <Button
-                            variant="outlined"
-                            size="small"
-                            onClick={() =>
-                              setOneProduct((pre) => ({
-                                ...pre,
-                                Qty:
-                                  pre?.Qty >= 1 && pre?.Qty < 10
-                                    ? pre?.Qty + 1
-                                    : pre?.Qty,
-                              }))
-                            }
-                          >
-                            +
-                          </Button>
-                        </Box>
+                      {oneProduct?.Title}
+                    </Typography>
 
-                        {/* <Button
-                      color="error"
-                      variant="text"
-                      onClick={() => ""}
+                    {/* PRICE */}
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 1,
+                        alignItems: "center",
+                        flexWrap: "wrap",
+                      }}
                     >
-                      Delete
-                    </Button> */}
+                      <Typography
+                        color="text.secondary"
+                        sx={{ textDecoration: "line-through", fontSize: "0.85rem" }}
+                      >
+                        ₹{oneProduct?.MRP}
+                      </Typography>
+
+                      <Typography fontWeight="bold" sx={{ fontSize: "1rem" }}>
+                        ₹{oneProduct?.SellingPrice}
+                      </Typography>
+
+                      <Typography color="success.main" sx={{ fontSize: "0.8rem" }}>
+                        {oneProduct?.Discount}% Off
+                      </Typography>
+                    </Box>
+
+                    {/* QTY CONTROLS */}
+                    <Box sx={{ display: "flex", mt: 0.5 }}>
+                      <Box display="flex" alignItems="center" gap={1}>
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          sx={{ minWidth: 32 }}
+                          onClick={() =>
+                            setOneProduct((pre) => ({
+                              ...pre,
+                              Qty: pre?.Qty > 1 ? pre?.Qty - 1 : pre?.Qty,
+                            }))
+                          }
+                        >
+                          −
+                        </Button>
+
+                        <Typography fontWeight={600}>{oneProduct?.Qty}</Typography>
+
+                        <Button
+                          variant="outlined"
+                          size="small"
+                          sx={{ minWidth: 32 }}
+                          onClick={() =>
+                            setOneProduct((pre) => ({
+                              ...pre,
+                              Qty:
+                                pre?.Qty >= 1 && pre?.Qty < 10
+                                  ? pre?.Qty + 1
+                                  : pre?.Qty,
+                            }))
+                          }
+                        >
+                          +
+                        </Button>
                       </Box>
-                    </CardContent>
-                  </Card>
-                )}
+                    </Box>
+                  </CardContent>
+                </Card>
+              )}
           </Box>
+
         </Grid>
         {/* Order Summary */}
         <Grid size={{ xs: 12, sm: 4, xl: 4, md: 4, lg: 4 }}>

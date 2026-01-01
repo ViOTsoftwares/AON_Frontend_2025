@@ -177,6 +177,7 @@ export default function Login() {
                 height: 45,
                 fontSize: "1.2rem",
                 fontWeight: "bold",
+                mt: 0.4,
                 cursor: "pointer",
                 "&:hover": {
                   boxShadow: 4,
