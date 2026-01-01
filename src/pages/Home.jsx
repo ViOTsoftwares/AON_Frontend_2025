@@ -245,7 +245,7 @@ function Home() {
       <Box
         sx={{
           p: { xs: 0, sm: 4, md: 6 },
-          backgroundColor: "#E8F6FF",
+          backgroundColor: "#f7eaebff",
         }}
       >
         <Testimonial />
