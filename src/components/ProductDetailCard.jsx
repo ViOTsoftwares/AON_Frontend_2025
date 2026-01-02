@@ -108,7 +108,7 @@ const handleBuyNow = () => {
         <Box
           sx={{
             mt: 1.4,
-            ml: { xs: 0.58, md: 0 },
+            ml: { xs: 0.1, md: 0 },
             width: "100%",
 
             position: { md: "sticky" },

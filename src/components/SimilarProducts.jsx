@@ -21,10 +21,10 @@ const SimilarProducts = ({ similarProduct = [], setIsLoading }) => {
             <Grid
               item
               key={product._id || product.id || product.title} // ensure unique key
-              xs={6}   // 2 per row on xs
-              sm={4}   // 3 per row on small
-              md={3}   // 4 per row on md
-              lg={2.4} // you can keep integers; md 3 works well
+              xs={5.7}
+              sm={5.4}
+              md={3.7}
+              lg={2.81}// you can keep integers; md 3 works well
               sx={{
                 display: "flex",
                 justifyContent: "center",
@@ -34,13 +34,13 @@ const SimilarProducts = ({ similarProduct = [], setIsLoading }) => {
                 sx={{
                   alignContent: "center",
 
-                  width: {
-                    xs: "190px",
-                    sm: "180px",
-                    md: "220px",
-                    lg: "260px",
-                    xl: "280px",
-                  }
+                  width: "100%",       // ✅ IMPORTANT
+                  maxWidth: {
+                    xs: 180,
+                    sm: 180,
+                    md: 220,
+                    lg: 260,
+                  },
                 }}
               >
                 <ProductCard product={product} />
