@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
@@ -8,7 +8,6 @@ import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { AddCart } from "../slice/CartSlice";
 import { toastMessage } from "../toastMessage";
-
 
 import ShareIcon from "@mui/icons-material/Share";
 import ShieldTwoToneIcon from "@mui/icons-material/ShieldTwoTone";
@@ -20,19 +19,15 @@ import ProductTable from "./ProductTable";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ImageApi } from "../ImageApi";
-
-
-
-
+import { GetEcomImageApi } from "../Api_Action";
 
 const ProductDetailCard = ({ Product = {} }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { isUser } = useSelector((state) => state.UserState || {});
+  const [ecomImage, setEcomImage] = useState({});
 
-  
-const { cart } = useSelector((state) => state.CartState);
-
+  const { cart } = useSelector((state) => state.CartState);
 
   const EcomLinks = Product?.EcomLinks || {};
 
@@ -58,36 +53,39 @@ const { cart } = useSelector((state) => state.CartState);
     );
   };
 
-  const isAlreadyInCart = cart?.some(
-  (item) => item._id === Product?._id
-);
+  const isAlreadyInCart = cart?.some((item) => item._id === Product?._id);
 
+  const GetEcomImage = async () => {
+    try {
+      const response = await GetEcomImageApi();
+      setEcomImage({ ...response?.data, ...EcomLinks });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    GetEcomImage();
+  }, []);
+  const handleAddToCart = () => {
+    if (!Product?._id) return;
 
+    if (isAlreadyInCart) {
+      toastMessage("Product already in cart", "info");
+      return;
+    }
 
- const handleAddToCart = () => {
-  if (!Product?._id) return;
+    dispatch(AddCart({ ...Product, Qty: 1 }));
+  };
 
-  if (isAlreadyInCart) {
-    toastMessage("Product already in cart", "info");
-    return;
-  }
+  const handleBuyNow = () => {
+    if (!Product?._id) return;
 
-  dispatch(AddCart({ ...Product, Qty: 1 }));
-
-};
-
-
-
-const handleBuyNow = () => {
-  if (!Product?._id) return;
-
-  if (isUser) {
-    navigate("/checkout", { state: { id: Product._id } });
-  } else {
-    toastMessage("Please login to continue", "warning");
-  }
-};
-
+    if (isUser) {
+      navigate("/checkout", { state: { id: Product._id } });
+    } else {
+      toastMessage("Please login to continue", "warning");
+    }
+  };
 
   return (
     <Grid
@@ -112,13 +110,10 @@ const handleBuyNow = () => {
             width: "100%",
 
             position: { md: "sticky" },
-            top: { md: 120 }, 
+            top: { md: 120 },
 
-        
             maxHeight: { md: "calc(100vh - 140px)" }, // viewport limit
             overflow: { md: "hidden" }, // contain image
-
-          
           }}
         >
           <CarouselImage images={Product?.ImageArray || []} />
@@ -193,7 +188,6 @@ const handleBuyNow = () => {
                   <ShareIcon fontSize="small" />
                 </IconButton>
               </Box>
-
             </Stack>
 
             {/* PRICE */}
@@ -232,7 +226,7 @@ const handleBuyNow = () => {
             width="100%"
             alignItems="center"
             sx={{
-              pr: { xs: 0, sm: 5 }   // ⭐ only change
+              pr: { xs: 0, sm: 5 }, // ⭐ only change
             }}
           >
             <Box sx={{ width: { xs: "90%", sm: "100%" }, mx: "auto" }}>
@@ -245,16 +239,17 @@ const handleBuyNow = () => {
                   fontWeight: 600,
                   borderRadius: "10px",
 
-                  background: "linear-gradient(129deg,rgba(104, 30, 0, 0.84),rgba(94, 0, 5, 0.88),rgba(170, 68, 0, 0.84))",
+                  background:
+                    "linear-gradient(129deg,rgba(104, 30, 0, 0.84),rgba(94, 0, 5, 0.88),rgba(170, 68, 0, 0.84))",
                   boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
                   transition: "all 0.3s ease",
                   "&:hover": {
-                    background: "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
+                    background:
+                      "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
                     boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
                     transform: "translateY(-1px)",
                   },
                 }}
-      
               >
                 ADD TO CART
               </Button>
@@ -269,12 +264,14 @@ const handleBuyNow = () => {
                   height: 55,
                   fontWeight: 600,
                   borderRadius: "10px",
-                  background: "linear-gradient(129deg,rgba(104, 29, 0, 0.22),rgba(94, 0, 5, 0.26),rgba(170, 68, 0, 0.23))",
+                  background:
+                    "linear-gradient(129deg,rgba(104, 29, 0, 0.22),rgba(94, 0, 5, 0.26),rgba(170, 68, 0, 0.23))",
                   boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
                   transition: "all 0.3s ease",
-                    "&:hover": {
+                  "&:hover": {
                     color: "#fff",
-                    background: "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
+                    background:
+                      "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
                     boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
                     transform: "translateY(-1px)",
                   },
@@ -286,72 +283,70 @@ const handleBuyNow = () => {
           </Stack>
 
           {/* ECOM ICONS */}
-         <Stack
-  direction="row"
-  justifyContent={{ xs: "center", md: "flex-end" }}
-  gap={2}
-   sx={{ pl: { xs: 5.6 } , pr: { xs: 0, md: 2.1 } ,pt: { md: 1.3 } }}
-  width="100%"
->
-  {Object.entries(EcomLinks).map(([key, value], i) => {
-    if (key.includes("Image")) {
-      const linkKey = key.replace("Image", "Link");
-      const link = EcomLinks[linkKey];
+          <Stack
+            direction="row"
+            justifyContent={{ xs: "center", md: "flex-end" }}
+            gap={2}
+            sx={{ pl: { xs: 5.6 }, pr: { xs: 0, md: 2.1 }, pt: { md: 1.3 } }}
+            width="100%"
+          >
+            {Object.entries(ecomImage).map(([key, value], i) => {
+              console.log("ecomImageecomImageecomImage", value);
 
-      return link ? (
-      <IconButton
-  key={i}
-  component="a"
-  href={link}
-  target="_blank"
-  rel="noopener noreferrer"
-  sx={{
-    p: 0,
-    width: 48,
-    height: 48,
-    borderRadius: "50%",
-    overflow: "hidden",
-    display: "flex",
-    alignItems: "center",
-    mr: 3,
-    // ml:{ xs: 1, md: 0},
-    justifyContent: "center",
-    backgroundColor: "#f5f5f5", // 👈 helps transparent images
-    transition: "all 0.25s ease",
-    boxShadow: "0 0 12px rgba(197, 30, 0, 0.77)",
+              if (key.includes("Image")) {
+                const linkKey = key.replace("Image", "Link");
+                const link = ecomImage[linkKey];
 
-    "&:hover": {
-      transform: "scale(1.08)",
-      boxShadow: "0 0 12px rgba(167, 0, 92, 0.55)",
-    },
-  }}
->
-  <Box
-    component="img"
-    src={`${ImageApi}/product/${value}`}
-    sx={{
-      width: "100%",
-      height: "100%",
-      objectFit: "cover",
-      objectPosition: "center",
-      transform: "scale(1.15)",   // 🔥 IMPORTANT: fills empty space
-      transition: "transform 0.25s ease, filter 0.25s ease",
+                return link ? (
+                  <IconButton
+                    key={i}
+                    component="a"
+                    href={link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      p: 0,
+                      width: 48,
+                      height: 48,
+                      borderRadius: "50%",
+                      overflow: "hidden",
+                      display: "flex",
+                      alignItems: "center",
+                      mr: 3,
+                      // ml:{ xs: 1, md: 0},
+                      justifyContent: "center",
+                      backgroundColor: "#f5f5f5", // 👈 helps transparent images
+                      transition: "all 0.25s ease",
+                      boxShadow: "0 0 12px rgba(197, 30, 0, 0.77)",
 
-      "&:hover": {
-        filter: "drop-shadow(0 0 6px rgba(184, 3, 3, 0.82))",
-      },
-    }}
-  />
-</IconButton>
+                      "&:hover": {
+                        transform: "scale(1.08)",
+                        boxShadow: "0 0 12px rgba(167, 0, 92, 0.55)",
+                      },
+                    }}
+                  >
+                    <Box
+                      component="img"
+                      src={`${ImageApi}/product/${value}`}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        objectPosition: "center",
+                        transform: "scale(1.15)", // 🔥 IMPORTANT: fills empty space
+                        transition: "transform 0.25s ease, filter 0.25s ease",
 
-
-      ) : null;
-    }
-    return null;
-  })}
-</Stack>
-
-
+                        "&:hover": {
+                          filter: "drop-shadow(0 0 6px rgba(184, 3, 3, 0.82))",
+                        },
+                      }}
+                    />
+                  </IconButton>
+                ) : null;
+              }
+              return null;
+            })}
+          </Stack>
 
           {/* DESCRIPTION */}
           <Box width="100%" px={{ xs: 2.7, md: 0 }}>
