@@ -120,9 +120,10 @@ const ImageCarousel = ({ images = [] }) => {
               width: "100%",
               height: { xs: 350, sm: 480 },
               // alignContent:{ xs : "center", md: "unset"},
-              objectFit: "cover",
+              objectFit: "contain",
             }}
           />
+
 
           {/* MOBILE NAV ARROWS ONLY */}
           <IconButton
@@ -131,10 +132,11 @@ const ImageCarousel = ({ images = [] }) => {
               position: "absolute",
               display: { xs: "flex", md: "none" },
               top: "50%",
-              left: 12,
+              left: 18, // ⬅ padded inside from corner
               transform: "translateY(-50%)",
               bgcolor: alpha(theme.palette.background.paper, 0.9),
               boxShadow: theme.shadows[4],
+              zIndex: 10,
             }}
           >
             <ChevronLeft />
@@ -146,14 +148,16 @@ const ImageCarousel = ({ images = [] }) => {
               position: "absolute",
               display: { xs: "flex", md: "none" },
               top: "50%",
-              right: 12,
+              right: 18, // ⮕ padded inside from corner
               transform: "translateY(-50%)",
               bgcolor: alpha(theme.palette.background.paper, 0.9),
               boxShadow: theme.shadows[4],
+              zIndex: 10,
             }}
           >
             <ChevronRight />
           </IconButton>
+
         </Box>
       </Stack>
     </Box>

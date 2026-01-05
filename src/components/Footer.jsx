@@ -34,10 +34,10 @@ function Footer() {
 
   const Pages = [
     { page: "Products", url: "products" },
-    { page: "Clients", url: "/" },
+    { page: "Catalog", url: "catalog" },
     { page: "About Us", url: "about-us" },
     { page: "Blogs", url: "blogs" },
-    { page: "Catalog", url: "catalog" },
+    
   ];
 
   const Policies = [
@@ -81,44 +81,50 @@ function Footer() {
       style={{
         "--bg-image": `url(${FooterBg})`,
         "--bg-color": "rgba(133,60,29,.9)",
-        paddingBottom: "20px"
+        paddingBottom: "24px",
       }}
     >
-      {/* Logo Section */}
-      <Box textAlign="center" mt={-1.4}>
+      {/* Logo + Tagline */}
+      <Box textAlign="center" py={3}>
         <img
           src={`${ImageApi}/testimonial/${cmsDate?.logo}`}
           alt="logo"
-          width={340}
+          width={300}
         />
         <Typography color="white" mt={1} fontWeight={500}>
           Specialized Store For Modern Furniture With Customization.
         </Typography>
       </Box>
 
-      {/* Content Columns */}
-      <Grid container spacing={3} px={4} py={3} justifyContent="center">
-
+      {/* Main Content */}
+      <Grid
+        container
+        px={{ xs: 3, md: 6 }}
+        py={4}
+        rowSpacing={4}
+        columnSpacing={5}
+        justifyContent="space-between"
+      >
         {/* Address */}
-        <Grid item xs={12} sm={4} md={2}>
-          <Stack spacing={1} textAlign="left">
+        <Grid item xs={12} sm={6} md={3}>
+          <Stack spacing={1.5}>
             {Address.map(({ icon: Icon, label }, i) => (
-              <Stack direction="row" spacing={1} alignItems="center" key={i}>
-                <IconButton size="small">
-                  <Icon color="white" />
-                </IconButton>
-                <Typography color="white">{label}</Typography>
+              <Stack direction="row" spacing={1.5} alignItems="center" key={i}>
+                <Icon color="white" />
+                <Typography color="white" fontSize="0.9rem">
+                  {label}
+                </Typography>
               </Stack>
             ))}
           </Stack>
         </Grid>
 
         {/* Map */}
-        <Grid item xs={12} sm={4} md={3}>
+        <Grid item xs={12} sm={6} md={3}>
           <Box
             sx={{
               width: "100%",
-              height: 160,
+              height: 170,
               borderRadius: "12px",
               overflow: "hidden",
             }}
@@ -128,56 +134,56 @@ function Footer() {
               height="100%"
               style={{ border: 0 }}
               loading="lazy"
-              src="https://maps.google.com/maps?width=260&height=200&hl=en&q=Arun Office Needs&t=&z=12&ie=UTF8&iwloc=B&output=embed"
+              src="https://maps.google.com/maps?hl=en&q=Arun Office Needs&t=&z=12&output=embed"
             ></iframe>
           </Box>
         </Grid>
 
         {/* Pages */}
         <Grid item xs={6} sm={4} md={2}>
-          <Typography color="white" fontWeight={700}>Pages</Typography>
+          <Typography color="white" fontWeight={700} mb={1}>
+            Pages
+          </Typography>
           {Pages.map((p, i) => (
             <Typography
-  key={i}
-  component={Link}
-  to={p.url}
-  fontSize=".86rem"
-  variant="caption"
-  sx={{
-    display: "block",
-    color: "white",
-    mt: 1,
-    textDecoration: "none",
-    "&:hover": { textDecoration: "underline" }
-  }}
->
-  {p.page}
-</Typography>
-
+              key={i}
+              component={Link}
+              to={p.url}
+              fontSize="0.85rem"
+              sx={{
+                display: "block",
+                color: "white",
+                mt: 0.8,
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              {p.page}
+            </Typography>
           ))}
         </Grid>
 
         {/* Policies */}
         <Grid item xs={6} sm={4} md={2}>
-          <Typography color="white" fontWeight={700}>Policies</Typography>
+          <Typography color="white" fontWeight={700} mb={1}>
+            Policies
+          </Typography>
           {Policies.map((p, i) => (
             <Typography
-  key={i}
-  component={Link}
-  to={p.url}
-  fontSize={".83rem"}
-  variant="caption"
-  sx={{
-    display: "block",
-    color: "white",
-    mt: 1,
-    textDecoration: "none",
-    "&:hover": { textDecoration: "underline" }
-  }}
->
-  {p.page}
-</Typography>
-
+              key={i}
+              component={Link}
+              to={p.url}
+              fontSize="0.82rem"
+              sx={{
+                display: "block",
+                color: "white",
+                mt: 0.8,
+                textDecoration: "none",
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              {p.page}
+            </Typography>
           ))}
           {isUser && (
             <Link
@@ -190,14 +196,15 @@ function Footer() {
         </Grid>
 
         {/* Newsletter */}
-        <Grid item xs={12} sm={6} md={3}>
-          <Typography color="white" fontWeight={700}>Newsletter</Typography>
-
-          <Typography color="white" fontSize="0.8rem" mt={1}>
+        <Grid item xs={12} sm={8} md={3}>
+          <Typography color="white" fontWeight={700}>
+            Newsletter
+          </Typography>
+          <Typography color="white" fontSize="0.8rem" mt={0.8}>
             Sign up for exclusive offers, events & more.
           </Typography>
 
-          <Stack direction="row" spacing={1} mt={1}>
+          <Stack direction="row" spacing={1} mt={1.5}>
             <TextField
               size="small"
               placeholder="Enter email"
@@ -231,12 +238,16 @@ function Footer() {
             </Button>
           </Stack>
 
-          <Typography color="red" fontSize="0.75rem">
-            {errorValidation}
-          </Typography>
+          {errorValidation && (
+            <Typography color="red" fontSize="0.75rem" mt={0.5}>
+              {errorValidation}
+            </Typography>
+          )}
 
-          <Typography color="white" mt={1}>Follow us</Typography>
-          <Stack direction="row" spacing={1} mt={1}>
+          <Typography color="white" mt={2}>
+            Follow us
+          </Typography>
+          <Stack direction="row" spacing={1} mt={0.5}>
             {Icons.map(({ icon: Icon, url }, i) => (
               <Link key={i} to={url} target="_blank">
                 <IconButton size="small">
@@ -246,12 +257,11 @@ function Footer() {
             ))}
           </Stack>
         </Grid>
-
       </Grid>
 
-      {/* Copyright */}
+      {/* Footer Bottom */}
       <Typography textAlign="center" color="white" fontSize="0.8rem">
-        © {year} Arun Office Needs — All Rights Reserved.
+        © {year} Developed by  ViOT Tech. All Rights Reserved.
       </Typography>
     </footer>
   );

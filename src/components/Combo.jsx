@@ -12,7 +12,7 @@ import luxuryLiving from "../assets/CoLive.jpeg";
 import hostel from "../assets/CoHostel.jpeg";
 import hospital from "../assets/CoHospital.jpeg";
 import classroom from "../assets/CoClass.jpeg";
-import cafeteria from "../assets/CoCafe.jpg";
+import cafeteria from "../assets/CoCafe.png";
 import outdoor from "../assets/CoOutdoor.jpeg";
 import Others from "../assets/CoOthers.jpg";
 import { useNavigate } from "react-router-dom";
@@ -39,7 +39,14 @@ function Combo() {
     <Grid container spacing={1} sx={{ p: "15px", borderRadius: "10px" }}>
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(office)}
+          sx={{
+            ...comboStyle(office),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+
           onClick={() => navigate("/category?q=Office")}
         >
           <Button
@@ -49,14 +56,16 @@ function Combo() {
               color: "white",
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
-              borderRadius: "5px",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               borderColor: "white",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
               textAlign: "center",
             }}
-            endIcon={<ArrowForwardIcon />}
+            endIcon={<ArrowForwardIcon fontSize="inherit" />}
             onClick={() => navigate("/category?q=Office")}
           >
             Office
@@ -65,7 +74,13 @@ function Combo() {
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(cafeteria)}
+          sx={{
+            ...comboStyle(cafeteria),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Cafeteria")}
         >
           <Button
@@ -74,22 +89,37 @@ function Combo() {
               color: "white",
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
-              position: "absolute",
-              right: 10,
-              bottom: "2rem",
 
-              textAlign: "center",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
+
+              zIndex: 2,
+              boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
             }}
-            endIcon={<ArrowForwardIcon />}
-            onClick={() => navigate("/category?q=Cafeteria")}
+            endIcon={<ArrowForwardIcon fontSize="inherit" />}
+            onClick={(e) => {
+              e.stopPropagation();
+              navigate("/category?q=Cafeteria");
+            }}
           >
             Cafeteria
           </Button>
         </Card>
+
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(luxuryLiving)}
+          
+           sx={{
+            ...comboStyle(luxuryLiving),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Residential")}
         >
           <Button
@@ -99,8 +129,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               textAlign: "center",
             }}
             endIcon={<ArrowForwardIcon />}
@@ -112,7 +145,14 @@ function Combo() {
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(hospital)}
+          
+          sx={{
+            ...comboStyle(hospital),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Hospital")}
         >
           <Button
@@ -122,8 +162,11 @@ function Combo() {
 
             
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
             }}
             endIcon={<ArrowForwardIcon />}
             onClick={() => navigate("/category?q=Hospital")}
@@ -134,7 +177,13 @@ function Combo() {
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(classroom)}
+          sx={{
+            ...comboStyle(classroom),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Institutional")}
         >
           <Button
@@ -144,8 +193,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               textAlign: "center",
             }}
             endIcon={<ArrowForwardIcon />}
@@ -157,7 +209,14 @@ function Combo() {
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(hostel)}
+         
+          sx={{
+            ...comboStyle(hostel),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Hostel")}
         >
           <Button
@@ -167,8 +226,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               textAlign: "center",
             }}
             endIcon={<ArrowForwardIcon />}
@@ -180,7 +242,14 @@ function Combo() {
       </Grid>{" "}
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(outdoor)}
+          
+          sx={{
+            ...comboStyle(outdoor),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Outdoor")}
         >
           <Button
@@ -190,8 +259,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               textAlign: "center",
             }}
             endIcon={<ArrowForwardIcon />}
@@ -203,7 +275,13 @@ function Combo() {
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
         <Card
-          sx={comboStyle(Reception)}
+          sx={{
+            ...comboStyle(Reception),
+            position: "relative",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Reception")}
         >
           <Button
@@ -213,8 +291,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
-              bottom: "2rem",
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               textAlign: "center",
             }}
             endIcon={<ArrowForwardIcon />}
@@ -226,7 +307,14 @@ function Combo() {
       </Grid>{" "}
       <Grid size={12}>
         <Card
-          sx={comboStyle(Others)}
+          
+           sx={{
+            ...comboStyle(Others),
+            position: "relative",
+            display: "flex",
+            // alignItems: "center",
+            justifyContent: "center",
+          }}
           onClick={() => navigate("/category?q=Others")}
         >
           <Button
@@ -236,7 +324,11 @@ function Combo() {
               background:
                 "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
               position: "absolute",
-              right: 10,
+              fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
+              fontWeight: 600,
+              paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
+              paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
+              borderRadius: "120px",
               bottom: "2rem",
               textAlign: "center",
             }}
