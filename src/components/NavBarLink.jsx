@@ -100,7 +100,7 @@ export function TabsApple({ sx }) {
   const safeTabIndex = currentTabIndex === -1 ? 0 : currentTabIndex;
 
   return (
-    <Box sx={{ display: show ? "block" : "none"}}>
+    <Box sx={{ display: show ? "block" : "none" }}>
       <Stack
         className="tabs-bg"
         style={{
@@ -127,6 +127,7 @@ export function TabsApple({ sx }) {
         >
           {Pages.map((pg, i) => (
             <Tab
+            
               key={i}
               disableRipple
               label={pg.pageName}

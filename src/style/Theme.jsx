@@ -1,25 +1,43 @@
 import { createTheme } from "@mui/material";
 const theme = createTheme({
+  palette: {
+    primary: {
+      main: "rgba(103, 43, 43, 1)",
+    },
+    secondary: {
+      main: "#e38f61ff",
+    },
+  },
   components: {
-    MuiButton: {
-      variants: [
-        {
-          props: { color: "gradient" },
-          style: {
-            background: "linear-gradient(135deg, #1976d2, rgb(11, 206, 255))",
-            "&:hover": {
-              background: "linear-gradient(135deg,rgb(11, 206, 255), #1976d2 )",
-
-              cursor: "pointer",
-            },
-          },
-        },
-      ],
+    // MuiButton: {
+    //   styleOverrides: {
+    //     root: {
+    //       textTransform: "none",
+    //       variants: [
+    //         {
+    //           props: { variant: "contained" },
+    //           style: {
+    //             backgroundColor: "rgba(103, 43, 43, 1)",
+    //             textTransform: "none",
+    //             borderRadius: "12px",
+    //           },
+    //         },
+    //       ],
+    //     },
+    //   },
+    // },
+    MuiTab: {
+      style: {
+        backgroundColor: "transparent",
+      },
+    },
+    MuiSlider: {
+      style: {
+        color: "#D1855C",
+      },
     },
   },
   typography: {
-    fontFamily:
-      ' "Archivo","Mukta","Roboto", "Helvetica", "Arial", "sans-serif"',
     button: {
       textTransform: "none",
     },

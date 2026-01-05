@@ -21,7 +21,7 @@ const ProductDetails = () => {
     // setCategory(data.SubCategory)
     setIsLoading(false);
     setProduct(data);
-    FetchSimilarProduct(data.SubCategory);
+    FetchSimilarProduct(data.Category);
   };
 
   const FetchSimilarProduct = async (category) => {

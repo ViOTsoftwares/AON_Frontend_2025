@@ -120,8 +120,7 @@ function Combo() {
             sx={{
               color: "white",
 
-              background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+            
               position: "absolute",
               right: 10,
               bottom: "2rem",

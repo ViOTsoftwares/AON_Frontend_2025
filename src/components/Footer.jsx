@@ -224,7 +224,7 @@ function Footer() {
 
             <Button
               variant="contained"
-              sx={{ background: "#cfb886ff", color: "black" }}
+              sx={{ background: "#cfb886ff", color: "white" }}
               onClick={handleSubmit}
             >
               Subscribe

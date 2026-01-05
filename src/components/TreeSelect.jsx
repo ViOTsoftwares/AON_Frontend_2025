@@ -42,13 +42,14 @@ function TreeSelect({
       };
     });
   };
-console.log("filter-------",filter);
+  console.log("filter-------", filter);
 
   return (
     <Stack spacing={1}>
       <Button
         fullWidth
         disableRipple
+        variant="filter"
         sx={{
           fontSize: "1.2rem",
           display: "flex",

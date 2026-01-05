@@ -126,7 +126,7 @@ function MenuBar({ show, handleClose }) {
           <Button
             variant="h6"
             sx={{
-              color: "#8a0707",
+             
 
               px: "0px",
             }}

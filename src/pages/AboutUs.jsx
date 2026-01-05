@@ -262,6 +262,7 @@ function AboutUs() {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
                 backgroundSize: "contain",
+                
               }}
             />
             {/* </Grid> */}

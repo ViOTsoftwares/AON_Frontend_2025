@@ -101,19 +101,7 @@ function Filter({
           >
             Filters
           </Button>
-          <Button
-            color="info"
-            variant="text"
-            onClick={handleClearAll}
-            sx={{
-              borderRadius: 25,
-              "&:hover": {
-                backgroundColor: "#1972D&",
-              },
-            }}
-          >
-            Clear all
-          </Button>
+          <Button onClick={handleClearAll}>Clear all</Button>
         </Stack>
       </Grid>
       <Grid>
@@ -205,7 +193,6 @@ function Filter({
           min={PRICE_MIN}
           max={PRICE_MAX}
           sx={{
-            color: "#007bff",
             height: 5,
             padding: "15px 0",
             "& .MuiSlider-thumb": {
@@ -243,6 +230,7 @@ function Filter({
               backgroundColor: "#d0d0d0",
             },
           }}
+          color=""
         />
 
         <Stack
@@ -316,8 +304,7 @@ function Filter({
         </Stack>
       </Grid>
       <Button fullWidth variant="contained" onClick={handleClearAll}>
-        {" "}
-        Clear All{" "}
+        Clear All
       </Button>
     </Grid>
   );
