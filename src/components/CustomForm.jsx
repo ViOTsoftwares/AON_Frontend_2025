@@ -30,6 +30,8 @@ import {
 } from "@mui/icons-material";
 import { styled } from "@mui/material/styles";
 import "../components/Animations/ButtonGlow.css";
+import { CustomizationFormTwoApi } from "../Api_Action";
+import { toastMessage } from "../toastMessage";
 const StyledCard = styled(Card)(({ theme }) => ({
   margin: "auto",
   borderRadius: 24,
@@ -70,7 +72,8 @@ const ContactForm = () => {
     question: "",
     description: "",
   });
-  const [image, setImage] = useState([]);
+  const { description, email, name, question } = formData;
+  const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [errors, setErrors] = useState({});
@@ -83,24 +86,9 @@ const ContactForm = () => {
   };
 
   const handleImageUpload = (event) => {
-    const files = event.target.files;
-    if (!files) return;
-
-    const imagesArray = [];
-
-    Array.from(files).forEach((file) => {
-      const reader = new FileReader();
-
-      reader.onloadend = () => {
-        imagesArray.push(reader.result);
-
-        if (imagesArray.length === files.length) {
-          setImage((prev) => [...prev, ...imagesArray]);
-        }
-      };
-
-      reader.readAsDataURL(file);
-    });
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setImage(file);
   };
 
   const validateForm = () => {
@@ -137,20 +125,34 @@ const ContactForm = () => {
 
     setLoading(true);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const fs = new FormData();
+    fs.append("name", name);
+    fs.append("email", email);
+    fs.append("question", question);
+    fs.append("description", description);
+    if (image) {
+      fs.append("image", image);
+    }
 
-    setLoading(false);
-    setOpenSnackbar(true);
+    const response = await CustomizationFormTwoApi(fs);
+    console.log(response);
+    if (response.success) {
+      setLoading(false);
+      setOpenSnackbar(true);
 
-    // Reset form
-    setFormData({
-      name: "",
-      email: "",
-      question: "",
-      description: "",
-    });
-    setImage(null);
+      // Reset form
+      setFormData({
+        name: "",
+        email: "",
+        question: "",
+        description: "",
+      });
+      setImage(null);
+      toastMessage(response.message, "success");
+    } else {
+      toastMessage(response.message, "error");
+      setLoading(false);
+    }
   };
 
   return (
@@ -256,37 +258,26 @@ const ContactForm = () => {
                           id="image-upload"
                           type="file"
                           onChange={handleImageUpload}
-                          multiple
                         />
                         <label htmlFor="image-upload">
                           <ImageUploadBox>
-                            {image.length > 0 ? (
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  gap: 2,
-                                  flexWrap: "wrap",
-                                  justifyContent: "center",
-                                }}
-                              >
-                                {image.map((img, index) => (
-                                  <Avatar
-                                    key={index}
-                                    src={img}
-                                    sx={{
-                                      width: 80,
-                                      height: 80,
-                                      border: "3px solid #667eea",
-                                    }}
-                                  />
-                                ))}
-
+                            {image ? (
+                              <Box sx={{ textAlign: "center" }}>
+                                <Avatar
+                                  src={URL.createObjectURL(image)}
+                                  sx={{
+                                    width: 100,
+                                    height: 100,
+                                    border: "3px solid #667eea",
+                                    margin: "auto",
+                                    mb: 1,
+                                  }}
+                                />
                                 <Typography
                                   variant="body2"
                                   color="text.secondary"
-                                  sx={{ width: "100%", textAlign: "center" }}
                                 >
-                                  Click to upload more
+                                  Click to change image
                                 </Typography>
                               </Box>
                             ) : (
@@ -295,13 +286,13 @@ const ContactForm = () => {
                                   sx={{ fontSize: 48, color: "#667eea", mb: 1 }}
                                 />
                                 <Typography variant="h6">
-                                  Upload Images
+                                  Upload Image
                                 </Typography>
                                 <Typography
                                   variant="body2"
                                   color="text.secondary"
                                 >
-                                  Click to browse or drag & drop
+                                  Click to browse
                                 </Typography>
                               </>
                             )}

@@ -223,6 +223,19 @@ export const CustomizationApi = async (payload) => {
     return error.response?.data;
   }
 };
+export const CustomizationFormTwoApi = async (payload) => {
+  try {
+    const { data } = await api.post("/customize-two", payload, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error.response?.data;
+  }
+};
 export const GetEcomImageApi = async () => {
   try {
     const { data } = await api.get(`/product/ecom-image`);
