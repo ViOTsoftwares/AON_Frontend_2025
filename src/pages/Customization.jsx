@@ -71,7 +71,7 @@ function Customization() {
             sx={{ width: 50, height: 50, display: "flex", justifyContent: "center", borderRadius: "40%", backgroundColor:"transparent" ,alignItems: "center" }}>
           <ChairOutlinedIcon fontSize="large" />
         </Paper>
-        <Typography variant="body1" fontWeight={600} color="rgba(94,16,14,0.836)">
+        <Typography variant="body1" fontWeight={600} color="var(--color-primary)">
           <CountUp from={1} to={100} duration={0.78} />+ Collections
         </Typography>
       </Stack>
@@ -84,7 +84,7 @@ function Customization() {
             sx={{ width: 50, height: 50, display: "flex", justifyContent: "center", borderRadius: "40%", backgroundColor:"transparent" ,alignItems: "center" }}>
           <SpaceDashboardOutlinedIcon fontSize="large" />
         </Paper>
-        <Typography variant="body1" fontWeight={600} color="rgba(94,16,14,0.836)">
+        <Typography variant="body1" fontWeight={600} color="var(--color-primary)">
           <CountUp from={1} to={50} duration={0.78} />+ Fabrics
         </Typography>
       </Stack>
@@ -97,7 +97,7 @@ function Customization() {
             sx={{ width: 50, height: 50, display: "flex", justifyContent: "center", borderRadius: "40%", backgroundColor:"transparent" ,alignItems: "center" }}>
           <SquareFootOutlinedIcon fontSize="large" />
         </Paper>
-        <Typography variant="body1" fontWeight={600} color="rgba(94,16,14,0.836)">
+        <Typography variant="body1" fontWeight={600} color="var(--color-primary)">
           <CountUp from={1} to={10} duration={0.78} />+ Sofa Legs
         </Typography>
       </Stack>
@@ -110,7 +110,7 @@ function Customization() {
             sx={{ width: 50, height: 50, display: "flex", justifyContent: "center", borderRadius: "40%", backgroundColor:"transparent" ,alignItems: "center" }}>
           <ChairAltOutlinedIcon fontSize="large" />
         </Paper>
-        <Typography variant="body1" fontWeight={600} color="rgba(94,16,14,0.836)">
+        <Typography variant="body1" fontWeight={600} color="var(--color-primary)">
           Length & Size
         </Typography>
       </Stack>
@@ -123,7 +123,7 @@ function Customization() {
           sx={{ width: 50, height: 50, display: "flex", justifyContent: "center", borderRadius: "40%", backgroundColor:"transparent" ,alignItems: "center" }}>
           <EnergySavingsLeafOutlinedIcon fontSize="large" />
         </Paper>
-        <Typography variant="body1" fontWeight={600} color="rgba(94,16,14,0.836)">
+        <Typography variant="body1" fontWeight={600} color="var(--color-primary)">
           Seat Cushions
         </Typography>
       </Stack>

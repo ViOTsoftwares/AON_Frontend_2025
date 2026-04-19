@@ -154,7 +154,7 @@ const ProductCategory = () => {
             sx={{
               fontSize: "1.01rem",
               display: { sm: "none" },
-              color: "rgb(59, 58, 58)",
+              color: "var(--color-text-secondary)",
               borderRadius: "10px",
             }}
             startIcon={<TuneRoundedIcon fontSize="inherit" />}
@@ -176,7 +176,7 @@ const ProductCategory = () => {
                 fontWeight: 400,
               },
 
-              border: "1.1px solid rgb(59, 58, 58),",
+              border: "1.1px solid var(--color-text-secondary)",
               borderRadius: "10px",
             }}
           >
@@ -192,7 +192,7 @@ const ProductCategory = () => {
             px={2}
             py={2}
             sx={{
-              border: "solid 1.90px rgba(145, 142, 142, 0.45) ",
+              border: "solid 1.90px var(--color-border-muted) ",
               borderRadius: 2,
               display: { xs: "none", sm: "block" },
             }}

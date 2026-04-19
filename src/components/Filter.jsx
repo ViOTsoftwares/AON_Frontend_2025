@@ -96,7 +96,7 @@ function Filter({
           <Button
             disableRipple
             disableFocusRipple
-            sx={{ fontSize: "1.01rem", color: "rgb(66, 64, 64)" }}
+            sx={{ fontSize: "1.01rem", color: "var(--color-text-secondary)" }}
             startIcon={<TuneIcon fontSize="inherit" />}
           >
             Filters
@@ -198,7 +198,7 @@ function Filter({
             "& .MuiSlider-thumb": {
               height: 25,
               width: 24,
-              backgroundColor: " rgb(255, 255, 255)",
+              backgroundColor: "var(--color-surface)",
               border: "solid 0.23px gray",
               boxShadow: "0 0 2px 0px rgba(0, 0, 0, 0.1)",
               "&:focus, &:hover, &.Mui-active": {
@@ -214,7 +214,7 @@ function Filter({
 
               top: -0,
               backgroundColor: "unset",
-              color: "rgb(27, 27, 27)",
+              color: "var(--color-text-primary)",
               fontWeight: 500,
               "&::before": {
                 display: "none",
@@ -227,7 +227,7 @@ function Filter({
             "& .MuiSlider-rail": {
               opacity: 0.5,
               boxShadow: "inset 0px 0px 4px -2px #000",
-              backgroundColor: "#d0d0d0",
+              backgroundColor: "var(--color-divider)",
             },
           }}
           color=""

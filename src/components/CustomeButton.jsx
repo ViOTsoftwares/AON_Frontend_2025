@@ -34,7 +34,7 @@ function CustomeButton({ navigate }) {
           sx={{
             fontWeight: 600,
             fontSize: "0.8rem",
-            color: "#333",
+            color: "var(--color-text-quiet)",
             mt: "0px", // ✅ reduces space between image & text
           }}
         >

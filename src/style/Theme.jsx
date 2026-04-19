@@ -1,11 +1,21 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
+import colorControl from "./colorControl.js";
+
 const theme = createTheme({
   palette: {
     primary: {
-      main: "rgba(103, 43, 43, 1)",
+      main: colorControl.brand.primary,
     },
     secondary: {
-      main: "#e38f61ff",
+      main: colorControl.brand.secondary,
+    },
+    text: {
+      primary: colorControl.text.primary,
+      secondary: colorControl.text.secondary,
+    },
+    background: {
+      default: colorControl.surface.page,
+      paper: colorControl.surface.base,
     },
   },
   components: {
@@ -33,7 +43,7 @@ const theme = createTheme({
     },
     MuiSlider: {
       style: {
-        color: "#D1855C",
+        color: colorControl.brand.accent,
       },
     },
   },

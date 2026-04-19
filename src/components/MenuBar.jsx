@@ -67,7 +67,7 @@ function MenuBar({ show, handleClose }) {
       sx={{
         "& .MuiDrawer-paper": {
           width: { xs: "75%", sm: "25%" },
-          background: "rgba(255, 255, 255, 0.8)",
+          background: "var(--color-surface-frost)",
         },
       }}
       anchor="right"
@@ -147,7 +147,7 @@ function MenuBar({ show, handleClose }) {
       <List
         sx={{
           overflowY: "scroll",
-          scrollbarColor: "#1976d2 rgba(255, 255, 255, 0.8) ",
+          scrollbarColor: "var(--color-info) var(--color-surface-frost) ",
         }}
       >
         {navLinks.map((navLink, index) => {

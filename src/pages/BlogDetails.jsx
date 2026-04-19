@@ -20,7 +20,7 @@ const BlogDetails = () => {
   }, [state?.id]);
 
   return (
-    <Box sx={{ bgcolor: "#fafafa", color: "#333", width: "100%" }}>
+    <Box sx={{ bgcolor: "var(--color-surface-subtle)", color: "var(--color-text-quiet)", width: "100%" }}>
       {/* Hero Section */}
       <Box
         sx={{
@@ -53,7 +53,7 @@ const BlogDetails = () => {
             justifyContent: "center",
             alignItems: "center",
             textAlign: "center",
-            color: "#fff",
+            color: "var(--color-text-inverse)",
             px: { xs: 2, md: 6 },
           }}
         >
@@ -62,7 +62,7 @@ const BlogDetails = () => {
             sx={{
               fontWeight: 900,
               mb: 2,
-              textShadow: "3px 3px 15px rgba(0,0,0,0.7)",
+              textShadow: "3px 3px 15px var(--color-overlay-black-70)",
               letterSpacing: "1px",
             }}
           >
@@ -114,7 +114,7 @@ const BlogDetails = () => {
                     transition: "transform 0.5s, box-shadow 0.3s",
                     "&:hover": {
                       transform: "scale(1.05)",
-                      boxShadow: "0 15px 30px rgba(0,0,0,0.4)",
+                      boxShadow: "0 15px 30px var(--color-overlay-black-40)",
                     },
                   }}
                 />
@@ -126,14 +126,14 @@ const BlogDetails = () => {
                 sx={{
                   fontWeight: 700,
                   mb: 2,
-                  color: "#222",
+                  color: "var(--color-text-primary)",
                   textTransform: "capitalize",
                 }}
               >
                 {sec.subTitle}
               </Typography>
 
-              <Divider sx={{ mb: 3, borderColor: "#ccc" }} />
+              <Divider sx={{ mb: 3, borderColor: "var(--color-border-contrast)" }} />
 
               <Box
                 dangerouslySetInnerHTML={{ __html: sec.subDescription }}
@@ -144,7 +144,7 @@ const BlogDetails = () => {
                     mb: 3,
                   },
                   "& th, & td": {
-                    border: "1px solid #ccc",
+                    border: "1px solid var(--color-border-contrast)",
                     padding: "10px",
                     textAlign: "left",
                   },

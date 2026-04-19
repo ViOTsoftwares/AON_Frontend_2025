@@ -89,7 +89,7 @@ const Catelog = () => {
         position: "relative",
         minHeight: "100vh",
         overflow: "hidden",
-        color: "white",
+        color: "var(--color-text-inverse)",
         pb: 8,
       }}
     >
@@ -141,8 +141,8 @@ const Catelog = () => {
               <Card
                 elevation={20}
                 sx={{
-                  backgroundColor: "rgba(255,255,255,0.95)",
-                  color: "#333",
+                  backgroundColor: "var(--color-surface-frost-strong)",
+                  color: "var(--color-text-quiet)",
                   transition: "transform 0.3s ease",
                   "&:hover": {
                     transform: "scale(1.03)",
@@ -170,8 +170,8 @@ const Catelog = () => {
                   </Typography>
                   <Stack justifyContent="center" alignItems="center">
                     <Button sx={{
-                      background: "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
-                      color: "white",
+                      background: "var(--gradient-brand)",
+                      color: "var(--color-text-inverse)",
                     }}
                       fullWidth
                       startIcon={

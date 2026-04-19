@@ -107,9 +107,9 @@ function Carousel({
           left: "10px",
           height: "41px",
           "&:hover": {
-            backgroundColor: "white",
+            backgroundColor: "var(--color-surface)",
           },
-          backgroundColor: "whitesmoke",
+          backgroundColor: "var(--color-surface-subtle)",
         }}
       >
         <ChevronLeftIcon />
@@ -122,11 +122,11 @@ function Carousel({
           top: "50%",
           right: "10px",
           "&:hover": {
-            backgroundColor: "white",
+            backgroundColor: "var(--color-surface)",
           },
           height: "41px",
 
-          backgroundColor: "whitesmoke",
+          backgroundColor: "var(--color-surface-subtle)",
         }}
       >
         <ChevronRightIcon />

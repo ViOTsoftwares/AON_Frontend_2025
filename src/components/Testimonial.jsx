@@ -51,7 +51,7 @@ function Testimonial() {
       className="testimonial-bg"
       style={{
         "--bg-image": `url(${TestimonialBg})`,
-        "--bg-color": "linear-gradient(#e6f6ff, #e6f6ff)"   // optional base color
+        "--bg-color": "var(--color-surface)"   // optional base color
       }}
       sx={{
         p: { xs: 2, md: 4 },
@@ -72,7 +72,7 @@ function Testimonial() {
       >
         <Typography
           variant="body1"
-          color="#fdf1d2"
+          color="var(--color-highlight-text)"
           sx={{
             fontWeight: 700,
             letterSpacing: "0.15em",
@@ -84,7 +84,7 @@ function Testimonial() {
               content: '""',
               height: 100,
               width: 100,
-              backgroundColor: "rgba(0, 128, 255, 0.07)",
+              backgroundColor: "var(--color-glow-blue-soft)",
               borderRadius: "50%",
             },
           }}
@@ -95,7 +95,7 @@ function Testimonial() {
         <Typography
           variant="h2"
           textAlign={{ xs: "center", md: "start" }}
-          color="#fdf1d2"
+          color="var(--color-highlight-text)"
           sx={{
             position: "relative",
             "&::after": {
@@ -106,7 +106,7 @@ function Testimonial() {
               width: 80,
               height: 4,
               background:
-                "linear-gradient(90deg, #1976D2, rgba(0,105,153,0.38), transparent)",
+                "linear-gradient(90deg, var(--color-info), rgba(0,105,153,0.38), transparent)",
               borderRadius: 2,
             },
             fontWeight: 600,
@@ -119,7 +119,7 @@ function Testimonial() {
 
         <Typography
           variant="body1"
-          color="#dbca9dff"
+          color="var(--color-highlight-muted)"
           textAlign={{ xs: "center", md: "left" }}
           sx={{ fontWeight: 400, fontSize: "1.25rem", lineHeight: 1.7 }}
         >
@@ -138,7 +138,7 @@ function Testimonial() {
                 content: '""',
                 height: 68,
                 width: 68,
-                backgroundColor: "rgba(228, 236, 245, 0.07)",
+                backgroundColor: "var(--color-glow-ice-soft)",
                 borderRadius: "50%",
               },
             }}
@@ -150,7 +150,7 @@ function Testimonial() {
                 fontWeight: 900,
                 fontSize: "2.5rem",
               }}
-              color="#fdf1d2"
+              color="var(--color-highlight-text)"
             >
               <CountUp
                 from={0}
@@ -161,7 +161,7 @@ function Testimonial() {
               />
               +
             </Typography>
-            <Typography variant="body1" color="#dbca9dff" fontWeight={600}>
+            <Typography variant="body1" color="var(--color-highlight-muted)" fontWeight={600}>
               Happy Customers
             </Typography>
           </Box>
@@ -171,7 +171,7 @@ function Testimonial() {
               variant="h3"
               textAlign="center"
               sx={{ lineHeight: 1.167, fontWeight: 900, fontSize: "2.5rem" }}
-              color="#fdf1d2"
+              color="var(--color-highlight-text)"
             >
               <CountUp
                 from={0}
@@ -181,7 +181,7 @@ function Testimonial() {
                 duration={0.78}
               />
             </Typography>
-            <Typography variant="body1" color="#dbca9dff" fontWeight={600}>
+            <Typography variant="body1" color="var(--color-highlight-muted)" fontWeight={600}>
               Average Rating
             </Typography>
           </Box>
@@ -208,9 +208,9 @@ function Testimonial() {
             position: "absolute",
             left: { xs: -2, sm: -10 },
             zIndex: 2,
-            bgcolor: "white",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            "&:hover": { bgcolor: "primary.main", color: "white" },
+            bgcolor: "var(--color-surface)",
+            boxShadow: "var(--shadow-card)",
+            "&:hover": { bgcolor: "primary.main", color: "var(--color-text-inverse)" },
           }}
         >
           <ArrowBackIosNewIcon />
@@ -226,9 +226,9 @@ function Testimonial() {
             position: "absolute",
             right: { xs: -2, sm: -10 },
             zIndex: 2,
-            bgcolor: "white",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.15)",
-            "&:hover": { bgcolor: "primary.main", color: "white" },
+            bgcolor: "var(--color-surface)",
+            boxShadow: "var(--shadow-card)",
+            "&:hover": { bgcolor: "primary.main", color: "var(--color-text-inverse)" },
           }}
         >
           <ArrowForwardIosIcon />
@@ -256,9 +256,9 @@ function Item({ testimonial }) {
     >
       <Stack
         sx={{
-          bgcolor: "rgb(255,255,255)",
+          bgcolor: "var(--color-surface)",
           borderRadius: 5,
-          boxShadow: "0px 4px 10px rgba(0,0,0,0.1)",
+          boxShadow: "var(--shadow-card)",
           p: { xs: 2, sm: 4 },
           position: "relative",
           maxWidth: 800,
@@ -304,7 +304,7 @@ function Item({ testimonial }) {
             <Avatar
               src={`${ImageApi}/testimonial/` + testimonial?.clientLogo}
               sx={{
-                bgcolor: "lightgreen",
+                bgcolor: "var(--color-success-soft)",
                 width: "100%",
                 height: "100%",
                 fontSize: { xs: "1rem", sm: "2rem" },
@@ -341,7 +341,7 @@ function Item({ testimonial }) {
           <Box
             sx={{
               flex: 1,
-              bgcolor: "rgb(250,250,250)",
+              bgcolor: "var(--color-surface-subtle)",
               borderRadius: 2,
               p: 2,
               overflowY: "auto",
@@ -352,7 +352,7 @@ function Item({ testimonial }) {
               fontWeight={400}
               fontSize={{ xs: "0.95rem", sm: "1.1rem" }}
               sx={{
-                color: "rgb(45, 55, 72)",
+                color: "var(--color-text-secondary)",
                 lineHeight: 1.7,
                 fontStyle: "italic",
               }}
@@ -416,7 +416,7 @@ function Item({ testimonial }) {
                       top: -40,
                       right: -10,
                       // paddingRight:1,
-                      bgcolor: "white",
+                      bgcolor: "var(--color-surface)",
                       boxShadow: "0 2px 8px rgba(0,0,0,0.25)",
                       "&:hover": { bgcolor: "grey.200" },
                     }}

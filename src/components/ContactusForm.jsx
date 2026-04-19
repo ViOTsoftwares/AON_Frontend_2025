@@ -47,12 +47,12 @@ const ContactusForm = () => {
     "& .MuiOutlinedInput-root": {
       "&.Mui-focused": {
         "& .MuiOutlinedInput-notchedOutline": {
-          borderColor: "#8a0707",
+          borderColor: "var(--color-primary)",
           borderWidth: "3px",
         },
       },
       "& .MuiInputLabel-outlined": {
-        color: "#2e2e2e",
+        color: "var(--color-text-quiet)",
         fontWeight: "bold",
         "&.Mui-focused": {
           color: "secondary.main",
@@ -72,7 +72,7 @@ const ContactusForm = () => {
           placeholder="Name"
           sx={{ ...TextFieldStyle }}
         />
-        {Error?.name ? <p style={{ color: "red" }}>{Error?.name}</p> : ""}
+        {Error?.name ? <p style={{ color: "var(--color-danger)" }}>{Error?.name}</p> : ""}
         <TextField
           name="phone"
           type="number"
@@ -82,7 +82,7 @@ const ContactusForm = () => {
           sx={{ ...TextFieldStyle }}
 
         />
-        {Error?.phone ? <p style={{ color: "red" }}>{Error?.phone}</p> : ""}
+        {Error?.phone ? <p style={{ color: "var(--color-danger)" }}>{Error?.phone}</p> : ""}
         <TextField
           name="email"
           value={email}
@@ -92,7 +92,7 @@ const ContactusForm = () => {
           sx={{ ...TextFieldStyle }}
 
         />
-        {Error?.email ? <p style={{ color: "red" }}>{Error?.email}</p> : ""}
+        {Error?.email ? <p style={{ color: "var(--color-danger)" }}>{Error?.email}</p> : ""}
         <TextField
           name="message"
           value={message}
@@ -103,11 +103,11 @@ const ContactusForm = () => {
           sx={{ ...TextFieldStyle }}
 
         />
-        {Error?.message ? <p style={{ color: "red" }}>{Error?.message}</p> : ""}
+        {Error?.message ? <p style={{ color: "var(--color-danger)" }}>{Error?.message}</p> : ""}
 
         <Button
           variant="contained"
-          sx={{ height: "48px", backgroundColor: "#8a0707" }}
+          sx={{ height: "48px", backgroundColor: "var(--color-primary)" }}
           onClick={handleSubmit}
         >
           {loading ? "Loading" : "Submit"}

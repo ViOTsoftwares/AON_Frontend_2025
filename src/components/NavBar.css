@@ -4,16 +4,7 @@
   overflow: hidden;
 
   background-image:
-    linear-gradient(
-      280deg,
-      rgba(255, 255, 255, 0.877),
-      rgba(199, 194, 194, 0.733),
-      rgba(199, 194, 194, 0.733),
-      rgba(199, 194, 194, 0.733),
-      rgba(199, 194, 194, 0.733),
-      
-      rgba(255, 255, 255, 0.877)
-    ),
+    var(--gradient-tab-frost),
     url("../assets/woody.jpg"),
     var(--bg-image),
     var(--bg-color);
@@ -31,7 +22,7 @@
   position: absolute;
   inset: 0;
   /* translucent layer to tint the blurred background */
-  background: rgba(255, 255, 255, 0.288);
+  background: var(--color-surface-overlay-soft);
   /* the blur: affects content behind this element (backdrop) */
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(8px);

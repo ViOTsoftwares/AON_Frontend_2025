@@ -35,14 +35,14 @@ import { toastMessage } from "../toastMessage";
 const StyledCard = styled(Card)(({ theme }) => ({
   margin: "auto",
   borderRadius: 24,
-  background: "rgba(255, 255, 255, 0.95)",
+  background: "var(--color-surface-frost-strong)",
   backdropFilter: "blur(20px)",
   boxShadow: "0 20px 60px rgba(0, 0, 0, 0.1)",
   border: "1px solid rgba(255, 255, 255, 0.3)",
 }));
 
 const ImageUploadBox = styled(Box)({
-  border: "2px dashed #667eea",
+  border: "2px dashed var(--color-info)",
   width: "100%",
   borderRadius: 16,
   padding: 10,
@@ -51,7 +51,7 @@ const ImageUploadBox = styled(Box)({
   transition: "all 0.3s ease",
   background: "rgba(102, 126, 234, 0.05)",
   "&:hover": {
-    borderColor: "#764ba2",
+    borderColor: "var(--color-secondary)",
     background: "rgba(102, 126, 234, 0.1)",
     transform: "scale(1.02)",
   },
@@ -198,7 +198,7 @@ const ContactForm = () => {
                         slotProps={{
                           input: {
                             startAdornment: (
-                              <Person sx={{ mr: 1, color: "#667eea" }} />
+                              <Person sx={{ mr: 1, color: "var(--color-info)" }} />
                             ),
                           },
                         }}
@@ -206,10 +206,10 @@ const ContactForm = () => {
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,
                             "&:hover fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                           },
                         }}
@@ -231,7 +231,7 @@ const ContactForm = () => {
                         slotProps={{
                           input: {
                             startAdornment: (
-                              <Email sx={{ mr: 1, color: "#667eea" }} />
+                              <Email sx={{ mr: 1, color: "var(--color-info)" }} />
                             ),
                           },
                         }}
@@ -239,10 +239,10 @@ const ContactForm = () => {
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,
                             "&:hover fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                           },
                         }}
@@ -268,7 +268,7 @@ const ContactForm = () => {
                                   sx={{
                                     width: 100,
                                     height: 100,
-                                    border: "3px solid #667eea",
+                                    border: "3px solid var(--color-info)",
                                     margin: "auto",
                                     mb: 1,
                                   }}
@@ -283,7 +283,7 @@ const ContactForm = () => {
                             ) : (
                               <>
                                 <CloudUpload
-                                  sx={{ fontSize: 48, color: "#667eea", mb: 1 }}
+                                  sx={{ fontSize: 48, color: "var(--color-info)", mb: 1 }}
                                 />
                                 <Typography variant="h6">
                                   Upload Image
@@ -310,10 +310,10 @@ const ContactForm = () => {
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,
                             "&:hover fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                           },
                         }}
@@ -363,7 +363,7 @@ const ContactForm = () => {
                               <DescIcon
                                 sx={{
                                   mr: 1,
-                                  color: "#667eea",
+                                  color: "var(--color-info)",
                                   alignSelf: "flex-start",
                                   mt: 1,
                                 }}
@@ -376,10 +376,10 @@ const ContactForm = () => {
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,
                             "&:hover fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                             "&.Mui-focused fieldset": {
-                              borderColor: "#667eea",
+                              borderColor: "var(--color-info)",
                             },
                           },
                         }}

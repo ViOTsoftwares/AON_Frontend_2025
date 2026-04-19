@@ -56,7 +56,7 @@ function TreeSelect({
           py: 1,
           justifyContent: "space-between",
           "&:hover": {
-            backgroundColor: "rgb(245, 245, 245)",
+            backgroundColor: "var(--color-surface-subtle)",
           },
         }}
         onClick={() => setOpen(!open)}

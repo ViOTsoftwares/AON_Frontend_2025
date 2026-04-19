@@ -15,12 +15,12 @@ export default function PageLoading({ load }) {
         position: "fixed",
         top: 0,
         left: 0,
-        background: "#fff",
+        background: "var(--color-surface)",
         zIndex: 9999,
       }}
     >
       <div className="loading-wrapper">
-        <ThreeDot color="#8a0707" size="medium" text="" textColor="" />
+        <ThreeDot color="var(--color-primary)" size="medium" text="" textColor="" />
         <span className="gradient-text">Loading...</span>
       </div>
     </Stack>
