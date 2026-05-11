@@ -30,7 +30,7 @@ const CATEGORY_FIELDS = {
     { id: "armrest", type: "choice", text: "Armrest", choices: ["With arm", "Without arm"], required: false },
     { id: "base_style", type: "choice", text: "Base style", choices: ["4-leg", "Sledge", "Wheel base"], required: false },
     { id: "seat_material", type: "choice", text: "Seat material", choices: ["Cushion", "Mesh", "Wire"], required: false },
-    { id: "upholstery", type: "choice", text: "Uphholstery", choices: ["Fabric", "Leather", "PU"], required: false },
+    { id: "upholstery", type: "choice", text: "Uphholstery", choices: ["Cotton Fabric", "Faux Leather", " Genuine Leather ", "Polyester fabric"], required: false },
     { id: "primary_color", type: "color", text: "Primary colour (required)", required: true, placeholder: "e.g. #000000 or 'Black'" },
     { id: "secondary_color", type: "color", text: "Secondary colour (optional)", required: false, placeholder: "e.g. #rrggbb" },
     { id: "reference", type: "file", text: "Reference image / sample (optional)", required: false },
