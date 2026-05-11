@@ -36,6 +36,9 @@ const API_KEY =
     import.meta.env.VITE_GENAI_KEY) ||
   "";
 
+const INITIAL_BOT_MESSAGE =
+  "Hi, welcome to Arun Office Needs. Choose a furniture category and I'll help you customize it step by step.";
+
 // Ensure CATEGORY_FIELDS is defined or imported in your app.
 // Replace the import path below with your actual location / export.
 // top of file - replace your single import line
@@ -131,24 +134,132 @@ function norm(s) {
     .trim()
     .replace(/\s+/g, "_")
     .replace(/["'()]/g, "")
-    .replace(/[^a-z0-9_\-]/g, "");
+    .replace(/[^a-z0-9_\-]/g, "")
+    .replace(/_+/g, "_")
+    .replace(/^_+|_+$/g, "");
+}
+
+function uniqueList(values) {
+  return values.filter(
+    (value, index, list) => value && list.indexOf(value) === index,
+  );
+}
+
+const CHAT_OPTION_IMAGE_OVERRIDES = {
+  "revolving_chair/seat_material/cushion":
+    "/ChatOptions/revolving_chair/seat_material__cushion.png",
+  "revolving_chair/upholstery/fabric":
+    "/ChatOptions/revolving_chair/upholstery__Cotton_fabric.jpg",
+  "revolving_chair/upholstery/pu":
+    "/ChatOptions/revolving_chair/upholstery__faux_leather.jpg",
+  "office_chair/seat_material/cushion":
+    "/ChatOptions/office_chair/seat_material__cushion.png",
+  "office_chair/upholstery/cotton_fabric":
+    "/ChatOptions/office_chair/upholstery__Cotton_fabric.jpg",
+  "office_chair/upholstery/genuine_leather":
+    "/ChatOptions/office_chair/upholstery__leather.jpg",
+  "office_chair/upholstery/polyester_fabric":
+    "/ChatOptions/office_chair/upholstery__Polyester_fabric.jpg",
+  "visitor_waiting_chair/cushion_material/leather":
+    "/ChatOptions/visitor_waiting_chair/cushion_material__leather.jpg.jpg",
+  "visitor_waiting_chair/cushion_material/fabric":
+    "/ChatOptions/visitor_waiting_chair/cushion_material__fabric.jpg.jpg",
+  "visitor_waiting_chair/cushion_material/pu":
+    "/ChatOptions/visitor_waiting_chair/cushion_material__pu.jpg.jpg",
+  "dining_restaurant_chair/seat_material/fabric":
+    "/ChatOptions/dining_restaurant_chair/seat_material__fabric.jpg.jpg",
+  "dining_restaurant_chair/seat_material/leather":
+    "/ChatOptions/dining_restaurant_chair/seat_material__leather.jpg.jpg",
+  "cupboard/doors/2": "/ChatOptions/cupboard/door_2.jpg",
+  "cupboard/shelves/1": "/ChatOptions/cupboard/shelves_1.jpg",
+  "cupboard/shelves/2": "/ChatOptions/cupboard/shelves_2.jpg",
+  "cupboard/shelves/3": "/ChatOptions/cupboard/shelves_3.jpg",
+  "cupboard/shelves/4": "/ChatOptions/cupboard/shelves_4.jpg",
+  "bed/size/single": "/ChatOptions/bed/size__single.jpg.jpg",
+  "bed/size/double": "/ChatOptions/bed/size__double.jpg.jpg",
+  "bed/size/queen": "/ChatOptions/bed/size__queen.jpg.jpg",
+  "bed/size/king": "/ChatOptions/bed/size__king.jpg.jpg",
+  "bed/frame_material/wood": "/ChatOptions/bed/frame_material__wood.jpg.jpg",
+  "bed/frame_material/metal": "/ChatOptions/bed/frame_material__metal.jpg.jpg",
+  "bed/frame_material/upholstered":
+    "/ChatOptions/bed/frame_material__upholstered.jpg.jpg",
+  "mattress/size/single": "/ChatOptions/mattress/size__single.jpg.jpg",
+  "mattress/size/double": "/ChatOptions/mattress/size__double.jpg.jpg",
+  "mattress/size/queen": "/ChatOptions/mattress/size__queen.jpg.jpg",
+  "mattress/size/king": "/ChatOptions/mattress/size__king.jpg.jpg",
+  "mattress/firmness/soft": "/ChatOptions/mattress/firmness__soft.jpg.jpg",
+  "mattress/firmness/medium":
+    "/ChatOptions/mattress/firmness__medium.jpg.jpg",
+  "mattress/firmness/firm": "/ChatOptions/mattress/firmness__firm.jpg.jpg",
+  "mattress/thickness/6_inch":
+    "/ChatOptions/mattress/thickness__6_inch.jpg.jpg",
+  "mattress/thickness/8_inch":
+    "/ChatOptions/mattress/thickness__8_inch.jpg.jpg",
+  "mattress/thickness/10_inch":
+    "/ChatOptions/mattress/thickness__10_inch.jpg.jpg",
+  "mattress/thickness/12_inch":
+    "/ChatOptions/mattress/thickness__12_inch.jpg.jpg",
+};
+
+const CHAT_OPTION_NO_IMAGE = new Set([
+  "cupboard/shelves/5",
+]);
+
+function choiceAliases(choiceKey) {
+  const choice = norm(choiceKey);
+  const aliases = [choice];
+
+  if (choice === "fabric") aliases.push("cotton_fabric", "polyester_fabric");
+  if (choice === "pu") aliases.push("faux_leather");
+  if (choice === "genuine_leather") aliases.push("leather");
+
+  return uniqueList(aliases);
+}
+
+function imageNameCandidates(categoryName, fieldId, choiceKey) {
+  const cat = norm(categoryName);
+  const field = norm(fieldId);
+  const names = choiceAliases(choiceKey).flatMap((choice) => {
+    const stems = [`${field}__${choice}`, `${field}_${choice}`];
+    if (field.endsWith("s")) {
+      const singularField = field.slice(0, -1);
+      stems.push(`${singularField}__${choice}`, `${singularField}_${choice}`);
+    }
+    return stems;
+  });
+
+  return { cat, names: uniqueList(names) };
 }
 
 /**
  * imgFor(categoryName, fieldId, choiceKey, ext)
  */
 function imgFor(categoryName, fieldId, choiceKey, ext = "jpg") {
-  const cat = norm(categoryName);
-  const field = norm(fieldId);
-  const choice = norm(choiceKey);
-  return `/ChatOptions/${cat}/${field}__${choice}.${ext}`;
+  const { cat, names } = imageNameCandidates(categoryName, fieldId, choiceKey);
+  return `/ChatOptions/${cat}/${names[0]}.${ext}`;
+}
+
+function imageCandidatesFor(categoryName, fieldId, choiceKey) {
+  const { cat, names } = imageNameCandidates(categoryName, fieldId, choiceKey);
+  const optionKey = `${cat}/${norm(fieldId)}/${norm(choiceKey)}`;
+
+  if (CHAT_OPTION_NO_IMAGE.has(optionKey)) return [];
+
+  const extensions = ["jpg", "jpg.jpg", "png", "jpeg", "webp"];
+  const override = CHAT_OPTION_IMAGE_OVERRIDES[optionKey];
+
+  return uniqueList([
+    override,
+    ...names.flatMap((name) =>
+      extensions.map((ext) => `/ChatOptions/${cat}/${name}.${ext}`),
+    ),
+  ]);
 }
 
 /**
  * augmentCategoryFieldsWithImages(orig, options)
  */
-function augmentCategoryFieldsWithImages(orig, options = {}) {
-  const { imgExt = "jpg" } = options;
+function augmentCategoryFieldsWithImages(orig) {
   const out = {};
 
   Object.entries(orig).forEach(([categoryName, fields]) => {
@@ -159,13 +270,19 @@ function augmentCategoryFieldsWithImages(orig, options = {}) {
           if (typeof choice === "string") {
             const key = choice;
             const label = choice;
-            const img = imgFor(categoryName, f.id, key, imgExt);
-            return { key, label, img };
+            const imgCandidates = imageCandidatesFor(categoryName, f.id, key);
+            return { key, label, img: imgCandidates[0], imgCandidates };
           } else if (choice && typeof choice === "object") {
             const key = choice.key ?? choice.label;
             const label = choice.label ?? choice.key;
-            const img = choice.img ?? imgFor(categoryName, f.id, key, imgExt);
-            return { ...choice, key, label, img };
+            const generatedCandidates = imageCandidatesFor(categoryName, f.id, key);
+            const imgCandidates = uniqueList([
+              choice.img,
+              ...(choice.imgCandidates || []),
+              ...generatedCandidates,
+            ]);
+            const img = imgCandidates[0] ?? imgFor(categoryName, f.id, key);
+            return { ...choice, key, label, img, imgCandidates };
           } else return choice;
         });
       }
@@ -177,16 +294,17 @@ function augmentCategoryFieldsWithImages(orig, options = {}) {
 }
 
 // create augmented lookup once at module-level
-const CATEGORY_FIELDS_WITH_IMAGES = augmentCategoryFieldsWithImages(
-  CATEGORY_FIELDS,
-  { imgExt: "jpg" }
-);
+const CATEGORY_FIELDS_WITH_IMAGES = augmentCategoryFieldsWithImages(CATEGORY_FIELDS);
 
 // --- OptionCard (unchanged) ---
 function OptionCard({ option, selected, onClick, index }) {
   const label =
     typeof option === "string" ? option : option.label || option.key;
   const img = typeof option === "string" ? null : option.img || null;
+  const imgCandidates =
+    typeof option === "string"
+      ? []
+      : uniqueList([img, ...(option.imgCandidates || [])]);
 
   return (
     <Card
@@ -222,15 +340,14 @@ function OptionCard({ option, selected, onClick, index }) {
             loading="lazy"
             onError={(e) => {
               const imgEl = e.currentTarget;
+              const fallbackIndex = Number(imgEl.dataset.fallbackIndex || 0) + 1;
 
-              // first time error → try common folder
-              if (!imgEl.dataset.fallbackTried) {
-                imgEl.dataset.fallbackTried = "1";
-                imgEl.src = `/images/common/${norm(label)}.jpg`;
+              if (fallbackIndex < imgCandidates.length) {
+                imgEl.dataset.fallbackIndex = String(fallbackIndex);
+                imgEl.src = imgCandidates[fallbackIndex];
                 return;
               }
 
-              // second time error → final fallback & stop further errors
               imgEl.onerror = null;
               imgEl.src = about2; // imported at top
             }}
@@ -300,7 +417,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     {
       id: "bot-1",
       from: "bot",
-      text: "Welcome! Let's customize your furniture. Click a category to start.",
+      text: INITIAL_BOT_MESSAGE,
     },
   ]);
   const [answers, setAnswers] = useState({});
@@ -346,12 +463,39 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     ]);
   }
 
+  function getFieldLabel(fieldId) {
+    if (!current) return fieldId;
+    return (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text;
+  }
+
+  function getLocalBotResponse(currentAnswers) {
+    const entries = Object.entries(currentAnswers || {}).filter(
+      ([key]) => key !== "category",
+    );
+    const [fieldId, value] = entries[entries.length - 1] || [];
+
+    if (!fieldId) {
+      return "Lovely, let's begin. Pick the options that feel closest to what you have in mind, and use Other whenever you need a custom note.";
+    }
+
+    if (fieldId === "note") {
+      return "Got it, I have added your note to the customization details.";
+    }
+
+    if (fieldId.endsWith("_attachment")) {
+      return "Thanks, I have attached that reference. It will help the team understand the look you want.";
+    }
+
+    const label = getFieldLabel(fieldId) || fieldId.replace(/_/g, " ");
+    return `Noted, ${label} is set to ${value}. Keep going with the next option and I'll keep the summary ready for you.`;
+  }
+
   async function generateBotResponse(currentAnswers) {
     if (!API_KEY) {
       setTyping(false);
       pushMessage({
         from: "bot",
-        text: "Noted. (AI disabled — no API key configured on the client.)",
+        text: getLocalBotResponse(currentAnswers),
       });
       return;
     }
@@ -370,7 +514,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         })
         .join("\n");
 
-      const prompt = `You are an expert furniture customization assistant. The user is configuring a piece of furniture. Their current configuration is:\n\n---\n${config}\n---\n\nBased on this, provide a concise, friendly, and encouraging acknowledgment of the latest choice, and perhaps a subtle design suggestion or an interesting fact about their chosen configuration. DO NOT ask the next question, just provide conversational feedback. Keep the response to 1-2 short sentences.`;
+      const prompt = `You are a warm, practical furniture customization assistant for Arun Office Needs. The user is configuring a piece of furniture. Their current configuration is:\n\n---\n${config}\n---\n\nAcknowledge the latest choice gently and confidently. If useful, add one short practical design note. Do not ask the next question; the UI already shows the next options. Keep the reply to 1 short sentence.`;
 
       try {
         // NOTE: It's strongly recommended to make AI calls server-side to protect API keys.
@@ -391,7 +535,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         console.error("Gemini API Error:", error);
         pushMessage({
           from: "bot",
-          text: "I've noted your selection! (Error generating dynamic response.)",
+          text: getLocalBotResponse(currentAnswers),
         });
       } finally {
         setTyping(false);
@@ -439,7 +583,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
   function handleCategorySelect(cat) {
     if (!isUser) {
-      toastMessage("Please login to continue customization", "warning");
+      toastMessage("Please log in to start your customization.", "warning");
       return;
     }
     const newAnswers = { category: cat };
@@ -452,7 +596,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       setTyping(false);
       pushMessage({
         from: "bot",
-        text: `Great choice! We're now customizing a ${cat}. Please proceed with the options below.`,
+        text: `Great choice. We are customizing a ${cat} now. Pick what suits your space, and I will keep everything organized for you.`,
       });
     }, 400);
   }
@@ -599,10 +743,10 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     const canvasPixelHeight = canvas.height;
 
     const px = Math.floor(
-      ((e.clientX - rect.left) / rect.width) * canvasPixelWidth
+      ((e.clientX - rect.left) / rect.width) * canvasPixelWidth,
     );
     const py = Math.floor(
-      ((e.clientY - rect.top) / rect.height) * canvasPixelHeight
+      ((e.clientY - rect.top) / rect.height) * canvasPixelHeight,
     );
 
     const ctx = canvas.getContext("2d");
@@ -648,7 +792,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       {
         id: "bot-1",
         from: "bot",
-        text: "Welcome! Let's customize your furniture. Click a category to start.",
+        text: INITIAL_BOT_MESSAGE,
       },
     ]);
     setAnswers({});
@@ -674,7 +818,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     if (!answers?.category && !current) {
       pushMessage({
         from: "bot",
-        text: "Please choose a category before submitting.",
+        text: "Please choose a category first, then we can submit the customization.",
       });
       return;
     }
@@ -688,7 +832,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       const list = requiredMissing.map((f) => f.text).join(", ");
       pushMessage({
         from: "bot",
-        text: `Please fill required fields: ${list}`,
+        text: `Almost there. Please complete these required details: ${list}`,
       });
       return;
     }
@@ -709,19 +853,29 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       console.log("res", res);
       if (res.success) {
         toastMessage(res.message, "success");
+        pushMessage({
+          from: "bot",
+          text: "Done. Your customization request has been sent to our team. We will review the details and get back to you shortly.",
+        });
         setFinished(true);
 
         setTimeout(() => {
           resetForm();
-        }, 1500); // 1.5 seconds delay
+        }, 2500);
       } else {
         toastMessage(res.message, "error");
+        pushMessage({
+          from: "bot",
+          text:
+            res.message ||
+            "I could not submit this yet. Please review the details and try once more.",
+        });
       }
     } catch (err) {
       console.error("Submit error:", err);
       pushMessage({
         from: "bot",
-        text: `Submission failed: ${err.message || err}`,
+        text: `I could not submit this yet: ${err.message || err}. Please try again in a moment.`,
       });
     } finally {
       setSubmitting(false);
@@ -742,9 +896,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         }}
         elevation={1}
       >
-        <Typography variant="h6">
-          Furniture Customizer — Chat Enabled
-        </Typography>
+        <Typography variant="h6">Furniture Customizer - Chat</Typography>
 
         <Paper
           sx={{
@@ -855,9 +1007,9 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
             {typing && (
               <Box sx={{ display: "flex", py: 1 }}>
-                <Typography variant="caption">Bot is typing</Typography>
+                <Typography variant="caption">Assistant is thinking</Typography>
                 <Typography variant="caption" sx={{ ml: 1 }}>
-                  •••
+                  ...
                 </Typography>
               </Box>
             )}
@@ -885,7 +1037,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                   {
                     id: "bot-1",
                     from: "bot",
-                    text: "Welcome! Let's customize your furniture. Click a category to start.",
+                    text: INITIAL_BOT_MESSAGE,
                   },
                 ]);
                 setAnswers({});
@@ -934,7 +1086,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
         <Box>
           <Typography variant="subtitle2">
-            Options for: {current || "—"}
+            Options for: {current || "-"}
           </Typography>
 
           {current && (
@@ -980,7 +1132,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                               />
                             </Grid>
                           );
-                        }
+                        },
                       )}
 
                       {/* OTHER INPUT BUTTON + FIELD */}
@@ -1038,8 +1190,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                         typeof answers[f.id] === "string"
                           ? answers[f.id]
                           : answers[f.id] != null
-                          ? String(answers[f.id])
-                          : ""
+                            ? String(answers[f.id])
+                            : ""
                       }
                       onChange={(e) =>
                         setAnswers((prev) => ({
@@ -1118,7 +1270,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       <input
                         id={`file-${f.id}`}
                         type="file"
-                        accept="image/*,.pdf"
+                        accept="image/*,.pdf,.doc,.docx,.txt,.xlsx,.pptx"
                         style={{ display: "none" }}
                         onChange={(e) => handleFileUpload(f.id, e)}
                       />
@@ -1218,7 +1370,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                             {f.text}:{" "}
                             {f.required && !v ? (
                               <Box sx={{ color: "error.main", ml: 1 }}>
-                                Missing required
+                                Required detail pending
                               </Box>
                             ) : (
                               <>
@@ -1237,8 +1389,8 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                                 {typeof v === "string"
                                   ? v
                                   : v
-                                  ? JSON.stringify(v)
-                                  : "-"}
+                                    ? JSON.stringify(v)
+                                    : "-"}
                               </>
                             )}
                           </Typography>
@@ -1267,26 +1419,27 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                   {submitting
                     ? "Submitting..."
                     : finished
-                    ? "Submitted"
-                    : "Finalize & Submit"}
+                      ? "Submitted"
+                      : "Finalize & Submit"}
                 </Button>
 
                 <Button
                   variant="outlined"
                   onClick={() => {
                     const missing = (fieldsForCurrent || []).filter(
-                      (f) => f.required && !answers[f.id] && !attachments[f.id]
+                      (f) => f.required && !answers[f.id] && !attachments[f.id],
                     );
                     if (missing.length === 0)
                       pushMessage({
                         from: "bot",
-                        text: "Looks good — you can finalize now.",
+                        text: "Everything required is in place. You can finalize when you are ready.",
                       });
                     else
                       pushMessage({
                         from: "bot",
                         text:
-                          "Missing: " + missing.map((m) => m.text).join(", "),
+                          "Please complete: " +
+                          missing.map((m) => m.text).join(", "),
                       });
                   }}
                 >
