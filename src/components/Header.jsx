@@ -41,15 +41,29 @@ function Header() {
           "--bg-color": "var(--gradient-header-overlay) ",
         }}
       >
-        <Grid container flexGrow={0.4}>
-          <Grid sx={{ width: { xs: "220px", md: "360px" } }}>
+        <Grid container flexGrow={0.4} alignItems="center">
+          <Grid
+            sx={{
+              width: { xs: "150px", sm: "200px", md: "260px" },
+              height: { xs: "56px", md: "72px" },
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
-              height="100%"
-              width="100%"
               onClick={() => navigate("/")}
-              style={{ cursor: "pointer" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                objectPosition: "left center",
+                display: "block",
+                cursor: "pointer",
+              }}
             />
           </Grid>
         </Grid>
