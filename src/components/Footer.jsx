@@ -106,7 +106,7 @@ function Footer() {
         justifyContent="space-between"
       >
         {/* Address */}
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Stack spacing={1.5}>
             {Address.map(({ icon: Icon, label }, i) => (
               <Stack direction="row" spacing={1.5} alignItems="center" key={i}>
@@ -120,7 +120,7 @@ function Footer() {
         </Grid>
 
         {/* Map */}
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Box
             sx={{
               width: "100%",
@@ -140,7 +140,7 @@ function Footer() {
         </Grid>
 
         {/* Pages */}
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Typography color="var(--color-text-inverse)" fontWeight={700} mb={1}>
             Pages
           </Typography>
@@ -164,7 +164,7 @@ function Footer() {
         </Grid>
 
         {/* Policies */}
-        <Grid item xs={6} sm={4} md={2}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
           <Typography color="var(--color-text-inverse)" fontWeight={700} mb={1}>
             Policies
           </Typography>
@@ -196,7 +196,7 @@ function Footer() {
         </Grid>
 
         {/* Newsletter */}
-        <Grid item xs={12} sm={8} md={3}>
+        <Grid size={{ xs: 12, sm: 8, md: 3 }}>
           <Typography color="var(--color-text-inverse)" fontWeight={700}>
             Newsletter
           </Typography>

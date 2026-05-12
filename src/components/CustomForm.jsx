@@ -134,23 +134,28 @@ const ContactForm = () => {
       fs.append("image", image);
     }
 
-    const response = await CustomizationFormTwoApi(fs);
-    console.log(response);
-    if (response.success) {
-      setLoading(false);
-      setOpenSnackbar(true);
+    try {
+      const response = await CustomizationFormTwoApi(fs);
+      console.log(response);
+      if (response?.success) {
+        setOpenSnackbar(true);
 
-      // Reset form
-      setFormData({
-        name: "",
-        email: "",
-        question: "",
-        description: "",
-      });
-      setImage(null);
-      toastMessage(response.message, "success");
-    } else {
-      toastMessage(response.message, "error");
+        // Reset form
+        setFormData({
+          name: "",
+          email: "",
+          question: "",
+          description: "",
+        });
+        setImage(null);
+        toastMessage(response.message, "success");
+      } else {
+        toastMessage(response?.message || "Something went wrong", "error");
+      }
+    } catch (error) {
+      console.error("Customization form submit error:", error);
+      toastMessage("Something went wrong", "error");
+    } finally {
       setLoading(false);
     }
   };
@@ -348,7 +353,6 @@ const ContactForm = () => {
                     <Zoom in timeout={1100}>
                       <TextField
                         label="Description"
-                        alignSelf="center"
                         multiline
                         rows={4}
                         value={formData.description}
@@ -372,6 +376,7 @@ const ContactForm = () => {
                           },
                         }}
                         sx={{
+                          alignSelf: "center",
                           width: "100%",
                           "& .MuiOutlinedInput-root": {
                             borderRadius: 2,

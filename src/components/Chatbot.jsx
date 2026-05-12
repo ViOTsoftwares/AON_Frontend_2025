@@ -433,6 +433,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   const chatRef = useRef();
   const spectrumRefs = useRef({});
   const generateTimeoutRef = useRef(null);
+  const aiQuotaRetryAfterRef = useRef(0);
 
   useEffect(() => {
     if (chatRef.current)
@@ -491,7 +492,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
   }
 
   async function generateBotResponse(currentAnswers) {
-    if (!API_KEY) {
+    if (!API_KEY || Date.now() < aiQuotaRetryAfterRef.current) {
       setTyping(false);
       pushMessage({
         from: "bot",
@@ -532,7 +533,19 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
           "";
         if (text) pushMessage({ from: "bot", text });
       } catch (error) {
-        console.error("Gemini API Error:", error);
+        const retryDelay =
+          error?.error?.details?.find?.((detail) => detail.retryDelay)
+            ?.retryDelay || "60s";
+        const retrySeconds = Number.parseInt(retryDelay, 10);
+
+        if (error?.status === "RESOURCE_EXHAUSTED" || error?.code === 429) {
+          aiQuotaRetryAfterRef.current =
+            Date.now() + (Number.isFinite(retrySeconds) ? retrySeconds : 60) * 1000;
+          console.warn("Gemini quota exceeded. Using local bot responses temporarily.");
+        } else {
+          console.error("Gemini API Error:", error);
+        }
+
         pushMessage({
           from: "bot",
           text: getLocalBotResponse(currentAnswers),
@@ -694,7 +707,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     canvas.width = pixelWidth;
     canvas.height = pixelHeight;
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     // create pixel-sized imageData
     const img = ctx.createImageData(pixelWidth, pixelHeight);
     let p = 0;
@@ -749,7 +762,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
       ((e.clientY - rect.top) / rect.height) * canvasPixelHeight,
     );
 
-    const ctx = canvas.getContext("2d");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
     const clampedX = Math.max(0, Math.min(canvasPixelWidth - 1, px));
     const clampedY = Math.max(0, Math.min(canvasPixelHeight - 1, py));
 
@@ -851,7 +864,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
       const res = await CustomizationApi(fd);
       console.log("res", res);
-      if (res.success) {
+      if (res?.success) {
         toastMessage(res.message, "success");
         pushMessage({
           from: "bot",
@@ -863,11 +876,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
           resetForm();
         }, 2500);
       } else {
-        toastMessage(res.message, "error");
+        toastMessage(res?.message || "Something went wrong", "error");
         pushMessage({
           from: "bot",
           text:
-            res.message ||
+            res?.message ||
             "I could not submit this yet. Please review the details and try once more.",
         });
       }
@@ -1223,7 +1236,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       }}
                     >
                       <Typography variant="caption">
-                        Click on the spectrum below to pick a color visually
+                        Double Click on the spectrum below to pick a color visually
                       </Typography>
 
                       <canvas
@@ -1365,6 +1378,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                           <Typography
                             key={f.id}
                             variant="body2"
+                            component="div"
                             display={"flex"}
                           >
                             {f.text}:{" "}

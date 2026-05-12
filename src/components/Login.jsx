@@ -170,7 +170,6 @@ export default function Login() {
                   : `${ImageApi}/profile/${User?.picture}`
               }
               alt={username || "User"}
-              disableScrollLock
               sx={{
                 bgcolor: "primary.main",
                 width: 45,
