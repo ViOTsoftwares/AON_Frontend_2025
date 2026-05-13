@@ -215,10 +215,15 @@ function Products() {
                 ) : (
                   products.map((product) => (
                     <Grid
+                      key={product._id}
                       size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.81 }}
-                      alignSelf="stretch"
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "stretch",
+                      }}
                     >
-                      <ProductCard product={product} height="100%" />
+                      <ProductCard product={product} />
                     </Grid>
                   ))
                 )}

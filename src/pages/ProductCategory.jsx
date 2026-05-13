@@ -228,7 +228,15 @@ const ProductCategory = () => {
                   <PageLoading load={isLoading} />
                 ) : (
                   products.map((product) => (
-                    <Grid size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}>
+                    <Grid
+                      key={product._id}
+                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "stretch",
+                      }}
+                    >
                       <ProductCard product={product} />
                     </Grid>
                   ))

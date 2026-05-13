@@ -159,7 +159,11 @@ function BestSelling() {
                       <Grid
                         key={i}
                         size={{ xs: 6, sm: 2.8, md: 2.8 }}
-                        sx={{ alignItems: "stretch" }}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "stretch",
+                        }}
                       >
                         <ProcardCard product={product} />
                       </Grid>
