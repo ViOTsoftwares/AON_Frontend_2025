@@ -188,8 +188,7 @@ const CHAT_OPTION_IMAGE_OVERRIDES = {
   "mattress/size/queen": "/ChatOptions/mattress/size__queen.jpg.jpg",
   "mattress/size/king": "/ChatOptions/mattress/size__king.jpg.jpg",
   "mattress/firmness/soft": "/ChatOptions/mattress/firmness__soft.jpg.jpg",
-  "mattress/firmness/medium":
-    "/ChatOptions/mattress/firmness__medium.jpg.jpg",
+  "mattress/firmness/medium": "/ChatOptions/mattress/firmness__medium.jpg.jpg",
   "mattress/firmness/firm": "/ChatOptions/mattress/firmness__firm.jpg.jpg",
   "mattress/thickness/6_inch":
     "/ChatOptions/mattress/thickness__6_inch.jpg.jpg",
@@ -201,9 +200,7 @@ const CHAT_OPTION_IMAGE_OVERRIDES = {
     "/ChatOptions/mattress/thickness__12_inch.jpg.jpg",
 };
 
-const CHAT_OPTION_NO_IMAGE = new Set([
-  "cupboard/shelves/5",
-]);
+const CHAT_OPTION_NO_IMAGE = new Set(["cupboard/shelves/5"]);
 
 function choiceAliases(choiceKey) {
   const choice = norm(choiceKey);
@@ -275,7 +272,11 @@ function augmentCategoryFieldsWithImages(orig) {
           } else if (choice && typeof choice === "object") {
             const key = choice.key ?? choice.label;
             const label = choice.label ?? choice.key;
-            const generatedCandidates = imageCandidatesFor(categoryName, f.id, key);
+            const generatedCandidates = imageCandidatesFor(
+              categoryName,
+              f.id,
+              key,
+            );
             const imgCandidates = uniqueList([
               choice.img,
               ...(choice.imgCandidates || []),
@@ -294,7 +295,8 @@ function augmentCategoryFieldsWithImages(orig) {
 }
 
 // create augmented lookup once at module-level
-const CATEGORY_FIELDS_WITH_IMAGES = augmentCategoryFieldsWithImages(CATEGORY_FIELDS);
+const CATEGORY_FIELDS_WITH_IMAGES =
+  augmentCategoryFieldsWithImages(CATEGORY_FIELDS);
 
 // --- OptionCard (unchanged) ---
 function OptionCard({ option, selected, onClick, index }) {
@@ -340,7 +342,8 @@ function OptionCard({ option, selected, onClick, index }) {
             loading="lazy"
             onError={(e) => {
               const imgEl = e.currentTarget;
-              const fallbackIndex = Number(imgEl.dataset.fallbackIndex || 0) + 1;
+              const fallbackIndex =
+                Number(imgEl.dataset.fallbackIndex || 0) + 1;
 
               if (fallbackIndex < imgCandidates.length) {
                 imgEl.dataset.fallbackIndex = String(fallbackIndex);
@@ -540,8 +543,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
         if (error?.status === "RESOURCE_EXHAUSTED" || error?.code === 429) {
           aiQuotaRetryAfterRef.current =
-            Date.now() + (Number.isFinite(retrySeconds) ? retrySeconds : 60) * 1000;
-          console.warn("Gemini quota exceeded. Using local bot responses temporarily.");
+            Date.now() +
+            (Number.isFinite(retrySeconds) ? retrySeconds : 60) * 1000;
+          console.warn(
+            "Gemini quota exceeded. Using local bot responses temporarily.",
+          );
         } else {
           console.error("Gemini API Error:", error);
         }
@@ -751,7 +757,6 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
 
     const rect = canvas.getBoundingClientRect();
 
-    // Map mouse coordinates to pixel-backed canvas coordinates
     const canvasPixelWidth = canvas.width;
     const canvasPixelHeight = canvas.height;
 
@@ -763,19 +768,45 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
     );
 
     const ctx = canvas.getContext("2d", { willReadFrequently: true });
+
     const clampedX = Math.max(0, Math.min(canvasPixelWidth - 1, px));
     const clampedY = Math.max(0, Math.min(canvasPixelHeight - 1, py));
 
     const pixel = ctx.getImageData(clampedX, clampedY, 1, 1).data;
     const [r, g, b] = pixel;
+
     const hex = rgbToHex(r, g, b);
 
-    handleColorDraftChange(fieldId, "r", r);
-    handleColorDraftChange(fieldId, "g", g);
-    handleColorDraftChange(fieldId, "b", b);
-    handleColorDraftChange(fieldId, "hex", hex);
+    const colorData = {
+      r,
+      g,
+      b,
+      hex,
+    };
 
-    saveColor(fieldId);
+    setColorDrafts((prev) => ({
+      ...prev,
+      [fieldId]: colorData,
+    }));
+
+    const newAnswers = {
+      ...answers,
+      [fieldId]: hex,
+    };
+
+    setAnswers(newAnswers);
+
+    const fieldLabel = current
+      ? (CATEGORY_FIELDS[current] || []).find((f) => f.id === fieldId)?.text
+      : fieldId;
+
+    pushMessage({
+      from: "user",
+      text: `${fieldLabel || fieldId}: ${hex}`,
+    });
+
+    setTyping(true);
+    generateBotResponse(newAnswers);
   }
 
   // Get fields for current category (direct lookup, no global loop)
@@ -1236,7 +1267,7 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                       }}
                     >
                       <Typography variant="caption">
-                        Double Click on the spectrum below to pick a color visually
+                        Click on the spectrum below to pick a color visually
                       </Typography>
 
                       <canvas
@@ -1288,26 +1319,16 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
                         onChange={(e) => handleFileUpload(f.id, e)}
                       />
 
-                      <Box
-                        onClick={() => {
-                          const el = document.getElementById(`file-${f.id}`);
-                          if (el) el.click();
-                        }}
+                      {/* Replace the OptionCard + wrapping Box with this */}
+                      <Button
+                        variant="outlined"
+                        onClick={() =>
+                          document.getElementById(`file-${f.id}`)?.click()
+                        }
+                        sx={{ mt: 1 }}
                       >
-                        <OptionCard
-                          option={{
-                            key: "__reference__",
-                            label: f.label || "Upload reference",
-                            img: attachments[f.id]?.previewUrl || null,
-                          }}
-                          index={0}
-                          selected={Boolean(attachments[f.id])}
-                          onClick={() => {
-                            const el = document.getElementById(`file-${f.id}`);
-                            if (el) el.click();
-                          }}
-                        />
-                      </Box>
+                        {attachments[f.id] ? "Change File" : "Upload Reference"}
+                      </Button>
 
                       {attachments[f.id] && (
                         <Box
