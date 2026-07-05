@@ -4,7 +4,7 @@ import { store } from "./store";
 import { ToastContainer } from "react-toastify";
 import React from "react";
 import { HelperRouter } from "./HelperRouter";
-import "./App.css"
+import "./App.css";
 const Layout = React.lazy(() => import("./Layout"));
 const Products = React.lazy(() => import("./pages/Products"));
 const Home = React.lazy(() => import("./pages/Home"));
@@ -20,21 +20,21 @@ const SearchProducts = React.lazy(() => import("./pages/SearchProducts"));
 const ProductCategory = React.lazy(() => import("./pages/ProductCategory"));
 const CheckOut = React.lazy(() => import("./pages/CheckOut"));
 const Account = React.lazy(() => import("./pages/Account"));
-const PrivacyPolicy = React.lazy(() =>
-  import("./pages/PolicyPage/PrivacyPolicy")
+const PrivacyPolicy = React.lazy(
+  () => import("./pages/PolicyPage/PrivacyPolicy"),
 );
-const ShippingPolicy = React.lazy(() =>
-  import("./pages/PolicyPage/ShippingPolicy")
+const ShippingPolicy = React.lazy(
+  () => import("./pages/PolicyPage/ShippingPolicy"),
 );
-const RefundPolicy = React.lazy(() =>
-  import("./pages/PolicyPage/RefundPolicy")
+const RefundPolicy = React.lazy(
+  () => import("./pages/PolicyPage/RefundPolicy"),
 );
-const Terms_Condition = React.lazy(() =>
-  import("./pages/PolicyPage/Terms_Condition")
+const Terms_Condition = React.lazy(
+  () => import("./pages/PolicyPage/Terms_Condition"),
 );
 
 function App() {
-  // console.log("api0---",import.meta.env.VITE_API)
+  console.log("api0---", import.meta.env.VITE_API);
   return (
     <Provider store={store}>
       <ToastContainer />
