@@ -34,7 +34,7 @@ const Terms_Condition = React.lazy(
 );
 
 function App() {
-  console.log("api0---", import.meta.env.VITE_API);
+  // console.log("api0---", import.meta.env.VITE_API);
   return (
     <Provider store={store}>
       <ToastContainer />
