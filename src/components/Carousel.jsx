@@ -18,7 +18,7 @@ function Carousel({
   xl = 1,
   dots = true,
   speed = 500,
-  fade = false,
+  fade = true,
   autoplaySpeed = 6000,
   direction = false,
   pauseOnHover = false,
