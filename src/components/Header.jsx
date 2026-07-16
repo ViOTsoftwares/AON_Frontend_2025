@@ -10,17 +10,13 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import MenuBar from "./MenuBar";
 import Login from "./Login";
 import Badge from "@mui/material/Badge";
 import CustomeButton from "./CustomeButton";
 import Grow from "@mui/material/Grow";
-import Autocomplete from "@mui/material/Autocomplete";
-import { useScroll } from "../hook/useScroll";
 import { useSelector } from "react-redux";
-import TextField from "@mui/material/TextField";
-import { Button } from "@mui/material";
 import { ImageApi } from "../ImageApi";
 
 import HeaderBg from "../assets/HeaderBg.jpg"; // <-- make sure this path is correct
@@ -30,23 +26,11 @@ function Header() {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const { cart } = useSelector((state) => state.CartState);
-  const { isUser } = useSelector((state) => state.UserState);
   const { cmsDate } = useSelector((state) => state.CmsState);
 
   function handleClose() {
     setShow(!show);
   }
-
-  const searchTerms = [
-    "sofa",
-    "study table",
-    "sofa set",
-    "bed",
-    "Home and office desks",
-    "Bookshelves and Bookcases",
-    "Beds with storage",
-    "Chest of drawers",
-  ];
 
   return (
     <AppBar sx={{ position: { xs: "static", md: "fixed" } }}>
@@ -54,18 +38,32 @@ function Header() {
         className="toolbar-bg"
         style={{
           "--bg-image": `url(${HeaderBg})`,
-          "--bg-color": "linear-gradient(#ffffff,#ffffff)",
+          "--bg-color": "var(--gradient-header-overlay) ",
         }}
       >
-        <Grid container flexGrow={0.4}>
-          <Grid sx={{ width: { xs: "220px", md: "360px" } }}>
+        <Grid container flexGrow={0.4} alignItems="center">
+          <Grid
+            sx={{
+              width: { xs: "150px", sm: "200px", md: "260px" },
+              height: { xs: "56px", md: "72px" },
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
             <img
               src={`${ImageApi}/testimonial/` + cmsDate?.logo}
               alt="logo"
-              height="100%"
-              width="100%"
               onClick={() => navigate("/")}
-              style={{ cursor: "pointer" }}
+              style={{
+                width: "100%",
+                height: "100%",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                objectPosition: "left center",
+                display: "block",
+                cursor: "pointer",
+              }}
             />
           </Grid>
         </Grid>
@@ -110,7 +108,7 @@ function Header() {
       invisible={!cart?.length}   // ✅ hides badge when 0
     >
       <ShoppingCartIcon
-        sx={{ width: 32, height: 34, color: "white" }}
+        sx={{ width: 32, height: 34, color: "var(--color-text-inverse)" }}
         fontSize="medium"
       />
     </Badge>
@@ -128,7 +126,13 @@ function Header() {
               onClick={handleClose}
             >
               <Grow in={true} timeout={1000}>
-                <MenuIcon sx={{ color: "white" , width : 30 ,  height:30  }} />
+                <MenuIcon
+                  sx={{
+                    color: "var(--color-text-inverse)",
+                    width: 30,
+                    height: 30,
+                  }}
+                />
               </Grow>
             </IconButton>
              

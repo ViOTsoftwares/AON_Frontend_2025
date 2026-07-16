@@ -20,7 +20,7 @@ import Testimonial from "../components/Testimonial";
 import CustomizationSection from "../components/CustomizationSection";
 import BlogCard from "../components/BlogCard";
 import React, { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { FetchBannerApi, FetchBlogApi } from "../Api_Action";
 import PageLoading from "../components/PageLoading";
 import { ImageApi } from "../ImageApi";
@@ -50,7 +50,7 @@ function Home() {
       api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
     }
     window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
-  }, [token]);
+  }, [dispatch, token]);
 
   const [blogPoster, setBlogPoster] = useState([]);
   const [firstSubbanner, setFirstSubBanner] = useState({});
@@ -89,8 +89,8 @@ function Home() {
         className="outer-grid-bg"
         sx={{ p: { xs: 2, md: 4 } }}
         style={{
-          "--top-image": `linear-gradient(rgba(255, 254, 254, 0), rgba(255, 255, 255, 0)), url(${Doodle})`,
-          "--bottom-color": "linear-gradient(#ffffffff,#ffffffff)",
+          "--top-image": `url(${Doodle})`,
+          "--bottom-color": "var(--color-surface)",
           mixBlendMode: "multiply",
           // filter: "contrast(0.8)"
         }}
@@ -179,14 +179,14 @@ function Home() {
             mb: { xs: 2, sm: 4 },
             fontFamily: "Inter, Poppins, sans-serif",
             letterSpacing: "-0.6px",
-            color: "#1a1a1a",
+            color: "var(--color-text-primary)",
           }}
         >
           Shop{" "}
           <Box
             component="span"
             sx={{
-              background: "linear-gradient(90deg, #d4bea5 0%, #ff005d 100%)",
+              background: "var(--gradient-title-highlight)",
               WebkitBackgroundClip: "text",
               backgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -207,9 +207,9 @@ function Home() {
             overflow: "hidden",
 
             backgroundImage: `
-      linear-gradient(rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.61)),
+      var(--gradient-card-overlay),
       url(${Doodle}),
-      linear-gradient(#ffffff,#ffffff)
+      var(--color-surface)
     `,
             backgroundSize: "cover, cover, cover",
             backgroundPosition: "center, center, center",
@@ -245,13 +245,13 @@ function Home() {
       <Box
         sx={{
           p: { xs: 0, sm: 4, md: 6 },
-          backgroundColor: "#f7eaebff",
+          backgroundColor: "var(--color-surface-muted)",
         }}
       >
         <Testimonial />
       </Box>
 
-      <Stack bgcolor="#FAFAFA">
+      <Stack bgcolor="var(--color-surface)">
         <Typography
           variant="h4"
           paddingTop={2}

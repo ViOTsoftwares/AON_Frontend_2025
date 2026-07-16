@@ -76,7 +76,7 @@ function BlogCard({ blog, width = 320, valueOfDisplay = "block" }) {
       </Grid>
       <CardContent>
         <Typography
-          sx={{ "&:hover": { color: "#1976D2" } }}
+          sx={{ "&:hover": { color: "var(--color-info)" } }}
           lineHeight="2.6rem"
           variant="h5"
           fontStyle={600}

@@ -9,7 +9,7 @@ export default function PaginationOutlined({ handlePageChange, page, totalPages 
         px: { xs: 1.5, sm: 3 },
         py: 2,
         borderRadius: 4,
-        backgroundColor: "#ffffff",
+        backgroundColor: "var(--color-surface)",
         border: "1px solid rgba(0, 0, 0, 0)",
         boxShadow: "0 3px 12px rgba(0, 0, 0, 0)",
       }}
@@ -28,7 +28,7 @@ export default function PaginationOutlined({ handlePageChange, page, totalPages 
           sx={{
             fontSize: 15,
             fontWeight: 600,
-            color: "#4f4f4f",
+            color: "var(--color-text-muted)",
             display: { xs: "none", md: "block" }, // 🔥 HIDE ON MOBILE
           }}
         >
@@ -63,8 +63,8 @@ export default function PaginationOutlined({ handlePageChange, page, totalPages 
               },
 
               "& .MuiPaginationItem-page.Mui-selected": {
-                backgroundColor: "#1976d2",
-                color: "#fff",
+                backgroundColor: "var(--color-info)",
+                color: "var(--color-text-inverse)",
                 fontWeight: 700,
                 boxShadow: "0 4px 10px rgba(25,118,210,0.35)",
               },

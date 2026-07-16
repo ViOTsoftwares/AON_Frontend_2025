@@ -25,7 +25,7 @@ export const tabsStyles = () => ({
     right: 3,
     height: "auto",
     borderRadius: "16px",
-    backgroundColor: "rgba(255, 255, 255, 0.36)",
+    backgroundColor: "var(--color-surface-overlay)",
     boxShadow: "0 4px 12px rgba(0,0,0,0.16)",
   },
 });
@@ -37,7 +37,7 @@ export const tabItemStyles = (theme) => ({
     minWidth: 100,
     padding: "6px 16px",
     opacity: 0.75,
-    color: "rgba(59, 23, 23, 1)",
+    color: "var(--color-text-brand)",
     textTransform: "initial",
     display: "flex",
     alignItems: "center",
@@ -49,7 +49,7 @@ export const tabItemStyles = (theme) => ({
 
     [`&.${tabClasses.selected}`]: {
       opacity: 1,
-      color: "rgba(59, 23, 23, 1)",
+      color: "var(--color-text-brand)",
     },
 
     [theme.breakpoints.up("md")]: {
@@ -106,7 +106,7 @@ export function TabsApple({ sx }) {
         style={{
           "--bg-mask": `linear-gradient(rgba(73, 76, 1, 0.25), rgba(180, 206, 50, 0.11))`,
           "--bg-image": `url(${TabsBgImg})`,
-          "--bg-color": "linear-gradient(#ffffff,#ffffff)",
+          "--bg-color": "var(--color-surface)",
         }}
         justifyContent="center"
         alignItems="center"

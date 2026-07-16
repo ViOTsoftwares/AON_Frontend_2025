@@ -4,7 +4,7 @@
   border-radius: 0;
 
   /* Fallback plain color under everything */
-  --bg-color: #efe6d1;
+  --bg-color: var(--color-surface-soft);
   background-color: var(--bg-color);
 }
 
@@ -37,7 +37,7 @@
   pointer-events: none;
 
   background:
-    linear-gradient(129deg,rgba(94, 16, 14, 0.836),rgba(148, 63, 37, 0.877),rgba(94, 16, 14, 0.836)), url("../assets/woody.jpg"); /* semi-transparent tint */
+    var(--gradient-header-overlay), url("../assets/woody.jpg"); /* semi-transparent tint */
   mix-blend-mode: normal;
   background-size: cover;
 }

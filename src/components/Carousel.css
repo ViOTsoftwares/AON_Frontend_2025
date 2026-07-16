@@ -27,7 +27,7 @@
   height: 8px;
   border-radius: 5px;
   border: 0;
-  background-color: #ccc;
+  background-color: var(--color-border-contrast);
   font-size: 0;
 }
 .slick-dots li button:after {
@@ -45,19 +45,19 @@
 
 .slick-active button:after {
   border-radius: 4px;
-  background-color: rgba(78, 13, 1, 0.938);
+  background-color: var(--color-primary);
   animation: progress 6s infinite;
 }
 /* Remove default button look */
 .slick-dots li button:before {
   font-size: 10px;
-  color: #cfcfcf; /* inactive dot */
+  color: var(--color-border-contrast); /* inactive dot */
   opacity: 1;
 }
 
 /* Active dot color */
 .slick-dots li.slick-active button:before {
-  color:rgb(78, 14, 1); /* active dot */
+  color: var(--color-primary); /* active dot */
 }
 
 /* Optional: spacing */

@@ -17,8 +17,8 @@ function Carousel({
   lg = 1,
   xl = 1,
   dots = true,
-  speed = 3000,
-  fade = false,
+  speed = 500,
+  fade = true,
   autoplaySpeed = 6000,
   direction = false,
   pauseOnHover = false,
@@ -75,7 +75,6 @@ function Carousel({
           slidesToScroll: sm,
           initialSlide: 2,
           infinite: infinite,
-
         },
       },
       {
@@ -84,7 +83,6 @@ function Carousel({
           slidesToShow: xs,
           slidesToScroll: xs,
           infinite: infinite,
-
         },
       },
     ],
@@ -107,9 +105,9 @@ function Carousel({
           left: "10px",
           height: "41px",
           "&:hover": {
-            backgroundColor: "white",
+            backgroundColor: "var(--color-surface)",
           },
-          backgroundColor: "whitesmoke",
+          backgroundColor: "var(--color-surface-subtle)",
         }}
       >
         <ChevronLeftIcon />
@@ -122,11 +120,11 @@ function Carousel({
           top: "50%",
           right: "10px",
           "&:hover": {
-            backgroundColor: "white",
+            backgroundColor: "var(--color-surface)",
           },
           height: "41px",
 
-          backgroundColor: "whitesmoke",
+          backgroundColor: "var(--color-surface-subtle)",
         }}
       >
         <ChevronRightIcon />

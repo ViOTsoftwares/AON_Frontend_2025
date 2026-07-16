@@ -31,9 +31,9 @@
 
 .inner-content {
   position: relative;
-  border: 1px solid #222;
-  background: #1c82d6;
-  color: white;
+  border: 1px solid var(--color-text-primary);
+  background: var(--color-info);
+  color: var(--color-text-inverse);
   font-size: 16px;
   text-align: center;
   padding: 16px 26px;

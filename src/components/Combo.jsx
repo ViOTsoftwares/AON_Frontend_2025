@@ -53,15 +53,15 @@ function Combo() {
             variant="contained"
             size="medium"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
               paddingX: { xs: 3, md: 3.5 }, // 🔥 WIDER
               paddingY: { xs: 1.2, md: 1.7 }, // 🔥 TALLER
               borderRadius: "120px",
-              borderColor: "white",
+              borderColor: "var(--color-text-inverse)",
               position: "absolute",
               textAlign: "center",
             }}
@@ -86,9 +86,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
 
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -97,7 +97,7 @@ function Combo() {
               borderRadius: "120px",
 
               zIndex: 2,
-              boxShadow: "0 8px 30px rgba(0,0,0,0.35)",
+              boxShadow: "var(--shadow-brand-strong)",
             }}
             endIcon={<ArrowForwardIcon fontSize="inherit" />}
             onClick={(e) => {
@@ -125,9 +125,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -158,8 +158,10 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
-
+              color: "var(--color-text-inverse)",
+              background:
+                "var(--gradient-brand)",
+              
             
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
@@ -189,9 +191,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -222,9 +224,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -255,9 +257,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -287,9 +289,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,
@@ -320,9 +322,9 @@ function Combo() {
           <Button
             variant="contained"
             sx={{
-              color: "white",
+              color: "var(--color-text-inverse)",
               background:
-                "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+                "var(--gradient-brand)",
               position: "absolute",
               fontSize: { xs: "1rem",  md: "1rem" }, // 🔥 BIG TEXT
               fontWeight: 600,

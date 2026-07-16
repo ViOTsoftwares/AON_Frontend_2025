@@ -202,8 +202,8 @@ export default function Cart() {
             {!isUser && (
               <Box
                 sx={{
-                  backgroundColor: "#fff3e0",
-                  border: "1px solid #ff9800",
+                  backgroundColor: "rgba(255, 152, 0, 0.12)",
+                  border: "1px solid rgba(255, 152, 0, 0.65)",
                   borderRadius: 2,
                   p: 2,
                   display: "flex",

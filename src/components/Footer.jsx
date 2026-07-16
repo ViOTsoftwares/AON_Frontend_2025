@@ -80,7 +80,7 @@ function Footer() {
       className="footer-bg"
       style={{
         "--bg-image": `url(${FooterBg})`,
-        "--bg-color": "rgba(133,60,29,.9)",
+        "--bg-color": "var(--gradient-header-overlay)",
         paddingBottom: "24px",
       }}
     >
@@ -91,7 +91,7 @@ function Footer() {
           alt="logo"
           width={300}
         />
-        <Typography color="white" mt={1} fontWeight={500}>
+        <Typography color="var(--color-text-inverse)" mt={1} fontWeight={500}>
           Specialized Store For Modern Furniture With Customization.
         </Typography>
       </Box>
@@ -106,12 +106,12 @@ function Footer() {
         justifyContent="space-between"
       >
         {/* Address */}
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Stack spacing={1.5}>
             {Address.map(({ icon: Icon, label }, i) => (
               <Stack direction="row" spacing={1.5} alignItems="center" key={i}>
-                <Icon color="white" />
-                <Typography color="white" fontSize="0.9rem">
+                <Icon color="var(--color-text-inverse)" />
+                <Typography color="var(--color-text-inverse)" fontSize="0.9rem">
                   {label}
                 </Typography>
               </Stack>
@@ -120,7 +120,7 @@ function Footer() {
         </Grid>
 
         {/* Map */}
-        <Grid item xs={12} sm={6} md={3}>
+        <Grid size={{ xs: 12, sm: 6, md: 3 }}>
           <Box
             sx={{
               width: "100%",
@@ -140,8 +140,8 @@ function Footer() {
         </Grid>
 
         {/* Pages */}
-        <Grid item xs={6} sm={4} md={2}>
-          <Typography color="white" fontWeight={700} mb={1}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
+          <Typography color="var(--color-text-inverse)" fontWeight={700} mb={1}>
             Pages
           </Typography>
           {Pages.map((p, i) => (
@@ -152,7 +152,7 @@ function Footer() {
               fontSize="0.85rem"
               sx={{
                 display: "block",
-                color: "white",
+                color: "var(--color-text-inverse)",
                 mt: 0.8,
                 textDecoration: "none",
                 "&:hover": { textDecoration: "underline" },
@@ -164,8 +164,8 @@ function Footer() {
         </Grid>
 
         {/* Policies */}
-        <Grid item xs={6} sm={4} md={2}>
-          <Typography color="white" fontWeight={700} mb={1}>
+        <Grid size={{ xs: 6, sm: 4, md: 2 }}>
+          <Typography color="var(--color-text-inverse)" fontWeight={700} mb={1}>
             Policies
           </Typography>
           {Policies.map((p, i) => (
@@ -176,7 +176,7 @@ function Footer() {
               fontSize="0.82rem"
               sx={{
                 display: "block",
-                color: "white",
+                color: "var(--color-text-inverse)",
                 mt: 0.8,
                 textDecoration: "none",
                 "&:hover": { textDecoration: "underline" },
@@ -188,7 +188,7 @@ function Footer() {
           {isUser && (
             <Link
               to="/account"
-              style={{ display: "block", color: "white", marginTop: "8px" }}
+              style={{ display: "block", color: "var(--color-text-inverse)", marginTop: "8px" }}
             >
               My Account
             </Link>
@@ -196,11 +196,11 @@ function Footer() {
         </Grid>
 
         {/* Newsletter */}
-        <Grid item xs={12} sm={8} md={3}>
-          <Typography color="white" fontWeight={700}>
+        <Grid size={{ xs: 12, sm: 8, md: 3 }}>
+          <Typography color="var(--color-text-inverse)" fontWeight={700}>
             Newsletter
           </Typography>
-          <Typography color="white" fontSize="0.8rem" mt={0.8}>
+          <Typography color="var(--color-text-inverse)" fontSize="0.8rem" mt={0.8}>
             Sign up for exclusive offers, events & more.
           </Typography>
 
@@ -216,7 +216,7 @@ function Footer() {
               fullWidth
               sx={{
                 "& .MuiInputBase-root": {
-                  background: "white",
+                  background: "var(--color-surface)",
                   borderRadius: "6px",
                 },
               }}
@@ -231,7 +231,7 @@ function Footer() {
 
             <Button
               variant="contained"
-              sx={{ background: "#cfb886ff", color: "white" }}
+              sx={{ background: "var(--color-accent-soft)", color: "var(--color-text-inverse)" }}
               onClick={handleSubmit}
             >
               Subscribe
@@ -239,19 +239,19 @@ function Footer() {
           </Stack>
 
           {errorValidation && (
-            <Typography color="red" fontSize="0.75rem" mt={0.5}>
+            <Typography color="var(--color-danger)" fontSize="0.75rem" mt={0.5}>
               {errorValidation}
             </Typography>
           )}
 
-          <Typography color="white" mt={2}>
+          <Typography color="var(--color-text-inverse)" mt={2}>
             Follow us
           </Typography>
           <Stack direction="row" spacing={1} mt={0.5}>
             {Icons.map(({ icon: Icon, url }, i) => (
               <Link key={i} to={url} target="_blank">
                 <IconButton size="small">
-                  <Icon color="white" />
+                  <Icon color="var(--color-text-inverse)" />
                 </IconButton>
               </Link>
             ))}
@@ -260,7 +260,7 @@ function Footer() {
       </Grid>
 
       {/* Footer Bottom */}
-      <Typography textAlign="center" color="white" fontSize="0.8rem">
+      <Typography textAlign="center" color="var(--color-text-inverse)" fontSize="0.8rem">
         © {year} Developed by  ViOT Tech. All Rights Reserved.
       </Typography>
     </footer>

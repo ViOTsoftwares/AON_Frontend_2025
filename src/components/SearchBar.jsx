@@ -77,7 +77,7 @@ function SearchBar() {
                     color: "gray",
                     // Clear icon hover color
                     "&:hover": {
-                      color: "#8f5438",
+                      color: "var(--color-link)",
                       backgroundColor: "transparent",
                     },
                   }}
@@ -91,18 +91,16 @@ function SearchBar() {
               onClick={() => show.trim() && doNavigate(show)}
               color="gradient"
               sx={{
-                color: "whitesmoke",
+                color: "var(--color-text-inverse)",
                 height: "inherit",
                 width: { xs: "38%", md: "20%" },
                 minWidth: "56px",
                 borderRadius: "0px 50px 50px 0px",
-                background:
-                  "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(105, 7, 0, 0.9), rgba(71, 0, 16, 0.9))",
+                background: "var(--gradient-brand)",
                 // Hover effect for button: darker gradient + shadow
                 "&:hover": {
-                  background:
-                    "linear-gradient(129deg, rgba(87, 3, 0, 0.48), rgba(148, 10, 0, 0.51), rgba(78, 5, 0, 0.41))",
-                  boxShadow: "0 6px 18px rgba(92, 58, 48, 0.25)",
+                  background: "var(--gradient-brand-hover)",
+                  boxShadow: "var(--shadow-brand)",
                   transform: "translateY(-1px)",
                 },
                 // target the icon inside to change color smoothly on hover
@@ -118,8 +116,8 @@ function SearchBar() {
         sx={{
           borderRadius: "50px",
           padding: "0px",
-          backgroundColor: { md: "rgba(246, 246, 246, 1)", xs: "white" },
-          borderColor: "rgba(246, 246, 246, 1)",
+          backgroundColor: { md: "var(--color-surface-subtle)", xs: "var(--color-surface)" },
+          borderColor: "var(--color-surface-subtle)",
           height: { xs: "50px", md: "47px" },
           " fieldset": {
             borderWidth: "0px",

@@ -239,14 +239,12 @@ const ProductDetailCard = ({ Product = {} }) => {
                   fontWeight: 600,
                   borderRadius: "10px",
 
-                  background:
-                    "linear-gradient(129deg,rgba(104, 30, 0, 0.84),rgba(94, 0, 5, 0.88),rgba(170, 68, 0, 0.84))",
-                  boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
+                  background: "var(--gradient-brand-alt)",
+                  boxShadow: "var(--shadow-brand)",
                   transition: "all 0.3s ease",
                   "&:hover": {
-                    background:
-                      "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
-                    boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
+                    background: "var(--gradient-brand)",
+                    boxShadow: "var(--shadow-brand-strong)",
                     transform: "translateY(-1px)",
                   },
                 }}
@@ -264,15 +262,13 @@ const ProductDetailCard = ({ Product = {} }) => {
                   height: 55,
                   fontWeight: 600,
                   borderRadius: "10px",
-                  background:
-                    "linear-gradient(129deg,rgba(104, 29, 0, 0.22),rgba(94, 0, 5, 0.26),rgba(170, 68, 0, 0.23))",
-                  boxShadow: "0 4px 12px rgba(25,118,210,0.35)",
+                  background: "var(--gradient-brand-alt-soft)",
+                  boxShadow: "var(--shadow-brand)",
                   transition: "all 0.3s ease",
                   "&:hover": {
-                    color: "#fff",
-                    background:
-                      "linear-gradient(135deg, #1565c0 0%, #1e88e5 100%)",
-                    boxShadow: "0 6px 16px rgba(25,118,210,0.45)",
+                    color: "var(--color-text-inverse)",
+                    background: "var(--gradient-brand)",
+                    boxShadow: "var(--shadow-brand-strong)",
                     transform: "translateY(-1px)",
                   },
                 }}
@@ -315,13 +311,13 @@ const ProductDetailCard = ({ Product = {} }) => {
                       mr: 3,
                       // ml:{ xs: 1, md: 0},
                       justifyContent: "center",
-                      backgroundColor: "#f5f5f5", // 👈 helps transparent images
+                      backgroundColor: "var(--color-surface-subtle)", // 👈 helps transparent images
                       transition: "all 0.25s ease",
-                      boxShadow: "0 0 12px rgba(197, 30, 0, 0.77)",
+                      boxShadow: "var(--shadow-brand-glow)",
 
                       "&:hover": {
                         transform: "scale(1.08)",
-                        boxShadow: "0 0 12px rgba(167, 0, 92, 0.55)",
+                        boxShadow: "var(--shadow-brand-glow-hover)",
                       },
                     }}
                   >
@@ -405,3 +401,4 @@ const ProductDetailCard = ({ Product = {} }) => {
 };
 
 export default ProductDetailCard;
+

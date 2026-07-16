@@ -11,7 +11,6 @@ import { Link } from "react-router-dom";
 function CustomizationSection() {
   return (
     <>
-     
       <Typography textAlign="center" fontSize="3rem" fontWeight={600}>
         Tune Your Furniture
       </Typography>
@@ -98,26 +97,35 @@ function CustomizationSection() {
             </CardContent>
           </Card>
         </Grid>
-        </Grid>
-       <Box sx={{ width: "100%", display: "flex", justifyContent: "flex-end", pr: 8, pb: 4 }}>
-  <Link to="/customization" style={{ textDecoration: "none" }}>
-    <Button
-    size="medium"
-      variant="contained"
-      sx={{
-        fontSize: "1.1rem",       
-        px: 4,                    
-        py: 1.5,                  
-       borderRadius: "27px",
-        background: "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
-           
-        textTransform: "none",    
-      }}
-    >
-      Customization
-    </Button>
-  </Link>
-</Box>
+      </Grid>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          pr: 8,
+          pb: 4,
+        }}
+      >
+        <Link to="/customization" style={{ textDecoration: "none" }}>
+          <Button
+            size="medium"
+            variant="contained"
+            sx={{
+              fontSize: "1.1rem",
+              px: 4,
+              py: 1.5,
+              borderRadius: "27px",
+              background: "var(--gradient-brand)",
+
+              textTransform: "none",
+            }}
+          >
+            Customization
+          </Button>
+        </Link>
+      </Box>
     </>
   );
 }

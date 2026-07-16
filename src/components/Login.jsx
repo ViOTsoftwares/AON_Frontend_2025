@@ -170,7 +170,6 @@ export default function Login() {
                   : `${ImageApi}/profile/${User?.picture}`
               }
               alt={username || "User"}
-              disableScrollLock
               sx={{
                 bgcolor: "primary.main",
                 width: 45,
@@ -226,23 +225,23 @@ export default function Login() {
                 // handleMenuClose();
               }}
               sx={{
-                backgroundColor: "#ffffff", // pure white
+                backgroundColor: "var(--color-surface)",
                 fontWeight: 500,
 
                 // remove default grey focus / selected state
                 "&.Mui-selected": {
-                  backgroundColor: "#ffffff",
+                  backgroundColor: "var(--color-surface)",
                 },
                 "&.Mui-selected:hover": {
-                  backgroundColor: "#f5f5f5",
+                  backgroundColor: "var(--color-surface-subtle)",
                 },
                 "&.Mui-focusVisible": {
-                  backgroundColor: "#ffffff",
+                  backgroundColor: "var(--color-surface)",
                 },
 
                 // normal hover
                 "&:hover": {
-                  backgroundColor: "#f5f5f5",
+                  backgroundColor: "var(--color-surface-subtle)",
                 },
               }}
             >
@@ -258,11 +257,11 @@ export default function Login() {
                 handleMenuClose();
               }}
               sx={{
-                color: "#d32f2f",
+                color: "var(--color-danger)",
                 fontWeight: 500,
-                backgroundColor: "rgba(211, 47, 47, 0.08)",
+                backgroundColor: "var(--color-danger-soft)",
                 "&:hover": {
-                  backgroundColor: "rgba(231, 154, 154, 0.49)",
+                  backgroundColor: "var(--color-danger-hover)",
                 },
               }}
             >
@@ -331,7 +330,7 @@ export default function Login() {
         >
           <Box
             sx={{
-              bgcolor: "rgba(0,0,0,0.6)",
+              bgcolor: "var(--color-overlay-dark)",
               position: "absolute",
               top: 0,
               left: 0,
@@ -358,7 +357,7 @@ export default function Login() {
                 position: "absolute",
                 top: 16,
                 right: 10,
-                color: "white",
+                color: "var(--color-text-inverse)",
                 zIndex: 2,
               }}
             >
@@ -371,7 +370,7 @@ export default function Login() {
               size={{ xs: 12, md: 6 }}
               sx={{
                 display: { xs: "none", md: "flex" },
-                color: "white",
+                color: "var(--color-text-inverse)",
                 p: 2,
                 justifyContent: "center",
               }}
@@ -401,7 +400,7 @@ export default function Login() {
               size={{ xs: 12, md: 6 }}
               sx={{
                 display: { xs: "flex", md: "none" },
-                color: "white",
+                color: "var(--color-text-inverse)",
                 p: 2,
                 justifyContent: "center",
               }}
@@ -577,7 +576,7 @@ export default function Login() {
                         }, 150);
                       }}
                       style={{
-                        color: "#1976d2",
+                        color: "var(--color-info)",
                         textDecoration: "underline",
                         fontWeight: 500,
                       }}
@@ -595,7 +594,7 @@ export default function Login() {
                         }, 150);
                       }}
                       style={{
-                        color: "#1976d2",
+                        color: "var(--color-info)",
                         textDecoration: "underline",
                         fontWeight: 500,
                       }}

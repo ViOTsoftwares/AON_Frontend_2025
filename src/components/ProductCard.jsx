@@ -10,15 +10,13 @@ import { Link } from "react-router-dom";
 
 function ProductCard({
   product,
-  // allow responsive objects or single values
-  maxWidth = { xs: "100%", md: "90%" },
-  cardHeight = {xs :"270px", md: "100%"}, // renamed to avoid collision with native height attribute
-  
+  cardWidth = { xs: 160, sm: 210, md: 220, lg: 240 },
+  cardHeight = { xs: 270, sm: 320, md: 346 },
   similar = false,
 
-  imageHeight = { xs: 187, md: 260 },
-  imageWidth = { xs: "100%", md: "100%" }, // responsive width for the image container
-  contentHeight = { xs: 82, md: 70.5 },   // responsive content area height
+  imageHeight = { xs: 187, sm: 235, md: 260 },
+  imageWidth = "100%",
+  contentHeight = { xs: 82, sm: 85, md: 86 },
 }) {
   const [animate, setAnimate] = useState(true);
 
@@ -74,11 +72,14 @@ function ProductCard({
         borderTopRightRadius: 15,
         cursor: "pointer",
         mx: 0.2,
-        width: maxWidth,          // responsive width here
-        height: cardHeight,       // responsive or single value
+        width: cardWidth,
+        maxWidth: "100%",
+        height: cardHeight,
+        flex: "0 0 auto",
         display: "flex",
         flexDirection: "column",
         boxSizing: "border-box",
+        overflow: "hidden",
       }}
     >
       <CardActionArea
@@ -86,9 +87,13 @@ function ProductCard({
           display: "flex",
           flexDirection: "column",
           alignItems: "stretch",
+          height: "100%",
         }}
       >
-        <Link to={"/detail/" + product?._id} style={{ textDecoration: "none" }}>
+        <Link
+          to={"/detail/" + product?._id}
+          style={{ display: "block", textDecoration: "none", width: "100%" }}
+        >
           <CardMedia
             sx={{
               // can accept number (px) or responsive object.
@@ -116,7 +121,7 @@ function ProductCard({
                   fontFamily: "Inter, sans-serif",
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
                   transform: "scale(1)",
-                  background: "linear-gradient(129deg,rgba(87, 3, 0, 0.925),rgba(148, 10, 0, 0.822),rgba(78, 5, 0, 0.897))",
+                  background: "var(--gradient-brand)",
                  
                   position: "absolute",
                   top: 0,
@@ -136,7 +141,7 @@ function ProductCard({
                   fontSize: { xs: 12, sm: 14 },
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
                   transform: "scale(1.1)",
-                  background: "linear-gradient(129deg,rgba(87, 3, 0, 0.925),rgba(148, 10, 0, 0.822),rgba(78, 5, 0, 0.897))",
+                  background: "var(--gradient-brand)",
                   position: "absolute",
                   top: 9,
                   left: 11,
@@ -151,6 +156,7 @@ function ProductCard({
             // responsive content area
             height: contentHeight,
             minHeight: contentHeight,
+            width: "100%",
             boxSizing: "border-box",
             overflow: "hidden",
             display: "flex",

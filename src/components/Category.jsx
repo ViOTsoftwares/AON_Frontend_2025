@@ -51,7 +51,7 @@ function Circle({ title, image }) {
         }}
         fontWeight={600}
         fontSize={{ xs: "0.9rem", sm: "1.4rem" }}
-        color="rgba(255, 255, 255, 1)"
+        color="var(--color-text-inverse)"
       >
         {title}
       </Typography> */}

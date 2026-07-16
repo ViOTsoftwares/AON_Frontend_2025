@@ -7,14 +7,7 @@
   content: "";
   position: absolute;
   inset: -2px;
-  background: linear-gradient(
-    45deg,
-    #811405,
-    #c25110,
-    #ac0404,
-    #b63400,
-    #ad6931
-  );
+  background: var(--gradient-brand);
   background-size: 400%;
   filter: blur(6px);
   opacity: 0;

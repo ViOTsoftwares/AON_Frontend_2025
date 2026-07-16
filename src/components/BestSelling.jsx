@@ -41,11 +41,10 @@ const TabItem = styled(Tab)(({ theme }) => ({
     md: "120px",
   },
   boxSizing: "border-box",
-  color: "#111",
+  color: "var(--color-text-primary)",
 
-  backgroundColor: "#e7d3bbff ",
-  backgroundImage:
-    "linear-gradient(120deg, rgba(255,255,255,0) 30%, rgba(252, 241, 205, 0.53), rgba(255,255,255,0) 70%)",
+  backgroundColor: "var(--color-accent-soft)",
+  backgroundImage: "var(--gradient-brand-shine)",
   backgroundSize: "200%",
   backdropFilter: "blur(6px)",
 
@@ -54,9 +53,8 @@ const TabItem = styled(Tab)(({ theme }) => ({
   },
 
   [`&.${tabClasses.selected}`]: {
-    color: "#fff",
-    background:
-      "linear-gradient(129deg, rgba(87,3,0,0.925), rgba(148,10,0,0.822), rgba(78,5,0,0.897))",
+    color: "var(--color-text-inverse)",
+    background: "var(--gradient-brand)",
     transform: "translateY(0)",
   },
 }));
@@ -107,7 +105,7 @@ function BestSelling() {
         sx={{ fontWeight: 600, fontSize: { xs: "3rem", sm: "3.5rem" } }}
         textAlign="center "
       >
-        Our <span style={{ color: "#854932ff" }}>Best Selling </span>
+        Our <span style={{ color: "var(--color-link-strong)" }}>Best Selling </span>
       </Typography>
       <Stack direction="row" justifyContent="center" alignItems="center">
         <Tabs
@@ -161,7 +159,11 @@ function BestSelling() {
                       <Grid
                         key={i}
                         size={{ xs: 6, sm: 2.8, md: 2.8 }}
-                        sx={{ alignItems: "stretch" }}
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "stretch",
+                        }}
                       >
                         <ProcardCard product={product} />
                       </Grid>
