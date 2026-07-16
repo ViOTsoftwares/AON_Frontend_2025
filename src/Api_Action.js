@@ -1,3 +1,4 @@
+import axios from "axios";
 import api from "./BasaApi";
 import qs from "qs";
 export const FetchBlogApi = async (page, rowsPerPage, title) => {
@@ -245,3 +246,32 @@ export const GetEcomImageApi = async () => {
     return error.response.data;
   }
 };
+
+export const TrackSiteVisiterApi = async (payload) => {
+  try {
+    const { data } = await api.post("/site-visiter", payload);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error?.response?.data;
+  }
+};
+
+export const GetTodayVisiterCountApi = async () => {
+  try {
+    const { data } = await api.get("/site-visiter/today-count");
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error?.response?.data;
+  }
+};
+
+export const GetDailyVisiterStatsApi = async () => {
+  try {
+    const { data } = await api.get("/site-visiter/daily-stats");
+    return data;
+  } catch (error) {
+    return error?.response?.data;
+  }
+};

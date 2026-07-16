@@ -9,7 +9,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import NorthIcon from "@mui/icons-material/North";
 import CustomeButton from "./components/CustomeButton";
-import { getCMSApi } from "./Api_Action";
+import { getCMSApi, TrackSiteVisiterApi } from "./Api_Action";
 import { useDispatch } from "react-redux";
 import { GetCMS } from "./slice/CMS_Slice";
 import { useEffect, useState } from "react";
@@ -33,6 +33,32 @@ export default function Layout() {
     };
     fetchCms();
   }, [dispatch]);
+
+  // Site visitor tracking — once per IST calendar day (resets at IST midnight)
+  useEffect(() => {
+    // Get current date in IST (Asia/Kolkata) as "YYYY-MM-DD"
+    const todayIST = new Date().toLocaleDateString("en-CA", {
+      timeZone: "Asia/Kolkata",
+    }); // → "2026-06-17"
+
+    const lastTracked = sessionStorage.getItem("sv_tracked_date");
+    if (lastTracked === todayIST) return; // already tracked today
+
+    const trackVisitor = async () => {
+      try {
+        const res = await fetch("https://ipapi.co/json/");
+        if (!res.ok) return;
+        const geoData = await res.json();
+        await TrackSiteVisiterApi(geoData);
+        sessionStorage.setItem("sv_tracked_date", todayIST);
+      } catch (err) {
+        console.error("Visitor tracking failed:", err);
+      }
+    };
+    trackVisitor();
+  }, []);
+
+
   useEffect(() => {
     // use rAF to reduce updates and be smooth
     let ticking = false;
