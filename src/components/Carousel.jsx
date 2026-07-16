@@ -17,7 +17,7 @@ function Carousel({
   lg = 1,
   xl = 1,
   dots = true,
-  speed = 3000,
+  speed = 500,
   fade = false,
   autoplaySpeed = 6000,
   direction = false,
@@ -75,7 +75,6 @@ function Carousel({
           slidesToScroll: sm,
           initialSlide: 2,
           infinite: infinite,
-
         },
       },
       {
@@ -84,7 +83,6 @@ function Carousel({
           slidesToShow: xs,
           slidesToScroll: xs,
           infinite: infinite,
-
         },
       },
     ],
