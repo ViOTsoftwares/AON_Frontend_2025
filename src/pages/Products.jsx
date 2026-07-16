@@ -62,7 +62,7 @@ function Products() {
     setLoading(true);
     const data = await FetchBannerApi();
     const filter = data.filter(
-      (item) => item.isActive == true && item.bannerType === "Product"
+      (item) => item.isActive == true && item.bannerType === "Product",
     );
     setLoading(false);
     setBanner(filter?.[0]);
@@ -76,8 +76,8 @@ function Products() {
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
-      setLoading(true);
+      // setIsLoading(true);
+      // setLoading(true);
       const data = await FetchAllProductsApi("", filter, page, limit);
       if (FrameMaterial.length === 0) {
         setBrand(data?.list.Brand);
@@ -98,29 +98,28 @@ function Products() {
   return (
     <div>
       <Box>
-  {isLoading ? (
-    <PageLoading load={isLoading} />
-  ) : (
-    Banner && (
-      <Box
-        sx={{
-          backgroundImage: {
-            xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
-            sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
-          },
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          backgroundPosition: "center",
-          height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
-          width: "100%",
-         
-        }}
-      />
-    )
-  )}
-</Box>
+        {isLoading ? (
+          <PageLoading load={isLoading} />
+        ) : (
+          Banner && (
+            <Box
+              sx={{
+                backgroundImage: {
+                  xs: `url(${ImageApi}/banner/${Banner?.mobileImage})`,
+                  sm: `url(${ImageApi}/banner/${Banner?.desktopImage})`,
+                },
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
+                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
+                width: "100%",
+              }}
+            />
+          )
+        )}
+      </Box>
 
-      <Grid px={1.3} pt={2} >
+      <Grid px={1.3} pt={2}>
         <Stack
           direction="row"
           justifyContent="space-between"
