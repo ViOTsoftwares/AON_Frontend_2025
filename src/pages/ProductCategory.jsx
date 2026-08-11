@@ -59,12 +59,17 @@ const ProductCategory = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
     const params = new URLSearchParams(search);
     const q = params.get("q");
+    const subcategory = params.get("sub");
     if (q) {
       setQueryObj((prev) => ({
         ...prev,
         search: q.replace(/-/g, " "),
       }));
     }
+    setFilter((prev) => ({
+      ...prev,
+      Category: subcategory ? [subcategory] : [],
+    }));
   }, [search]);
   6;
 

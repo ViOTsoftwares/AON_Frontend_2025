@@ -18,6 +18,7 @@ const BlogDetails = React.lazy(() => import("./pages/BlogDetails"));
 const NotFoundPage = React.lazy(() => import("./pages/NotFoundPage"));
 const SearchProducts = React.lazy(() => import("./pages/SearchProducts"));
 const ProductCategory = React.lazy(() => import("./pages/ProductCategory"));
+const Subcategory = React.lazy(() => import("./pages/Subcategory"));
 const CheckOut = React.lazy(() => import("./pages/CheckOut"));
 const Account = React.lazy(() => import("./pages/Account"));
 const PrivacyPolicy = React.lazy(
@@ -48,6 +49,7 @@ function App() {
             <Route path="blog/:key" element={<BlogDetails />} />
             <Route path="search" element={<SearchProducts />} />
             <Route path="category" element={<ProductCategory />} />
+            <Route path="categories/:category" element={<Subcategory />} />
             <Route
               path="checkout"
               element={

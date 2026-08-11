@@ -90,14 +90,18 @@ function BestSelling() {
   const FetchBestSelling = async () => {
     const data = await BestSellingProductApi(category);
     setIsLoading(false);
-    if (navTitle.length == 0) {
-      setNavTitle(data?.navTitle);
+    if (!category && data?.navTitle) {
+      setNavTitle(data.navTitle);
     }
-    setBestSelling(data?.product);
+    setBestSelling(data?.product || []);
   };
   useEffect(() => {
     FetchBestSelling();
   }, [category]);
+
+  if (!isLoading && (!navTitle || navTitle.length === 0)) {
+    return null;
+  }
   return (
     <Stack spacing={2} direction="column">
       <Typography

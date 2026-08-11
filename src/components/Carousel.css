@@ -8,6 +8,12 @@
   padding-bottom: 12px;
 }
 
+/* Keep the homepage banner flush with the navigation. */
+.hero-carousel .slick-list {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
 .slider-dots {
   width: 100%;
   margin: 0;

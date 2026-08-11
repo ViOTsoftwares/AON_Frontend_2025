@@ -28,17 +28,35 @@ import api from "../BasaApi";
 import { useDispatch } from "react-redux";
 import { jwtDecode } from "jwt-decode";
 import { UserLogin } from "../slice/UserSlice";
+import officeChairs from "../assets/categories/Office_Chairs.png";
+import officeTables from "../assets/categories/Office_Tables.png";
+import workstations from "../assets/categories/Workstations.png";
+import storageCabinets from "../assets/categories/Storage_Cabinets.png";
+import officeSeating from "../assets/categories/Office_Seating.png";
+import partitions from "../assets/categories/Partitions.png";
+import sofas from "../assets/categories/Sofas.png";
+import recliners from "../assets/categories/Recliners.png";
+import dining from "../assets/categories/Dining.png";
+import beds from "../assets/categories/Beds.png";
+import homeStorage from "../assets/categories/Home_Storage.png";
+import customization from "../assets/categories/Customization.png";
+
+const DEFAULT_TOP_CATEGORIES = [
+  { slotIndex: 0, defaultName: "Office Chairs", defaultImage: officeChairs },
+  { slotIndex: 1, defaultName: "Office Tables", defaultImage: officeTables },
+  { slotIndex: 2, defaultName: "Workstations", defaultImage: workstations },
+  { slotIndex: 3, defaultName: "Storage & Cabinets", defaultImage: storageCabinets },
+  { slotIndex: 4, defaultName: "Office Seating", defaultImage: officeSeating },
+  { slotIndex: 5, defaultName: "Partitions", defaultImage: partitions },
+  { slotIndex: 6, defaultName: "Sofas", defaultImage: sofas },
+  { slotIndex: 7, defaultName: "Recliners", defaultImage: recliners },
+  { slotIndex: 8, defaultName: "Dining", defaultImage: dining },
+  { slotIndex: 9, defaultName: "Beds", defaultImage: beds },
+  { slotIndex: 10, defaultName: "Home Storage", defaultImage: homeStorage },
+  { slotIndex: 11, defaultName: "Customization", defaultImage: customization, path: "/customization" },
+];
+
 function Home() {
-  const category = [
-    { title: "Chairs & Seating", image: category1, path: "Chairs" },
-    { title: "Sofas & Lounges", image: category2, path: "Sofa" },
-    { title: "Recliners", image: category3, path: "Recliners" },
-    { title: "Tables & Workstations", image: category4, path: "Tables" },
-    { title: "Cabinets & Storage", image: category5, path: "Storage" },
-    { title: "Beds & Mattresses", image: category6, path: "Beds" },
-    { title: "Dining & Kitchen", image: category7, path: "Dining-sets" },
-    { title: "Customisation", image: category8, path: "Customisation" },
-  ];
   const dispatch = useDispatch();
   const urlParams = new URLSearchParams(window.location.search);
   const token = urlParams.get("token");
@@ -56,6 +74,7 @@ function Home() {
   const [firstSubbanner, setFirstSubBanner] = useState({});
   const [secondSubbanner, setSecondSubBanner] = useState({});
   const [isLoading, setIsLoading] = useState(true);
+  const [managedTypeCategories, setManagedTypeCategories] = useState({});
 
   const GetBanner = async () => {
     const data = await FetchBannerApi();
@@ -81,59 +100,87 @@ function Home() {
     handleFetchBloge();
   }, []);
 
+  useEffect(() => {
+    const fetchManagedCategories = async () => {
+      try {
+        const { data } = await api.get("/category/get-all");
+        const categoryMap = {};
+        (data?.category || []).forEach((item) => {
+          if (item.category) {
+            const info = {
+              name: item.category,
+              image: item.image ? `${ImageApi}/category-image/${item.image}` : null,
+            };
+            if (typeof item.slotIndex === "number") {
+              categoryMap[item.slotIndex] = info;
+            }
+            categoryMap[item.category.toLowerCase()] = info;
+          }
+        });
+        setManagedTypeCategories(categoryMap);
+      } catch (error) {
+        console.log("Unable to load managed category images", error);
+      }
+    };
+
+    fetchManagedCategories();
+  }, []);
+
   return (
-    <Stack spacing={2}>
+    <Stack spacing={1}>
       <Banner />
 
       <Grid
         className="outer-grid-bg"
-        sx={{ p: { xs: 2, md: 4 } }}
+        sx={{ px: { xs: 2, md: 4 }, py: { xs: 2, md: 2.5 }, mt: 0 }}
         style={{
           "--top-image": `url(${Doodle})`,
           "--bottom-color": "var(--color-surface)",
           mixBlendMode: "multiply",
-          // filter: "contrast(0.8)"
         }}
       >
         <Typography
           variant="h4"
           textAlign={{ sm: "center" }}
-          fontSize={{ xs: "1.7rem", sm: "3rem" }}
-          sx={{ fontWeight: 600 }}
-          gutterBottom
-          paddingBottom={2}
+          fontSize={{ xs: "1.3rem", sm: "1.8rem", md: "2.1rem" }}
+          sx={{ fontWeight: 600, mb: 1.5 }}
         >
           Explore Our Furnitures
         </Typography>
 
-        <Grid
-          container
-          spacing={{ xs: 1, sm: 0 }}
+        <Grid container spacing={{ xs: 1, sm: 1.5, md: 2 }}>
+          {DEFAULT_TOP_CATEGORIES.map((slotItem) => {
+            const managed =
+              (typeof slotItem.slotIndex === "number" && managedTypeCategories[slotItem.slotIndex]) ||
+              managedTypeCategories[slotItem.defaultName.toLowerCase()];
 
-          // justifyContent="center"
-          // rowGap={2}
-          //columnGap={0}
-        >
-          {category &&
-            category.map((ct) => (
-              <Grid
-                size={{ xs: 3, sm: 3, md: 3, lg: 3, xl: 3 }}
-                key={ct.path}
-                // sx={{ justifyContent: "center", alignItems: "center" }}
-              >
-                <center>
-                  <Link
-                    to={
-                      ct.path === "Customisation"
-                        ? "/customization"
-                        : `/category?q=${ct.path}`
-                    }
-                  >
-                    <Category image={ct?.image} />
-                  </Link>
-                </center>
+            const displayName = managed?.name || slotItem.defaultName;
+            const displayImage = managed?.image || slotItem.defaultImage;
+            const linkPath = slotItem.path || `/categories/${encodeURIComponent(displayName)}`;
+
+            return (
+              <Grid key={slotItem.defaultName} size={{ xs: 6, sm: 4, md: 2 }}>
+                <Box
+                  component={Link}
+                  to={linkPath}
+                  sx={{
+                    display: "block",
+                    borderRadius: { xs: 2, md: 3 },
+                    overflow: "hidden",
+                    transition: "transform 0.2s ease, box-shadow 0.2s ease",
+                    "&:hover": { transform: "translateY(-4px)", boxShadow: "var(--shadow-card)" },
+                  }}
+                >
+                  <Box
+                    component="img"
+                    src={displayImage}
+                    alt={displayName}
+                    sx={{ display: "block", width: "100%", height: "auto" }}
+                  />
+                </Box>
               </Grid>
-            ))}
+            );
+          })}
         </Grid>
       </Grid>
 

@@ -293,23 +293,36 @@ function Item({ testimonial }) {
             sx={{
               width: { xs: 60, sm: 80 },
               height: { xs: 60, sm: 80 },
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              minWidth: { xs: 60, sm: 80 },
+              minHeight: { xs: 60, sm: 80 },
               borderRadius: "50%",
               overflow: "hidden",
+              boxSizing: "border-box",
+              flexShrink: 0,
             }}
           >
-            <Link to={testimonial?.clientUrl} target="_blank" rel="noopener noreferrer">
-            <Avatar
-              src={`${ImageApi}/testimonial/` + testimonial?.clientLogo}
-              sx={{
-                bgcolor: "var(--color-success-soft)",
-                width: "100%",
-                height: "100%",
-                fontSize: { xs: "1rem", sm: "2rem" },
-              }}
-            />
+            <Link
+              to={testimonial?.clientUrl || "#"}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ display: "block", width: "100%", height: "100%", borderRadius: "50%" }}
+            >
+              <Avatar
+                src={`${ImageApi}/testimonial/` + testimonial?.clientLogo}
+                sx={{
+                  bgcolor: "var(--color-success-soft)",
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "50%",
+                  aspectRatio: "1 / 1",
+                  "& img": {
+                    objectFit: "cover",
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: "50%",
+                  },
+                }}
+              />
             </Link>
           </Card>
 

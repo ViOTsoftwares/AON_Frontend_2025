@@ -61,6 +61,16 @@ export const FetchAllProductsApi = async (search, filter, page, limit) => {
   }
 };
 
+export const FetchSubcategoriesApi = async (category) => {
+  try {
+    const { data } = await api.get(`/category/subcategories/${encodeURIComponent(category)}`);
+    return data;
+  } catch (error) {
+    console.log("error", error);
+    return error.response?.data;
+  }
+};
+
 export const GetSingleProductApi = async (id) => {
   try {
     const { data } = await api.get(`/product/one-product-detail/${id}`);
@@ -274,4 +284,4 @@ export const GetDailyVisiterStatsApi = async () => {
   } catch (error) {
     return error?.response?.data;
   }
-};
+};

@@ -10,6 +10,7 @@ import { useRef } from "react";
 
 function Carousel({
   children,
+  className,
   arrows = true,
   xs = 1,
   sm = 1,
@@ -91,7 +92,7 @@ function Carousel({
   let sliderRef = useRef(null);
 
   return (
-    <Box sx={{ position: "relative", width: "100%" }}>
+    <Box className={className} sx={{ position: "relative", width: "100%" }}>
       <Slider ref={(slider) => (sliderRef = slider)} {...settings}>
         {children}
       </Slider>

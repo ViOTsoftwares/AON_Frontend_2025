@@ -4,7 +4,6 @@ import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { AddCart } from "../slice/CartSlice";
 import { toastMessage } from "../toastMessage";
@@ -98,7 +97,7 @@ const ProductDetailCard = ({ Product = {} }) => {
     >
       {/* ================= LEFT : IMAGE ================= */}
       <Grid
-        size={{ xs: 12, md: 6 }}
+        size={{ xs: 12, md: 7, lg: 8 }}
         sx={{
           alignSelf: "flex-start", // 🔥 REQUIRED for sticky in Grid
         }}
@@ -123,7 +122,7 @@ const ProductDetailCard = ({ Product = {} }) => {
       {/* ================= RIGHT : DETAILS ================= */}
       <Grid
         item
-        size={{ xs: 12, md: 6 }}
+        size={{ xs: 12, md: 5, lg: 4 }}
         mb={3}
         display="flex"
         justifyContent={{ xs: "center", md: "flex-start" }}
@@ -153,9 +152,10 @@ const ProductDetailCard = ({ Product = {} }) => {
               <Box sx={{ flex: 1, pr: { md: 2 } }}>
                 <Typography
                   component="h1"
-                  fontSize={{ xs: "1.45rem", sm: "1.25rem" }}
-                  lineHeight="1.5rem"
-                  fontWeight={600}
+                  fontSize={{ xs: "1.5rem", sm: "1.7rem", md: "1.85rem", lg: "2rem" }}
+                  lineHeight={{ xs: 1.3, md: 1.25 }}
+                  fontWeight={700}
+                  letterSpacing="-0.02em"
                   textAlign="left"
                   sx={{
                     fontFamily: "Inter, sans-serif",
@@ -170,8 +170,8 @@ const ProductDetailCard = ({ Product = {} }) => {
 
                 <Typography
                   component="h3"
-                  fontSize={{ xs: "0.95rem", sm: "1rem" }}
-                  lineHeight="1.4rem"
+                  fontSize={{ xs: "0.95rem", sm: "1.05rem", md: "1.1rem" }}
+                  lineHeight={1.5}
                   fontWeight={400}
                   textAlign="left"
                   sx={{ color: "text.secondary", mt: 0.5 }}
@@ -369,18 +369,18 @@ const ProductDetailCard = ({ Product = {} }) => {
             spacing={3}
             width="100%"
           >
-            <Paper elevation={0} sx={{ textAlign: "center" }}>
+            <Box sx={{ textAlign: "center" }}>
               <ShieldTwoToneIcon fontSize="large" />
               <Typography variant="body2">Secure Order</Typography>
-            </Paper>
-            <Paper elevation={0} sx={{ textAlign: "center" }}>
+            </Box>
+            <Box sx={{ textAlign: "center" }}>
               <SpeedIcon fontSize="large" />
               <Typography variant="body2">Fast Delivery</Typography>
-            </Paper>
-            <Paper elevation={0} sx={{ textAlign: "center" }}>
+            </Box>
+            <Box sx={{ textAlign: "center" }}>
               <FindReplaceIcon fontSize="large" />
               <Typography variant="body2">Easy Installing</Typography>
-            </Paper>
+            </Box>
           </Stack>
 
           {/* PRODUCT INFO */}

@@ -104,7 +104,7 @@ export default function Layout() {
         <NavBarLink />
       )}
 
-      <Stack direction="column" sx={{ mt: { xs: "4.8rem", md: "9.5rem" } }}>
+      <Stack direction="column" sx={{ mt: { xs: "4.8rem", md: "8rem" } }}>
         <Outlet />
         {/* Uncomment and configure ScrollToTop if you want */}
         {/* <ScrollToTop smooth component={<NorthIcon />} /> */}

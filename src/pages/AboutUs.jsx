@@ -36,8 +36,8 @@ function AboutUs() {
           px: 2,
         }}
       >
-        {cmsDate?.title}
-        <h5>Trusted Office Furniture Manufacturer in Tamil Nadu Since 1988</h5>
+       <h4>Arun Office Needs</h4 >
+        <h6>Trusted Office Furniture Manufacturer in Tamil Nadu Since 1988</h6>
       </Typography>
 
       {/* ===== PARAGRAPH + LOGO ROW ===== */}
