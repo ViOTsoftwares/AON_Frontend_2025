@@ -100,36 +100,51 @@ function AboutUs() {
         >
           {cmsDate?.logo && (
             <Box
-              component="img"
-              src={`${ImageApi}/testimonial/` + cmsDate.logo}
-              alt="Arun Office Needs Logo"
-              loading="lazy"
               sx={{
+                position: "relative",
+                display: "inline-block",
                 width: "100%",
-                // maxWidth: "100%",
-                height: "auto",
                 cursor: "pointer",
-
-                /* stroke + depth for transparent PNG */
-                filter: `
-      drop-shadow(1px 0 0 rgba(109, 3, 3, 0.65))
-      drop-shadow(-1px 0 0 rgba(100, 0, 0, 0.35))
-      drop-shadow(0 1px 0 rgba(0, 0, 0, 0.35))
-      drop-shadow(0 -1px 0 rgba(0, 0, 0, 0.30))
-    `,
-
-                transition: "transform 0.25s ease, filter 0.25s ease",
-
+                transition: "transform 0.25s ease",
                 "&:hover": {
                   transform: "scale(1.03)",
-                  filter: `
-        drop-shadow(1px 0 0 rgba(0, 0, 0, 0.27))
-        drop-shadow(-1px 0 0 rgba(0, 0, 0, 0.27))
-        drop-shadow(0 6px 16px rgba(0, 0, 0, 0.21))
-      `,
                 },
               }}
-            />
+            >
+              <Box
+                component="img"
+                src={`${ImageApi}/testimonial/` + cmsDate.logo}
+                alt="Arun Office Needs Logo"
+                loading="lazy"
+                sx={{
+                  width: "100%",
+                  height: "auto",
+                  display: "block",
+                }}
+              />
+              {/* Exact PNG Masked Color Overlay - Strictly targets the non-transparent logo graphic */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                  width: "100%",
+                  height: "100%",
+                  backgroundColor: "rgb(103, 43, 43)",
+                  opacity: 0.5,
+                  mixBlendMode: "multiply",
+                  WebkitMaskImage: `url(${ImageApi}/testimonial/${cmsDate.logo})`,
+                  WebkitMaskSize: "contain",
+                  WebkitMaskRepeat: "no-repeat",
+                  WebkitMaskPosition: "center",
+                  maskImage: `url(${ImageApi}/testimonial/${cmsDate.logo})`,
+                  maskSize: "contain",
+                  maskRepeat: "no-repeat",
+                  maskPosition: "center",
+                  pointerEvents: "none",
+                }}
+              />
+            </Box>
           )}
         </Grid>
       </Grid>
