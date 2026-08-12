@@ -7,7 +7,6 @@ import Footer from "./components/Footer";
 import SearchBar from "./components/SearchBar";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
-import NorthIcon from "@mui/icons-material/North";
 import CustomeButton from "./components/CustomeButton";
 import { getCMSApi, TrackSiteVisiterApi } from "./Api_Action";
 import { useDispatch } from "react-redux";
@@ -15,12 +14,13 @@ import { GetCMS } from "./slice/CMS_Slice";
 import { useEffect, useState } from "react";
 
 export default function Layout() {
-  const theme = useTheme(); // expects a ThemeProvider higher in the tree (typical in App)
+  const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [isScrolled, setIsScrolled] = useState(false);
+
   // CMS fetch
   useEffect(() => {
     const fetchCms = async () => {
@@ -34,33 +34,38 @@ export default function Layout() {
     fetchCms();
   }, [dispatch]);
 
-  // Site visitor tracking — once per IST calendar day (resets at IST midnight)
+  // Site visitor tracking — once per IST calendar day
   useEffect(() => {
-    // Get current date in IST (Asia/Kolkata) as "YYYY-MM-DD"
     const todayIST = new Date().toLocaleDateString("en-CA", {
       timeZone: "Asia/Kolkata",
-    }); // → "2026-06-17"
+    });
 
     const lastTracked = sessionStorage.getItem("sv_tracked_date");
-    if (lastTracked === todayIST) return; // already tracked today
+    if (lastTracked === todayIST) return;
 
     const trackVisitor = async () => {
+      let geoData = { ip: "127.0.0.1", city: "Local", region: "Local", country_name: "India" };
       try {
         const res = await fetch("https://ipapi.co/json/");
-        if (!res.ok) return;
-        const geoData = await res.json();
-        await TrackSiteVisiterApi(geoData);
-        sessionStorage.setItem("sv_tracked_date", todayIST);
+        if (res.ok) {
+          const data = await res.json();
+          geoData = { ...geoData, ...data };
+        }
       } catch (err) {
-        console.error("Visitor tracking failed:", err);
+        console.warn("ipapi.co fetch failed, fallback to default geo:", err);
+      } finally {
+        try {
+          await TrackSiteVisiterApi(geoData);
+          sessionStorage.setItem("sv_tracked_date", todayIST);
+        } catch (apiErr) {
+          console.error("TrackSiteVisiterApi failed:", apiErr);
+        }
       }
     };
     trackVisitor();
   }, []);
 
-
   useEffect(() => {
-    // use rAF to reduce updates and be smooth
     let ticking = false;
     const handleScroll = () => {
       const shouldBeScrolled = window.scrollY > 0;
@@ -74,7 +79,6 @@ export default function Layout() {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    // run once to set initial state (in case page loaded scrolled)
     handleScroll();
 
     return () => window.removeEventListener("scroll", handleScroll);
@@ -89,14 +93,13 @@ export default function Layout() {
           sx={{
             position: "fixed",
             top: isScrolled ? 0 : "60px",
-            width:"100%",
+            width: "100%",
             backgroundColor: "rgba(241, 234, 234, 0.91)",
             zIndex: 1200,
             height: "74px",
             paddingTop: 0,
           }}
         >
-          {" "}
           <CustomeButton navigate={navigate} />
           <SearchBar />
         </Toolbar>
@@ -106,8 +109,6 @@ export default function Layout() {
 
       <Stack direction="column" sx={{ mt: { xs: "4.8rem", md: "8rem" } }}>
         <Outlet />
-        {/* Uncomment and configure ScrollToTop if you want */}
-        {/* <ScrollToTop smooth component={<NorthIcon />} /> */}
       </Stack>
 
       <Footer />

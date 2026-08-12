@@ -73,6 +73,14 @@
       html {
         scroll-behavior: smooth;
       }
+      /* Tawk.to Chat Bubble Color Override */
+      #tawk-bubble-container,
+      div[id^="tawk"],
+      iframe[src*="tawk.to"],
+      iframe[title*="chat"],
+      iframe[title*="tawk"] {
+        filter: hue-rotate(290deg) saturate(1.8) brightness(0.95) !important;
+      }
     </style>
   </head>
 

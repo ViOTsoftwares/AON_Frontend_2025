@@ -1114,9 +1114,11 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
         }}
         elevation={0}
       >
-        <Typography variant="subtitle1">Categories & Options</Typography>
+        <Typography variant="subtitle1" sx={{ fontWeight: 600, color: "text.primary", mb: 0.5 }}>
+          Categories & Options
+        </Typography>
 
-        <Stack direction="row" spacing={1} flexWrap="wrap">
+        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1.5, mb: 2 }}>
           {CATEGORY_LIST.map((cat) => (
             <Chip
               key={cat}
@@ -1124,9 +1126,22 @@ export default function FurnitureCustomizationChatbotSingleColumn() {
               clickable
               color={current === cat ? "primary" : "default"}
               onClick={() => handleCategorySelect(cat)}
+              sx={{
+                px: 1,
+                py: 2.2,
+                fontSize: "0.875rem",
+                fontWeight: 500,
+                borderRadius: "20px",
+                transition: "all 0.2s ease-in-out",
+                boxShadow: current === cat ? "0 4px 12px rgba(25, 118, 210, 0.25)" : "none",
+                "&:hover": {
+                  transform: "translateY(-1px)",
+                  boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
+                },
+              }}
             />
           ))}
-        </Stack>
+        </Box>
 
         <Box>
           <Typography variant="subtitle2">
