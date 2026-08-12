@@ -141,7 +141,7 @@ function AboutUs() {
                   maskSize: "contain",
                   maskRepeat: "no-repeat",
                   maskPosition: "center",
-                  pointerEvents: "none",
+   pointerEvents: "none",
                 }}
               />
             </Box>
