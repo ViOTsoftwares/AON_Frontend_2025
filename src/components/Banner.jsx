@@ -32,13 +32,13 @@ function Banner() {
             key={banner?._id || banner?.id}
             sx={{
               backgroundImage: {
-                xs: `url(${ImageApi}/banner/${banner?.mobileImage})`,
+                xs: `url(${ImageApi}/banner/${banner?.mobileImage || banner?.desktopImage})`,
                 sm: `url(${ImageApi}/banner/${banner?.desktopImage})`,
               },
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
               backgroundSize: "cover",
-              aspectRatio: "4.3 / 1",
+              aspectRatio: { xs: "3 / 2.5", sm: "4.3 / 1" },
               width: "100%",
               m: 0,
               p: 0,
