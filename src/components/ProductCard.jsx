@@ -1,22 +1,22 @@
 import Card from "@mui/material/Card";
 import CardActionArea from "@mui/material/CardActionArea";
 import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Chip from "@mui/material/Chip";
+import Box from "@mui/material/Box";
 import { useState } from "react";
 import { ImageApi } from "../ImageApi";
 import { Link } from "react-router-dom";
 
 function ProductCard({
   product,
-  cardWidth = { xs: 160, sm: 210, md: 220, lg: 240 },
-  cardHeight = { xs: 270, sm: 320, md: 346 },
+  cardWidth = { xs: "100%", sm: 210, md: 220, lg: 240 },
+  cardHeight = { xs: 265, sm: 320, md: 346 },
   similar = false,
 
-  imageHeight = { xs: 187, sm: 235, md: 260 },
+  imageHeight = { xs: 160, sm: 235, md: 260 },
   imageWidth = "100%",
-  contentHeight = { xs: 82, sm: 85, md: 86 },
+  contentHeight = { xs: 85, sm: 85, md: 86 },
 }) {
   const [animate, setAnimate] = useState(true);
 
@@ -70,6 +70,8 @@ function ProductCard({
       sx={{
         borderTopLeftRadius: 15,
         borderTopRightRadius: 15,
+        borderBottomLeftRadius: 12,
+        borderBottomRightRadius: 12,
         cursor: "pointer",
         mx: 0.2,
         width: cardWidth,
@@ -80,6 +82,11 @@ function ProductCard({
         flexDirection: "column",
         boxSizing: "border-box",
         overflow: "hidden",
+        boxShadow: "var(--shadow-card)",
+        transition: "transform 0.3s ease, box-shadow 0.3s ease",
+        "&:hover": {
+          boxShadow: "var(--shadow-card-hover)",
+        },
       }}
     >
       <CardActionArea
@@ -94,38 +101,55 @@ function ProductCard({
           to={"/detail/" + product?._id}
           style={{ display: "block", textDecoration: "none", width: "100%" }}
         >
-          <CardMedia
+          <Box
             sx={{
-              // can accept number (px) or responsive object.
               height: imageHeight,
               width: imageWidth,
-              backgroundImage: `url(${ImageApi}/product/${product?.ImageArray?.[0]})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
+              bgcolor: "#f8fafc",
               position: "relative",
-              // ensure it shrink/grow properly inside card
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              overflow: "hidden",
+              p: { xs: 1, sm: 1.2 },
+              boxSizing: "border-box",
               flexShrink: 0,
             }}
           >
-            {/* Chip as a child of CardMedia so it sits on top */}
+            <Box
+              component="img"
+              src={`${ImageApi}/product/${product?.ImageArray?.[0]}`}
+              alt={product?.Title || "Product"}
+              sx={{
+                maxWidth: "100%",
+                maxHeight: "100%",
+                objectFit: "contain",
+                objectPosition: "center",
+                transition: "transform 0.3s ease",
+                "&:hover": {
+                  transform: "scale(1.04)",
+                },
+              }}
+            />
+            {/* Chip sits on top-left of image */}
             {animate ? (
               <Chip
                 label={`${product?.Discount}% off`}
                 color="primary"
                 sx={{
                   ...discountAnimation,
-                  width: { xs: 70, sm: 94 },
-                  height: { xs: 30, sm: 40 },
-                  fontSize: { xs: 12, sm: 14 },
-                  borderRadius: "0px 0px 24px 0px ",
+                  width: { xs: 66, sm: 84 },
+                  height: { xs: 26, sm: 34 },
+                  fontSize: { xs: 11, sm: 13 },
+                  borderRadius: "0px 0px 18px 0px",
                   fontFamily: "Inter, sans-serif",
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
                   transform: "scale(1)",
                   background: "var(--gradient-brand)",
-                 
                   position: "absolute",
                   top: 0,
                   left: 0,
+                  zIndex: 2,
                 }}
               />
             ) : (
@@ -135,43 +159,45 @@ function ProductCard({
                 sx={{
                   ...discountAnimation,
                   fontFamily: "Inter, sans-serif",
-                  borderRadius: "24px ",
-                  width: { xs: 70, sm: 94 },
-                  height: { xs: 30, sm: 40 },
-                  fontSize: { xs: 12, sm: 14 },
+                  borderRadius: "18px",
+                  width: { xs: 66, sm: 84 },
+                  height: { xs: 26, sm: 34 },
+                  fontSize: { xs: 11, sm: 13 },
                   transition: "0.4s cubic-bezier(0.68,0.46,0.45,0.68)",
-                  transform: "scale(1.1)",
+                  transform: "scale(1.05)",
                   background: "var(--gradient-brand)",
                   position: "absolute",
-                  top: 9,
-                  left: 11,
+                  top: 6,
+                  left: 8,
+                  zIndex: 2,
                 }}
               />
             )}
-          </CardMedia>
+          </Box>
         </Link>
 
         <CardContent
           sx={{
-            // responsive content area
-            height: contentHeight,
-            minHeight: contentHeight,
+            flex: 1,
             width: "100%",
             boxSizing: "border-box",
             overflow: "hidden",
             display: "flex",
             flexDirection: "column",
             justifyContent: "space-between",
-            pt: 0.8,
-            pb: 0.9,
+            px: { xs: 1.2, sm: 1.5 },
+            py: { xs: 1, sm: 1.2 },
+            "&:last-child": { pb: { xs: 1, sm: 1.2 } },
           }}
         >
           <Typography
             color="textPrimary"
             sx={{
-              fontSize: { xs: "13px", md: "16px" },
+              fontSize: { xs: "0.82rem", sm: "0.92rem", md: "0.98rem" },
               fontWeight: 600,
+              lineHeight: 1.3,
               fontFamily: "Inter, sans-serif",
+              mb: 0.5,
               ...lineDots,
             }}
           >
@@ -181,23 +207,29 @@ function ProductCard({
           <Typography
             component="div"
             sx={{
-              fontSize: { xs: "16px", md: "18px" },
-              fontWeight: 600,
-              // lineHeight: "2.2rem",
+              fontSize: { xs: "0.95rem", sm: "1.05rem", md: "1.1rem" },
+              fontWeight: 700,
               fontFamily: "Inter, sans-serif",
               display: "flex",
-              alignItems: "center",
+              alignItems: "baseline",
+              gap: 0.8,
+              mt: "auto",
             }}
           >
-            {rupee.format(product?.SellingPrice)}
-            <Typography
-              component="span"
-              variant="body1"
-              color="textDisabled"
-              sx={{ textDecoration: "line-through", ml: 1, fontSize: "1rem" }}
-            >
-              {rupee.format(product?.MRP)}
-            </Typography>
+            <span>{rupee.format(product?.SellingPrice)}</span>
+            {product?.MRP > product?.SellingPrice && (
+              <Typography
+                component="span"
+                color="textDisabled"
+                sx={{
+                  textDecoration: "line-through",
+                  fontSize: { xs: "0.75rem", sm: "0.85rem" },
+                  fontWeight: 400,
+                }}
+              >
+                {rupee.format(product?.MRP)}
+              </Typography>
+            )}
           </Typography>
         </CardContent>
       </CardActionArea>

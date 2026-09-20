@@ -15,6 +15,7 @@ import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import PageLoading from "../components/PageLoading";
 import { ImageApi } from "../ImageApi";
+
 const ProductCategory = () => {
   const { search } = useLocation();
   const [queryObj, setQueryObj] = useState({
@@ -71,7 +72,6 @@ const ProductCategory = () => {
       Category: subcategory ? [subcategory] : [],
     }));
   }, [search]);
-  6;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -84,31 +84,28 @@ const ProductCategory = () => {
           limit
         );
         if (FrameMaterial.length === 0) {
-          // console.log("max:", max, "min:", min);
-          // setPriceRangeValue(data?.list?.Price);
-          setBrand(data?.list.Brand);
-          setCategory(data?.list.Category);
-          setFabricType(data?.list.FabricType);
-          setFinishType(data?.list.FinishType);
-          setFrameMaterial(data?.list.FrameMaterial);
+          setBrand(data?.list?.Brand || []);
+          setCategory(data?.list?.Category || []);
+          setFabricType(data?.list?.FabricType || []);
+          setFinishType(data?.list?.FinishType || []);
+          setFrameMaterial(data?.list?.FrameMaterial || []);
         }
         setProducts(data?.product || []);
         setIsLoading(false);
-        setPage(data.page);
-        setMaximumPage(Math.ceil(data.count / limit));
+        setPage(data?.page || 1);
+        setMaximumPage(Math.ceil((data?.count || 0) / limit));
         console.log("API response:", data);
         setIsLoading(false);
       }
     };
     fetchData();
   }, [queryObj, filter, page]);
+
   const GetBanner = async () => {
     const data = await FetchBannerApi();
-    console.log("banananna", data);
-    const filter = data.filter(
+    const filter = (data || []).filter(
       (item) => item.isActive == true && item.bannerType === "Section"
     );
-    console.log(filter);
     setIsLoading(false);
     setBanner(filter?.[0]);
   };
@@ -116,6 +113,7 @@ const ProductCategory = () => {
   useEffect(() => {
     GetBanner();
   }, []);
+
   return (
     <div>
       <Box>
@@ -132,7 +130,7 @@ const ProductCategory = () => {
                 backgroundSize: "cover",
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "center center",
-                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" }, 
+                height: { xs: "15vh", sm: "25vh", md: "30vh", lg: "35vh" },
                 width: "100%",
               }}
             />
@@ -165,7 +163,6 @@ const ProductCategory = () => {
             startIcon={<TuneRoundedIcon fontSize="inherit" />}
             onClick={() => {
               setOpen(!open);
-              console.log("Clicked");
             }}
           >
             Filters
@@ -218,14 +215,14 @@ const ProductCategory = () => {
               setChip={setChip}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={2}>
+          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={{ xs: 0.5, sm: 2 }}>
             <Stack rowGap={4}>
               <Grid
                 container
                 direction="row"
                 flexWrap="wrap"
-                columnGap={2}
-                rowGap={4}
+                columnGap={{ xs: 1, sm: 2 }}
+                rowGap={{ xs: 2, sm: 4 }}
                 justifyContent="center"
                 alignItems="center"
               >
@@ -235,7 +232,7 @@ const ProductCategory = () => {
                   products.map((product) => (
                     <Grid
                       key={product._id}
-                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.86 }}
                       sx={{
                         display: "flex",
                         justifyContent: "center",
@@ -256,7 +253,7 @@ const ProductCategory = () => {
             <PaginationOutlined
               handlePageChange={handlePageChange}
               page={page}
-              totalPages={maximumPage} // total pages
+              totalPages={maximumPage}
             />
           </Grid>
         </Grid>

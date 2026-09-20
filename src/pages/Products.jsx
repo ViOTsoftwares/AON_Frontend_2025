@@ -198,14 +198,14 @@ function Products() {
               setChip={setChip}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.1 }} px={1}>
+          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.1 }} px={{ xs: 0.5, sm: 1 }}>
             <Stack rowGap={4}>
               <Grid
                 container
                 direction="row"
                 flexWrap="wrap"
-                columnGap={2}
-                rowGap={4}
+                columnGap={{ xs: 1, sm: 2 }}
+                rowGap={{ xs: 2, sm: 4 }}
                 justifyContent="center"
                 alignItems="center"
               >

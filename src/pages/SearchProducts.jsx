@@ -15,6 +15,7 @@ import Drawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import PageLoading from "../components/PageLoading";
 import { ImageApi } from "../ImageApi";
+
 const SearchProducts = () => {
   const { search } = useLocation();
   const [queryObj, setQueryObj] = useState({
@@ -42,12 +43,11 @@ const SearchProducts = () => {
   const [FrameMaterial, setFrameMaterial] = useState([]);
   const [priceRangeValue, setPriceRangeValue] = useState([0, 50000]);
   const [Banner, setBanner] = useState({});
-  const [open, setOpen] = React.useState(false);
   const [chips, setChip] = useState([]);
 
+  const [open, setOpen] = React.useState(false);
   const handleChange = (event) => {
     setValue(event.target.value);
-    console.log("------>order", event.target.value);
     setFilter((item) => ({ ...item, order: event.target.value }));
   };
   const handlePageChange = (event, value) => {
@@ -57,23 +57,25 @@ const SearchProducts = () => {
     setOpen(!open);
   };
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     const params = new URLSearchParams(search);
     const q = params.get("q");
+    const subcategory = params.get("sub");
     if (q) {
       setQueryObj((prev) => ({
         ...prev,
         search: q.replace(/-/g, " "),
       }));
     }
-    window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+    setFilter((prev) => ({
+      ...prev,
+      Category: subcategory ? [subcategory] : [],
+    }));
   }, [search]);
-  6;
-  console.log("=====> total page", maximumPage);
 
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-
       if (queryObj.search) {
         const data = await FetchAllProductsApi(
           queryObj.search,
@@ -82,29 +84,27 @@ const SearchProducts = () => {
           limit
         );
         if (FrameMaterial.length === 0) {
-          // console.log("max:", max, "min:", min);
-          // setPriceRangeValue(data?.list?.Price);
-          setBrand(data?.list.Brand);
-          setCategory(data?.list.Category);
-          setFabricType(data?.list.FabricType);
-          setFinishType(data?.list.FinishType);
-          setFrameMaterial(data?.list.FrameMaterial);
+          setBrand(data?.list?.Brand || []);
+          setCategory(data?.list?.Category || []);
+          setFabricType(data?.list?.FabricType || []);
+          setFinishType(data?.list?.FinishType || []);
+          setFrameMaterial(data?.list?.FrameMaterial || []);
         }
-        setIsLoading(false);
         setProducts(data?.product || []);
-        setPage(data.page);
-        setMaximumPage(Math.ceil(data.count / limit));
+        setIsLoading(false);
+        setPage(data?.page || 1);
+        setMaximumPage(Math.ceil((data?.count || 0) / limit));
         console.log("API response:", data);
-        // window.scrollTo({ top: 0, behavior: "smooth" }); // scroll to top
+        setIsLoading(false);
       }
     };
     fetchData();
   }, [queryObj, filter, page]);
+
   const GetBanner = async () => {
     const data = await FetchBannerApi();
-    console.log("banananna", data);
-    const filter = data.filter(
-      (item) => item.isActive == true && item.bannerType === "Search"
+    const filter = (data || []).filter(
+      (item) => item.isActive == true && item.bannerType === "Section"
     );
     setIsLoading(false);
     setBanner(filter?.[0]);
@@ -163,7 +163,6 @@ const SearchProducts = () => {
             startIcon={<TuneRoundedIcon fontSize="inherit" />}
             onClick={() => {
               setOpen(!open);
-              console.log("Clicked");
             }}
           >
             Filters
@@ -216,14 +215,14 @@ const SearchProducts = () => {
               setChip={setChip}
             />
           </Grid>
-          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={2}>
+          <Grid size={{ xs: 12, sm: 8, md: 9.1, lg: 9.6 }} px={{ xs: 0.5, sm: 2 }}>
             <Stack rowGap={4}>
               <Grid
                 container
                 direction="row"
                 flexWrap="wrap"
-                columnGap={2}
-                rowGap={4}
+                columnGap={{ xs: 1, sm: 2 }}
+                rowGap={{ xs: 2, sm: 4 }}
                 justifyContent="center"
                 alignItems="center"
               >
@@ -233,7 +232,7 @@ const SearchProducts = () => {
                   products.map((product) => (
                     <Grid
                       key={product._id}
-                      size={{ xs: 10, sm: 5.4, md: 3.7, lg: 2.86 }}
+                      size={{ xs: 5.7, sm: 5.4, md: 3.7, lg: 2.86 }}
                       sx={{
                         display: "flex",
                         justifyContent: "center",
@@ -254,7 +253,7 @@ const SearchProducts = () => {
             <PaginationOutlined
               handlePageChange={handlePageChange}
               page={page}
-              totalPages={maximumPage} // total pages
+              totalPages={maximumPage}
             />
           </Grid>
         </Grid>
