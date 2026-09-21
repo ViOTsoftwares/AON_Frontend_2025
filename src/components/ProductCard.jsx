@@ -120,6 +120,7 @@ function ProductCard({
               component="img"
               src={`${ImageApi}/product/${product?.ImageArray?.[0]}`}
               alt={product?.Title || "Product"}
+              loading="lazy"
               sx={{
                 maxWidth: "100%",
                 maxHeight: "100%",

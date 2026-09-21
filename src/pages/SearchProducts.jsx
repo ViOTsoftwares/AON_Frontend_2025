@@ -76,25 +76,28 @@ const SearchProducts = () => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      if (queryObj.search) {
-        const data = await FetchAllProductsApi(
-          queryObj.search,
-          filter,
-          page,
-          limit
-        );
-        if (FrameMaterial.length === 0) {
-          setBrand(data?.list?.Brand || []);
-          setCategory(data?.list?.Category || []);
-          setFabricType(data?.list?.FabricType || []);
-          setFinishType(data?.list?.FinishType || []);
-          setFrameMaterial(data?.list?.FrameMaterial || []);
+      try {
+        if (queryObj.search) {
+          const data = await FetchAllProductsApi(
+            queryObj.search,
+            filter,
+            page,
+            limit
+          );
+          if (FrameMaterial.length === 0) {
+            setBrand(data?.list?.Brand || []);
+            setCategory(data?.list?.Category || []);
+            setFabricType(data?.list?.FabricType || []);
+            setFinishType(data?.list?.FinishType || []);
+            setFrameMaterial(data?.list?.FrameMaterial || []);
+          }
+          setProducts((data?.product || []).filter((item) => !item.isDeleted));
+          setPage(data?.page || 1);
+          setMaximumPage(Math.ceil((data?.count || 0) / limit));
         }
-        setProducts(data?.product || []);
-        setIsLoading(false);
-        setPage(data?.page || 1);
-        setMaximumPage(Math.ceil((data?.count || 0) / limit));
-        console.log("API response:", data);
+      } catch (err) {
+        console.error("Error fetching products:", err);
+      } finally {
         setIsLoading(false);
       }
     };

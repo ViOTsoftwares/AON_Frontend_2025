@@ -88,7 +88,7 @@ function Products() {
       }
       setIsLoading(false);
       setLoading(false);
-      setProducts(data?.product || []);
+      setProducts((data?.product || []).filter((item) => !item.isDeleted));
       setPage(data.page);
       setMaximumPage(Math.ceil(data.count / limit));
     };
