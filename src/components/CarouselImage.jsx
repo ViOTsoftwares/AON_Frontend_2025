@@ -135,22 +135,22 @@ const ImageCarousel = ({ images = [], discount = 0 }) => {
             }}
           />
 
-          {/* VIVID HIGH-CONTRAST LIGHT FLAIR STREAK OVERLAY */}
+          {/* SILKY CRYSTAL-CLEAR LIGHT FLAIR STREAK OVERLAY */}
           <Box
             className="image-shimmer-flair"
             sx={{
               position: "absolute",
               top: "-20%",
               left: "-120%",
-              width: "80%",
+              width: "60%",
               height: "140%",
               pointerEvents: "none",
               zIndex: 4,
-              transform: "skewX(-25deg)",
+              transform: "skewX(-22deg)",
               background:
-                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.95) 50%, rgba(3,166,161,0.65) 65%, rgba(255,255,255,0) 100%)",
-              filter: "drop-shadow(0 0 12px rgba(3, 166, 161, 0.4))",
-              animation: "imageFlairSweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.25) 70%, rgba(255,255,255,0) 100%)",
+              filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.7))",
+              animation: "imageFlairSweep 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite",
               "@keyframes imageFlairSweep": {
                 "0%": { left: "-120%", opacity: 0 },
                 "15%": { opacity: 1 },
