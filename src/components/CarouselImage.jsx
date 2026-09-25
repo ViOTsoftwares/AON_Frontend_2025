@@ -4,11 +4,13 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import IconButton from "@mui/material/IconButton";
 import CardMedia from "@mui/material/CardMedia";
+import Chip from "@mui/material/Chip";
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
 import ChevronRight from "@mui/icons-material/ChevronRight";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import { ImageApi } from "../ImageApi";
 
-const ImageCarousel = ({ images = [] }) => {
+const ImageCarousel = ({ images = [], discount = 0 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const theme = useTheme();
 
@@ -49,20 +51,18 @@ const ImageCarousel = ({ images = [] }) => {
 
             // 6 thumbnails fixed
             gridTemplateColumns: {
-              xs: "repeat(6, auto)", // ← THIS IS THE KEY
+              xs: "repeat(6, auto)",
               md: "1fr",
             },
 
             gap: 1,
 
-            justifyItems: "center", // center each thumbnail
+            justifyItems: "center",
             alignItems: "center",
 
-            // 🔑 THIS IS THE CENTERING MAGIC
-            width: "fit-content", // grid hugs content
-            marginX: "auto", // center the whole grid
+            width: "fit-content",
+            marginX: "auto",
 
-            // desktop constraints
             minWidth: { md: 90 },
             maxWidth: "100%",
 
@@ -106,11 +106,17 @@ const ImageCarousel = ({ images = [] }) => {
             maxWidth: "100%",
             position: "relative",
             height: { xs: 350, sm: 480 },
-            borderRadius: 2,
-            overflow: "visible",
+            borderRadius: 3,
+            overflow: "hidden",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            bgcolor: "#f8fafc",
+            boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
+            border: "1px solid rgba(226, 232, 240, 0.8)",
+            "&:hover .image-shimmer-flair": {
+              animation: "imageFlairSweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+            },
           }}
         >
           <CardMedia
@@ -119,45 +125,118 @@ const ImageCarousel = ({ images = [] }) => {
             sx={{
               width: "100%",
               height: { xs: 350, sm: 480 },
-              // alignContent:{ xs : "center", md: "unset"},
               objectFit: "contain",
+              p: 2,
+              transition: "transform 0.4s ease, filter 0.4s ease",
+              "&:hover": {
+                transform: "scale(1.03)",
+                filter: "drop-shadow(0 14px 28px rgba(3, 166, 161, 0.2))",
+              },
             }}
           />
 
-
-          {/* MOBILE NAV ARROWS ONLY */}
-          <IconButton
-            onClick={goToPrevious}
+          {/* VIVID HIGH-CONTRAST LIGHT FLAIR STREAK OVERLAY */}
+          <Box
+            className="image-shimmer-flair"
             sx={{
               position: "absolute",
-              display: { xs: "flex", md: "none" },
-              top: "50%",
-              left: 18, // ⬅ padded inside from corner
-              transform: "translateY(-50%)",
-              bgcolor: alpha(theme.palette.background.paper, 0.9),
-              boxShadow: theme.shadows[4],
-              zIndex: 10,
+              top: "-20%",
+              left: "-120%",
+              width: "80%",
+              height: "140%",
+              pointerEvents: "none",
+              zIndex: 4,
+              transform: "skewX(-25deg)",
+              background:
+                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 30%, rgba(255,255,255,0.95) 50%, rgba(3,166,161,0.65) 65%, rgba(255,255,255,0) 100%)",
+              filter: "drop-shadow(0 0 12px rgba(3, 166, 161, 0.4))",
+              animation: "imageFlairSweep 3.6s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+              "@keyframes imageFlairSweep": {
+                "0%": { left: "-120%", opacity: 0 },
+                "15%": { opacity: 1 },
+                "45%": { left: "140%", opacity: 1 },
+                "46%": { opacity: 0 },
+                "100%": { left: "140%", opacity: 0 },
+              },
             }}
-          >
-            <ChevronLeft />
-          </IconButton>
+          />
 
-          <IconButton
-            onClick={goToNext}
-            sx={{
-              position: "absolute",
-              display: { xs: "flex", md: "none" },
-              top: "50%",
-              right: 18, // ⮕ padded inside from corner
-              transform: "translateY(-50%)",
-              bgcolor: alpha(theme.palette.background.paper, 0.9),
-              boxShadow: theme.shadows[4],
-              zIndex: 10,
-            }}
-          >
-            <ChevronRight />
-          </IconButton>
+          {/* PERCENTAGE DISCOUNT FLAIR OVERLAY BADGE */}
+          {Boolean(discount) && (
+            <Chip
+              icon={<LocalOfferIcon sx={{ fontSize: "0.85rem !important", color: "#ffffff !important" }} />}
+              label={`${discount}% OFF`}
+              sx={{
+                position: "absolute",
+                top: 14,
+                left: 14,
+                zIndex: 8,
+                background: "linear-gradient(135deg, #03A6A1 0%, #0ea5e9 100%)",
+                color: "#ffffff",
+                fontWeight: 800,
+                fontSize: "0.85rem",
+                borderRadius: "20px",
+                px: 1,
+                boxShadow: "0 6px 18px rgba(3, 166, 161, 0.4)",
+                letterSpacing: "0.5px",
+              }}
+            />
+          )}
 
+          {/* NAVIGATION ARROWS (DESKTOP & MOBILE) */}
+          {images.length > 1 && (
+            <>
+              <IconButton
+                onClick={goToPrevious}
+                aria-label="Previous image"
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: 14,
+                  transform: "translateY(-50%)",
+                  bgcolor: alpha(theme.palette.background.paper, 0.88),
+                  backdropFilter: "blur(8px)",
+                  boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  border: "1px solid rgba(255, 255, 255, 0.6)",
+                  zIndex: 10,
+                  transition: "all 0.25s ease",
+                  "&:hover": {
+                    bgcolor: theme.palette.background.paper,
+                    transform: "translateY(-50%) scale(1.12)",
+                    boxShadow: "0 6px 20px rgba(3, 166, 161, 0.35)",
+                    color: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <ChevronLeft fontSize="medium" />
+              </IconButton>
+
+              <IconButton
+                onClick={goToNext}
+                aria-label="Next image"
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  right: 14,
+                  transform: "translateY(-50%)",
+                  bgcolor: alpha(theme.palette.background.paper, 0.88),
+                  backdropFilter: "blur(8px)",
+                  boxShadow: "0 4px 14px rgba(0,0,0,0.18)",
+                  border: "1px solid rgba(255, 255, 255, 0.6)",
+                  zIndex: 10,
+                  transition: "all 0.25s ease",
+                  "&:hover": {
+                    bgcolor: theme.palette.background.paper,
+                    transform: "translateY(-50%) scale(1.12)",
+                    boxShadow: "0 6px 20px rgba(3, 166, 161, 0.35)",
+                    color: theme.palette.primary.main,
+                  },
+                }}
+              >
+                <ChevronRight fontSize="medium" />
+              </IconButton>
+            </>
+          )}
         </Box>
       </Stack>
     </Box>

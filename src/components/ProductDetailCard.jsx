@@ -7,6 +7,8 @@ import IconButton from "@mui/material/IconButton";
 import Box from "@mui/material/Box";
 import { AddCart } from "../slice/CartSlice";
 import { toastMessage } from "../toastMessage";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+
 
 import ShareIcon from "@mui/icons-material/Share";
 import ShieldTwoToneIcon from "@mui/icons-material/ShieldTwoTone";
@@ -19,6 +21,38 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ImageApi } from "../ImageApi";
 import { GetEcomImageApi } from "../Api_Action";
+
+const discountFlairStyle = {
+  position: "relative",
+  overflow: "hidden",
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "5px",
+  background: "linear-gradient(135deg, #03A6A1 0%, #0ea5e9 100%)",
+  color: "#ffffff",
+  fontWeight: 700,
+  fontSize: "0.85rem",
+  padding: "4px 14px",
+  borderRadius: "20px",
+  boxShadow: "0 4px 14px rgba(3, 166, 161, 0.4)",
+  letterSpacing: "0.5px",
+  fontFamily: "Inter, sans-serif",
+  "&::before": {
+    content: '""',
+    position: "absolute",
+    top: 0,
+    left: "-100%",
+    width: "100%",
+    height: "100%",
+    background: "linear-gradient(120deg, rgba(255,255,255,0) 20%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 80%)",
+    animation: "shimmerFlair 3s infinite linear",
+  },
+  "@keyframes shimmerFlair": {
+    "0%": { left: "-100%" },
+    "30%": { left: "100%" },
+    "100%": { left: "100%" },
+  },
+};
 
 const ProductDetailCard = ({ Product = {} }) => {
   const dispatch = useDispatch();
@@ -115,7 +149,7 @@ const ProductDetailCard = ({ Product = {} }) => {
             overflow: { md: "hidden" }, // contain image
           }}
         >
-          <CarouselImage images={Product?.ImageArray || []} />
+          <CarouselImage images={Product?.ImageArray || []} discount={Product?.Discount} />
         </Box>
       </Grid>
 
@@ -210,10 +244,11 @@ const ProductDetailCard = ({ Product = {} }) => {
                   <del>{discountPrice}</del>
                 </Typography>
 
-                {Product?.Discount && (
-                  <Typography variant="body2" color="success.main">
-                    {Product.Discount}% off
-                  </Typography>
+                {Boolean(Product?.Discount) && (
+                  <Box sx={discountFlairStyle}>
+                    <LocalOfferIcon sx={{ fontSize: "0.9rem" }} />
+                    <span>SAVE {Product.Discount}% OFF</span>
+                  </Box>
                 )}
               </Stack>
             </Box>
