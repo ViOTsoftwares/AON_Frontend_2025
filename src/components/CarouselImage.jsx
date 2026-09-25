@@ -115,7 +115,7 @@ const ImageCarousel = ({ images = [], discount = 0 }) => {
             boxShadow: "0 10px 30px rgba(0,0,0,0.06)",
             border: "1px solid rgba(226, 232, 240, 0.8)",
             "&:hover .image-shimmer-flair": {
-              animation: "imageFlairSweep 1.8s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+              animation: "imageFlairSweep 4.5s ease-in-out infinite",
             },
           }}
         >
@@ -129,33 +129,33 @@ const ImageCarousel = ({ images = [], discount = 0 }) => {
               p: 2,
               transition: "transform 0.4s ease, filter 0.4s ease",
               "&:hover": {
-                transform: "scale(1.03)",
-                filter: "drop-shadow(0 14px 28px rgba(3, 166, 161, 0.2))",
+                transform: "scale(1.02)",
+                filter: "drop-shadow(0 10px 20px rgba(3, 166, 161, 0.15))",
               },
             }}
           />
 
-          {/* SILKY CRYSTAL-CLEAR LIGHT FLAIR STREAK OVERLAY */}
+          {/* GENTLE BREEZE LIGHT FLAIR OVERLAY */}
           <Box
             className="image-shimmer-flair"
             sx={{
               position: "absolute",
               top: "-20%",
               left: "-120%",
-              width: "60%",
+              width: "45%",
               height: "140%",
               pointerEvents: "none",
               zIndex: 4,
-              transform: "skewX(-22deg)",
+              transform: "skewX(-18deg)",
               background:
-                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.25) 70%, rgba(255,255,255,0) 100%)",
-              filter: "drop-shadow(0 0 8px rgba(255, 255, 255, 0.7))",
-              animation: "imageFlairSweep 3.8s cubic-bezier(0.4, 0, 0.2, 1) infinite",
+                "linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.12) 30%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0.12) 70%, rgba(255,255,255,0) 100%)",
+              filter: "blur(3px)",
+              animation: "imageFlairSweep 7.5s ease-in-out infinite",
               "@keyframes imageFlairSweep": {
                 "0%": { left: "-120%", opacity: 0 },
-                "15%": { opacity: 1 },
-                "45%": { left: "140%", opacity: 1 },
-                "46%": { opacity: 0 },
+                "10%": { opacity: 0.8 },
+                "28%": { left: "140%", opacity: 0.8 },
+                "29%": { opacity: 0 },
                 "100%": { left: "140%", opacity: 0 },
               },
             }}

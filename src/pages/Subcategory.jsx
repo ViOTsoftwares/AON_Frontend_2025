@@ -44,25 +44,76 @@ function Subcategory() {
       {subcategories.length ? (
         <Grid container spacing={{ xs: 2, md: 3 }}>
           {subcategories.map((subcategory) => (
-            <Grid key={subcategory.name} size={{ xs: 12, sm: 6, md: 4, lg: 3 }}>
+            <Grid key={subcategory.name} size={{ xs: 6, sm: 4, md: 3 }}>
               <Paper
                 component={Link}
                 to={`/category?q=${encodeURIComponent(category)}&sub=${encodeURIComponent(subcategory.name)}`}
                 elevation={0}
                 sx={{
-                  display: "block",
-                  p: 3,
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  p: 2,
                   textDecoration: "none",
                   border: "1px solid var(--color-border-soft)",
                   borderRadius: 3,
+                  bgcolor: "#ffffff",
                   color: "text.primary",
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease",
-                  "&:hover": { transform: "translateY(-3px)", boxShadow: "var(--shadow-card)" },
+                  transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: "0 12px 28px rgba(3, 166, 161, 0.15)",
+                    borderColor: "rgba(3, 166, 161, 0.4)",
+                  },
                 }}
               >
-                {subcategory.image && <Box component="img" src={`${ImageApi}/category-image/${subcategory.image}`} alt={subcategory.name} sx={{ width: "100%", aspectRatio: "4 / 3", objectFit: "cover", borderRadius: 2, mb: 2 }} />}
-                <Typography fontSize="1.1rem" fontWeight={650}>{subcategory.name}</Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>View products</Typography>
+                <Box
+                  sx={{
+                    width: "100%",
+                    aspectRatio: "4 / 3",
+                    borderRadius: 2,
+                    overflow: "hidden",
+                    bgcolor: "#f8fafc",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    mb: 1.5,
+                  }}
+                >
+                  {subcategory.image ? (
+                    <Box
+                      component="img"
+                      src={`${ImageApi}/category-image/${subcategory.image}`}
+                      alt={subcategory.name}
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "contain",
+                        p: 1,
+                        transition: "transform 0.3s ease",
+                        "&:hover": { transform: "scale(1.05)" },
+                      }}
+                    />
+                  ) : (
+                    <Box
+                      sx={{
+                        color: "text.disabled",
+                        fontSize: "0.85rem",
+                        fontWeight: 600,
+                        textTransform: "uppercase",
+                        letterSpacing: "0.5px",
+                      }}
+                    >
+                      {subcategory.name}
+                    </Box>
+                  )}
+                </Box>
+                <Typography fontSize="1.05rem" fontWeight={700} noWrap>
+                  {subcategory.name}
+                </Typography>
+                <Typography variant="body2" color="primary.main" fontWeight={600} sx={{ mt: 0.5 }}>
+                  View Products →
+                </Typography>
               </Paper>
             </Grid>
           ))}
